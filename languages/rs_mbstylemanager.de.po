@@ -1,0 +1,300 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Project-Id-Version: MultiButtonStyleManagerEditr\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: wennerer\n"
+"MIME-Version: 1.0\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: de\n"
+"X-Generator: Poedit 2.3\n"
+
+#: rs_mbstylemanager.rs_abortbutton
+msgid "Discards the current properties and closes the editor"
+msgstr "Verwirft die aktuellen Eigenschaften und schließt den Editor"
+
+#: rs_mbstylemanager.rs_apply
+msgid "Apply"
+msgstr "Verwenden"
+
+#: rs_mbstylemanager.rs_applybutton
+msgid "Adopts the current properties without closing"
+msgstr "Übernimmt die aktuellen Eigenschaften ohne den Editor zu schließen"
+
+#: rs_mbstylemanager.rs_bordercolor
+msgctxt "rs_mbstylemanager.rs_bordercolor"
+msgid "The color of the border"
+msgstr "Die Farbe des Rahmens"
+
+#: rs_mbstylemanager.rs_borderwidth
+msgid "The whidth of the border"
+msgstr "Die Dicke des Rahmens"
+
+#: rs_mbstylemanager.rs_calcinvisible
+msgid "Is required if the MessagButton is only visible at runtime"
+msgstr "Wird benötigt wenn der MessagButton erst zur Laufzeit sichtbar wird"
+
+#: rs_mbstylemanager.rs_cancel
+msgid "Cancel"
+msgstr "Verwerfen"
+
+#: rs_mbstylemanager.rs_captionalignment
+msgid "Alignment of the text in the caption (left, center, right)"
+msgstr "Ausrichtung des Textes in der Caption (Links,Mitte,Rechts)"
+
+#: rs_mbstylemanager.rs_captionhormargin
+msgid "The horizontal distance of the text in the text rectangle (only effective with taLeftJustify)"
+msgstr "Der horizontale Abstand des Textes im Textrechteck (nur wirksam mit taLeftJustify)"
+
+#: rs_mbstylemanager.rs_captionlayout
+msgid "Alignment of the text in the caption (top, center, bottom)"
+msgstr "Ausrichtung des Textes in der Caption (Oben,Mitte,Unten)"
+
+#: rs_mbstylemanager.rs_captionvermargin
+msgid "The vertical distance of the text in the text rectangle (only effective with tlTop)"
+msgstr "Der vertikale Abstand des Textes im Textrechteck (nur wirksam mit tlTop)"
+
+#: rs_mbstylemanager.rs_checkoffsetheight
+msgid "Determines whether the height is adopted"
+msgstr "Bestimmt ob die Höhe übernommen wird"
+
+#: rs_mbstylemanager.rs_checkoffsetwidth
+msgid "Determines whether the width is adopted"
+msgstr "Bestimmt ob die Breite übernommen wird"
+
+#: rs_mbstylemanager.rs_colorend
+msgid "The end color of the button (for color gradient)"
+msgstr "Die Endfarbe des Buttons (für Farbverlauf)"
+
+#: rs_mbstylemanager.rs_colorgradient
+msgid "The direction of the gradient"
+msgstr "Die Richtung des Farbverlaufs"
+
+#: rs_mbstylemanager.rs_colors
+msgid "Colors"
+msgstr "Farben"
+
+#: rs_mbstylemanager.rs_colorstart
+msgid "The start color of the button (for color gradient)"
+msgstr "Die Startfarbe des Buttons (für Farbverlauf)"
+
+#: rs_mbstylemanager.rs_editleft
+msgid "Left position of the DesignButton in the editor"
+msgstr "Linke Position des DesignButtons im Editor"
+
+#: rs_mbstylemanager.rs_edittop
+msgid "Top position of the DesignButton in the editor"
+msgstr "Top Position des DesignButtons im Editor"
+
+#: rs_mbstylemanager.rs_focalphabval
+msgid "How translucent the focusframe is (0=transparent, 255=opaque)"
+msgstr "Wie transparent der Fokusrahmen ist (0=transparent, 255=undurchsichtig)."
+
+#: rs_mbstylemanager.rs_focframewidth
+msgid "The whidth of the focus-frame "
+msgstr "Die Dicke des Fokus-Rahmens "
+
+#: rs_mbstylemanager.rs_focuscolor
+msgid "The color of the Fokusframe/Foregroundfocus when the control has the focus"
+msgstr "Die Farbe des Fokusrahmens/Foregroundfocus wenn das Control den Fokus hat"
+
+#: rs_mbstylemanager.rs_focusframeon
+msgctxt "rs_mbstylemanager.rs_focusframeon"
+msgid "Indicates when the button has focus"
+msgstr "Zeigt an wenn der Button den Fokus besitzt"
+
+#: rs_mbstylemanager.rs_fontcolor
+msgid "The color of the Caption"
+msgstr "Die Farbe der Caption"
+
+#: rs_mbstylemanager.rs_fontdialog
+msgid "The font to be used for text display in this button, opens a dialog"
+msgstr "Die Schrift die für die Textanzeige in diesem Button verwendet werden soll, öffnet einen Dialog"
+
+#: rs_mbstylemanager.rs_fonts
+msgid "Fonts"
+msgstr "Schrift"
+
+#: rs_mbstylemanager.rs_foregrdfocuson
+msgctxt "rs_mbstylemanager.rs_foregrdfocuson"
+msgid "Indicates when the button has focus"
+msgstr "Zeigt an wenn der Button den Fokus besitzt"
+
+#: rs_mbstylemanager.rs_height
+msgid "The height of the messagebutton"
+msgstr "Die Höhe des Messagebuttons"
+
+#: rs_mbstylemanager.rs_height_
+msgid "The vertical size of the control.The height of the MultiButton is minus HoverFrameWidth"
+msgstr "Die Höhe des Controls. Die Höhe des MultiButtons ist minus HoverFrameWidth"
+
+#: rs_mbstylemanager.rs_hoverendcol
+msgid "The endcolor of a hoverevent (for color gradient)"
+msgstr "Die Endfarbe eines Hoverereignisses (für Farbverlauf)"
+
+#: rs_mbstylemanager.rs_hoverfontcol
+msgid "The color of the Caption during one hoverevent"
+msgstr "Die Farbe der Caption während eines Hoverereignisses"
+
+#: rs_mbstylemanager.rs_hoveron
+msgid "Allows to show or hide a hoverevent"
+msgstr "Ermöglicht das Ein- oder Ausblenden eines Hoverereignisses"
+
+#: rs_mbstylemanager.rs_hoverstartcol
+msgid "The startcolor of a hoverevent (for color gradient)"
+msgstr "Die Startfarbe eines Hoverereignisses (für Farbverlauf)"
+
+#: rs_mbstylemanager.rs_left
+msgid "Left:"
+msgstr "von Links:"
+
+#: rs_mbstylemanager.rs_load
+msgid "Load"
+msgstr "Laden"
+
+#: rs_mbstylemanager.rs_loadbutton
+#, fuzzy
+#| msgid "Loads saved properties from a file"
+msgid "Loads saved properties from a file and closes the editor"
+msgstr "Läd gespeicherte Eigenschaften aus einer Datei und schließt den Editor"
+
+#: rs_mbstylemanager.rs_look
+msgid "Look"
+msgstr "Aussehen"
+
+#: rs_mbstylemanager.rs_mbsettings
+msgid "MultiButton Settings:"
+msgstr "MultiButton Einstellungen:"
+
+#: rs_mbstylemanager.rs_msgalignment
+msgid "The position of the messagebutton"
+msgstr "Die Position des Messagebuttons"
+
+#: rs_mbstylemanager.rs_msgbordercolor
+msgctxt "rs_mbstylemanager.rs_msgbordercolor"
+msgid "The color of the border"
+msgstr "Die Farbe des Rahmens"
+
+#: rs_mbstylemanager.rs_msgbsettings
+msgid "MessageButton Settings:"
+msgstr "MessageButton Einstellungen:"
+
+#: rs_mbstylemanager.rs_msgbuttonlook
+msgid "MsgButtonLook"
+msgstr "MsgButtonAussehen"
+
+#: rs_mbstylemanager.rs_msgbuttonstyle
+msgid "The geometric shape of the messagebutton"
+msgstr "Die geometrische Form des Messagebuttons"
+
+#: rs_mbstylemanager.rs_msgcolorend
+msgid "The end color of the messagebutton ( for color gradient)"
+msgstr "Die Endfarbe des MessageButtons (für Farbverlauf)"
+
+#: rs_mbstylemanager.rs_msgcolorstart
+msgid "The start color of the messagebutton ( for color gradient)"
+msgstr "Die Startfarbe des MessageButtons (für Farbverlauf)"
+
+#: rs_mbstylemanager.rs_msgfontcolor
+msgid "The color of the font used in messagebutton"
+msgstr "Die Schriftfarbe des Messagebuttons"
+
+#: rs_mbstylemanager.rs_msghovercolor
+msgid "The color of a hoverevent"
+msgstr "Die Farbe während eines Hoverereignisses"
+
+#: rs_mbstylemanager.rs_ok
+msgid "OK"
+msgstr "Ok"
+
+#: rs_mbstylemanager.rs_okbutton
+msgid "Accepts the current properties and closes the editor"
+msgstr "Übernimmt die aktuellen Eigenschaften und schließt den Editor"
+
+#: rs_mbstylemanager.rs_popupcopy
+msgid "Copy the color"
+msgstr "Kopiere die Farbe"
+
+#: rs_mbstylemanager.rs_popuppaste
+msgid "Paste a color"
+msgstr "Füge eine Farbe ein"
+
+#: rs_mbstylemanager.rs_posfac
+msgid "Position factor,affects the position, only active if alSE,alSW,alNW,alNE,alW,alE,alN,alS"
+msgstr "Positionsfaktor, beeinflusst die Position, nur aktive wenn alSE,alSW,alNW,alNE,alW,alE,alN,alS"
+
+#: rs_mbstylemanager.rs_prcolblendval
+msgid "How translucent the pressedcolor is (0=transparent, 255=opaque)"
+msgstr "Wie transparent die PressedColor ist (0=transparent, 255=undurchsichtig)"
+
+#: rs_mbstylemanager.rs_pressedcol
+msgid "The color of the messagebutton when it is pressed"
+msgstr "Die Farbe des MessageButtons wenn er gedrückt wird"
+
+#: rs_mbstylemanager.rs_pressedendcol
+msgid "The end color of the button when it is pressed (for color gradient)"
+msgstr "Die Endfarbe des Buttons wenn er gedrückt wird (für Farbverlauf)"
+
+#: rs_mbstylemanager.rs_pressedstcol
+msgid "The starting color of the button when it is pressed (for color gradient)"
+msgstr "Die Startfarbe des Buttons wenn er gedrückt wird (für Farbverlauf)"
+
+#: rs_mbstylemanager.rs_prssdfontcol
+msgid "The color of the text of the caption when the button is pressed"
+msgstr "Die Farbe des Textes der Caption wenn der Button gedrückt wird"
+
+#: rs_mbstylemanager.rs_rndrct
+msgid "Corner diameter if the geometric shape is RoundRect"
+msgstr "Eckendurchmesser wenn geometrische Form ist RoundRect"
+
+#: rs_mbstylemanager.rs_save
+msgid "Save"
+msgstr "Speichern"
+
+#: rs_mbstylemanager.rs_savebutton
+msgid "Saves the current properties in a file"
+msgstr "Speichert die aktuellen Eigenschaften in einer Datei"
+
+#: rs_mbstylemanager.rs_showborder
+msgid "Allows to show or hide a border"
+msgstr "Ermöglicht das Ein- oder Ausblenden eines Rahmens"
+
+#: rs_mbstylemanager.rs_showpressed
+msgid "Allows to show or hide the pressedoption "
+msgstr "Ermöglicht das Ein- oder Ausblenden der Gedrücktoption "
+
+#: rs_mbstylemanager.rs_style
+msgid "The geometric shape of the button"
+msgstr "Die geometrische Form des Buttons"
+
+#: rs_mbstylemanager.rs_takeheight
+msgid "Take over the height"
+msgstr "Höhe übernehmen"
+
+#: rs_mbstylemanager.rs_takewidth
+msgid "Take over the width"
+msgstr "Breite übernehmen"
+
+#: rs_mbstylemanager.rs_top
+msgid "Top:"
+msgstr "von Oben:"
+
+#: rs_mbstylemanager.rs_visible
+msgid "Allows to show or hide the control, and all of its children"
+msgstr "Ermöglicht das Ein- oder Ausblenden des Steuerelements und aller seiner untergeordneten Elemente"
+
+#: rs_mbstylemanager.rs_width
+msgid "The width of the messagebutton"
+msgstr "Die Breite des Messagebuttons"
+
+#: rs_mbstylemanager.rs_width_
+msgid "The horizontal size of the control.The width of the MultiButton is minus HoverFrameWidth"
+msgstr "Die Breite des Controls. Die Breite des MultiButtons ist minus HoverFrameWidth"
+
+#: rs_mbstylemanager.rs_wordbreak
+msgid "Allows a line break in the caption"
+msgstr "Ermöglicht einen Zeilenumbruch in der Caption"
+

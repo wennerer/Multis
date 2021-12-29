@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="4">
+    <Name Value="Multis"/>
+    <Type Value="RunAndDesignTime"/>
+    <Author Value="Bernd Hübner (wennerer)"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <SearchPaths>
+        <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+    </CompilerOptions>
+    <Description Value="This package contains the following components:
+- TMultiButton[1.2.4.0], a button with many adjustable properties, and a second integrated button.
+- TMultiButtonStyleManager [0.0.4.0], simplifies the design of the MultiButton.
+- a i18n .po file for german (used in MB_StylManagerEditor)
+- TMultiplexSlider[1.0.1.0], a slider with many adjustable properties, up to three knobs are possible.
+- the unit PointIn
+"/>
+    <License Value="modified LGPL-2"/>
+    <Version Major="1" Release="2"/>
+    <Files Count="13">
+      <Item1>
+        <Filename Value="multibuttonstylemanager.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="MultiButtonStyleManager"/>
+      </Item1>
+      <Item2>
+        <Filename Value="multibutton.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="MultiButton"/>
+      </Item2>
+      <Item3>
+        <Filename Value="ptin.pas"/>
+        <UnitName Value="ptin"/>
+      </Item3>
+      <Item4>
+        <Filename Value="stylemanagercomponent.inc"/>
+        <Type Value="Include"/>
+      </Item4>
+      <Item5>
+        <Filename Value="rs_mbstylemanager.pas"/>
+        <UnitName Value="rs_mbstylemanager"/>
+      </Item5>
+      <Item6>
+        <Filename Value="mb_autosize.inc"/>
+        <Type Value="Include"/>
+      </Item6>
+      <Item7>
+        <Filename Value="multiplexslider.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="MultiplexSlider"/>
+      </Item7>
+      <Item8>
+        <Filename Value="mpslider_track.inc"/>
+        <Type Value="Include"/>
+      </Item8>
+      <Item9>
+        <Filename Value="mpslider_knob.inc"/>
+        <Type Value="Include"/>
+      </Item9>
+      <Item10>
+        <Filename Value="mpslider_scale.inc"/>
+        <Type Value="Include"/>
+      </Item10>
+      <Item11>
+        <Filename Value="mpslider_textlabel.inc"/>
+        <Type Value="Include"/>
+      </Item11>
+      <Item12>
+        <Filename Value="mpslider_valuedisplay.inc"/>
+        <Type Value="Include"/>
+      </Item12>
+      <Item13>
+        <Filename Value="infmultis.pas"/>
+        <UnitName Value="influencemultis"/>
+      </Item13>
+    </Files>
+    <i18n>
+      <EnableI18N Value="True"/>
+      <OutDir Value="languages"/>
+      <EnableI18NForLFM Value="True"/>
+    </i18n>
+    <RequiredPkgs Count="3">
+      <Item1>
+        <PackageName Value="IDEIntf"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="LCLBase"/>
+      </Item2>
+      <Item3>
+        <PackageName Value="FCL"/>
+      </Item3>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+      <UseFileFilters Value="True"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>
