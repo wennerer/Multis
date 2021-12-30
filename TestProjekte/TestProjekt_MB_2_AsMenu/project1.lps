@@ -2,7 +2,7 @@
 <CONFIG>
   <ProjectSession>
     <Version Value="11"/>
-    <BuildModes Active="Linux_64_Debug"/>
+    <BuildModes Active="Linux_64_Release"/>
     <Units Count="22">
       <Unit0>
         <Filename Value="project1.lpr"/>
