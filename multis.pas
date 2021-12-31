@@ -9,7 +9,7 @@ interface
 
 uses
   MultiButtonStyleManager, MultiButton, ptin, rs_mbstylemanager, 
-  MultiplexSlider, infmultis, LazarusPackageIntf;
+  MultiplexSlider, infmultis, Selector, LazarusPackageIntf;
 
 implementation
 
@@ -18,6 +18,7 @@ begin
   RegisterUnit('MultiButtonStyleManager', @MultiButtonStyleManager.Register);
   RegisterUnit('MultiButton', @MultiButton.Register);
   RegisterUnit('MultiplexSlider', @MultiplexSlider.Register);
+  RegisterUnit('Selector', @Selector.Register);
 end;
 
 initialization
