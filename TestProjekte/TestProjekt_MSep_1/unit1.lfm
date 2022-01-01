@@ -1,0 +1,25 @@
+object Form1: TForm1
+  Left = 1520
+  Height = 544
+  Top = 250
+  Width = 1126
+  Caption = 'Form1'
+  ClientHeight = 544
+  ClientWidth = 1126
+  object MultiSeperator1: TMultiSeperator
+    Left = 240
+    Height = 40
+    Top = 120
+    Width = 10
+  end
+  object MultiButton1: TMultiButton
+    Left = 27
+    Height = 50
+    Top = 32
+    Width = 110
+    MessageButton.ImageLeft = 0
+    MessageButton.ImageTop = 0
+    Caption = 'MultiButton1'
+    TabOrder = 0
+  end
+end
