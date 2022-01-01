@@ -20,7 +20,7 @@
 "/>
     <License Value="modified LGPL-2"/>
     <Version Major="1" Release="3"/>
-    <Files Count="14">
+    <Files Count="13">
       <Item1>
         <Filename Value="multibuttonstylemanager.pas"/>
         <HasRegisterProc Value="True"/>
@@ -76,11 +76,6 @@
         <Filename Value="infmultis.pas"/>
         <UnitName Value="infmultis"/>
       </Item13>
-      <Item14>
-        <Filename Value="multiselector.pas"/>
-        <HasRegisterProc Value="True"/>
-        <UnitName Value="MultiSelector"/>
-      </Item14>
     </Files>
     <i18n>
       <EnableI18N Value="True"/>
