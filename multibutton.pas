@@ -1,6 +1,6 @@
 { <A button with an integrated button>
-  <Version 1.2.4.0>
-  Copyright (C) <26.12.2021> <Bernd Hübner>
+  <Version 1.2.5.0>
+  Copyright (C) <01.01.2022> <Bernd Hübner>
   Many thanks to the members of the German Lazarus Forum!
   For some improvements see https://www.lazarusforum.de/viewtopic.php?f=29&t=13252
 
@@ -755,7 +755,7 @@ begin
   dest.Free;
  end;
 end;
-
+(*
 procedure GradientBmp(var aBmp: TBitmap; aStart, AStop: TColor;
   aCourse: TGradientCourse);
 var lv:integer;
@@ -914,75 +914,7 @@ begin
  end;//gcAlternate
 
 end;
-(*
-procedure BmpToAlphaBmp(var AlphaBmp :TBitmap;BlendValue : byte);
-var Image1 : TLazIntfImage;
-    Image2 : TLazIntfImage;
-    Bmp    : TBitmap;
-    valR,valG,valB: byte;
-    {$IFDEF LCLQt5 or LCLQt}
-    valTmp : byte;
-    {$ENDIF}
-    x,y                   : integer;
-    P                     : TPoint;
-begin
- try
-  // for Windows must be set AlphaBmp.PixelFormat:= pf32bit!
-  Bmp       := TBitmap.Create;
-  Bmp.Assign(AlphaBmp);
-  Image1:= Bmp.CreateIntfImage;
-  Image2:= TLazIntfImage.Create(0,0, [riqfRGB, riqfAlpha]);
-  Image2.SetSize(Bmp.Width,Bmp.Height);
-  {$IFDEF LINUX}
-   for y := 0 to  Image1.height - 1 do
-    begin
-     for x := 0 to Image1.width - 1 do
-      begin
-       P.X:=x;P.Y:=y;
-       valR:= PRGBQUAD(Image1.GetDataLineStart(P.Y))[P.X].rgbRed;
-       valG:= PRGBQuad(Image1.GetDataLineStart(P.Y))[P.X].rgbGreen;
-       valB:= PRGBQuad(Image1.GetDataLineStart(P.Y))[P.X].rgbBlue;
-       {$IFDEF LCLQt5 or LCLQt}
-        valTmp := valR;
-        valR   := valB;
-        valB   := valTmp;
-       {$ENDIF}
-       PRGBQuad(Image2.GetDataLineStart(P.Y))[P.X].rgbRed    := valB;
-       PRGBQuad(Image2.GetDataLineStart(P.Y))[P.X].rgbGreen  := valG;
-       PRGBQuad(Image2.GetDataLineStart(P.Y))[P.X].rgbBlue   := valR;
-       PRGBQuad(Image2.GetDataLineStart(P.Y))[P.X].rgbReserved:=BlendValue;
-
-      end;//for x
-    end;//for y
-    AlphaBmp.LoadFromIntfImage(Image2);
-  {$ENDIF}
-  {$IFDEF WINDOWS}
-  if BlendValue = 0 then BlendValue:=1; //or set Bmp to transparency
-  for y := 0 to  Image1.height - 1 do
-    begin
-     for x := 0 to Image1.width - 1 do
-      begin
-       P.X:=x;P.Y:=y;
-       valR:= PRGBQuad(Image1.GetDataLineStart(P.Y))[P.X].rgbRed;
-       valG:= PRGBQuad(Image1.GetDataLineStart(P.Y))[P.X].rgbGreen;
-       valB:= PRGBQuad(Image1.GetDataLineStart(P.Y))[P.X].rgbBlue;
-
-       PRGBQuad(Image2.GetDataLineStart(P.Y))[P.X].rgbRed    := valR;
-       PRGBQuad(Image2.GetDataLineStart(P.Y))[P.X].rgbGreen  := valG;
-       PRGBQuad(Image2.GetDataLineStart(P.Y))[P.X].rgbBlue   := valB;
-       PRGBQuad(Image2.GetDataLineStart(P.Y))[P.X].rgbReserved:= BlendValue;
-
-      end;//for x
-    end;//for y
-    AlphaBmp.LoadFromIntfImage(Image2);
-   {$ENDIF}
- finally
-  Image1.Free;
-  Image2.Free;
-  Bmp.Free;
- end;
-end;
-            *)
+      *)
 //XXXXXXXXXXXXXXXXXXXXXX--- MESSAGEBUTTON ---XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 { TMessageButton }
 
@@ -2581,10 +2513,10 @@ begin
  bkBmp := TBitmap.Create;
  bkBmp.SetSize(FBWidth,FBHeight);
  if not pressed then
-   GradientBmp(bkBmp,SC,EC,FGradient)
+   Gradient_Bmp(bkBmp,SC,EC,ord(FGradient))
   else
-   GradientBmp(bkBmp,FPressedStCol,FPressedEnCol,FGradient);
- if down then GradientBmp(bkBmp,FPressedStCol,FPressedEnCol,FGradient);
+   Gradient_Bmp(bkBmp,FPressedStCol,FPressedEnCol,ord(FGradient));
+ if down then Gradient_Bmp(bkBmp,FPressedStCol,FPressedEnCol,ord(FGradient));
 
  trBmp := TBitmap.Create;
  trBmp.SetSize(FBWidth,FBHeight);
@@ -2764,7 +2696,7 @@ begin
  try
   bkBmp := TBitmap.Create;
   bkBmp.SetSize(FMessageButton.FWidth,FMessageButton.FHeight);
-  GradientBmp(bkBmp,FMessageButton.FColorStart,FMessageButton.FColorEnd,FMessageButton.FGradient);
+  Gradient_Bmp(bkBmp,FMessageButton.FColorStart,FMessageButton.FColorEnd,ord(FMessageButton.FGradient));
 
   trBmp := TBitmap.Create;
   trBmp.SetSize(FMessageButton.FWidth,FMessageButton.FHeight);

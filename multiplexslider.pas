@@ -1,6 +1,6 @@
 { <A slider with an integrated textlabel>
-  <Version 1.0.1.0>
-  Copyright (C) <26.12.2021> <Bernd Hübner>
+  <Version 1.0.2.0>
+  Copyright (C) <01.01.2022> <Bernd Hübner>
   Many thanks to the members of the German Lazarus Forum!
   Special thanks to Siro, he taught me the basics!
   For some improvements see https://www.lazarusforum.de/viewtopic.php?f=29&t=12851
@@ -2067,6 +2067,7 @@ end;
 
 
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX---Drawing---XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+(*
 procedure GradientBmp(var aBmp: TBitmap; aStart, AStop: TColor;
   aCourse: TGradientCourse);
 var lv:integer;
@@ -2225,7 +2226,7 @@ begin
  end;//gcAlternate
 
 end;
-
+ *)
 
 procedure TMultiplexSlider.DrawSlider;
 var bkBmp        : TBitmap;
@@ -2236,7 +2237,7 @@ begin
  bkBmp := TBitmap.Create;
  bkBmp.SetSize(FInDoorBounds.Width,FInDoorBounds.Height);
 
- GradientBmp(bkBmp,FColorStart,FColorEnd,FGradient);
+ Gradient_Bmp(bkBmp,FColorStart,FColorEnd,ord(FGradient));
 
  trBmp := TBitmap.Create;
  trBmp.SetSize(FInDoorBounds.Width,FInDoorBounds.Height);
@@ -2365,7 +2366,7 @@ begin
         StartColor[lv] := FKnob[lv].FHoverStartColor else StartColor[lv] := FKnob[lv].FColorStart;
       if FKnob[lv].FHoverOn and FHover[lv] then
         EndColor[lv] := FKnob[lv].FHoverEndColor else EndColor[lv] := FKnob[lv].FColorEnd;
-      GradientBmp(bkBmp,StartColor[lv],EndColor[lv],FKnob[lv].FGradient);
+      Gradient_Bmp(bkBmp,StartColor[lv],EndColor[lv],ord(FKnob[lv].FGradient));
 
       trBmp := TBitmap.Create;
       trBmp.SetSize(FKnobBounds[lv].Width,FKnobBounds[lv].Height);
@@ -2735,7 +2736,7 @@ begin
   bkBmp := TBitmap.Create;
   bkBmp.SetSize(FValueDisplay.FWidth,FValueDisplay.FHeight);
 
-  GradientBmp(bkBmp,FValueDisplay.FColorStart,FValueDisplay.FColorEnd,FValueDisplay.FGradient);
+  Gradient_Bmp(bkBmp,FValueDisplay.FColorStart,FValueDisplay.FColorEnd,ord(FValueDisplay.FGradient));
 
   trBmp := TBitmap.Create;
    trBmp.SetSize(FValueDisplay.FWidth,FValueDisplay.FHeight);

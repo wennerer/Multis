@@ -1,12 +1,13 @@
 object Form1: TForm1
-  Left = 439
+  Left = 406
   Height = 512
-  Top = 250
+  Top = 144
   Width = 1041
   Caption = 'Test the MultiButton'
-  ClientHeight = 512
+  ClientHeight = 488
   ClientWidth = 1041
   Menu = MainMenu1
+  LCLVersion = '2.0.12.0'
   object Panel1: TPanel
     Left = 16
     Height = 60
@@ -227,6 +228,7 @@ object Form1: TForm1
       MessageButton.Width = 18
       MessageButton.Height = 18
       MessageButton.Alignment = alRightIn
+      MessageButton.CalculateAlthoughInvisible = True
       Caption = ' '
       HoverImageIndex = 9
       FocusFrameWidth = 0
@@ -256,6 +258,7 @@ object Form1: TForm1
       MessageButton.Width = 18
       MessageButton.Height = 18
       MessageButton.Alignment = alRightIn
+      MessageButton.CalculateAlthoughInvisible = True
       Caption = ' '
       HoverImageIndex = 10
       FocusFrameWidth = 0
@@ -285,6 +288,7 @@ object Form1: TForm1
       MessageButton.Width = 18
       MessageButton.Height = 18
       MessageButton.Alignment = alRightIn
+      MessageButton.CalculateAlthoughInvisible = True
       Caption = ' '
       HoverImageIndex = 11
       FocusFrameWidth = 0
@@ -314,6 +318,7 @@ object Form1: TForm1
       MessageButton.Width = 18
       MessageButton.Height = 18
       MessageButton.Alignment = alRightIn
+      MessageButton.CalculateAlthoughInvisible = True
       Caption = ' '
       HoverImageIndex = 12
       FocusFrameWidth = 0
@@ -343,6 +348,7 @@ object Form1: TForm1
       MessageButton.Width = 18
       MessageButton.Height = 18
       MessageButton.Alignment = alRightIn
+      MessageButton.CalculateAlthoughInvisible = True
       Caption = ' '
       HoverImageIndex = 13
       FocusFrameWidth = 0
