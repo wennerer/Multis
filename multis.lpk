@@ -15,12 +15,12 @@
 - TMultiButtonStyleManager [0.0.4.0], simplifies the design of the MultiButton.
 - a i18n .po file for german (used in MB_StylManagerEditor)
 - TMultiplexSlider[1.0.1.0], a slider with many adjustable properties, up to three knobs are possible.
--TMultiSelector[1.0.1.0], just an optical element in the look of the multis.
+-TMultiSeperator[1.0.1.0], just an optical element in the look of the multis.
 - the unit PointIn
 "/>
     <License Value="modified LGPL-2"/>
     <Version Major="1" Release="3"/>
-    <Files Count="13">
+    <Files Count="14">
       <Item1>
         <Filename Value="multibuttonstylemanager.pas"/>
         <HasRegisterProc Value="True"/>
@@ -76,6 +76,11 @@
         <Filename Value="infmultis.pas"/>
         <UnitName Value="infmultis"/>
       </Item13>
+      <Item14>
+        <Filename Value="multiseperator.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="MultiSeperator"/>
+      </Item14>
     </Files>
     <i18n>
       <EnableI18N Value="True"/>
