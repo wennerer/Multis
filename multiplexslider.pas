@@ -1,6 +1,6 @@
 { <A slider with an integrated textlabel>
-  <Version 1.0.2.0>
-  Copyright (C) <01.01.2022> <Bernd Hübner>
+  <Version 1.0.3.0>
+  Copyright (C) <02.01.2022> <Bernd Hübner>
   Many thanks to the members of the German Lazarus Forum!
   Special thanks to Siro, he taught me the basics!
   For some improvements see https://www.lazarusforum.de/viewtopic.php?f=29&t=12851
@@ -1001,11 +1001,22 @@ begin
                      end;
                     NewKnobIdx(VK_Down);
                    end;
-        VK_HOME  : FKnob[FKnobIdx].FPosition:= FMin;
-        VK_END   : FKnob[FKnobIdx].FPosition:= FMax;
-    else begin
-        Result := 0;
-      end;
+        VK_HOME  : begin
+                    FKnob[FKnobIdx].FPosition:= FMin;
+                    CalculateKnobCenter;
+                    CalculateKnob;
+                    Invalidate;
+                   end;
+        VK_END   : begin
+                    FKnob[FKnobIdx].FPosition:= FMax;
+                    CalculateKnobCenter;
+                    CalculateKnob;
+                    Invalidate;
+                   end
+    else
+     begin
+      Result := 0;
+     end;
     end;
    end;
   end;

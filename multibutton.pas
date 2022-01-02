@@ -1,6 +1,6 @@
 { <A button with an integrated button>
-  <Version 1.2.5.0>
-  Copyright (C) <01.01.2022> <Bernd Hübner>
+  <Version 1.2.6.0>
+  Copyright (C) <02.01.2022> <Bernd Hübner>
   Many thanks to the members of the German Lazarus Forum!
   For some improvements see https://www.lazarusforum.de/viewtopic.php?f=29&t=13252
 
@@ -2290,9 +2290,11 @@ begin
              begin
               CurButton.FDown:= false;
               if FShowMsgButtonInGroup then CurButton.MessageButton.FVisible:= false;
+              CurButton.invalidate;
              end;
             end;//comp is
          end;//comp in
+
 end;
 
 procedure TMultiButton.SetActiveButtonInGroup(aValue: boolean);
