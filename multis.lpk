@@ -11,7 +11,7 @@
       </SearchPaths>
     </CompilerOptions>
     <Description Value="This package contains the following components:
-- TMultiButton[1.2.6.0], a button with many adjustable properties, and a second integrated button.
+- TMultiButton[1.2.7.0], a button with many adjustable properties, and a second integrated button.
 - TMultiButtonStyleManager [0.0.4.0], simplifies the design of the MultiButton.
 - a i18n .po file for german (used in MB_StylManagerEditor)
 - TMultiplexSlider[1.0.3.0], a slider with many adjustable properties, up to three knobs are possible.

@@ -1,6 +1,6 @@
 { <A button with an integrated button>
-  <Version 1.2.6.0>
-  Copyright (C) <02.01.2022> <Bernd Hübner>
+  <Version 1.2.7.0>
+  Copyright (C) <05.01.2022> <Bernd Hübner>
   Many thanks to the members of the German Lazarus Forum!
   For some improvements see https://www.lazarusforum.de/viewtopic.php?f=29&t=13252
 
@@ -40,7 +40,7 @@ uses
   Classes, SysUtils, FPImage, LResources, Controls, Graphics, Dialogs,
   GraphType, LcLIntf, PropEdits, GraphPropEdits, ComponentEditors, PtIn,
   LMessages, IntfGraphics, LCLType, Forms, ImgList, MultiButtonStyleManager,
-  LCLVersion, infmultis, LCLProc;
+  LCLVersion, infmultis;//, LCLProc;
 
 type
   TMButtonStyle = (mbsRect,mbsRoundRect,mbsCircle,mbsEllipse);
@@ -107,7 +107,6 @@ type
      FImageIndex  : TImageIndex;
      FImageLeft   : integer;
      FImageList   : TCustomImageList;
-     FImageListChangeLink: TChangeLink;
      FImageTop    : integer;
      FImageWidth  : integer;
      FOnClick     : TClickEvent;
@@ -670,9 +669,6 @@ begin
   RegisterPropertyEditor(TypeInfo(TImageIndex), TMessageButton, 'ImageIndex', TMessageButtonImageIndexPropertyEditor);
 end;
 
-
-
-
 procedure AlphaBlend(var AlBlBmp:TBitmap;BlendVal:byte;aBlendShape:TBlendShape);
 var dest, trBmp, mask, bmp : TBitmap;
     Image1 : TLazIntfImage;
@@ -755,166 +751,7 @@ begin
   dest.Free;
  end;
 end;
-(*
-procedure GradientBmp(var aBmp: TBitmap; aStart, AStop: TColor;
-  aCourse: TGradientCourse);
-var lv:integer;
-    StartR,StartG,StartB : integer;
-    StopR,StopG,StopB    : integer;
-    delR,delG,delB       : integer;
-    fR,fG,fb : double;
-    valR,valG,valB       : integer;
-    greater,radius: integer;
-    tmpBmp               : TBitmap;
 
- function System_ToRGB(clSys:TColor):TColor;
-  var FPCol :  TFPColor;
-  begin
-   FPCol:=TColorToFPColor(ColorToRGB(clSys));
-   result :=FPColorToTColor(FPCol);
-  end;
-
-begin
- aStart:=System_ToRGB(aStart);
- aStop:=System_ToRGB(aStop);
-
- if aStart=clBlack then aStart:=rgb(1,0,0);
- if aStop=clBlack then aStop:=rgb(1,0,0);
-
- StartR:=getRvalue(aStart);
- StartG:=getGvalue(aStart);
- StartB:=getBvalue(aStart);
-
- StopR:=getRvalue(aStop);
- StopG:=getGvalue(aStop);
- StopB:=getBvalue(aStop);
-
- delR:= StartR-StopR;
- delG:= StartG-StopG;
- delB:= StartB-StopB;
-
-  if aCourse = gcSpread then
- begin
-  if aBmp.Height >= aBmp.Width then
-   greater := round(aBmp.Height/2)
-  else
-   greater := round(aBmp.Width/2);
-
-  radius:= round(sqrt(sqr((aBmp.Width/2))+sqr((aBmp.Height/2))));
-  fR := delR /radius;
-  fG := delG /radius;
-  fB := delB /radius;
-  for Lv:=radius downto 0 do
-   begin
-    valR:= StopR+round(lv*fR);
-    valG:= StopG+round(lv*fG);
-    valB:= StopB+round(lv*fB);
-    if valR <0 then valR:=0;
-    if valG <0 then valG:=0;
-    if valB <0 then valB:=0;
-    if valR >255 then valR:=255;
-    if valG >255 then valG:=255;
-    if valB >255 then valB:=255;
-    aBmp.Canvas.Brush.Color:=rgb(valR,valG,valB);
-    aBmp.Canvas.Pen.Color:=rgb(valR,valG,valB);
-    aBmp.Canvas.Ellipse((aBmp.width div 2) -lv,(aBmp.height div 2)-lv,
-                       (aBmp.width div 2)+lv,(aBmp.height div 2)+lv);
-  end;
- end; //gcSpread
-
-
- if aCourse = gcRadiant then
- begin
-  if aBmp.Height >= aBmp.Width then
-   greater := round(aBmp.Height/2)
-   else
-   greater := round(aBmp.Width/2);
-
-   fR := delR /greater;
-   fG := delG /greater;
-   fB := delB /greater;
-   for Lv:=greater downto 0 do
-  begin
-   valR:= StartR-round(lv*fR);
-   valG:= StartG-round(lv*fG);
-   valB:= StartB-round(lv*fB);
-   if valR <0 then valR:=0;
-   if valG <0 then valG:=0;
-   if valB <0 then valB:=0;
-   if valR >255 then valR:=255;
-   if valG >255 then valG:=255;
-   if valB >255 then valB:=255;
-   aBmp.Canvas.Brush.Color:=rgb(valR,valG,valB);
-   aBmp.Canvas.FillRect((aBmp.width div 2) -lv,(aBmp.height div 2)-lv,
-                       (aBmp.width div 2)+lv,(aBmp.height div 2)+lv);
-  end;
- end; //gcRadiant
-
-
- if aCourse = gcVertical then
- begin
-  fR := delR /aBmp.Height;
-  fG := delG /aBmp.Height;
-  fB := delB /aBmp.Height;
-
- for Lv:=0 to aBmp.Height do
-  begin
-   valR:= StartR-round(lv*fR);
-   valG:= StartG-round(lv*fG);
-   valB:= StartB-round(lv*fB);
-   if valR <0 then valR:=0;
-   if valG <0 then valG:=0;
-   if valB <0 then valB:=0;
-   if valR >255 then valR:=255;
-   if valG >255 then valG:=255;
-   if valB >255 then valB:=255;
-   aBmp.Canvas.Brush.Color:=rgb(valR,valG,valB);
-   aBmp.Canvas.FillRect(0,lv,aBmp.Width,lv+1);
-  end;
- end;//gcVertical
-
- if aCourse = gcHorizontal then
- begin
-  fR := delR /aBmp.Width;
-  fG := delG /aBmp.Width;
-  fB := delB /aBmp.Width;
-
- for Lv:=0 to aBmp.Width do
-  begin
-   valR:= StartR-round(lv*fR);
-   valG:= StartG-round(lv*fG);
-   valB:= StartB-round(lv*fB);
-   if valR <0 then valR:=0;
-   if valG <0 then valG:=0;
-   if valB <0 then valB:=0;
-   if valR >255 then valR:=255;
-   if valG >255 then valG:=255;
-   if valB >255 then valB:=255;
-   aBmp.Canvas.Brush.Color:=rgb(valR,valG,valB);
-   aBmp.Canvas.FillRect(lv,0,lv+1,aBmp.Height);
-  end;
- end;//gcHorizontal
- if aCourse = gcAlternate  then
- begin
-  try
-   tmpBmp               := TBitmap.Create;
-   tmpBmp.SetSize(2, 2);
-   tmpBmp.Canvas.Pixels[0, 0] := aStart;
-   tmpBmp.Canvas.Pixels[0, 1] := aStop;
-   tmpBmp.Canvas.Pixels[1, 0] := aStop;
-   tmpBmp.Canvas.Pixels[1, 1] := aStart;
-
-   aBmp.Canvas.Brush.Bitmap := nil;
-   aBmp.Canvas.Brush.Bitmap := tmpBmp ;
-   aBmp.Canvas.FillRect(0, 0,aBmp.Width,aBmp.Height) ;
-
-  finally
-   tmpBmp.Free;
-  end;
- end;//gcAlternate
-
-end;
-      *)
 //XXXXXXXXXXXXXXXXXXXXXX--- MESSAGEBUTTON ---XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 { TMessageButton }
 
@@ -1123,18 +960,10 @@ end;
 
 procedure TMessageButton.SetImageList(AValue: TCustomImageList);
 begin
-
   if FImageList = AValue then Exit;
-  if FImageList <> nil then
-  begin
-    FImageList.UnRegisterChanges(FImageListChangeLink);
-  end;
   FImageList := AValue;
-  if FImageList <> nil then
-  begin
-   FImageList.RegisterChanges(FImageListChangeLink);
-  end;
   ImagesChanged(Self);
+  if FImageList <> nil then (FOwner as TMultiButton).SetImageList(aValue);
 end;
 
 procedure TMessageButton.SetImageTop(AValue: integer);
@@ -1263,8 +1092,6 @@ begin
   FMessageButton.FCalculateAlthoughInvisible:= false;
   FMessageButton.FFont := TFont.Create;
   FMessageButton.FFont.OnChange:= @MessageFontPropertyChanged;
-  FMessageButton.FImageListChangeLink := TChangeLink.Create;
-  FMessageButton.FImageListChangeLink.OnChange := @ImagesChanged;
 
   FMessageButton.FTextStyle.Alignment := taCenter;
   FMessageButton.FTextStyle.Layout    := tlCenter;
@@ -1349,7 +1176,6 @@ end;
 destructor TMultiButton.Destroy;
 begin
   inherited Destroy;
-  FMessageButton.FImageListChangeLink.Free;
   FImageListChangeLink.Free;
   FMessageButton.FFont.Free;
   MessageButton.Free;
@@ -1572,8 +1398,8 @@ begin
  inherited Notification(AComponent, Operation);
  if (Operation = opRemove) and (AComponent = FImageList) then
   begin
+   MessageButton.Images := nil;
    Images := nil;
-   FMessageButton.Images := nil;
   end;
  if (Operation = opRemove) and (AComponent = FStyleManager) then
   begin
@@ -1774,12 +1600,14 @@ end;
 procedure TMultiButton.SetImageList(AValue: TCustomImageList);
 begin
   if FImageList = AValue then Exit;
+
   if FImageList <> nil then
   begin
     FImageList.UnRegisterChanges(FImageListChangeLink);
     FImageList.RemoveFreeNotification(Self);
   end;
   FImageList := AValue;
+  FMessageButton.FImageList := aValue;
   if FImageList <> nil then
   begin
     FImageList.FreeNotification(Self);
