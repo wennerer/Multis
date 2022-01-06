@@ -49,7 +49,7 @@ type
                   //Position MessageButton
 
  type
-   TGradientCourse = (gcHorizontal,gcVertical,gcSpread,gcRadiant,gcMosaic); //for background color
+   TGradientCourse = (gcHorizontal,gcVertical,gcSpread,gcRadiant,gcAlternate); //for background color
 
 
 

@@ -324,7 +324,7 @@ begin
  ColGradCombo.Items.Add('gcVertical');
  ColGradCombo.Items.Add('gcSpread');
  ColGradCombo.Items.Add('gcRadiant');
- ColGradCombo.Items.Add('gcMosaic');
+ ColGradCombo.Items.Add('gcAlternate');
  ColGradCombo.ItemIndex := ord(DesignButton.ColorGradient);
  ColGradCombo.OnChange  := @ColGradOnChange;
  ColGradCombo.ShowHint  := true;
@@ -455,7 +455,7 @@ begin
   1 : DesignButton.ColorGradient := MultiButton.TGradientCourse(gcVertical);
   2 : DesignButton.ColorGradient := MultiButton.TGradientCourse(gcSpread);
   3 : DesignButton.ColorGradient := MultiButton.TGradientCourse(gcRadiant);
-  4 : DesignButton.ColorGradient := MultiButton.TGradientCourse(gcMosaic);
+  4 : DesignButton.ColorGradient := MultiButton.TGradientCourse(gcAlternate);
  end;
 end;
 
@@ -644,7 +644,7 @@ begin
  MsgColGradCombo.Items.Add('gcVertical');
  MsgColGradCombo.Items.Add('gcSpread');
  MsgColGradCombo.Items.Add('gcRadiant');
- MsgColGradCombo.Items.Add('gcMosaic');
+ MsgColGradCombo.Items.Add('gcAlternate');
  MsgColGradCombo.ItemIndex:= ord(DesignButton.MessageButton.ColorGradient);
  MsgColGradCombo.OnChange:= @MsgColGradOnChange;
  MsgColGradCombo.ShowHint:= true;
@@ -726,7 +726,7 @@ begin
   1 : DesignButton.MessageButton.ColorGradient := MultiButton.TGradientCourse(gcVertical);
   2 : DesignButton.MessageButton.ColorGradient := MultiButton.TGradientCourse(gcSpread);
   3 : DesignButton.MessageButton.ColorGradient := MultiButton.TGradientCourse(gcRadiant);
-  4 : DesignButton.MessageButton.ColorGradient := MultiButton.TGradientCourse(gcMosaic);
+  4 : DesignButton.MessageButton.ColorGradient := MultiButton.TGradientCourse(gcAlternate);
  end;
 end;
 
