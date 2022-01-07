@@ -1,6 +1,6 @@
 { <A button with an integrated button>
-  <Version 1.2.7.0>
-  Copyright (C) <05.01.2022> <Bernd Hübner>
+  <Version 1.2.7.1>
+  Copyright (C) <07.01.2022> <Bernd Hübner>
   Many thanks to the members of the German Lazarus Forum!
   For some improvements see https://www.lazarusforum.de/viewtopic.php?f=29&t=13252
 
@@ -2030,7 +2030,8 @@ end;
 
 procedure TMultiButton.SetCapLeft(AValue: integer);
 begin
-  if csDesigning in ComponentState then
+ if csDesigning in ComponentState then
+  if not (csLoading in ComponentState) then
    if FTextStyle.Alignment <> taLeftJustify then
     begin
      if (MultiButton_StyleManager = nil) and (FAutosize = false) then showmessage('only effective with taLeftJustify');
@@ -2062,7 +2063,8 @@ end;
 
 procedure TMultiButton.SetCapTop(AValue: integer);
 begin
-  if csDesigning in ComponentState then
+ if csDesigning in ComponentState then
+  if not (csLoading in ComponentState) then
    if FTextStyle.Layout <> tlTop then
     begin
      if (MultiButton_StyleManager = nil) and (FAutosize = false) then showmessage('only effective with tlTop');
@@ -2339,9 +2341,13 @@ var bkBmp        : TBitmap;
     trBmp        : TBitmap;
     mask         : TBitmap;
     Dest         : TBitmap;
+
 begin
+
  bkBmp := TBitmap.Create;
  bkBmp.SetSize(FBWidth,FBHeight);
+
+ if FGradient = gcAlternate then Gradient_Bmp(bkBmp,FPressedStCol,FPressedEnCol,ord(gcVertical)); //otherwise flickers
  if not pressed then
    Gradient_Bmp(bkBmp,SC,EC,ord(FGradient))
   else
@@ -2387,6 +2393,7 @@ begin
  Dest.Canvas.Draw(0,0,mask);
 
  canvas.Draw(FBLeft,FBTop,Dest);
+
 
  bkBmp.Free;
  trBmp.Free;
@@ -2526,6 +2533,7 @@ begin
  try
   bkBmp := TBitmap.Create;
   bkBmp.SetSize(FMessageButton.FWidth,FMessageButton.FHeight);
+  if FGradient = gcAlternate then Gradient_Bmp(bkBmp,FPressedStCol,FPressedEnCol,ord(gcVertical)); //otherwise flickers
   Gradient_Bmp(bkBmp,FMessageButton.FColorStart,FMessageButton.FColorEnd,ord(FMessageButton.FGradient));
 
   trBmp := TBitmap.Create;
@@ -2573,6 +2581,7 @@ begin
    trBmp.Free;
    mask.Free;
    Dest.Free;
+
  end;
  //Pressed
  {$IFDEF WINDOWS}
