@@ -214,6 +214,10 @@ msgstr "Ok"
 msgid "Accepts the current properties and closes the editor"
 msgstr "Übernimmt die aktuellen Eigenschaften und schließt den Editor"
 
+#: rs_mbstylemanager.rs_penerror
+msgid "Error creating the pen"
+msgstr "Fehler beim Erzeugen des Stiftes"
+
 #: rs_mbstylemanager.rs_popupcopy
 msgid "Copy the color"
 msgstr "Kopiere die Farbe"
@@ -297,4 +301,3 @@ msgstr "Die Breite des Controls. Die Breite des MultiButtons ist minus HoverFram
 #: rs_mbstylemanager.rs_wordbreak
 msgid "Allows a line break in the caption"
 msgstr "Ermöglicht einen Zeilenumbruch in der Caption"
-

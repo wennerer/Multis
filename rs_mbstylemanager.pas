@@ -87,8 +87,8 @@ resourcestring
     rs_fontdialog            = 'The font to be used for text display in this button, opens a dialog';
     rs_wordbreak             = 'Allows a line break in the caption';
 
-
-
+    //for unit CustomPen
+     rs_penerror            = 'Error creating the pen';
 
 implementation
 

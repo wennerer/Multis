@@ -20,7 +20,7 @@
 "/>
     <License Value="modified LGPL-2"/>
     <Version Major="1" Release="3" Build="2"/>
-    <Files Count="14">
+    <Files Count="15">
       <Item1>
         <Filename Value="multibuttonstylemanager.pas"/>
         <HasRegisterProc Value="True"/>
@@ -81,6 +81,10 @@
         <HasRegisterProc Value="True"/>
         <UnitName Value="MultiSeperator"/>
       </Item14>
+      <Item15>
+        <Filename Value="custompen.pas"/>
+        <UnitName Value="CustomPen"/>
+      </Item15>
     </Files>
     <i18n>
       <EnableI18N Value="True"/>

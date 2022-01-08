@@ -5,8 +5,8 @@ unit Unit1;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  MultiSeperator, MultiButton, MultiButtonStyleManager;
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
+  MultiSeperator, MultiButton, MultiButtonStyleManager, custompen;
 
 type
 
@@ -18,6 +18,7 @@ type
     MultiButton2: TMultiButton;
     MultiButtonStyleManager1: TMultiButtonStyleManager;
     MultiSeperator1: TMultiSeperator;
+    Panel1: TPanel;
     procedure Button1ControlBorderSpacingChange(Sender: TObject);
     procedure MultiButton1Click(Sender: TObject);
     procedure MultiButton2Click(Sender: TObject);
@@ -51,6 +52,7 @@ end;
 procedure TForm1.MultiButton2Click(Sender: TObject);
 begin
  //MultiSeperator1.BorderSpacing.Around:=10;
+ MultiSeperator1.SeparatorSettings.EndCap:=cepENDCAP_ROUND;
 end;
 
 end.

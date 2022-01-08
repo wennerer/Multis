@@ -5,8 +5,8 @@ unit MultiSeperator;
 interface
 
 uses
-  Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs,InfMultis,
-  LCLProc;
+  Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs,InfMultis, CustomPen,
+  LCLType, LCLIntf, LCLProc;
 
 type
   TGradientCourse = (gcHorizontal,gcVertical,gcSpread,gcRadiant,gcAlternate); //for background color
@@ -15,15 +15,29 @@ type
   TOrientation = (mspHorizontal,mspVertical);
 
 type
+  TMSCustomPen           = class (TCustomPen)
+
+  published
+   property Style ;
+   property PenWidth;
+   property Color ;
+   property LinesLength;
+   property LinesSpace;
+   property EndCap;
+  end;
+
+
+type
 
   { TMultiSeperator }
 
-  TMultiSeperator = class(TGraphicControl)
+  TMultiSeperator = class (TGraphicControl)
   private
 
     FColor              : TColor;
     FColorEnd           : TColor;
     FColorStart         : TColor;
+    FCustomPen          : TMSCustomPen;
     FGradient           : TGradientCourse;
     FBackgrdVisible     : boolean;
     FLineWidth          : integer;
@@ -31,17 +45,18 @@ type
     FSeperatorBounds    : TRect;
     FLoaded             : boolean;  //skips turning when csloading
 
+
     procedure CalculateSeperator;
     procedure DrawSeperator;
     procedure DrawSingleLine;
     procedure DrawTheBackground;
     procedure BorderChangingChange(Sender: TObject);
+    procedure CustomPenCanged;
 
-    procedure SetColor(AValue: TColor); reintroduce;
     procedure SetColorEnd(AValue: TColor);
     procedure SetColorStart(AValue: TColor);
+    procedure SetCustomPen(AValue: TMSCustomPen);
     procedure SetGradient(AValue: TGradientCourse);
-    procedure SetLineWidth(AValue: integer);
     procedure SetOrientation(AValue: TOrientation);
 
   protected
@@ -52,12 +67,6 @@ type
    destructor  Destroy; override;
    procedure   Paint; override;
   published
-   //The color of the seperator
-   //Die Farbe des Seperators
-   property Color :TColor read FColor write SetColor default clMaroon;
-   //The linewidth of the separator
-   //Die Liniendicke des Seperators
-   property LineWidth : integer read FLineWidth write SetLineWidth default 2;
    //The orientation of the seperator
    //Die Orientierung des Seperators
    property Orientation : TOrientation read FOrientation  write SetOrientation default mspVertical;
@@ -71,6 +80,7 @@ type
    //Die Richtung des Farbverlaufs
    property ColorGradient : TGradientCourse read FGradient write SetGradient default gcSpread;
 
+   property SeparatorSettings : TMSCustomPen read FCustomPen write SetCustomPen;
 
    property Align;
    property Anchors;
@@ -110,6 +120,9 @@ begin
  FOrientation    := mspVertical;
  FLoaded         := false;
 
+ FCustomPen           := TMSCustomPen.Create;
+ FCustomPen.OnChange  := @CustomPenCanged;
+
  BorderSpacing.OnChange:= @BorderChangingChange;
  //debugln('Create');
  CalculateSeperator;
@@ -118,7 +131,7 @@ end;
 destructor TMultiSeperator.Destroy;
 begin
  inherited Destroy;
-
+ FCustomPen.Free;
 
 end;
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -128,6 +141,11 @@ begin
  ////debugln('BorderChangingChange');
  CalculateSeperator;
  invalidate;
+end;
+
+procedure TMultiSeperator.CustomPenCanged;
+begin
+ Invalidate;
 end;
 
 procedure TMultiSeperator.BoundsChanged;
@@ -144,14 +162,6 @@ begin
 end;
 
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX---Setter---XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-procedure TMultiSeperator.SetColor(AValue: TColor);
-begin
- if FColor=AValue then Exit;
- FColor:=AValue;
- invalidate;
-end;
-
 
 procedure TMultiSeperator.SetColorEnd(AValue: TColor);
 begin
@@ -175,17 +185,17 @@ begin
   invalidate;
 end;
 
+procedure TMultiSeperator.SetCustomPen(AValue: TMSCustomPen);
+begin  showmessage('');
+  if FCustomPen=AValue then Exit;
+  FCustomPen:=AValue;
+  invalidate;
+end;
+
 procedure TMultiSeperator.SetGradient(AValue: TGradientCourse);
 begin
   if FGradient=AValue then Exit;
   FGradient:=AValue;
-  invalidate;
-end;
-
-procedure TMultiSeperator.SetLineWidth(AValue: integer);
-begin
-  if FLineWidth=AValue then Exit;
-  FLineWidth:=AValue;
   invalidate;
 end;
 
@@ -272,10 +282,13 @@ begin
 end;
 
 procedure TMultiSeperator.DrawSeperator;
+var OldPen : HPEN;
 begin
- canvas.Pen.Width:= FLineWidth;
- canvas.Pen.Color:= FColor;
+ OldPen := SelectObject(canvas.Handle,FCustomPen.CreatePen);
+
  DrawSingleLine;
+
+ DeleteObject(SelectObject(canvas.Handle, OldPen));
 
 end;
 
