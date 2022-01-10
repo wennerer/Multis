@@ -1,78 +1,54 @@
 object Form1: TForm1
-  Left = 200
-  Height = 516
-  Top = 100
-  Width = 1126
+  Left = 457
+  Height = 240
+  Top = 250
+  Width = 668
   Caption = 'Form1'
-  ClientHeight = 516
-  ClientWidth = 1126
-  object MultiButton1: TMultiButton
-    AnchorSideLeft.Control = Owner
-    AnchorSideTop.Control = Owner
-    Left = 0
-    Height = 250
-    Top = 0
-    Width = 110
-    MessageButton.ImageLeft = 0
-    MessageButton.ImageTop = 0
-    Caption = 'MultiButton1'
-    MultiButton_StyleManager = MultiButtonStyleManager1
-    OnClick = MultiButton1Click
-    TabOrder = 0
-  end
-  object MultiButton2: TMultiButton
-    AnchorSideLeft.Side = asrBottom
-    AnchorSideTop.Control = Owner
-    Left = 115
-    Height = 250
-    Top = 0
-    Width = 110
-    MessageButton.ImageLeft = 0
-    MessageButton.ImageTop = 0
-    Caption = 'MultiButton2'
-    MultiButton_StyleManager = MultiButtonStyleManager1
-    OnClick = MultiButton2Click
-    TabOrder = 1
-  end
-  object Button1: TButton
-    Left = 185
-    Height = 25
-    Top = 419
-    Width = 75
-    BorderSpacing.OnChange = Button1ControlBorderSpacingChange
-    Caption = 'Button1'
-    TabOrder = 2
-  end
+  ClientHeight = 240
+  ClientWidth = 668
   object Panel1: TPanel
-    Left = 416
-    Height = 326
-    Top = 16
-    Width = 598
+    Left = 0
+    Height = 200
+    Top = 0
+    Width = 668
+    Align = alTop
     Caption = 'Panel1'
-    Color = clSkyBlue
-    ParentBackground = False
+    ClientHeight = 200
+    ClientWidth = 668
+    Color = clMedGray
     ParentColor = False
-    TabOrder = 3
-  end
-  object MultiSeperator1: TMultiSeperator
-    Left = 80
-    Height = 34
-    Top = 366
-    Width = 968
-    Orientation = mspHorizontal
-    SeparatorSettings.Style = cpsDash
-    SeparatorSettings.PenWidth = 12
-    SeparatorSettings.Color = clFuchsia
-    SeparatorSettings.LinesLength = 3
-    SeparatorSettings.LinesSpace = 3
-    SeparatorSettings.EndCap = cepENDCAP_FLAT
-  end
-  object MultiButtonStyleManager1: TMultiButtonStyleManager
-    Width = 110
-    Height = 250
-    OffSetWidth = True
-    OffSetHeight = True
-    Left = 1063
-    Top = 473
+    TabOrder = 0
+    object MultiButton1: TMultiButton
+      AnchorSideLeft.Control = Panel1
+      AnchorSideTop.Control = Panel1
+      Left = 1
+      Height = 200
+      Top = 1
+      Width = 110
+      MessageButton.ImageLeft = 0
+      MessageButton.ImageTop = 0
+      Caption = 'MultiButton1'
+      TabOrder = 0
+    end
+    object MultiSeperator1: TMultiSeperator
+      Left = 144
+      Height = 26
+      Top = 128
+      Width = 456
+      Style = mspRoundRect
+      RndRctRadius = 26
+      Orientation = mspHorizontal
+      ColorStart = clMaroon
+      ColorEnd = 2895018
+      BorderColor = clWhite
+      BorderWidth = 3
+      LineSettings.Style = cpsDashDot
+      LineSettings.PenWidth = 3
+      LineSettings.Color = clWhite
+      LineSettings.LinesLength = 5
+      LineSettings.LinesSpace = 5
+      LineSettings.EndCap = cepENDCAP_FLAT
+      LineSettings.Margin = 20
+    end
   end
 end

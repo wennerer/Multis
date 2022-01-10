@@ -156,10 +156,8 @@ msgid "Load"
 msgstr "Laden"
 
 #: rs_mbstylemanager.rs_loadbutton
-#, fuzzy
-#| msgid "Loads saved properties from a file"
 msgid "Loads saved properties from a file and closes the editor"
-msgstr "Läd gespeicherte Eigenschaften aus einer Datei und schließt den Editor"
+msgstr "Lädt gespeicherte Eigenschaften aus einer Datei und schließt den Editor"
 
 #: rs_mbstylemanager.rs_look
 msgid "Look"

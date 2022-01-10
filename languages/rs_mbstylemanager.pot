@@ -201,6 +201,10 @@ msgstr ""
 msgid "Accepts the current properties and closes the editor"
 msgstr ""
 
+#: rs_mbstylemanager.rs_penerror
+msgid "Error creating the pen"
+msgstr ""
+
 #: rs_mbstylemanager.rs_popupcopy
 msgid "Copy the color"
 msgstr ""

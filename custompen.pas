@@ -61,11 +61,13 @@ type
  { TCustomPen }
  TCustomPen = class (TPersistent)
   private
+    FMargin: integer;
    FOnChange : TChangeEvent;
    FEndCap   : TCustomEndCap;
    procedure SetColor(AValue: TColor);
    procedure SetEndCap(AValue: TCustomEndCap);
    procedure SetLength(AValue: integer);
+   procedure SetMargin(AValue: integer);
    procedure SetPenStyle(AValue: TCustomPenStyle);
    procedure SetPenWidth(AValue: integer);
    procedure SetSpace(AValue: integer);
@@ -80,6 +82,8 @@ type
    property LinesLength  : integer         read PenValues.LL        write SetLength;
    property LinesSpace   : integer         read PenValues.LS        write SetSpace;
    property EndCap       : TCustomEndCap   read FEndCap             write SetEndCap;
+   //The edge distance in the target component
+   property Margin       : integer         read FMargin             write SetMargin;
 
    property OnChange : TChangeEvent read FOnChange write FOnChange;
 
@@ -206,6 +210,12 @@ begin
   if PenValues.LL=AValue then Exit;
   PenValues.LL:=AValue;
   if Assigned(OnChange) then OnChange;
+end;
+
+procedure TCustomPen.SetMargin(AValue: integer); //The edge distance in the target component
+begin
+  if FMargin=AValue then Exit;
+  FMargin:=AValue;
 end;
 
 procedure TCustomPen.SetSpace(AValue: integer);
