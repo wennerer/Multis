@@ -6,13 +6,13 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs,InfMultis, CustomPen,
-  LCLType, LCLIntf, LCLProc;
+  LCLType, LCLIntf, ExtCtrls, rs_mbstylemanager, LCLProc;
 
 type
   TMSeperatorStyle = (mspRect,mspRoundRect);
 
 type
-  TGradientCourse = (gcHorizontal,gcVertical,gcSpread,gcRadiant,gcAlternate); //for background color
+  TGradientCourse = (gcHorizontal,gcVertical,gcSpread,gcRadiant,gcAlternate, gcBitmap); //for background color
 
 type
   TOrientation = (mspHorizontal,mspVertical);
@@ -23,25 +23,25 @@ type
   published
    //The style of the line, cpsNull makes unvisible
    //Der Stil der Linie, cpsNull macht unsichtbar
-   property Style ;
+   property Style default cpsNull;
    //The width of the line
    //Die Dicke der Linie
-   property PenWidth;
+   property PenWidth default 1;
    //The color of the line
    //Die Farbe der Linie
-   property Color ;
+   property Color default clWhite;
    //The lenght of the lines at dash,dashdot ...
    //Die Länge der Linien bei Strich-, Strichpunkt ...
-   property LinesLength;
+   property LinesLength default 5;
    //The lenght of the space at dash,dashdot ...
    //Die Länge der Zwischenräume bei Strich-, Strichpunkt ...
-   property LinesSpace;
+   property LinesSpace default 5;
    //The shape of the line ends
    //Die Form der Linienenden
-   property EndCap;
+   property EndCap default cepEndCap_Flat;
    //The distance from the line to the border
    //Der Abstand der Linie zur Border
-   property Margin;
+   property Margin default 4;
   end;
 
 
@@ -58,11 +58,12 @@ type
     FCustomPen          : TMSCustomPen;
     FGradient           : TGradientCourse;
     FBackgrdVisible     : boolean;   //this is not a published property clNone
+    FImage: TPicture;
     FOrientation        : TOrientation;
-    FRRRadius: integer;
+    FRRRadius           : integer;
     FSeperatorBounds    : TRect;
     FLoaded             : boolean;  //skips turning when csloading
-    FStyle: TMSeperatorStyle;
+    FStyle              : TMSeperatorStyle;
 
 
     procedure CalculateSeperator;
@@ -79,6 +80,7 @@ type
     procedure SetColorStart(AValue: TColor);
     procedure SetCustomPen(AValue: TMSCustomPen);
     procedure SetGradient(AValue: TGradientCourse);
+    procedure SetPicture(AValue: TPicture);
     procedure SetOrientation(AValue: TOrientation);
     procedure SetRRRadius(AValue: integer);
     procedure SetStyle(AValue: TMSeperatorStyle);
@@ -102,10 +104,10 @@ type
    property Orientation : TOrientation read FOrientation  write SetOrientation default mspVertical;
    //The start color of the background ( for color gradient),clNone makes unvisibel
    //Die Startfarbe des Hintergrundes (für Farbverlauf),clNone macht unsichtbar
-   property ColorStart : TColor  read FColorStart      write SetColorStart default clGray;
+   property ColorStart : TColor  read FColorStart      write SetColorStart default clMaroon;
    //The end color of the background ( for color gradient),clNone makes unvisibel
    //Die Endfarbe des Hintergrundes (für Farbverlauf),clNone macht unsichtbar
-   property ColorEnd   : TColor  read FColorEnd   write SetColorEnd default clSilver;
+   property ColorEnd   : TColor  read FColorEnd   write SetColorEnd default $002C2CAA;
    //The direction of the gradient
    //Die Richtung des Farbverlaufs
    property ColorGradient : TGradientCourse read FGradient write SetGradient default gcSpread;
@@ -118,6 +120,9 @@ type
    //The Settings of the line in the seperator
    //Die Einstellungen der Linie im Seperator
    property LineSettings : TMSCustomPen read FCustomPen write SetCustomPen;
+   //Contains the image displayed in the control, only active with gcBitmap
+   //Beeinhaltet das Bild das im Control ausgegeben wird, nur bei gcBitmap
+   property BackgrdImage : TPicture    read FImage write SetPicture;
 
    property Align;
    property Anchors;
@@ -170,6 +175,8 @@ begin
  FCustomPen.Margin       := 4;
  FCustomPen.OnChange     := @CustomPenCanged;
 
+ FImage                  := TPicture.Create;
+
  BorderSpacing.OnChange:= @BorderChangingChange;
  //debugln('Create');
  CalculateSeperator;
@@ -177,9 +184,10 @@ end;
 
 destructor TMultiSeperator.Destroy;
 begin
- inherited Destroy;
- FCustomPen.Free;
 
+ FCustomPen.Free;
+ FImage.Free;
+ inherited Destroy;
 end;
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
@@ -193,20 +201,6 @@ end;
 procedure TMultiSeperator.CustomPenCanged;
 begin
  Invalidate;
-end;
-
-procedure TMultiSeperator.SetBorderColor(AValue: TColor);
-begin
-  if FBorderColor=AValue then Exit;
-  FBorderColor:=AValue;
-  invalidate;
-end;
-
-procedure TMultiSeperator.SetBorderWidth(AValue: integer);
-begin
-  if FBorderWidth=AValue then Exit;
-  FBorderWidth:=AValue;
-  invalidate;
 end;
 
 procedure TMultiSeperator.BoundsChanged;
@@ -227,7 +221,7 @@ end;
 procedure TMultiSeperator.SetColorEnd(AValue: TColor);
 begin
   if not (csLoading in ComponentState) then
-  if FColorStart = clNone then showmessage('Notice! BackgrdColorStart owns the value clNone. Background is unvisibel.');
+  if FColorStart = clNone then showmessage(rs_clNoneColorStart);
   if FColorEnd=AValue then Exit;
   FColorEnd:=AValue;
   if aValue = clNone then FBackgrdVisible := false;
@@ -238,7 +232,7 @@ end;
 procedure TMultiSeperator.SetColorStart(AValue: TColor);
 begin
   if not (csLoading in ComponentState) then
-  if FColorEnd = clNone then showmessage('Notice! BackgrdColorEnd owns the value clNone. Background is unvisibel.');
+  if FColorEnd = clNone then showmessage(rs_clNoneColorEnd);
   if FColorStart=AValue then Exit;
   FColorStart:=AValue;
   if aValue = clNone then FBackgrdVisible := false;
@@ -247,7 +241,7 @@ begin
 end;
 
 procedure TMultiSeperator.SetCustomPen(AValue: TMSCustomPen);
-begin  showmessage('');
+begin
   if FCustomPen=AValue then Exit;
   FCustomPen:=AValue;
   invalidate;
@@ -257,6 +251,13 @@ procedure TMultiSeperator.SetGradient(AValue: TGradientCourse);
 begin
   if FGradient=AValue then Exit;
   FGradient:=AValue;
+  invalidate;
+end;
+
+procedure TMultiSeperator.SetPicture(AValue: TPicture);
+begin
+  if FImage=AValue then Exit;
+  FImage:=AValue;
   invalidate;
 end;
 
@@ -274,7 +275,20 @@ begin
   w  := w xor h;
 
   setBounds(left,top,w,h);
+end;
 
+procedure TMultiSeperator.SetBorderColor(AValue: TColor);
+begin
+  if FBorderColor=AValue then Exit;
+  FBorderColor:=AValue;
+  invalidate;
+end;
+
+procedure TMultiSeperator.SetBorderWidth(AValue: integer);
+begin
+  if FBorderWidth=AValue then Exit;
+  FBorderWidth:=AValue;
+  invalidate;
 end;
 
 procedure TMultiSeperator.SetRRRadius(AValue: integer);
@@ -317,7 +331,13 @@ begin
  bkBmp := TBitmap.Create;
  bkBmp.SetSize(Width,Height);
 
- Gradient_Bmp(bkBmp,FColorStart,FColorEnd,ord(FGradient));
+ if (FGradient <> gcBitmap) then
+  Gradient_Bmp(bkBmp,FColorStart,FColorEnd,ord(FGradient))
+ else
+  begin
+   bkBmp.Assign(FImage.Bitmap);
+   Gradient_Bmp(bkBmp,width,height);
+  end;
 
  trBmp := TBitmap.Create;
  trBmp.SetSize(Width,Height);

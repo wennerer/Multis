@@ -40,7 +40,8 @@ uses
 
 
 procedure BmpToAlphaBmp(var AlphaBmp :TBitmap;BlendValue : byte);
-procedure Gradient_Bmp(var aBmp: TBitmap; aStart, AStop: TColor;aCourse: integer);
+procedure Gradient_Bmp(var aBmp: TBitmap; aStart, aStop: TColor;aCourse: integer);
+procedure Gradient_Bmp(var aBmp: TBitmap; aWidth, aHeight: integer);
 
 implementation
 
@@ -131,6 +132,7 @@ const gbHorizontal     = 0;
       gbRadiant        = 3;
       gbAlternate      = 4;
 
+
  function System_ToRGB(clSys:TColor):TColor;
   var FPCol :  TFPColor;
   begin
@@ -184,7 +186,7 @@ begin
     aBmp.Canvas.Ellipse((aBmp.width div 2) -lv,(aBmp.height div 2)-lv,
                        (aBmp.width div 2)+lv,(aBmp.height div 2)+lv);
   end;
- end; //gcSpread
+ end; //gbSpread
 
 
  if aCourse = gbRadiant then
@@ -212,7 +214,7 @@ begin
    aBmp.Canvas.FillRect((aBmp.width div 2) -lv,(aBmp.height div 2)-lv,
                        (aBmp.width div 2)+lv,(aBmp.height div 2)+lv);
   end;
- end; //gcRadiant
+ end; //gbRadiant
 
 
  if aCourse = gbVertical then
@@ -235,7 +237,7 @@ begin
    aBmp.Canvas.Brush.Color:=rgb(valR,valG,valB);
    aBmp.Canvas.FillRect(0,lv,aBmp.Width,lv+1);
   end;
- end;//gcVertical
+ end;//gbVertical
 
  if aCourse = gbHorizontal then
  begin
@@ -257,7 +259,8 @@ begin
    aBmp.Canvas.Brush.Color:=rgb(valR,valG,valB);
    aBmp.Canvas.FillRect(lv,0,lv+1,aBmp.Height);
   end;
- end;//gcHorizontal
+ end;//gbHorizontal
+
  if aCourse = gbAlternate  then
  begin
   try
@@ -275,8 +278,25 @@ begin
   finally
    tmpBmp.Free;
   end;
- end;//gcAlternate
+ end;//gbAlternate
 
+end;
+
+procedure Gradient_Bmp(var aBmp: TBitmap; aWidth, aHeight: integer);
+var tmpBmp               : TBitmap;
+begin
+ try
+   tmpBmp     := TBitmap.Create;
+   tmpBmp.Assign(aBmp);
+
+   aBmp.Canvas.Brush.Bitmap := nil;
+   aBmp.SetSize(aWidth,aHeight);
+   aBmp.Canvas.Brush.Bitmap := tmpBmp ;
+   aBmp.Canvas.FillRect(0, 0,aBmp.Width,aBmp.Height) ;
+
+  finally
+   tmpBmp.Free;
+  end;
 end;
 
 end.

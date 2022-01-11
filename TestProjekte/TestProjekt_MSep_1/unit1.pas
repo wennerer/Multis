@@ -5,8 +5,8 @@ unit Unit1;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, MultiButton,
-  MultiSeperator;
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, Buttons,
+  Menus, MultiButton, MultiSeperator;
 
 type
 
@@ -16,6 +16,7 @@ type
     MultiButton1: TMultiButton;
     MultiSeperator1: TMultiSeperator;
     Panel1: TPanel;
+    procedure Image1Click(Sender: TObject);
   private
 
   public
@@ -28,6 +29,13 @@ var
 implementation
 
 {$R *.lfm}
+
+{ TForm1 }
+
+procedure TForm1.Image1Click(Sender: TObject);
+begin
+
+end;
 
 end.
 

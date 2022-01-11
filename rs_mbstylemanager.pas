@@ -89,6 +89,9 @@ resourcestring
 
     //for unit CustomPen
      rs_penerror            = 'Error creating the pen';
+     rs_clNoneColorStart    = 'Notice! BackgrdColorStart owns the value clNone. Background is unvisibel.';
+     rs_clNoneColorEnd      = 'Notice! BackgrdColorEnd owns the value clNone. Background is unvisibel.';
+
 
 implementation
 

@@ -65,6 +65,14 @@ msgstr "Bestimmt ob die Höhe übernommen wird"
 msgid "Determines whether the width is adopted"
 msgstr "Bestimmt ob die Breite übernommen wird"
 
+#: rs_mbstylemanager.rs_clnonecolorend
+msgid "Notice! BackgrdColorEnd owns the value clNone. Background is unvisibel."
+msgstr "Hinweis! BackgrdColorEnd besitzt den Wert clNone. Hintergrund ist unsichtbar."
+
+#: rs_mbstylemanager.rs_clnonecolorstart
+msgid "Notice! BackgrdColorStart owns the value clNone. Background is unvisibel."
+msgstr "Hinweis! BackgrdColorstart besitzt den Wert clNone. Hintergrund ist unsichtbar."
+
 #: rs_mbstylemanager.rs_colorend
 msgid "The end color of the button (for color gradient)"
 msgstr "Die Endfarbe des Buttons (für Farbverlauf)"
