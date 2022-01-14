@@ -1,49 +1,317 @@
 object Form1: TForm1
   Left = 457
-  Height = 240
+  Height = 300
   Top = 250
-  Width = 668
-  Caption = 'Form1'
-  ClientHeight = 240
-  ClientWidth = 668
+  Width = 526
+  AutoSize = True
+  Caption = 'Test the MultiSeperator'
+  ClientHeight = 300
+  ClientWidth = 526
+  Color = clWhite
+  Constraints.MinHeight = 300
   object Panel1: TPanel
     Left = 0
-    Height = 224
+    Height = 216
     Top = 0
-    Width = 668
+    Width = 526
     Align = alTop
     Caption = 'Panel1'
-    ClientHeight = 224
-    ClientWidth = 668
-    Color = clMedGray
+    ClientHeight = 216
+    ClientWidth = 526
+    Color = clGreen
     ParentColor = False
     TabOrder = 0
     object MultiButton1: TMultiButton
       AnchorSideLeft.Control = Panel1
       AnchorSideTop.Control = Panel1
       Left = 1
-      Height = 200
+      Height = 150
       Top = 1
-      Width = 110
+      Width = 100
+      ColorStart = clGreen
+      ColorEnd = clLime
+      RndRctRadius = 15
       MessageButton.ImageLeft = 0
       MessageButton.ImageTop = 0
       Caption = 'MultiButton1'
+      HoverStartColor = clLime
+      HoverEndColor = clGreen
+      HoverFontColor = clWhite
+      FocusFrameWidth = 0
+      FocusFrameOn = False
+      ForegroundFocusOn = True
+      MultiButton_StyleManager = MultiButtonStyleManager1
       TabOrder = 0
     end
     object MultiSeperator1: TMultiSeperator
-      Left = 184
-      Height = 200
+      AnchorSideLeft.Control = MultiButton1
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = Panel1
+      Left = 101
+      Height = 120
       Top = 16
-      Width = 10
-      ColorStart = clMaroon
-      ColorEnd = 2895018
-      LineSettings.Style = cpsNull
-      LineSettings.PenWidth = 1
-      LineSettings.Color = clWhite
-      LineSettings.LinesLength = 5
-      LineSettings.LinesSpace = 5
-      LineSettings.EndCap = cepENDCAP_FLAT
-      LineSettings.Margin = 4
+      Width = 3
+      ColorStart = clWhite
+      ColorEnd = clSilver
+      LineSettings.Style = cpsDot
+      LineSettings.PenWidth = 3
+      LineSettings.Color = clMaroon
+      BorderSpacing.Top = 15
     end
+    object MultiButton2: TMultiButton
+      AnchorSideLeft.Control = MultiSeperator1
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = Panel1
+      Left = 104
+      Height = 150
+      Top = 1
+      Width = 100
+      ColorStart = clGreen
+      ColorEnd = clLime
+      RndRctRadius = 15
+      MessageButton.ImageLeft = 0
+      MessageButton.ImageTop = 0
+      Caption = 'MultiButton2'
+      HoverStartColor = clLime
+      HoverEndColor = clGreen
+      HoverFontColor = clWhite
+      FocusFrameWidth = 0
+      FocusFrameOn = False
+      ForegroundFocusOn = True
+      MultiButton_StyleManager = MultiButtonStyleManager1
+      TabOrder = 1
+    end
+    object MultiSeperator2: TMultiSeperator
+      AnchorSideLeft.Control = MultiButton2
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = Panel1
+      Left = 204
+      Height = 120
+      Top = 16
+      Width = 1
+      BorderSpacing.Top = 15
+    end
+    object MultiButton3: TMultiButton
+      AnchorSideLeft.Control = MultiSeperator2
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = Panel1
+      Left = 205
+      Height = 150
+      Top = 1
+      Width = 100
+      ColorStart = clGreen
+      ColorEnd = clLime
+      RndRctRadius = 15
+      MessageButton.ImageLeft = 0
+      MessageButton.ImageTop = 0
+      Caption = 'MultiButton3'
+      HoverStartColor = clLime
+      HoverEndColor = clGreen
+      HoverFontColor = clWhite
+      FocusFrameWidth = 0
+      FocusFrameOn = False
+      ForegroundFocusOn = True
+      MultiButton_StyleManager = MultiButtonStyleManager1
+      TabOrder = 2
+    end
+    object MultiSeperator3: TMultiSeperator
+      AnchorSideLeft.Control = MultiButton3
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = Panel1
+      Left = 305
+      Height = 120
+      Top = 16
+      Width = 12
+      LineSettings.Design = ldDouble
+      LineSettings.Style = cpsDash
+      LineSettings.PenWidth = 2
+      BorderSpacing.Top = 15
+    end
+    object MultiButton4: TMultiButton
+      AnchorSideLeft.Control = MultiSeperator3
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = Panel1
+      Left = 317
+      Height = 150
+      Top = 1
+      Width = 100
+      ColorStart = clGreen
+      ColorEnd = clLime
+      RndRctRadius = 15
+      MessageButton.ImageLeft = 0
+      MessageButton.ImageTop = 0
+      Caption = 'MultiButton4'
+      HoverStartColor = clLime
+      HoverEndColor = clGreen
+      HoverFontColor = clWhite
+      FocusFrameWidth = 0
+      FocusFrameOn = False
+      ForegroundFocusOn = True
+      MultiButton_StyleManager = MultiButtonStyleManager1
+      TabOrder = 3
+    end
+    object MultiSeperator4: TMultiSeperator
+      AnchorSideLeft.Control = MultiButton4
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = Panel1
+      Left = 417
+      Height = 120
+      Top = 16
+      Width = 8
+      ColorStart = clLime
+      ColorEnd = clGreen
+      ColorGradient = gcAlternate
+      BorderSpacing.Top = 15
+    end
+    object MultiButton5: TMultiButton
+      AnchorSideLeft.Control = MultiSeperator4
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = Panel1
+      Left = 425
+      Height = 150
+      Top = 1
+      Width = 100
+      ColorStart = clGreen
+      ColorEnd = clLime
+      RndRctRadius = 15
+      MessageButton.ImageLeft = 0
+      MessageButton.ImageTop = 0
+      Caption = 'MultiButton5'
+      HoverStartColor = clLime
+      HoverEndColor = clGreen
+      HoverFontColor = clWhite
+      FocusFrameWidth = 0
+      FocusFrameOn = False
+      ForegroundFocusOn = True
+      MultiButton_StyleManager = MultiButtonStyleManager1
+      TabOrder = 4
+    end
+    object MultiSeperator5: TMultiSeperator
+      AnchorSideLeft.Control = Panel1
+      AnchorSideTop.Control = MultiButton1
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = Panel1
+      AnchorSideRight.Side = asrBottom
+      Left = 1
+      Height = 17
+      Top = 151
+      Width = 524
+      Orientation = mspHorizontal
+      ColorGradient = gcHorizontal
+      LineSettings.Style = cpsDashDotDot
+      LineSettings.PenWidth = 2
+      Anchors = [akTop, akLeft, akRight]
+    end
+    object MultiSeperator6: TMultiSeperator
+      AnchorSideLeft.Control = Panel1
+      AnchorSideTop.Control = MultiSeperator5
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = Panel1
+      AnchorSideRight.Side = asrBottom
+      Left = 1
+      Height = 30
+      Top = 173
+      Width = 524
+      Orientation = mspHorizontal
+      ColorGradient = gcBitmap
+      BorderColor = clYellow
+      BackgrdImage.Data = {
+        07544269746D617066090000424D660900000000000036000000280000001C00
+        00001C0000000100180000000000300900006400000064000000000000000000
+        00006D4B2E68523563593D63593D5F60445F60445A674C5A674C556D53556D53
+        50745B50745B50745B50745B50745B50745B50745B50745B556D53556D535A67
+        4C5A674C5F60445F604463593D63593D6852356D4B2E68523563593D63593D5F
+        60445A674C5A674C556D53556D5350745B50745B50745B4B7B624B7B624B7B62
+        4B7B624B7B624B7B6250745B50745B50745B556D53556D535A674C5A674C5F60
+        4463593D63593D68523563593D63593D5F60445A674C5A674C556D5350745B50
+        745B4B7B624B7B624B7B6247826A47826A47826A47826A47826A47826A4B7B62
+        4B7B624B7B6250745B50745B556D535A674C5A674C5F604463593D63593D6359
+        3D5F60445A674C5A674C556D5350745B50745B4B7B6247826A47826A47826A42
+        897142897142897142897142897142897147826A47826A47826A4B7B6250745B
+        50745B556D535A674C5A674C5F604463593D5F60445A674C5A674C556D535074
+        5B4B7B624B7B6247826A47826A4289714289713D90793D90793D90793D90793D
+        90793D907942897142897147826A47826A4B7B624B7B6250745B556D535A674C
+        5A674C5F60445F60445A674C556D5350745B4B7B624B7B6247826A4289714289
+        713D90793D90793897803897803897803897803897803897803D90793D907942
+        897142897147826A4B7B624B7B6250745B556D535A674C5F60445A674C556D53
+        50745B4B7B624B7B6247826A4289714289713D9079389780389780339E87339E
+        87339E87339E87339E87339E873897803897803D907942897142897147826A4B
+        7B624B7B6250745B556D535A674C5A674C556D5350745B4B7B6247826A428971
+        4289713D9079389780389780339E87339E872FA58F2FA58F2FA58F2FA58F339E
+        87339E873897803897803D907942897142897147826A4B7B6250745B556D535A
+        674C556D5350745B4B7B6247826A47826A4289713D9079389780339E87339E87
+        2FA58F2FA58F2AAC962AAC962AAC962AAC962FA58F2FA58F339E87339E873897
+        803D907942897147826A47826A4B7B6250745B556D53556D5350745B4B7B6247
+        826A4289713D9079389780339E87339E872FA58F2AAC962AAC9625B39E25B39E
+        25B39E25B39E2AAC962AAC962FA58F339E87339E873897803D90794289714782
+        6A4B7B6250745B556D5350745B4B7B624B7B6247826A4289713D907938978033
+        9E872FA58F2AAC962AAC9625B39E20B9A520B9A520B9A520B9A525B39E2AAC96
+        2AAC962FA58F339E873897803D907942897147826A4B7B624B7B6250745B5074
+        5B4B7B6247826A4289713D9079389780339E872FA58F2FA58F2AAC9625B39E20
+        B9A520B9A51BC0AD1BC0AD20B9A520B9A525B39E2AAC962FA58F2FA58F339E87
+        3897803D907942897147826A4B7B6250745B50745B4B7B6247826A4289713D90
+        79389780339E872FA58F2AAC9625B39E20B9A520B9A51BC0AD17C7B417C7B41B
+        C0AD20B9A520B9A525B39E2AAC962FA58F339E873897803D907942897147826A
+        4B7B6250745B50745B4B7B6247826A4289713D9079389780339E872FA58F2AAC
+        9625B39E20B9A51BC0AD17C7B412CEBC12CEBC17C7B41BC0AD20B9A525B39E2A
+        AC962FA58F339E873897803D907942897147826A4B7B6250745B50745B4B7B62
+        47826A4289713D9079389780339E872FA58F2AAC9625B39E20B9A51BC0AD17C7
+        B412CEBC12CEBC17C7B41BC0AD20B9A525B39E2AAC962FA58F339E873897803D
+        907942897147826A4B7B6250745B50745B4B7B6247826A4289713D9079389780
+        339E872FA58F2AAC9625B39E20B9A520B9A51BC0AD17C7B417C7B41BC0AD20B9
+        A520B9A525B39E2AAC962FA58F339E873897803D907942897147826A4B7B6250
+        745B50745B4B7B6247826A4289713D9079389780339E872FA58F2FA58F2AAC96
+        25B39E20B9A520B9A51BC0AD1BC0AD20B9A520B9A525B39E2AAC962FA58F2FA5
+        8F339E873897803D907942897147826A4B7B6250745B50745B4B7B624B7B6247
+        826A4289713D9079389780339E872FA58F2AAC962AAC9625B39E20B9A520B9A5
+        20B9A520B9A525B39E2AAC962AAC962FA58F339E873897803D90794289714782
+        6A4B7B624B7B6250745B556D5350745B4B7B6247826A4289713D907938978033
+        9E87339E872FA58F2AAC962AAC9625B39E25B39E25B39E25B39E2AAC962AAC96
+        2FA58F339E87339E873897803D907942897147826A4B7B6250745B556D53556D
+        5350745B4B7B6247826A47826A4289713D9079389780339E87339E872FA58F2F
+        A58F2AAC962AAC962AAC962AAC962FA58F2FA58F339E87339E873897803D9079
+        42897147826A47826A4B7B6250745B556D535A674C556D5350745B4B7B624782
+        6A4289714289713D9079389780389780339E87339E872FA58F2FA58F2FA58F2F
+        A58F339E87339E873897803897803D907942897142897147826A4B7B6250745B
+        556D535A674C5A674C556D5350745B4B7B624B7B6247826A4289714289713D90
+        79389780389780339E87339E87339E87339E87339E87339E873897803897803D
+        907942897142897147826A4B7B624B7B6250745B556D535A674C5F60445A674C
+        556D5350745B4B7B624B7B6247826A4289714289713D90793D90793897803897
+        803897803897803897803897803D90793D907942897142897147826A4B7B624B
+        7B6250745B556D535A674C5F60445F60445A674C5A674C556D5350745B4B7B62
+        4B7B6247826A47826A4289714289713D90793D90793D90793D90793D90793D90
+        7942897142897147826A47826A4B7B624B7B6250745B556D535A674C5A674C5F
+        604463593D5F60445A674C5A674C556D5350745B50745B4B7B6247826A47826A
+        47826A42897142897142897142897142897142897147826A47826A47826A4B7B
+        6250745B50745B556D535A674C5A674C5F604463593D63593D63593D5F60445A
+        674C5A674C556D5350745B50745B4B7B624B7B624B7B6247826A47826A47826A
+        47826A47826A47826A4B7B624B7B624B7B6250745B50745B556D535A674C5A67
+        4C5F604463593D63593D68523563593D63593D5F60445A674C5A674C556D5355
+        6D5350745B50745B50745B4B7B624B7B624B7B624B7B624B7B624B7B6250745B
+        50745B50745B556D53556D535A674C5A674C5F604463593D63593D6852356D4B
+        2E68523563593D63593D5F60445F60445A674C5A674C556D53556D5350745B50
+        745B50745B50745B50745B50745B50745B50745B556D53556D535A674C5A674C
+        5F60445F604463593D63593D6852356D4B2E
+      }
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Top = 5
+    end
+  end
+  object MultiButtonStyleManager1: TMultiButtonStyleManager
+    Width = 100
+    Height = 150
+    RndRctRadius = 15
+    FocusFrameON = False
+    ForegroundFocusOn = True
+    FocusFrameWidth = 0
+    ColorStart = clGreen
+    ColorEnd = clLime
+    HoverStartColor = clLime
+    HoverEndColor = clGreen
+    HoverFontColor = clWhite
+    OffSetWidth = True
+    OffSetHeight = True
+    Left = 424
+    Top = 232
   end
 end

@@ -1,4 +1,4 @@
-(*This is a part of the multis package, last change 08.08.2021*)
+(*This is a part of the multis package, last change 11.01.2022*)
 
 unit rs_mbstylemanager;
 

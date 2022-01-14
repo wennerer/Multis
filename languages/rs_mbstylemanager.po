@@ -54,6 +54,14 @@ msgstr ""
 msgid "Determines whether the width is adopted"
 msgstr ""
 
+#: rs_mbstylemanager.rs_clnonecolorend
+msgid "Notice! BackgrdColorEnd owns the value clNone. Background is unvisibel."
+msgstr ""
+
+#: rs_mbstylemanager.rs_clnonecolorstart
+msgid "Notice! BackgrdColorStart owns the value clNone. Background is unvisibel."
+msgstr ""
+
 #: rs_mbstylemanager.rs_colorend
 msgid "The end color of the button (for color gradient)"
 msgstr ""

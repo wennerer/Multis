@@ -307,3 +307,4 @@ msgstr "Die Breite des Controls. Die Breite des MultiButtons ist minus HoverFram
 #: rs_mbstylemanager.rs_wordbreak
 msgid "Allows a line break in the caption"
 msgstr "Ermöglicht einen Zeilenumbruch in der Caption"
+

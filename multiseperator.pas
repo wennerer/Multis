@@ -1,3 +1,33 @@
+{ <A seperator between Controls>
+  <Version 1.0.1.0>
+  Copyright (C) <11.01.2022> <Bernd Hübner>
+  Many thanks to the members of the German Lazarus Forum!
+  for more information see https://www.lazarusforum.de/viewtopic.php?p=125633#p125633
+
+  This library is free software; you can redistribute it and/or modify it under the
+  terms of the GNU Library General Public License as published by the Free Software
+  Foundation; either version 2 of the License, or (at your option) any later
+  version with the following modification:
+
+  As a special exception, the copyright holders of this library give you permission
+  to link this library with independent modules to produce an executable,
+  regardless of the license terms of these independent modules,and to copy and
+  distribute the resulting executable under terms of your choice, provided that you
+  also meet, for each linked independent module, the terms and conditions of the
+  license of that module. An independent module is a module which is not derived
+  from or based on this library. If you modify this library, you may extend this
+  exception to your version of the library, but you are not obligated to do so. If
+  you do not wish to do so, delete this exception statement from your version.
+
+  This program is distributed in the hope that it will be useful, but WITHOUT ANY
+  WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+  PARTICULAR PURPOSE. See the GNU Library General Public License for more details.
+
+  You should have received a copy of the GNU Library General Public License along
+  with this library; if not, write to the Free Software Foundation, Inc., 51
+  Franklin Street - Fifth Floor, Boston, MA 02110-1335, USA.
+}
+
 unit MultiSeperator;
 
 {$mode objfpc}{$H+}
@@ -18,9 +48,22 @@ type
   TOrientation = (mspHorizontal,mspVertical);
 
 type
+  TLineDesign = (ldSingle,ldDouble);
+
+type
+
+  { TMSCustomPen }
+
   TMSCustomPen           = class (TCustomPen)
 
+  private
+    FOwner : TGraphicControl;
+    FDesign: TLineDesign;
+    procedure SetDesign(AValue: TLineDesign);
   published
+   //The number of lines
+   //Die Anzahl der Linien
+   property Design : TLineDesign read FDesign write SetDesign default ldSingle;
    //The style of the line, cpsNull makes unvisible
    //Der Stil der Linie, cpsNull macht unsichtbar
    property Style default cpsNull;
@@ -42,6 +85,7 @@ type
    //The distance from the line to the border
    //Der Abstand der Linie zur Border
    property Margin default 4;
+
   end;
 
 
@@ -67,6 +111,7 @@ type
 
 
     procedure CalculateSeperator;
+    procedure DrawDoubleLine;
     procedure DrawSeperator;
     procedure DrawSingleLine;
     procedure DrawTheBackground;
@@ -146,6 +191,15 @@ begin
   RegisterComponents('Multi',[TMultiSeperator]);
 end;
 
+{ TMSCustomPen }
+
+procedure TMSCustomPen.SetDesign(AValue: TLineDesign);
+begin
+  if FDesign=AValue then Exit;
+  FDesign:=AValue;
+  (FOwner as TMultiSeperator).Invalidate;
+end;
+
 { TSeperator }
 
 constructor TMultiSeperator.Create(AOwner: TComponent);
@@ -173,6 +227,8 @@ begin
  FCustomPen.LinesSpace   := 5;
  FCustomPen.PenWidth     := 1;
  FCustomPen.Margin       := 4;
+ FCustomPen.Design       := ldSingle;
+ FCustomPen.FOwner       := self;
  FCustomPen.OnChange     := @CustomPenCanged;
 
  FImage                  := TPicture.Create;
@@ -387,7 +443,8 @@ var OldPen : HPEN;
 begin
  OldPen := SelectObject(canvas.Handle,FCustomPen.CreatePen);
 
- DrawSingleLine;
+ if FCustomPen.FDesign = ldSingle then DrawSingleLine;
+ if FCustomPen.FDesign = ldDouble then DrawDoubleLine;
 
  DeleteObject(SelectObject(canvas.Handle, OldPen));
 
@@ -403,6 +460,26 @@ begin
               FSeperatorBounds.Right-FCustomPen.Margin,FSeperatorBounds.Top +  FSeperatorBounds.Height div 2);
 end;
 
+procedure TMultiSeperator.DrawDoubleLine;
+var i : integer;
+begin
+if Orientation =mspVertical then
+ begin
+  i := (width - FCustomPen.PenWidth) div 3;
+  canvas.Line(FSeperatorBounds.Left + i,FSeperatorBounds.Top+FCustomPen.Margin,
+              FSeperatorBounds.Left + i,FSeperatorBounds.Bottom-FCustomPen.Margin);
+  canvas.Line(FSeperatorBounds.Right -i ,FSeperatorBounds.Top+FCustomPen.Margin,
+              FSeperatorBounds.Right -i,FSeperatorBounds.Bottom-FCustomPen.Margin);
+ end
+else
+ begin
+  i := (height - FCustomPen.PenWidth) div 3;
+  canvas.Line(FSeperatorBounds.Left+FCustomPen.Margin,FSeperatorBounds.Top + i,
+              FSeperatorBounds.Right-FCustomPen.Margin,FSeperatorBounds.Top + i);
+  canvas.Line(FSeperatorBounds.Left+FCustomPen.Margin,FSeperatorBounds.Bottom-i,
+              FSeperatorBounds.Right-FCustomPen.Margin,FSeperatorBounds.Bottom-i);
+ end;
+end;
 
 procedure TMultiSeperator.DrawABorder;
 begin
