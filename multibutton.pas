@@ -2,6 +2,7 @@
   <Version 1.2.7.1>
   Copyright (C) <07.01.2022> <Bernd Hübner>
   Many thanks to the members of the German Lazarus Forum!
+  wp_xyz helped me jump over many hurdles!
   For some improvements see https://www.lazarusforum.de/viewtopic.php?f=29&t=13252
 
   This library is free software; you can redistribute it and/or modify it under the
