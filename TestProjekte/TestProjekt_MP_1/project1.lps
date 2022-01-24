@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <Version Value="12"/>
+    <BuildModes Active="Linux_64"/>
+    <Units>
+      <Unit>
+        <Filename Value="project1.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
+        <TopLine Value="-1"/>
+        <CursorPos X="-1" Y="-1"/>
+        <UsageCount Value="68"/>
+      </Unit>
+      <Unit>
+        <Filename Value="unit1.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form1"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="Unit1"/>
+        <UsageCount Value="68"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="../../multipanel.pas"/>
+        <UnitName Value="MultiPanel"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="75"/>
+        <CursorPos X="4" Y="94"/>
+        <UsageCount Value="34"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="../../../../../../../../Programme/Stable_01_22/lazarus/lcl/extctrls.pp"/>
+        <UnitName Value="ExtCtrls"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1159"/>
+        <CursorPos X="23" Y="1179"/>
+        <UsageCount Value="32"/>
+      </Unit>
+      <Unit>
+        <Filename Value="../../multibutton.pas"/>
+        <UnitName Value="MultiButton"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="20" Y="30"/>
+        <UsageCount Value="7"/>
+      </Unit>
+      <Unit>
+        <Filename Value="../../multiplexslider.pas"/>
+        <UnitName Value="MultiplexSlider"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="20" Y="3"/>
+        <UsageCount Value="6"/>
+      </Unit>
+    </Units>
+    <JumpHistory HistoryIndex="18">
+      <Position>
+        <Filename Value="../../multipanel.pas"/>
+      </Position>
+      <Position>
+        <Filename Value="../../multipanel.pas"/>
+        <Caret Line="11" Column="24"/>
+      </Position>
+      <Position>
+        <Filename Value="../../multipanel.pas"/>
+        <Caret Line="42" Column="59" TopLine="18"/>
+      </Position>
+      <Position>
+        <Filename Value="../../multipanel.pas"/>
+        <Caret Line="38" Column="20" TopLine="24"/>
+      </Position>
+      <Position>
+        <Filename Value="../../multipanel.pas"/>
+        <Caret Line="36" Column="21" TopLine="28"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+      </Position>
+      <Position>
+        <Filename Value="../../multipanel.pas"/>
+        <Caret Line="78" Column="4" TopLine="64"/>
+      </Position>
+      <Position>
+        <Filename Value="../../multipanel.pas"/>
+        <Caret Line="136" TopLine="117"/>
+      </Position>
+      <Position>
+        <Filename Value="../../multipanel.pas"/>
+        <Caret Line="192" Column="32" TopLine="166"/>
+      </Position>
+      <Position>
+        <Filename Value="../../multipanel.pas"/>
+        <Caret Line="186" Column="19" TopLine="163"/>
+      </Position>
+      <Position>
+        <Filename Value="../../multipanel.pas"/>
+        <Caret Line="141" Column="70" TopLine="126"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+      </Position>
+      <Position>
+        <Filename Value="../../multipanel.pas"/>
+        <Caret Line="74" Column="41" TopLine="7"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+      </Position>
+      <Position>
+        <Filename Value="../../multipanel.pas"/>
+        <Caret Line="189" Column="39"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+      </Position>
+      <Position>
+        <Filename Value="../../multipanel.pas"/>
+        <Caret Line="208" Column="81" TopLine="182"/>
+      </Position>
+      <Position>
+        <Filename Value="../../multipanel.pas"/>
+        <Caret Line="199" Column="18" TopLine="182"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+      </Position>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes ActiveMode=""/>
+    </RunParams>
+  </ProjectSession>
+</CONFIG>
