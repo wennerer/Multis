@@ -1,6 +1,6 @@
 { <A button with an integrated button>
-  <Version 1.2.7.1>
-  Copyright (C) <07.01.2022> <Bernd Hübner>
+  <Version 1.2.7.2>
+  Copyright (C) <23.01.2022> <Bernd Hübner>
   Many thanks to the members of the German Lazarus Forum!
   wp_xyz helped me jump over many hurdles!
   For some improvements see https://www.lazarusforum.de/viewtopic.php?f=29&t=13252
@@ -633,7 +633,7 @@ procedure Register;
 
 
 implementation
-
+uses multipanel;
 
 
 
@@ -2617,6 +2617,12 @@ begin
  canvas.Font.Assign(FFont);
  if canvas.Font <> FFont then
  Canvas.Font.Color:= Font.Color;
+
+ if Parent is TMultiPanel then
+  begin
+   if assigned((parent as TMultiPanel).FMultiBkgrdBmp) then
+   canvas.CopyRect(rect(0,0,width,height),(parent as TMultiPanel).FMultiBkgrdBmp.Canvas,rect(left,top,left+width,top+height));
+  end;
 
 //draw the Focusframe
 if (Focused=true) and (FFocusedOn = true) then

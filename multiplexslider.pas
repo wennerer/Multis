@@ -1,6 +1,6 @@
 { <A slider with an integrated textlabel>
-  <Version 1.0.3.0>
-  Copyright (C) <02.01.2022> <Bernd Hübner>
+  <Version 1.0.4.0>
+  Copyright (C) <23.01.2022> <Bernd Hübner>
   Many thanks to the members of the German Lazarus Forum!
   Special thanks to Siro, he taught me the basics!
   For some improvements see https://www.lazarusforum.de/viewtopic.php?f=29&t=12851
@@ -764,6 +764,7 @@ type
 procedure Register;
 
 implementation
+uses multipanel;
 
 procedure Register;
 begin
@@ -2837,6 +2838,11 @@ var tmpBmp     : TBitmap;
 
 begin
  inherited Paint;
+ if Parent is TMultiPanel then
+  begin
+   if assigned((parent as TMultiPanel).FMultiBkgrdBmp) then
+   canvas.CopyRect(rect(0,0,width,height),(parent as TMultiPanel).FMultiBkgrdBmp.Canvas,rect(left,top,left+width,top+height));
+  end;
 
   //draw the Focusframe
  if (Focused=true) and (FFocusedFrameOn = true) then

@@ -20,7 +20,7 @@
 "/>
     <License Value="modified LGPL-2"/>
     <Version Major="1" Release="3" Build="3"/>
-    <Files Count="15">
+    <Files Count="16">
       <Item1>
         <Filename Value="multibuttonstylemanager.pas"/>
         <HasRegisterProc Value="True"/>
@@ -85,6 +85,11 @@
         <Filename Value="custompen.pas"/>
         <UnitName Value="CustomPen"/>
       </Item15>
+      <Item16>
+        <Filename Value="multipanel.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="MultiPanel"/>
+      </Item16>
     </Files>
     <CompatibilityMode Value="True"/>
     <i18n>
