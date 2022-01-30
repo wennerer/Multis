@@ -13,6 +13,7 @@ type
   { TForm1 }
 
   TForm1 = class(TForm)
+    MultiButton1: TMultiButton;
     MultiPanel1: TMultiPanel;
     procedure FormCreate(Sender: TObject);
     procedure MultiButton1Click(Sender: TObject);

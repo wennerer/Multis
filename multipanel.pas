@@ -178,12 +178,13 @@ type
     FBorder: TBorder;
     FColorEnd      : TColor;
     FColorStart    : TColor;
-    FDDMenu: TDDMenu;
+    FDDMenu        : TDDMenu;
     FGradient      : TGradientCourse;
     FRRRadius      : integer;
     FStyle         : TMPanelStyle;
     FChangeable    : boolean;
-    c:integer;
+    FTriggerNot    : boolean;
+
 
     procedure SetBorder(AValue: TBorder);
     procedure SetColorEnd(AValue: TColor);
@@ -199,11 +200,11 @@ type
     procedure BoundsChanged;override;
   public
    FMultiBkgrdBmp         : TBitmap;
-   procedure ParentInputHandler(Sender: TObject; Msg: Cardinal);
+   procedure   ParentInputHandler(Sender: TObject; Msg: Cardinal);
    constructor Create(AOwner: TComponent); override;
    destructor  Destroy; override;
-   procedure MouseEnter; override;
-   procedure MouseLeave; override;
+   procedure   MouseEnter; override;
+   procedure   MouseLeave; override;
    procedure   Paint; override;
   published
    //The geometric shape of the panel
@@ -288,6 +289,7 @@ begin
   FMultiBkgrdBmp := TBitmap.Create;
   Application.AddOnUserInputHandler(@ParentInputHandler);
   FChangeable := true;
+  FTriggerNot := false;
 end;
 
 destructor TMultiPanel.Destroy;
@@ -317,18 +319,7 @@ var x,y,h : integer;
     P : TPoint;
 begin
  if not FDDMenu.Active then exit;
-(* if (csDesigning in ComponentState) then
-  begin
-   x := Mouse.CursorPos.X - Left;
-   y := Mouse.CursorPos.Y - Top;
-   P := Point(x,y);
-   if ptinrect(Parent.BoundsRect,P) then
-    begin
-     if (msg = LM_LBUTTONDOWN) then FSize := true;
-     if (msg = LM_LBUTTONUp) then FSize := false;
-    if FSize then SendDebug('true') else SendDebug('false');
-    end;
-  end;      *)
+
  if not (csDesigning in ComponentState) then
   begin
    x := Mouse.CursorPos.X - parent.Left - left;
@@ -347,15 +338,29 @@ begin
       end;
      if ptinrect(HotspotStretched,P)  and (msg = LM_LBUTTONDOWN) then DropDownMenu.Compressed.Active:= true;
     end;
+
    if FDDMenu.FTrigger = trHover then
     begin
-      if ptinrect(HotspotCompressed,P) and (DropDownMenu.Stretched.Active = false) then
+     if ptinrect(HotspotCompressed,P) and (msg = LM_LBUTTONUp) then FTriggerNot := true;
+     if not ptinrect(HotspotCompressed,P) then FTriggerNot := false;
+
+     //strech
+     if ptinrect(HotspotCompressed,P) and (DropDownMenu.Stretched.Active = false) then
       begin
+       if FTriggerNot then exit;
+
        DropDownMenu.Stretched.Active:= true;
        exit;
       end;
-      if ptinrect(HotspotStretched,P)  and (msg = LM_LBUTTONDOWN) then DropDownMenu.Compressed.Active:= true;
-      if not ptinrect(HotspotStretched,P) then DropDownMenu.Compressed.Active:= true;
+
+      //compress
+     if ptinrect(HotspotStretched,P)  and (msg = LM_LBUTTONDOWN) then
+      DropDownMenu.Compressed.Active:= true;
+     if not ptinrect(HotspotStretched,P) then
+      DropDownMenu.Compressed.Active:= true;
+
+
+
     end;
   end;
 
@@ -367,9 +372,7 @@ begin
   inherited BoundsChanged;
   if not assigned(FDDMenu) then exit;
   if not FDDMenu.FActive then exit;
-  //inc(c);
-  //SendDebug('Bounds'+inttostr(c));
-  //if not FSize then exit;
+
   FDDMenu.FCompressed.FLeft  := left;
   FDDMenu.FCompressed.FTop   := Top;
   FDDMenu.FStretched.FLeft  := left;

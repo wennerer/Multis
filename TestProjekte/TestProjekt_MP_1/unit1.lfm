@@ -9,19 +9,32 @@ object Form1: TForm1
   OnCreate = FormCreate
   object MultiPanel1: TMultiPanel
     Left = 24
-    Height = 352
+    Height = 48
     Top = 40
-    Width = 202
+    Width = 48
     DropDownMenu.Active = True
-    DropDownMenu.Compressed.Active = False
     DropDownMenu.Compressed.Width = 48
     DropDownMenu.Compressed.Height = 48
     DropDownMenu.Compressed.Left = 24
     DropDownMenu.Compressed.Top = 40
-    DropDownMenu.Stretched.Active = True
     DropDownMenu.Stretched.Width = 202
     DropDownMenu.Stretched.Height = 352
     DropDownMenu.Stretched.Left = 24
     DropDownMenu.Stretched.Top = 40
+    object MultiButton1: TMultiButton
+      AnchorSideLeft.Control = MultiPanel1
+      AnchorSideTop.Control = MultiPanel1
+      AnchorSideRight.Control = MultiPanel1
+      AnchorSideRight.Side = asrBottom
+      Left = 1
+      Height = 66
+      Top = 1
+      Width = 46
+      MessageButton.ImageLeft = 0
+      MessageButton.ImageTop = 0
+      Caption = 'MultiButton1'
+      Anchors = [akTop, akLeft, akRight]
+      TabOrder = 0
+    end
   end
 end
