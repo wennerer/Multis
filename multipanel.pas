@@ -27,6 +27,9 @@
   Franklin Street - Fifth Floor, Boston, MA 02110-1335, USA.
 }
 
+//doto's:
+//radius bei border
+
 unit MultiPanel;
 
 {$mode ObjFPC}{$H+}
@@ -34,7 +37,8 @@ unit MultiPanel;
 interface
 
 uses
-  Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, ExtCtrls, infmultis;
+  Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, ExtCtrls,
+  LCLProc, infmultis, LMessages, LCLIntf, LCLType, dbugintf;
 
 type
   TMPanelStyle = (mpsRect,mpsRoundRect,mpsEllipse);
@@ -42,6 +46,127 @@ type
 type
   TGradientCourse = (gcHorizontal,gcVertical,gcSpread,gcRadiant,gcAlternate); //for background color
 
+type
+  TTrigger = (trClick,trHover);
+
+type
+
+  { TComp }
+
+  TComp = class(TPersistent)
+   private
+     FActive        : boolean;
+     FLeft          : integer;
+     FOwner         : TCustomPanel;
+
+     FHeight        : integer;
+     FTop           : integer;
+     FWidth         : integer;
+     procedure SetActive(AValue: boolean);
+     procedure SetHeight(AValue: integer);
+     procedure SetLeft(AValue: integer);
+     procedure SetTop(AValue: integer);
+     procedure SetWidth(AValue: integer);
+   public
+   constructor create(aOwner: TCustomPanel);
+   published
+    property Active   : boolean read FActive write SetActive default true;
+    property Width    : integer read FWidth write SetWidth default 50;
+    property Height   : integer read FHeight write SetHeight default 50;
+    property Left     : integer read FLeft write SetLeft default 0;
+    property Top      : integer read FTop write SetTop default 0;
+
+  end;
+
+  { TComp }
+
+  { TStre }
+
+  TStre = class(TPersistent)
+  private
+    FLeft       : integer;
+    FTop        : integer;
+    procedure SetLeft(AValue: integer);
+    procedure SetTop(AValue: integer);
+   private
+     FActive        : boolean;
+     FOwner         : TCustomPanel;
+     FHeight        : integer;
+     FWidth         : integer;
+     procedure SetActive(AValue: boolean);
+     procedure SetHeight(AValue: integer);
+     procedure SetWidth(AValue: integer);
+
+   public
+   constructor create(aOwner: TCustomPanel);
+   published
+    property Active : boolean read FActive write SetActive default false;
+    property Width  : integer read FWidth write SetWidth default 110;
+    property Height : integer read FHeight write SetHeight default 150;
+    property Left   : integer read FLeft write SetLeft default 0;
+    property Top    : integer read FTop write SetTop default 0;
+  end;
+
+
+type
+
+ { TDDMenu }
+
+ TDDMenu = class(TPersistent)
+  private
+    FActive        : boolean;
+    FCompressed    : TComp;
+    FOwner         : TCustomPanel;
+    FStretched     : TStre;
+    FTrigger       : TTrigger;
+   procedure SetActive(AValue: boolean);
+   procedure SetTrigger(AValue: TTrigger);
+
+  protected
+
+  public
+   constructor create(aOwner: TCustomPanel);
+  published
+
+   property Active : boolean read FActive write SetActive default false;
+
+   property Compressed : TComp read FCompressed write FCompressed;
+
+   property Stretched  : TStre read FStretched write FStretched;
+
+   property Trigger  : TTrigger read FTrigger write SetTrigger default trHover;
+ end;
+
+type
+
+ { TBorder }
+
+ TBorder = class(TPersistent)
+   private
+     FInnerColor: TColor;
+     FInnerWidth: integer;
+     FOuterWidth: integer;
+     FOwner                : TCustomPanel;
+     FOuterColor           : TColor;
+     procedure SetInnerColor(AValue: TColor);
+     procedure SetInnerWidth(AValue: integer);
+     procedure SetOuterColor(AValue: TColor);
+     procedure SetOuterWidth(AValue: integer);
+
+   protected
+
+   public
+    constructor create(aOwner: TCustomPanel);
+   published
+
+    property OuterColor : TColor read FOuterColor write SetOuterColor default clNone;
+
+    property OuterWidth : integer read FOuterWidth write SetOuterWidth default 1;
+
+    property InnerColor : TColor read FInnerColor write SetInnerColor default clNone;
+
+    property InnerWidth : integer read FInnerWidth write SetInnerWidth default 1;
+ end;
 
 
 type
@@ -50,23 +175,35 @@ type
 
   TMultiPanel = class(TCustomPanel)
   private
+    FBorder: TBorder;
     FColorEnd      : TColor;
     FColorStart    : TColor;
+    FDDMenu: TDDMenu;
     FGradient      : TGradientCourse;
     FRRRadius      : integer;
     FStyle         : TMPanelStyle;
+    FChangeable    : boolean;
+    c:integer;
+
+    procedure SetBorder(AValue: TBorder);
     procedure SetColorEnd(AValue: TColor);
     procedure SetColorStart(AValue: TColor);
+    procedure SetDropDownMenu(Sender: TPersistent; aValue: boolean);
     procedure SetGradient(AValue: TGradientCourse);
     procedure SetRRRadius(AValue: integer);
     procedure SetStyle(AValue: TMPanelStyle);
 
   protected
     procedure DrawThePanel;
+    procedure DrawABorder;
+    procedure BoundsChanged;override;
   public
    FMultiBkgrdBmp         : TBitmap;
+   procedure ParentInputHandler(Sender: TObject; Msg: Cardinal);
    constructor Create(AOwner: TComponent); override;
    destructor  Destroy; override;
+   procedure MouseEnter; override;
+   procedure MouseLeave; override;
    procedure   Paint; override;
   published
    //The geometric shape of the panel
@@ -84,6 +221,10 @@ type
    //Corner diameter if the geometric shape is RoundRect
    //Eckendurchmesser wenn geometrische Form ist RoundRect
    property RndRctRadius : integer    read FRRRadius   write SetRRRadius default 10;
+
+   property BorderSettings : TBorder read FBorder write SetBorder;
+
+   property DropDownMenu : TDDMenu read FDDMenu write FDDMenu;
 
 
    property Width  default 400;
@@ -105,6 +246,7 @@ begin
   RegisterComponents('Multi',[TMultiPanel]);
 end;
 
+
 { TMultiPanel }
 
 constructor TMultiPanel.Create(AOwner: TComponent);
@@ -118,14 +260,134 @@ begin
   FRRRadius      := 10;
   FStyle         := mpsRect;
 
+  FBorder                := TBorder.create(self);
+  FBorder.FOuterColor    := clNone;
+  FBorder.FOuterWidth    := 1;
+  FBorder.FInnerColor    := clNone;
+  FBorder.FInnerWidth    := 1;
+
+  FDDMenu                    := TDDMenu.create(self);
+  FDDMenu.FActive            := false;
+  FDDMenu.FTrigger           := trHover;
+
+  FDDMenu.FCompressed        := TComp.create(self);
+  FDDMenu.FCompressed.FWidth :=  50;
+  FDDMenu.FCompressed.FHeight:=  50;
+  FDDMenu.FCompressed.FLeft  := Left;
+  FDDMenu.FCompressed.FTop   := Top;
+  FDDMenu.FCompressed.FActive:= true;
+
+  FDDMenu.FStretched         := TStre.create(self);
+  FDDMenu.FStretched.FWidth  := 110;
+  FDDMenu.FStretched.FHeight := 150;
+  FDDMenu.FStretched.FLeft   := Left;
+  FDDMenu.FStretched.FTop    := Top;
+  FDDMenu.FStretched.FActive := false;
+
+
   FMultiBkgrdBmp := TBitmap.Create;
+  Application.AddOnUserInputHandler(@ParentInputHandler);
+  FChangeable := true;
 end;
 
 destructor TMultiPanel.Destroy;
 begin
   FMultiBkgrdBmp.Free;
+  FBorder.Free;
+  FDDMenu.FCompressed.Free;
+  FDDMenu.FStretched.Free;
+  FDDMenu.Free;
   inherited Destroy;
 end;
+
+procedure TMultiPanel.MouseEnter;
+begin
+  inherited MouseEnter;
+end;
+
+procedure TMultiPanel.MouseLeave;
+begin
+  inherited MouseLeave;
+end;
+
+procedure TMultiPanel.ParentInputHandler(Sender: TObject; Msg: Cardinal);
+var x,y,h : integer;
+    HotspotCompressed : TRect;
+    HotspotStretched  : TRect;
+    P : TPoint;
+begin
+ if not FDDMenu.Active then exit;
+(* if (csDesigning in ComponentState) then
+  begin
+   x := Mouse.CursorPos.X - Left;
+   y := Mouse.CursorPos.Y - Top;
+   P := Point(x,y);
+   if ptinrect(Parent.BoundsRect,P) then
+    begin
+     if (msg = LM_LBUTTONDOWN) then FSize := true;
+     if (msg = LM_LBUTTONUp) then FSize := false;
+    if FSize then SendDebug('true') else SendDebug('false');
+    end;
+  end;      *)
+ if not (csDesigning in ComponentState) then
+  begin
+   x := Mouse.CursorPos.X - parent.Left - left;
+   h := GetSystemMetrics(SM_CYCAPTION);//high of the menu
+   y := Mouse.CursorPos.Y - parent.Top - h - top;
+   HotspotCompressed := Rect(0,0,FDDMenu.FCompressed.FWidth,FDDMenu.FCompressed.FHeight);
+   HotspotStretched  := Rect(0,0,FDDMenu.FStretched.FWidth,FDDMenu.FStretched.FHeight);
+   P := Point(x,y);
+
+   if FDDMenu.FTrigger = trClick then
+    begin
+     if ptinrect(HotspotCompressed,P) and (msg = LM_LBUTTONDOWN) and (DropDownMenu.Stretched.Active = false) then
+      begin
+       DropDownMenu.Stretched.Active:= true;
+       exit;
+      end;
+     if ptinrect(HotspotStretched,P)  and (msg = LM_LBUTTONDOWN) then DropDownMenu.Compressed.Active:= true;
+    end;
+   if FDDMenu.FTrigger = trHover then
+    begin
+      if ptinrect(HotspotCompressed,P) and (DropDownMenu.Stretched.Active = false) then
+      begin
+       DropDownMenu.Stretched.Active:= true;
+       exit;
+      end;
+      if ptinrect(HotspotStretched,P)  and (msg = LM_LBUTTONDOWN) then DropDownMenu.Compressed.Active:= true;
+      if not ptinrect(HotspotStretched,P) then DropDownMenu.Compressed.Active:= true;
+    end;
+  end;
+
+end;
+
+
+procedure TMultiPanel.BoundsChanged;
+begin
+  inherited BoundsChanged;
+  if not assigned(FDDMenu) then exit;
+  if not FDDMenu.FActive then exit;
+  //inc(c);
+  //SendDebug('Bounds'+inttostr(c));
+  //if not FSize then exit;
+  FDDMenu.FCompressed.FLeft  := left;
+  FDDMenu.FCompressed.FTop   := Top;
+  FDDMenu.FStretched.FLeft  := left;
+  FDDMenu.FStretched.FTop   := Top;
+  if FDDMenu.FCompressed.FActive then
+   begin
+    FDDMenu.FCompressed.FWidth := Width;
+    if FChangeable then  //if you switch from compressed to stretched, height is only assigned on the second pass
+     FDDMenu.FCompressed.FHeight:= Height;
+   end;
+  if FDDMenu.FStretched.FActive then
+   begin
+    FDDMenu.FStretched.FWidth := Width;
+    if FChangeable then //if you switch from compressed to stretched, height is only assigned on the second pass
+     FDDMenu.FStretched.FHeight:= Height;
+   end;
+end;
+
 
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx---Setter---XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 procedure TMultiPanel.SetColorEnd(AValue: TColor);
@@ -135,11 +397,52 @@ begin
   invalidate;
 end;
 
+procedure TMultiPanel.SetBorder(AValue: TBorder);
+begin
+  if FBorder=AValue then Exit;
+  FBorder:=AValue;
+  invalidate;
+end;
+
 procedure TMultiPanel.SetColorStart(AValue: TColor);
 begin
   if FColorStart=AValue then Exit;
   FColorStart:=AValue;
   invalidate;
+end;
+
+procedure TMultiPanel.SetDropDownMenu(Sender:TPersistent;aValue:boolean);
+begin
+ if (Sender is TStre) then
+  begin
+   if aValue then
+    DropDownMenu.FCompressed.FActive := false
+   else
+    DropDownMenu.FCompressed.FActive := true;
+  end;//TStre
+
+ if (Sender is TComp) then
+  begin
+   if aValue then
+    DropDownMenu.FStretched.FActive:= false
+   else
+    DropDownMenu.FStretched.FActive:= true;
+  end;//TComp
+ if not DropDownMenu.FActive then exit;
+ if DropDownMenu.FCompressed.Active then
+  begin
+   FChangeable := false;    //if you switch from compressed to stretched, height is only assigned on the second pass
+   width := DropDownMenu.FCompressed.Width;
+   FChangeable := true;
+   height:= DropDownMenu.FCompressed.Height;
+  end;
+ if DropDownMenu.FStretched.Active then
+  begin
+   FChangeable := false;  //if you switch from compressed to stretched, height is only assigned on the second pass
+   width := DropDownMenu.FStretched.Width;
+   FChangeable := true;
+   height:= DropDownMenu.FStretched.Height;
+  end;
 end;
 
 procedure TMultiPanel.SetGradient(AValue: TGradientCourse);
@@ -227,12 +530,40 @@ begin
    Dest.Free;
 end;
 
+procedure TMultiPanel.DrawABorder;
+var i : integer;
+begin
+ Canvas.Brush.Style := bsClear;
+ if FBorder.FOuterColor <> clNone then
+  begin
+   Canvas.Pen.Color   := FBorder.FOuterColor;
+   Canvas.Pen.Width   := FBorder.FOuterWidth;
+   case FStyle of
+    mpsRoundRect : Canvas.RoundRect(0,0,Width,height,FRRRadius,FRRRadius);
+    mpsRect      : Canvas.Rectangle(0,0,Width,height);
+    mpsEllipse   : Canvas.Ellipse(0,0,Width,height);
+   end;
+  end;
+ if FBorder.FInnerColor <> clNone then
+  begin
+   Canvas.Pen.Color   := FBorder.FInnerColor;
+   Canvas.Pen.Width   := FBorder.FInnerWidth;
+   i := FBorder.FOuterWidth + (FBorder.FInnerWidth div 2);
+   case FStyle of
+    mpsRoundRect : Canvas.RoundRect(0+i,0+i,Width-i,height-i,FRRRadius,FRRRadius);
+    mpsRect      : Canvas.Rectangle(0+i,0+i,Width-i,height-i);
+    mpsEllipse   : Canvas.Ellipse(0+i,0+i,Width-i,height-i);
+   end;
+  end;
+end;
+
 procedure TMultiPanel.Paint;
 var lv : integer;
 begin
   if parent.Color = clDefault then color:=clForm else ParentColor:=true;
   //inherited Paint;
   DrawThePanel;
+  DrawABorder;
 
    //update all child windows
    for lv := 0 to pred(ControlCount) do
@@ -242,4 +573,6 @@ begin
      end;
 end;
 
+{$Include mp_dropdownmenu.inc}
+{$Include mp_border.inc}
 end.

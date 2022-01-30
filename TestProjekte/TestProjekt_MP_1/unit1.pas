@@ -5,18 +5,17 @@ unit Unit1;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, MultiPanel,
-  MultiButton, MultiplexSlider;
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, MultiPanel,
+  MultiButton;
 
 type
 
   { TForm1 }
 
   TForm1 = class(TForm)
-    MultiButton2: TMultiButton;
     MultiPanel1: TMultiPanel;
-    MultiplexSlider1: TMultiplexSlider;
-    ScrollBox1: TScrollBox;
+    procedure FormCreate(Sender: TObject);
+    procedure MultiButton1Click(Sender: TObject);
   private
 
   public
@@ -29,6 +28,18 @@ var
 implementation
 
 {$R *.lfm}
+
+{ TForm1 }
+
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+
+end;
+
+procedure TForm1.MultiButton1Click(Sender: TObject);
+begin
+  //showmessage('');
+end;
 
 end.
 
