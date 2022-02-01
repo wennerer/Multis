@@ -38,7 +38,7 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  LCLProc, infmultis, LMessages, LCLIntf, LCLType, dbugintf;
+  infmultis, LMessages, LCLIntf, LCLType, LCLProc, dbugintf;
 
 type
   TMPanelStyle = (mpsRect,mpsRoundRect,mpsEllipse);
@@ -198,6 +198,7 @@ type
     procedure DrawThePanel;
     procedure DrawABorder;
     procedure BoundsChanged;override;
+    procedure Loaded; override;
   public
    FMultiBkgrdBmp         : TBitmap;
    procedure   ParentInputHandler(Sender: TObject; Msg: Cardinal);
@@ -388,6 +389,25 @@ begin
     FDDMenu.FStretched.FWidth := Width;
     if FChangeable then //if you switch from compressed to stretched, height is only assigned on the second pass
      FDDMenu.FStretched.FHeight:= Height;
+   end;
+end;
+
+procedure TMultiPanel.Loaded;
+begin
+ inherited Loaded;
+ if FDDMenu.FCompressed.FActive then
+   begin
+    FChangeable := false;    //if you switch from compressed to stretched, height is only assigned on the second pass
+    width  := FDDMenu.FCompressed.FWidth;
+    FChangeable := true;
+    Height := FDDMenu.FCompressed.FHeight;
+   end;
+ if FDDMenu.FStretched.FActive then
+   begin
+    FChangeable := false;    //if you switch from compressed to stretched, height is only assigned on the second pass
+    Width  := FDDMenu.FStretched.FWidth;
+    FChangeable := true;
+    Height := FDDMenu.FStretched.FHeight;
    end;
 end;
 
