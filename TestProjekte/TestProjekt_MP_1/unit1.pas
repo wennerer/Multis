@@ -15,9 +15,6 @@ type
   TForm1 = class(TForm)
     ImageList1: TImageList;
     MultiButton1: TMultiButton;
-    MultiButton2: TMultiButton;
-    MultiButton3: TMultiButton;
-    MultiButton4: TMultiButton;
     MultiButtonStyleManager1: TMultiButtonStyleManager;
     MultiPanel1: TMultiPanel;
     procedure FormCreate(Sender: TObject);
@@ -40,7 +37,7 @@ implementation
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
-
+  //self.DisableAlign;
 end;
 
 procedure TForm1.FormPaint(Sender: TObject);

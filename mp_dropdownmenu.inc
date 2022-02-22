@@ -18,6 +18,13 @@ begin
   if Assigned(FOwner) then FOwner.Invalidate;
 end;
 
+procedure TDDMenu.SetDirection(AValue: TDirection);
+begin
+  if FDirection=AValue then Exit;
+  FDirection:=AValue;
+  if Assigned(FOwner) then FOwner.Invalidate;
+end;
+
 procedure TDDMenu.SetTrigger(AValue: TTrigger);
 begin
   if FTrigger=AValue then Exit;

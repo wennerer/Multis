@@ -50,6 +50,9 @@ type
   TTrigger = (trClick,trHover);
 
 type
+  TDirection = (LeftRight,RightLeft,TopBottom,BottomTop);
+
+type
 
   { TComp }
 
@@ -68,13 +71,14 @@ type
      procedure SetTop(AValue: integer);
      procedure SetWidth(AValue: integer);
    public
-   constructor create(aOwner: TCustomPanel);
+    constructor create(aOwner: TCustomPanel);
+    property Left     : integer read FLeft write SetLeft default 0;
+    property Top      : integer read FTop write SetTop default 0;
    published
     property Active   : boolean read FActive write SetActive default true;
     property Width    : integer read FWidth write SetWidth default 50;
     property Height   : integer read FHeight write SetHeight default 50;
-    property Left     : integer read FLeft write SetLeft default 0;
-    property Top      : integer read FTop write SetTop default 0;
+
 
   end;
 
@@ -86,25 +90,25 @@ type
   private
     FLeft       : integer;
     FTop        : integer;
+    FActive        : boolean;
+    FOwner         : TCustomPanel;
+    FHeight        : integer;
+    FWidth         : integer;
     procedure SetLeft(AValue: integer);
     procedure SetTop(AValue: integer);
-   private
-     FActive        : boolean;
-     FOwner         : TCustomPanel;
-     FHeight        : integer;
-     FWidth         : integer;
-     procedure SetActive(AValue: boolean);
-     procedure SetHeight(AValue: integer);
-     procedure SetWidth(AValue: integer);
+    procedure SetActive(AValue: boolean);
+    procedure SetHeight(AValue: integer);
+    procedure SetWidth(AValue: integer);
 
    public
-   constructor create(aOwner: TCustomPanel);
+    constructor create(aOwner: TCustomPanel);
+    property Left   : integer read FLeft write SetLeft default 0;
+    property Top    : integer read FTop write SetTop default 0;
    published
     property Active : boolean read FActive write SetActive default false;
     property Width  : integer read FWidth write SetWidth default 110;
     property Height : integer read FHeight write SetHeight default 150;
-    property Left   : integer read FLeft write SetLeft default 0;
-    property Top    : integer read FTop write SetTop default 0;
+
   end;
 
 
@@ -116,10 +120,12 @@ type
   private
     FActive        : boolean;
     FCompressed    : TComp;
+    FDirection: TDirection;
     FOwner         : TCustomPanel;
     FStretched     : TStre;
     FTrigger       : TTrigger;
    procedure SetActive(AValue: boolean);
+   procedure SetDirection(AValue: TDirection);
    procedure SetTrigger(AValue: TTrigger);
 
   protected
@@ -135,6 +141,8 @@ type
    property Stretched  : TStre read FStretched write FStretched;
 
    property Trigger  : TTrigger read FTrigger write SetTrigger default trHover;
+
+   property Direction : TDirection read FDirection write SetDirection default LeftRight;
  end;
 
 type
@@ -184,6 +192,10 @@ type
     FStyle         : TMPanelStyle;
     FChangeable    : boolean;
     FTriggerNot    : boolean;
+    FTimer         : TTimer;
+    FSpeed         : integer; //Timer for dropdownmenu
+    FStep          : integer; //for Dropdownmenu
+    FCount         : integer; //for inc dropdownmenu
 
 
     procedure SetBorder(AValue: TBorder);
@@ -193,6 +205,11 @@ type
     procedure SetGradient(AValue: TGradientCourse);
     procedure SetRRRadius(AValue: integer);
     procedure SetStyle(AValue: TMPanelStyle);
+    procedure MultiPanelOnTimer(Sender : TObject);
+    procedure LeftToRight;
+    procedure RightToLeft;
+    procedure TopToBottom;
+    procedure BottomToTop;
 
   protected
     procedure DrawThePanel;
@@ -271,6 +288,7 @@ begin
   FDDMenu                    := TDDMenu.create(self);
   FDDMenu.FActive            := false;
   FDDMenu.FTrigger           := trHover;
+  FDDMenu.FDirection         := LeftRight;
 
   FDDMenu.FCompressed        := TComp.create(self);
   FDDMenu.FCompressed.FWidth :=  50;
@@ -285,6 +303,13 @@ begin
   FDDMenu.FStretched.FLeft   := Left;
   FDDMenu.FStretched.FTop    := Top;
   FDDMenu.FStretched.FActive := false;
+
+  FStep                      := 2;
+  FSpeed                     := 5;
+  FTimer                     := TTimer.Create(self);
+  FTimer.Enabled             := false;
+  FTimer.Interval            := FSpeed;
+  FTimer.OnTimer             := @MultiPanelOnTimer;
 
 
   FMultiBkgrdBmp := TBitmap.Create;
@@ -374,21 +399,26 @@ begin
   if not assigned(FDDMenu) then exit;
   if not FDDMenu.FActive then exit;
 
-  FDDMenu.FCompressed.FLeft  := left;
-  FDDMenu.FCompressed.FTop   := Top;
-  FDDMenu.FStretched.FLeft  := left;
+  FDDMenu.FCompressed.FLeft := Left;
+  FDDMenu.FStretched.FLeft  := Left;
+  FDDMenu.FCompressed.FTop  := Top;
   FDDMenu.FStretched.FTop   := Top;
-  if FDDMenu.FCompressed.FActive then
+
+  if (csDesigning in ComponentState) then
    begin
-    FDDMenu.FCompressed.FWidth := Width;
-    if FChangeable then  //if you switch from compressed to stretched, height is only assigned on the second pass
-     FDDMenu.FCompressed.FHeight:= Height;
-   end;
-  if FDDMenu.FStretched.FActive then
-   begin
-    FDDMenu.FStretched.FWidth := Width;
-    if FChangeable then //if you switch from compressed to stretched, height is only assigned on the second pass
-     FDDMenu.FStretched.FHeight:= Height;
+    if FDDMenu.FCompressed.FActive then
+     begin
+      FDDMenu.FCompressed.FWidth := Width;
+      if FChangeable then  //if you switch from compressed to stretched, height is only assigned on the second pass
+       FDDMenu.FCompressed.FHeight:= Height;
+     end;
+
+    if FDDMenu.FStretched.FActive then
+     begin
+      FDDMenu.FStretched.FWidth := Width;
+      if FChangeable then //if you switch from compressed to stretched, height is only assigned on the second pass
+       FDDMenu.FStretched.FHeight:= Height;
+     end;
    end;
 end;
 
@@ -451,20 +481,29 @@ begin
    else
     DropDownMenu.FStretched.FActive:= true;
   end;//TComp
+
  if not DropDownMenu.FActive then exit;
- if DropDownMenu.FCompressed.Active then
+
+ if (csDesigning in ComponentState) then
   begin
-   FChangeable := false;    //if you switch from compressed to stretched, height is only assigned on the second pass
-   width := DropDownMenu.FCompressed.Width;
-   FChangeable := true;
-   height:= DropDownMenu.FCompressed.Height;
-  end;
- if DropDownMenu.FStretched.Active then
+   if DropDownMenu.FCompressed.Active then
+    begin
+     FChangeable := false;    //if you switch from compressed to stretched, height is only assigned on the second pass
+     width := DropDownMenu.FCompressed.Width;
+     FChangeable := true;
+     height:= DropDownMenu.FCompressed.Height;
+    end;
+   if DropDownMenu.FStretched.Active then
+    begin
+     FChangeable := false;  //if you switch from compressed to stretched, height is only assigned on the second pass
+     width := DropDownMenu.FStretched.Width;
+     FChangeable := true;
+     height:= DropDownMenu.FStretched.Height;
+    end;
+  end else
   begin
-   FChangeable := false;  //if you switch from compressed to stretched, height is only assigned on the second pass
-   width := DropDownMenu.FStretched.Width;
-   FChangeable := true;
-   height:= DropDownMenu.FStretched.Height;
+   FCount := 0;
+   FTimer.Enabled := true;
   end;
 end;
 
@@ -487,6 +526,138 @@ begin
   if FStyle=AValue then Exit;
   FStyle:=AValue;
   invalidate;
+end;
+
+procedure TMultiPanel.MultiPanelOnTimer(Sender: TObject);
+begin
+ inc(FCount,FStep);
+ if FDDMenu.FDirection = LeftRight then LeftToRight;
+ if FDDMenu.FDirection = RightLeft then RightToLeft;
+ if FDDMenu.FDirection = TopBottom then TopToBottom;
+ if FDDMenu.FDirection = BottomTop then BottomToTop;
+end;
+
+procedure TMultiPanel.LeftToRight;
+begin
+  //that stretches
+ if DropDownMenu.FStretched.Active then
+    begin
+     if width < DropDownMenu.FStretched.Width then width := width +FCount;
+     if Height < DropDownMenu.FStretched.Height then Height := Height + FCount;
+     if (width >= DropDownMenu.FStretched.Width) and (Height >=DropDownMenu.FStretched.Height) then
+      begin
+       width := DropDownMenu.FStretched.Width;
+       height:= DropDownMenu.FStretched.Height;
+       FTimer.Enabled:= false;
+      end;
+    end;
+  //that pulls together
+ if DropDownMenu.FCompressed.Active then
+    begin
+     if width > DropDownMenu.FCompressed.Width then width := width - FCount;
+     if Height > DropDownMenu.FCompressed.Height then Height := Height - FCount;
+     if (width <= DropDownMenu.FCompressed.Width) and (Height <=DropDownMenu.FCompressed.Height) then
+      begin
+       width := DropDownMenu.FCompressed.Width;
+       height:= DropDownMenu.FCompressed.Height;
+       FTimer.Enabled:= false;
+      end;
+    end;
+
+end;
+
+procedure TMultiPanel.RightToLeft;
+begin
+  //that stretches
+ if DropDownMenu.FStretched.Active then
+    begin
+     if width < DropDownMenu.FStretched.Width then
+      begin
+       width := width + FCount;
+       left  := left - FCount;
+      end;
+     if Height < DropDownMenu.FStretched.Height then Height := Height + FCount;
+     if (width >= DropDownMenu.FStretched.Width) and (Height >=DropDownMenu.FStretched.Height) then
+      begin
+       width := DropDownMenu.FStretched.Width;
+       //Left  := DropDownMenu.FStretched.Left;
+       height:= DropDownMenu.FStretched.Height;
+       FTimer.Enabled:= false;
+      end;
+    end;
+  //that pulls together
+ if DropDownMenu.FCompressed.Active then
+    begin
+     if width > DropDownMenu.FCompressed.Width then
+      begin
+       width := width - FCount;
+       Left  := Left + FCount;
+      end;
+     if Height > DropDownMenu.FCompressed.Height then Height := Height - FCount;
+     if (width <= DropDownMenu.FCompressed.Width) and (Height <=DropDownMenu.FCompressed.Height) then
+      begin
+       width := DropDownMenu.FCompressed.Width;
+       height:= DropDownMenu.FCompressed.Height;
+       FTimer.Enabled:= false;
+      end;
+    end;
+end;
+
+procedure TMultiPanel.TopToBottom;
+begin
+  //that stretches
+ if DropDownMenu.FStretched.Active then
+    begin
+     if Height < DropDownMenu.FStretched.Height then Height := Height + FCount;
+     if (Height >=DropDownMenu.FStretched.Height) then
+      begin
+       //Left  := DropDownMenu.FStretched.Left;
+       height:= DropDownMenu.FStretched.Height;
+       FTimer.Enabled:= false;
+      end;
+    end;
+  //that pulls together
+ if DropDownMenu.FCompressed.Active then
+    begin
+     if Height > DropDownMenu.FCompressed.Height then Height := Height - FCount;
+     if (Height <=DropDownMenu.FCompressed.Height) then
+      begin
+       height:= DropDownMenu.FCompressed.Height;
+       FTimer.Enabled:= false;
+      end;
+    end;
+end;
+
+procedure TMultiPanel.BottomToTop;
+begin
+  //that stretches
+ if DropDownMenu.FStretched.Active then
+    begin
+     if Height < DropDownMenu.FStretched.Height then
+      begin
+       Height := Height + FCount;
+       Top := Top - FCount;
+      end;
+     if (Height >=DropDownMenu.FStretched.Height) then
+      begin
+       height:= DropDownMenu.FStretched.Height;
+       FTimer.Enabled:= false;
+      end;
+    end;
+  //that pulls together
+ if DropDownMenu.FCompressed.Active then
+    begin
+     if Height > DropDownMenu.FCompressed.Height then
+      begin
+       Height := Height - FCount;
+       Top := Top + FCount;
+      end;
+     if (Height <=DropDownMenu.FCompressed.Height) then
+      begin
+       height:= DropDownMenu.FCompressed.Height;
+       FTimer.Enabled:= false;
+      end;
+    end;
 end;
 
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx---drawing---XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
