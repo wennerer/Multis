@@ -54,7 +54,7 @@ type
 
 type
 
-  { TComp }
+  { TComp }    //compressed
 
   TComp = class(TPersistent)
    private
@@ -82,9 +82,7 @@ type
 
   end;
 
-  { TComp }
-
-  { TStre }
+  { TStre }      //enlarged
 
   TStre = class(TPersistent)
   private
@@ -114,7 +112,7 @@ type
 
 type
 
- { TDDMenu }
+ { TDDMenu }   //as DropDown
 
  TDDMenu = class(TPersistent)
   private
@@ -202,6 +200,7 @@ type
     procedure SetColorEnd(AValue: TColor);
     procedure SetColorStart(AValue: TColor);
     procedure SetDropDownMenu(Sender: TPersistent; aValue: boolean);
+    procedure SetSizeDropDownMenu(Sender:TPersistent);
     procedure SetGradient(AValue: TGradientCourse);
     procedure SetRRRadius(AValue: integer);
     procedure SetStyle(AValue: TMPanelStyle);
@@ -304,7 +303,8 @@ begin
   FDDMenu.FStretched.FTop    := Top;
   FDDMenu.FStretched.FActive := false;
 
-  FStep                      := 2;
+  FStep                      := 1;
+
   FSpeed                     := 5;
   FTimer                     := TTimer.Create(self);
   FTimer.Enabled             := false;
@@ -384,9 +384,6 @@ begin
       DropDownMenu.Compressed.Active:= true;
      if not ptinrect(HotspotStretched,P) then
       DropDownMenu.Compressed.Active:= true;
-
-
-
     end;
   end;
 
@@ -398,47 +395,19 @@ begin
   inherited BoundsChanged;
   if not assigned(FDDMenu) then exit;
   if not FDDMenu.FActive then exit;
-
-  FDDMenu.FCompressed.FLeft := Left;
-  FDDMenu.FStretched.FLeft  := Left;
-  FDDMenu.FCompressed.FTop  := Top;
-  FDDMenu.FStretched.FTop   := Top;
-
-  if (csDesigning in ComponentState) then
+  if not FChangeable then
    begin
-    if FDDMenu.FCompressed.FActive then
-     begin
-      FDDMenu.FCompressed.FWidth := Width;
-      if FChangeable then  //if you switch from compressed to stretched, height is only assigned on the second pass
-       FDDMenu.FCompressed.FHeight:= Height;
-     end;
-
-    if FDDMenu.FStretched.FActive then
-     begin
-      FDDMenu.FStretched.FWidth := Width;
-      if FChangeable then //if you switch from compressed to stretched, height is only assigned on the second pass
-       FDDMenu.FStretched.FHeight:= Height;
-     end;
+    FChangeable := true;
+    exit;
    end;
+  SetSizeDropDownMenu(self);
+
 end;
 
 procedure TMultiPanel.Loaded;
 begin
  inherited Loaded;
- if FDDMenu.FCompressed.FActive then
-   begin
-    FChangeable := false;    //if you switch from compressed to stretched, height is only assigned on the second pass
-    width  := FDDMenu.FCompressed.FWidth;
-    FChangeable := true;
-    Height := FDDMenu.FCompressed.FHeight;
-   end;
- if FDDMenu.FStretched.FActive then
-   begin
-    FChangeable := false;    //if you switch from compressed to stretched, height is only assigned on the second pass
-    Width  := FDDMenu.FStretched.FWidth;
-    FChangeable := true;
-    Height := FDDMenu.FStretched.FHeight;
-   end;
+
 end;
 
 
@@ -482,29 +451,46 @@ begin
     DropDownMenu.FStretched.FActive:= true;
   end;//TComp
 
- if not DropDownMenu.FActive then exit;
-
- if (csDesigning in ComponentState) then
+ if not (csDesigning in ComponentState) then
   begin
-   if DropDownMenu.FCompressed.Active then
-    begin
-     FChangeable := false;    //if you switch from compressed to stretched, height is only assigned on the second pass
-     width := DropDownMenu.FCompressed.Width;
-     FChangeable := true;
-     height:= DropDownMenu.FCompressed.Height;
-    end;
-   if DropDownMenu.FStretched.Active then
-    begin
-     FChangeable := false;  //if you switch from compressed to stretched, height is only assigned on the second pass
-     width := DropDownMenu.FStretched.Width;
-     FChangeable := true;
-     height:= DropDownMenu.FStretched.Height;
-    end;
-  end else
-  begin
-   FCount := 0;
-   FTimer.Enabled := true;
+   FTimer.Enabled:= true;
+   exit;
   end;
+  SetSizeDropDownMenu(Sender);
+
+end;
+
+procedure TMultiPanel.SetSizeDropDownMenu(Sender: TPersistent);
+begin
+  if not FDDMenu.Active then exit;
+  if not (csDesigning in ComponentState) then exit;
+
+  if (Sender is TStre) or (Sender is TComp) then  //set size with OI
+  begin
+   FChangeable := false;
+   if FDDMenu.FCompressed.FActive then
+   begin
+    width := FDDMenu.FCompressed.FWidth;
+    height:= FDDMenu.FCompressed.FHeight;
+   end;//if compressed active
+  if FDDMenu.FStretched.FActive then
+   begin
+    width := FDDMenu.FStretched.FWidth;
+    height:= FDDMenu.FStretched.FHeight;
+   end; //if streched active
+   exit;
+  end;
+
+  if FDDMenu.FCompressed.FActive then    //set Size with drag
+   begin
+    FDDMenu.FCompressed.FWidth  := width;
+    FDDMenu.FCompressed.FHeight := height;
+   end;//if compressed active
+  if FDDMenu.FStretched.FActive then
+   begin
+    FDDMenu.FStretched.FWidth  := width;
+    FDDMenu.FStretched.FHeight := height;
+   end; //if streched active
 end;
 
 procedure TMultiPanel.SetGradient(AValue: TGradientCourse);
@@ -530,7 +516,7 @@ end;
 
 procedure TMultiPanel.MultiPanelOnTimer(Sender: TObject);
 begin
- inc(FCount,FStep);
+ //inc(FCount,FStep);
  if FDDMenu.FDirection = LeftRight then LeftToRight;
  if FDDMenu.FDirection = RightLeft then RightToLeft;
  if FDDMenu.FDirection = TopBottom then TopToBottom;
@@ -540,26 +526,26 @@ end;
 procedure TMultiPanel.LeftToRight;
 begin
   //that stretches
- if DropDownMenu.FStretched.Active then
+ if FDDMenu.FStretched.Active then
     begin
-     if width < DropDownMenu.FStretched.Width then width := width +FCount;
-     if Height < DropDownMenu.FStretched.Height then Height := Height + FCount;
-     if (width >= DropDownMenu.FStretched.Width) and (Height >=DropDownMenu.FStretched.Height) then
+     if width < DropDownMenu.Stretched.Width then width := width +FStep;
+     if Height < FDDMenu.FStretched.Height then Height := Height + FStep;
+     if (width >= FDDMenu.FStretched.Width) and (Height >=FDDMenu.FStretched.Height) then
       begin
-       width := DropDownMenu.FStretched.Width;
-       height:= DropDownMenu.FStretched.Height;
+       width := FDDMenu.FStretched.Width;
+       height:= FDDMenu.FStretched.Height;
        FTimer.Enabled:= false;
       end;
     end;
   //that pulls together
- if DropDownMenu.FCompressed.Active then
+ if FDDMenu.FCompressed.Active then
     begin
-     if width > DropDownMenu.FCompressed.Width then width := width - FCount;
-     if Height > DropDownMenu.FCompressed.Height then Height := Height - FCount;
-     if (width <= DropDownMenu.FCompressed.Width) and (Height <=DropDownMenu.FCompressed.Height) then
+     if width > FDDMenu.FCompressed.Width then width := width - FStep;
+     if Height > FDDMenu.FCompressed.Height then Height := Height - FStep;
+     if (width <= FDDMenu.FCompressed.Width) and (Height <=FDDMenu.FCompressed.Height) then
       begin
-       width := DropDownMenu.FCompressed.Width;
-       height:= DropDownMenu.FCompressed.Height;
+       width := FDDMenu.FCompressed.Width;
+       height:= FDDMenu.FCompressed.Height;
        FTimer.Enabled:= false;
       end;
     end;
@@ -757,14 +743,14 @@ begin
   if parent.Color = clDefault then color:=clForm else ParentColor:=true;
   //inherited Paint;
   DrawThePanel;
-  DrawABorder;
+  //DrawABorder;
 
    //update all child windows
-   for lv := 0 to pred(ControlCount) do
+ (*  for lv := 0 to pred(ControlCount) do
      begin
       if Controls[lv] is TMultiButton then (Controls[lv] as TMultiButton).Invalidate;
       if Controls[lv] is TMultiplexSlider then (Controls[lv] as TMultiplexSlider).Invalidate;
-     end;
+     end;  *)
 end;
 
 {$Include mp_dropdownmenu.inc}

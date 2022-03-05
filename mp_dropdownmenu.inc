@@ -49,6 +49,7 @@ procedure TComp.SetHeight(AValue: integer);
 begin
   if FHeight=AValue then Exit;
   FHeight:=AValue;
+  (FOwner as TMultiPanel).SetSizeDropDownMenu(self);
   if Assigned(FOwner) then FOwner.Invalidate;
 end;
 
@@ -77,6 +78,7 @@ procedure TComp.SetWidth(AValue: integer);
 begin
   if FWidth=AValue then Exit;
   FWidth:=AValue;
+  (FOwner as TMultiPanel).SetSizeDropDownMenu(self);
   if Assigned(FOwner) then FOwner.Invalidate;
 end;
 
@@ -98,6 +100,7 @@ procedure TStre.SetHeight(AValue: integer);
 begin
   if FHeight=AValue then Exit;
   FHeight:=AValue;
+  (FOwner as TMultiPanel).SetSizeDropDownMenu(self);
   if Assigned(FOwner) then FOwner.Invalidate;
 end;
 
@@ -126,5 +129,6 @@ procedure TStre.SetWidth(AValue: integer);
 begin
   if FWidth=AValue then Exit;
   FWidth:=AValue;
+  (FOwner as TMultiPanel).SetSizeDropDownMenu(self);
   if Assigned(FOwner) then FOwner.Invalidate;
 end;

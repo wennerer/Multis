@@ -14,7 +14,6 @@ type
 
   TForm1 = class(TForm)
     ImageList1: TImageList;
-    MultiButton1: TMultiButton;
     MultiButtonStyleManager1: TMultiButtonStyleManager;
     MultiPanel1: TMultiPanel;
     procedure FormCreate(Sender: TObject);

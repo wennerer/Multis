@@ -9,30 +9,15 @@ object Form1: TForm1
   OnCreate = FormCreate
   OnPaint = FormPaint
   object MultiPanel1: TMultiPanel
-    AnchorSideRight.Control = Owner
-    AnchorSideRight.Side = asrBottom
-    Left = 534
-    Height = 136
-    Top = 120
-    Width = 48
+    Left = 0
+    Height = 40
+    Top = 32
+    Width = 115
     DropDownMenu.Active = True
-    DropDownMenu.Compressed.Width = 48
-    DropDownMenu.Compressed.Height = 136
-    DropDownMenu.Stretched.Width = 182
-    DropDownMenu.Stretched.Height = 136
-    DropDownMenu.Direction = RightLeft
-    object MultiButton1: TMultiButton
-      AnchorSideLeft.Control = MultiPanel1
-      AnchorSideTop.Control = MultiPanel1
-      Left = 1
-      Height = 44
-      Top = 1
-      Width = 173
-      MessageButton.ImageLeft = 0
-      MessageButton.ImageTop = 0
-      Caption = 'MultiButton1'
-      TabOrder = 0
-    end
+    DropDownMenu.Compressed.Width = 115
+    DropDownMenu.Compressed.Height = 40
+    DropDownMenu.Stretched.Width = 291
+    DropDownMenu.Stretched.Height = 271
   end
   object MultiButtonStyleManager1: TMultiButtonStyleManager
     Style = mbsRect
