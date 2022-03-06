@@ -365,8 +365,10 @@ begin
 
    if FDDMenu.FTrigger = trHover then
     begin
-     if ptinrect(HotspotCompressed,P) and (msg = LM_LBUTTONUp) then FTriggerNot := true;
+     //if ptinrect(HotspotCompressed,P) and (msg = LM_LBUTTONUp) then FTriggerNot := true;
+
      if not ptinrect(HotspotCompressed,P) then FTriggerNot := false;
+     if (msg = LM_LBUTTONUp) then FTriggerNot := true;
 
      //strech
      if ptinrect(HotspotCompressed,P) and (DropDownMenu.Stretched.Active = false) then
