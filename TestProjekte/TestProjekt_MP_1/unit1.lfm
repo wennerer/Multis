@@ -8,7 +8,6 @@ object Form1: TForm1
   ClientWidth = 600
   OnCreate = FormCreate
   OnPaint = FormPaint
-  LCLVersion = '2.2.0.4'
   object MultiPanel1: TMultiPanel
     Left = 0
     Height = 50
@@ -18,7 +17,6 @@ object Form1: TForm1
     DropDownMenu.Active = True
     DropDownMenu.Stretched.Width = 200
     DropDownMenu.Stretched.Height = 250
-    DropDownMenu.Trigger = trClick
     object MultiButton1: TMultiButton
       Left = 0
       Height = 50
@@ -82,7 +80,6 @@ object Form1: TForm1
     DropDownMenu.Compressed.Height = 54
     DropDownMenu.Stretched.Width = 150
     DropDownMenu.Stretched.Height = 54
-    DropDownMenu.Trigger = trClick
     DropDownMenu.Direction = RightTop_LeftBottom
     object MultiButton6: TMultiButton
       Left = 2
@@ -94,6 +91,14 @@ object Form1: TForm1
       Caption = 'MultiButton6'
       TabOrder = 0
     end
+  end
+  object MultiPanel3: TMultiPanel
+    Left = 0
+    Height = 50
+    Top = 448
+    Width = 50
+    DropDownMenu.Active = True
+    DropDownMenu.Direction = LeftBottom_RightTop
   end
   object MultiButtonStyleManager1: TMultiButtonStyleManager
     Style = mbsRect

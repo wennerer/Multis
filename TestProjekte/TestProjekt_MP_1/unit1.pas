@@ -23,6 +23,7 @@ type
     MultiButtonStyleManager1: TMultiButtonStyleManager;
     MultiPanel1: TMultiPanel;
     MultiPanel2: TMultiPanel;
+    MultiPanel3: TMultiPanel;
     procedure FormCreate(Sender: TObject);
     procedure FormPaint(Sender: TObject);
     procedure MultiButton1Click(Sender: TObject);

@@ -50,7 +50,7 @@ type
   TTrigger = (trClick,trHover);
 
 type
-  TDirection = (LeftTop_RightBottom,RightTop_LeftBottom);
+  TDirection = (LeftTop_RightBottom,RightTop_LeftBottom,LeftBottom_RightTop);
 
 type
 
@@ -203,7 +203,7 @@ type
     procedure MultiPanelOnTimer({%H-}Sender : TObject);
     procedure LeftTopToRightBottom;
     procedure RightTopToLeftBottom;
-    //procedure TopToBottom;
+    procedure LeftBottomToRightTop;
     //procedure BottomToTop;
 
   protected
@@ -400,7 +400,11 @@ begin
     exit;
    end;
   //this is only for designtime
-  if FDDMenu.FCompressed.FActive and not FSwitch then FDDMenu.FCompressed.FLeft:= left;
+  if FDDMenu.FCompressed.FActive and not FSwitch then
+   begin
+    FDDMenu.FCompressed.FLeft:= left;
+    FDDMenu.FCompressed.FTop := top;
+   end;
   FSwitch := false;
 
   SetSizeDropDownMenu(self);
@@ -485,15 +489,17 @@ begin
    begin
     width := FDDMenu.FCompressed.FWidth;
     height:= FDDMenu.FCompressed.FHeight;
-    if FDDMenu.FDirection = RightTop_LeftBottom then left  := FDDMenu.FCompressed.FLeft;
-
+    if FDDMenu.FDirection = RightTop_LeftBottom then left := FDDMenu.FCompressed.FLeft;
+    if FDDMenu.FDirection = LeftBottom_RightTop then top  := FDDMenu.FCompressed.FTop;
    end;//if compressed active
   if FDDMenu.FStretched.FActive then
    begin
     width := FDDMenu.FStretched.FWidth;
     height:= FDDMenu.FStretched.FHeight;
     if FDDMenu.FDirection = RightTop_LeftBottom then
-     left  := (FDDMenu.FCompressed.FLeft+FDDMenu.FCompressed.FWidth)-FDDMenu.FStretched.FWidth;
+     left := (FDDMenu.FCompressed.FLeft+FDDMenu.FCompressed.FWidth)-FDDMenu.FStretched.FWidth;
+    if FDDMenu.FDirection = LeftBottom_RightTop then
+     top := (FDDMenu.FCompressed.FTop+FDDMenu.FCompressed.FHeight)-FDDMenu.FStretched.FHeight;
    end; //if streched active
    exit;
   end;
@@ -535,9 +541,8 @@ procedure TMultiPanel.MultiPanelOnTimer(Sender: TObject);
 begin
  if FDDMenu.FDirection = LeftTop_RightBottom then LeftTopToRightBottom;
  if FDDMenu.FDirection = RightTop_LeftBottom then RightTopToLeftBottom;
- //if FDDMenu.FDirection = TopBottom then TopToBottom;
+ if FDDMenu.FDirection = LeftBottom_RightTop then LeftBottomToRightTop;
  //if FDDMenu.FDirection = BottomTop then BottomToTop;
- //Paint;
 
 end;
 
@@ -606,44 +611,42 @@ begin
     end;
 end;
 
-(*
-procedure TMultiPanel.RightToLeft;
+
+procedure TMultiPanel.LeftBottomToRightTop;
 begin
-  //that stretches
- if DropDownMenu.FStretched.Active then
+ if FDDMenu.FStretched.Active then
     begin
-     if width < DropDownMenu.FStretched.Width then
+     if width < FDDMenu.FStretched.FWidth then width := width +FStep;
+     if Height < FDDMenu.FStretched.FHeight then
       begin
-       width := width + FCount;
-       left  := left - FCount;
+       Height := Height + FStep;
+       Top    := Top - FStep;
       end;
-     if Height < DropDownMenu.FStretched.Height then Height := Height + FCount;
-     if (width >= DropDownMenu.FStretched.Width) and (Height >=DropDownMenu.FStretched.Height) then
+     if (width >= FDDMenu.FStretched.FWidth) and (Height >=FDDMenu.FStretched.FHeight) then
       begin
-       width := DropDownMenu.FStretched.Width;
-       //Left  := DropDownMenu.FStretched.Left;
-       height:= DropDownMenu.FStretched.Height;
+       width := FDDMenu.FStretched.FWidth;
+       height:= FDDMenu.FStretched.FHeight;
        FTimer.Enabled:= false;
       end;
     end;
   //that pulls together
- if DropDownMenu.FCompressed.Active then
+ if FDDMenu.FCompressed.Active then
     begin
-     if width > DropDownMenu.FCompressed.Width then
+     if width > FDDMenu.FCompressed.FWidth then width := width - FStep;
+     if Height > FDDMenu.FCompressed.FHeight then
       begin
-       width := width - FCount;
-       Left  := Left + FCount;
+       Height := Height - FStep;
+       Top    := Top + FStep;
       end;
-     if Height > DropDownMenu.FCompressed.Height then Height := Height - FCount;
-     if (width <= DropDownMenu.FCompressed.Width) and (Height <=DropDownMenu.FCompressed.Height) then
+     if (width <= FDDMenu.FCompressed.FWidth) and (Height <=FDDMenu.FCompressed.FHeight) then
       begin
-       width := DropDownMenu.FCompressed.Width;
-       height:= DropDownMenu.FCompressed.Height;
+       width := FDDMenu.FCompressed.FWidth;
+       height:= FDDMenu.FCompressed.FHeight;
        FTimer.Enabled:= false;
       end;
     end;
 end;
- *)
+
 (*
 procedure TMultiPanel.BottomToTop;
 begin
@@ -836,6 +839,7 @@ begin
   //inherited Paint;
   DrawThePanel;
   DrawABorder;
+
 
   FRunThroughPaint := true;
   //update all child windows
