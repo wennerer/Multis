@@ -2,22 +2,81 @@ object Form1: TForm1
   Left = 366
   Height = 505
   Top = 250
-  Width = 582
+  Width = 600
   Caption = 'Form1'
   ClientHeight = 505
-  ClientWidth = 582
+  ClientWidth = 600
   OnCreate = FormCreate
   OnPaint = FormPaint
   object MultiPanel1: TMultiPanel
     Left = 0
-    Height = 40
-    Top = 32
-    Width = 115
+    Height = 50
+    Top = 100
+    Width = 50
     DropDownMenu.Active = True
-    DropDownMenu.Compressed.Width = 115
-    DropDownMenu.Compressed.Height = 40
-    DropDownMenu.Stretched.Width = 291
-    DropDownMenu.Stretched.Height = 271
+    DropDownMenu.Stretched.Width = 200
+    DropDownMenu.Stretched.Height = 250
+    object MultiButton1: TMultiButton
+      Left = 0
+      Height = 50
+      Top = 0
+      Width = 200
+      MessageButton.ImageLeft = 0
+      MessageButton.ImageTop = 0
+      Caption = 'MultiButton1'
+      TabOrder = 0
+    end
+    object MultiButton2: TMultiButton
+      Left = 0
+      Height = 50
+      Top = 50
+      Width = 200
+      MessageButton.ImageLeft = 0
+      MessageButton.ImageTop = 0
+      Caption = 'MultiButton2'
+      TabOrder = 1
+    end
+    object MultiButton3: TMultiButton
+      Left = 0
+      Height = 50
+      Top = 100
+      Width = 200
+      MessageButton.ImageLeft = 0
+      MessageButton.ImageTop = 0
+      Caption = 'MultiButton3'
+      TabOrder = 2
+    end
+    object MultiButton4: TMultiButton
+      Left = 0
+      Height = 50
+      Top = 150
+      Width = 200
+      MessageButton.ImageLeft = 0
+      MessageButton.ImageTop = 0
+      Caption = 'MultiButton4'
+      TabOrder = 3
+    end
+    object MultiButton5: TMultiButton
+      Left = 0
+      Height = 50
+      Top = 200
+      Width = 200
+      MessageButton.ImageLeft = 0
+      MessageButton.ImageTop = 0
+      Caption = 'MultiButton5'
+      TabOrder = 4
+    end
+  end
+  object MultiPanel2: TMultiPanel
+    Left = 552
+    Height = 150
+    Top = 100
+    Width = 46
+    DropDownMenu.Active = True
+    DropDownMenu.Compressed.Width = 46
+    DropDownMenu.Compressed.Height = 150
+    DropDownMenu.Stretched.Width = 150
+    DropDownMenu.Direction = RightTop_LeftBottom
   end
   object MultiButtonStyleManager1: TMultiButtonStyleManager
     Style = mbsRect
@@ -37,12 +96,12 @@ object Form1: TForm1
     FocusColor = clWhite
     CaptionAlignment = taLeftJustify
     CaptionHorMargin = 45
-    Left = 362
-    Top = 421
+    Left = 496
+    Top = 448
   end
   object ImageList1: TImageList
-    Left = 234
-    Top = 434
+    Left = 368
+    Top = 448
     Bitmap = {
       4C7A050000001000000010000000070C00000000000078DAB598793855DB1BC7
       F77138C6142AC339C6CCE1185229324688741D533235292A15E9E7562AD2A441

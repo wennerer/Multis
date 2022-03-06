@@ -15,6 +15,7 @@ procedure TDDMenu.SetActive(AValue: boolean);
 begin
   if FActive=AValue then Exit;
   FActive:=AValue;
+  (FOwner as TMultiPanel).SetSizeDropDownMenu(self);
   if Assigned(FOwner) then FOwner.Invalidate;
 end;
 
@@ -53,20 +54,6 @@ begin
   if Assigned(FOwner) then FOwner.Invalidate;
 end;
 
-procedure TComp.SetLeft(AValue: integer);
-begin
-  if FLeft=AValue then Exit;
-  FLeft:=AValue;
-  if Assigned(FOwner) then FOwner.Invalidate;
-end;
-
-procedure TComp.SetTop(AValue: integer);
-begin
-  if FTop=AValue then Exit;
-  FTop:=AValue;
-  if Assigned(FOwner) then FOwner.Invalidate;
-end;
-
 procedure TComp.SetActive(AValue: boolean);
 begin
   if FActive=AValue then Exit;
@@ -101,20 +88,6 @@ begin
   if FHeight=AValue then Exit;
   FHeight:=AValue;
   (FOwner as TMultiPanel).SetSizeDropDownMenu(self);
-  if Assigned(FOwner) then FOwner.Invalidate;
-end;
-
-procedure TStre.SetLeft(AValue: integer);
-begin
-  if FLeft=AValue then Exit;
-  FLeft:=AValue;
-  if Assigned(FOwner) then FOwner.Invalidate;
-end;
-
-procedure TStre.SetTop(AValue: integer);
-begin
-  if FTop=AValue then Exit;
-  FTop:=AValue;
   if Assigned(FOwner) then FOwner.Invalidate;
 end;
 

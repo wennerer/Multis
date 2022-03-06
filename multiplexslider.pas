@@ -585,8 +585,8 @@ type
     procedure SetValueDisplay(AValue: TValueDisplay);
 
   protected
-    procedure FontPropertyChanged(Sender: TObject);
-    procedure VDFontPropertyChanged(Sender: TObject);
+    procedure FontPropertyChanged({%H-}Sender: TObject);
+    procedure VDFontPropertyChanged({%H-}Sender: TObject);
     procedure BoundsChanged;override;
     procedure Loaded; override;
 

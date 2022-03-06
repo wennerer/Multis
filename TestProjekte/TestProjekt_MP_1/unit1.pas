@@ -14,8 +14,14 @@ type
 
   TForm1 = class(TForm)
     ImageList1: TImageList;
+    MultiButton1: TMultiButton;
+    MultiButton2: TMultiButton;
+    MultiButton3: TMultiButton;
+    MultiButton4: TMultiButton;
+    MultiButton5: TMultiButton;
     MultiButtonStyleManager1: TMultiButtonStyleManager;
     MultiPanel1: TMultiPanel;
+    MultiPanel2: TMultiPanel;
     procedure FormCreate(Sender: TObject);
     procedure FormPaint(Sender: TObject);
     procedure MultiButton1Click(Sender: TObject);

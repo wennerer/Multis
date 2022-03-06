@@ -128,7 +128,7 @@ type
      pressed      : boolean;
      Hotspot      : TRect;
 
-    procedure ImagesChanged(Sender: TObject);
+    procedure ImagesChanged({%H-}Sender: TObject);
     procedure SetAlignment(AValue: TMBAlignment);
     procedure SetBorderColor(AValue: TColor);
     procedure SetBorderWidth(AValue: integer);
@@ -353,7 +353,7 @@ type
    procedure CheckTheGroup;
    procedure SetActiveButtonInGroup(aValue: boolean);
    function  GetStyleManager: TMultiButtonStyleManager;
-   procedure ImagesChanged(Sender: TObject);
+   procedure ImagesChanged({%H-}Sender: TObject);
    procedure SetForegroundFocusOn(AValue: boolean);
 
    procedure StyleManagerChanged(Sender: TObject);
@@ -398,8 +398,8 @@ type
    procedure SetLayout(AValue: TTextLayout);
    procedure SetStyleManager(AValue: TMultiButtonStyleManager);
    procedure SetTextStyle(AValue: TTextStyle);
-   procedure FontPropertyChanged(Sender:TObject);
-   procedure MessageFontPropertyChanged(Sender:TObject);
+   procedure FontPropertyChanged({%H-}Sender:TObject);
+   procedure MessageFontPropertyChanged({%H-}Sender:TObject);
    procedure SetCaption(AValue: TCaption);
    procedure SetVisible(aValue: boolean);reintroduce;
    procedure SetEnabled(aValue: boolean);reintroduce;
