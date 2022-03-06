@@ -181,7 +181,8 @@ type
     FGradient      : TGradientCourse;
     FRRRadius      : integer;
     FStyle         : TMPanelStyle;
-    FChangeable    : boolean;
+    FChangeable    : boolean;  //flag for dropdownmenu
+    FSwitch        : boolean;  //flag for dropdownmenu in designtime
     FTriggerNot    : boolean;
     FTimer         : TTimer;
     FSpeed         : integer; //Timer for dropdownmenu
@@ -391,8 +392,12 @@ begin
   if not FChangeable then
    begin
     FChangeable := true;
+    //showmessage('BoundsChanged false');
     exit;
    end;
+  //showmessage('BoundsChanged true');
+  if FDDMenu.FCompressed.FActive and not FSwitch then FDDMenu.FCompressed.FLeft:= left;
+  FSwitch := false;
 
   SetSizeDropDownMenu(self);
 
@@ -450,7 +455,8 @@ begin
    FTimer.Enabled:= true;
    exit;
   end;
-
+  //showmessage('SetDropDownMenu');
+  if FDDMenu.FCompressed.FActive then FSwitch:= true;
   SetSizeDropDownMenu(Sender);
 
 end;
@@ -475,12 +481,15 @@ begin
    begin
     width := FDDMenu.FCompressed.FWidth;
     height:= FDDMenu.FCompressed.FHeight;
-
+    if FDDMenu.FDirection = RightTop_LeftBottom then left  := FDDMenu.FCompressed.FLeft;
+    //showmessage('OI');
    end;//if compressed active
   if FDDMenu.FStretched.FActive then
    begin
     width := FDDMenu.FStretched.FWidth;
     height:= FDDMenu.FStretched.FHeight;
+    if FDDMenu.FDirection = RightTop_LeftBottom then
+     left  := (FDDMenu.FCompressed.FLeft+FDDMenu.FCompressed.FWidth)-FDDMenu.FStretched.FWidth;
    end; //if streched active
    exit;
   end;
@@ -489,7 +498,7 @@ begin
    begin
     FDDMenu.FCompressed.FWidth  := width;
     FDDMenu.FCompressed.FHeight := height;
-
+    //showmessage('Drag');
    end;//if compressed active
   if FDDMenu.FStretched.FActive then
    begin

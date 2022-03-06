@@ -68,13 +68,11 @@ object Form1: TForm1
     end
   end
   object MultiPanel2: TMultiPanel
-    Left = 552
-    Height = 150
+    Left = 550
+    Height = 50
     Top = 100
-    Width = 46
+    Width = 50
     DropDownMenu.Active = True
-    DropDownMenu.Compressed.Width = 46
-    DropDownMenu.Compressed.Height = 150
     DropDownMenu.Stretched.Width = 150
     DropDownMenu.Direction = RightTop_LeftBottom
   end

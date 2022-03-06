@@ -31,20 +31,20 @@
         <Filename Value="../../multipanel.pas"/>
         <UnitName Value="MultiPanel"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="331"/>
-        <CursorPos X="50" Y="479"/>
+        <TopLine Value="433"/>
+        <CursorPos X="53" Y="451"/>
         <UsageCount Value="117"/>
         <Bookmarks Count="3">
-          <Item0 X="87" Y="458"/>
-          <Item1 X="16" Y="386" ID="1"/>
-          <Item2 X="39" Y="298" ID="2"/>
+          <Item0 X="87" Y="464"/>
+          <Item1 X="16" Y="387" ID="1"/>
+          <Item2 X="39" Y="299" ID="2"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="../../mp_dropdownmenu.inc"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="77"/>
+        <TopLine Value="44"/>
         <CursorPos Y="93"/>
         <UsageCount Value="117"/>
         <Loaded Value="True"/>
