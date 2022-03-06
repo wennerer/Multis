@@ -50,7 +50,7 @@ type
   TTrigger = (trClick,trHover);
 
 type
-  TDirection = (LeftTop_RightBottom,RightTop_LeftBottom,LeftBottom_RightTop);
+  TDirection = (LeftTop_RightBottom,RightTop_LeftBottom,LeftBottom_RightTop,RightBottom_LeftTop);
 
 type
 
@@ -204,7 +204,7 @@ type
     procedure LeftTopToRightBottom;
     procedure RightTopToLeftBottom;
     procedure LeftBottomToRightTop;
-    //procedure BottomToTop;
+    procedure RightBottomToLeftTop;
 
   protected
     procedure DrawThePanel;
@@ -465,6 +465,7 @@ begin
   end;
 
   if FDDMenu.FCompressed.FActive then FSwitch:= true;
+  //FSwitch:= true;
   SetSizeDropDownMenu(Sender);
 
 end;
@@ -491,6 +492,13 @@ begin
     height:= FDDMenu.FCompressed.FHeight;
     if FDDMenu.FDirection = RightTop_LeftBottom then left := FDDMenu.FCompressed.FLeft;
     if FDDMenu.FDirection = LeftBottom_RightTop then top  := FDDMenu.FCompressed.FTop;
+    if FDDMenu.FDirection = RightBottom_LeftTop then
+     begin
+      FChangeable := false;
+      left := FDDMenu.FCompressed.FLeft;
+      FChangeable := false;
+      top  := FDDMenu.FCompressed.FTop;
+     end;
    end;//if compressed active
   if FDDMenu.FStretched.FActive then
    begin
@@ -500,6 +508,12 @@ begin
      left := (FDDMenu.FCompressed.FLeft+FDDMenu.FCompressed.FWidth)-FDDMenu.FStretched.FWidth;
     if FDDMenu.FDirection = LeftBottom_RightTop then
      top := (FDDMenu.FCompressed.FTop+FDDMenu.FCompressed.FHeight)-FDDMenu.FStretched.FHeight;
+    if FDDMenu.FDirection = RightBottom_LeftTop then
+     begin
+      left := (FDDMenu.FCompressed.FLeft+FDDMenu.FCompressed.FWidth)-FDDMenu.FStretched.FWidth;
+      FChangeable:= false;
+      top := (FDDMenu.FCompressed.FTop+FDDMenu.FCompressed.FHeight)-FDDMenu.FStretched.FHeight;
+     end;
    end; //if streched active
    exit;
   end;
@@ -542,7 +556,7 @@ begin
  if FDDMenu.FDirection = LeftTop_RightBottom then LeftTopToRightBottom;
  if FDDMenu.FDirection = RightTop_LeftBottom then RightTopToLeftBottom;
  if FDDMenu.FDirection = LeftBottom_RightTop then LeftBottomToRightTop;
- //if FDDMenu.FDirection = BottomTop then BottomToTop;
+ if FDDMenu.FDirection = RightBottom_LeftTop then RightBottomToLeftTop;
 
 end;
 
@@ -647,39 +661,51 @@ begin
     end;
 end;
 
-(*
-procedure TMultiPanel.BottomToTop;
+
+procedure TMultiPanel.RightBottomToLeftTop;
 begin
   //that stretches
- if DropDownMenu.FStretched.Active then
+ if FDDMenu.FStretched.FActive then
     begin
-     if Height < DropDownMenu.FStretched.Height then
+     if Height < FDDMenu.FStretched.FHeight then
       begin
-       Height := Height + FCount;
-       Top := Top - FCount;
+       Height := Height + FStep;
+       Top    := Top - FStep;
       end;
-     if (Height >=DropDownMenu.FStretched.Height) then
+     if width < FDDMenu.FStretched.FWidth then
       begin
-       height:= DropDownMenu.FStretched.Height;
+       width := width + FStep;
+       Left  := Left - FStep;
+      end;
+     if (width >= FDDMenu.FStretched.FWidth) and (Height >=FDDMenu.FStretched.FHeight) then
+      begin
+       width := FDDMenu.FStretched.FWidth;
+       height:= FDDMenu.FStretched.FHeight;
        FTimer.Enabled:= false;
       end;
     end;
   //that pulls together
- if DropDownMenu.FCompressed.Active then
+ if FDDMenu.FCompressed.Active then
     begin
-     if Height > DropDownMenu.FCompressed.Height then
+     if Height > FDDMenu.FCompressed.FHeight then
       begin
-       Height := Height - FCount;
-       Top := Top + FCount;
+       Height := Height - FStep;
+       Top    := Top + FStep;
       end;
-     if (Height <=DropDownMenu.FCompressed.Height) then
+     if width > FDDMenu.FCompressed.FWidth then
       begin
-       height:= DropDownMenu.FCompressed.Height;
+       width := width - FStep;
+       Left  := Left + FStep;
+      end;
+     if (width <= FDDMenu.FCompressed.FWidth) and (Height <=FDDMenu.FCompressed.FHeight) then
+      begin
+       width := FDDMenu.FCompressed.FWidth;
+       height:= FDDMenu.FCompressed.FHeight;
        FTimer.Enabled:= false;
       end;
     end;
 end;
- *)
+
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx---drawing---XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 procedure TMultiPanel.DrawThePanel;
