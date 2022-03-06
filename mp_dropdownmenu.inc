@@ -95,6 +95,7 @@ procedure TStre.SetActive(AValue: boolean);
 begin
   if FActive=AValue then Exit;
   FActive:=AValue;
+
   (FOwner as TMultiPanel).SetDropDownMenu(self,aValue);
 end;
 

@@ -175,21 +175,23 @@ type
   TMultiPanel = class(TCustomPanel)
   private
     FBorder: TBorder;
-    FColorEnd      : TColor;
-    FColorStart    : TColor;
-    FDDMenu        : TDDMenu;
-    FGradient      : TGradientCourse;
-    FRRRadius      : integer;
-    FStyle         : TMPanelStyle;
-    FChangeable    : boolean;  //flag for dropdownmenu
-    FSwitch        : boolean;  //flag for dropdownmenu in designtime
-    FTriggerNot    : boolean;
-    FTimer         : TTimer;
-    FSpeed         : integer; //Timer for dropdownmenu
-    FStep          : integer; //for Dropdownmenu
+    FColorEnd        : TColor;
+    FColorStart      : TColor;
+    FDDMenu          : TDDMenu;
+    FGradient        : TGradientCourse;
+    FRRRadius        : integer;
+    FStyle           : TMPanelStyle;
+    FChangeable      : boolean;  //flag for dropdownmenu
+    FSwitch          : boolean;  //flag for dropdownmenu in designtime
+    FTriggerNot      : boolean;
+    FTimer           : TTimer;
+    FSpeed           : integer; //Timer for dropdownmenu
+    FStep            : integer; //for Dropdownmenu
+    FRunThroughPaint : boolean;
 
 
 
+    procedure MultiBkgrdBmp;
     procedure SetBorder(AValue: TBorder);
     procedure SetColorEnd(AValue: TColor);
     procedure SetColorStart(AValue: TColor);
@@ -315,6 +317,7 @@ end;
 
 destructor TMultiPanel.Destroy;
 begin
+  Application.RemoveOnUserInputHandler(@ParentInputHandler);
   FMultiBkgrdBmp.Free;
   FBorder.Free;
   FDDMenu.FCompressed.Free;
@@ -392,10 +395,9 @@ begin
   if not FChangeable then
    begin
     FChangeable := true;
-    //showmessage('BoundsChanged false');
     exit;
    end;
-  //showmessage('BoundsChanged true');
+  //this is only for designtime
   if FDDMenu.FCompressed.FActive and not FSwitch then FDDMenu.FCompressed.FLeft:= left;
   FSwitch := false;
 
@@ -406,7 +408,7 @@ end;
 procedure TMultiPanel.Loaded;
 begin
  inherited Loaded;
-
+ if not FRunThroughPaint then MultiBkgrdBmp;
 end;
 
 
@@ -455,7 +457,7 @@ begin
    FTimer.Enabled:= true;
    exit;
   end;
-  //showmessage('SetDropDownMenu');
+
   if FDDMenu.FCompressed.FActive then FSwitch:= true;
   SetSizeDropDownMenu(Sender);
 
@@ -482,7 +484,7 @@ begin
     width := FDDMenu.FCompressed.FWidth;
     height:= FDDMenu.FCompressed.FHeight;
     if FDDMenu.FDirection = RightTop_LeftBottom then left  := FDDMenu.FCompressed.FLeft;
-    //showmessage('OI');
+
    end;//if compressed active
   if FDDMenu.FStretched.FActive then
    begin
@@ -498,7 +500,6 @@ begin
    begin
     FDDMenu.FCompressed.FWidth  := width;
     FDDMenu.FCompressed.FHeight := height;
-    //showmessage('Drag');
    end;//if compressed active
   if FDDMenu.FStretched.FActive then
    begin
@@ -738,6 +739,67 @@ begin
    Dest.Free;
 end;
 
+procedure TMultiPanel.MultiBkgrdBmp;
+var   bkBmp        : TBitmap;
+      trBmp        : TBitmap;
+      mask         : TBitmap;
+      Dest         : TBitmap;
+
+begin
+
+   bkBmp := TBitmap.Create;
+   bkBmp.SetSize(FDDMenu.FStretched.FWidth,FDDMenu.FStretched.FHeight);
+   FMultiBkgrdBmp.SetSize(FDDMenu.FStretched.FWidth,FDDMenu.FStretched.FHeight);
+
+   if FGradient = gcAlternate then Gradient_Bmp(bkBmp,clGray,clSilver,ord(gcVertical)); //otherwise flickers
+
+   Gradient_Bmp(bkBmp,FColorStart,FColorEnd,ord(FGradient));
+
+
+   trBmp := TBitmap.Create;
+   trBmp.SetSize(FDDMenu.FStretched.FWidth,FDDMenu.FStretched.FHeight);
+   trBmp.TransparentColor:=clblack;
+   trBmp.Transparent:= true;
+   trBmp.Canvas.Brush.Color:=clwhite;
+   trBmp.Canvas.FillRect(0,0,Width,Height);
+   trBmp.Canvas.Brush.Color:=clBlack;
+   case FStyle of
+    mpsRoundRect : trBmp.Canvas.RoundRect(0,0,Width,height,FRRRadius,FRRRadius);
+    mpsRect      : trBmp.Canvas.Rectangle(0,0,Width,height);
+    mpsEllipse   : trBmp.Canvas.Ellipse(0,0,Width,height);
+   end;
+
+   mask := TBitmap.Create;
+   mask.SetSize(FDDMenu.FStretched.FWidth,FDDMenu.FStretched.FHeight);
+   mask.Canvas.Brush.Color:=clwhite;
+   mask.Canvas.FillRect(0,0,Width,Height);
+   mask.Canvas.Brush.Color:=clBlack;
+   case FStyle of
+    mpsRoundRect : mask.Canvas.RoundRect(0,0,Width,height,FRRRadius,FRRRadius);
+    mpsRect      : mask.Canvas.Rectangle(0,0,Width,height);
+    mpsEllipse   : mask.Canvas.Ellipse(0,0,Width,height);
+   end;
+
+   Dest       := TBitmap.Create;
+   Dest.SetSize(FDDMenu.FStretched.FWidth,FDDMenu.FStretched.FHeight);
+   Dest.Transparent:= true;
+   Dest.TransparentColor:= clBlack;
+   Dest.Canvas.Brush.Color:=clBlack;
+   Dest.Canvas.FillRect(0,0,100,100);
+   Dest.Canvas.copymode:=cmSrcCopy;
+   Dest.Canvas.Draw(0,0,bkBmp);
+   Dest.Canvas.Draw(0,0,trBmp);
+   Dest.Canvas.copymode:=cmSrcInvert;
+   Dest.Canvas.Draw(0,0,mask);
+
+   FMultiBkgrdBmp.Canvas.Draw(0,0,Dest);
+
+   bkBmp.Free;
+   trBmp.Free;
+   mask.Free;
+   Dest.Free;
+end;
+
 procedure TMultiPanel.DrawABorder;
 var i : integer;
 begin
@@ -771,9 +833,10 @@ begin
   if parent.Color = clDefault then color:=clForm else ParentColor:=true;
   //inherited Paint;
   DrawThePanel;
-  //DrawABorder;
+  DrawABorder;
 
-   //update all child windows
+  FRunThroughPaint := true;
+  //update all child windows
    for lv := 0 to pred(ControlCount) do
      begin
       if Controls[lv] is TMultiButton then (Controls[lv] as TMultiButton).Invalidate;

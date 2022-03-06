@@ -13,6 +13,7 @@ object Form1: TForm1
     Height = 50
     Top = 100
     Width = 50
+    BorderSettings.InnerColor = clRed
     DropDownMenu.Active = True
     DropDownMenu.Stretched.Width = 200
     DropDownMenu.Stretched.Height = 250
@@ -69,12 +70,27 @@ object Form1: TForm1
   end
   object MultiPanel2: TMultiPanel
     Left = 550
-    Height = 50
+    Height = 54
     Top = 100
-    Width = 50
+    Width = 54
+    BorderSettings.OuterColor = clLime
+    BorderSettings.InnerColor = clRed
     DropDownMenu.Active = True
+    DropDownMenu.Compressed.Width = 54
+    DropDownMenu.Compressed.Height = 54
     DropDownMenu.Stretched.Width = 150
+    DropDownMenu.Stretched.Height = 54
     DropDownMenu.Direction = RightTop_LeftBottom
+    object MultiButton6: TMultiButton
+      Left = 2
+      Height = 50
+      Top = 2
+      Width = 150
+      MessageButton.ImageLeft = 0
+      MessageButton.ImageTop = 0
+      Caption = 'MultiButton6'
+      TabOrder = 0
+    end
   end
   object MultiButtonStyleManager1: TMultiButtonStyleManager
     Style = mbsRect

@@ -5,7 +5,7 @@ unit Unit1;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, MultiPanel,
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, MultiPanel,
   MultiButton, MultiButtonStyleManager;
 
 type
@@ -19,6 +19,7 @@ type
     MultiButton3: TMultiButton;
     MultiButton4: TMultiButton;
     MultiButton5: TMultiButton;
+    MultiButton6: TMultiButton;
     MultiButtonStyleManager1: TMultiButtonStyleManager;
     MultiPanel1: TMultiPanel;
     MultiPanel2: TMultiPanel;
