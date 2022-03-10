@@ -1,6 +1,6 @@
 { <A button with an integrated button>
   <Version 1.2.7.2>
-  Copyright (C) <23.01.2022> <Bernd Hübner>
+  Copyright (C) <08.03.2022> <Bernd Hübner>
   Many thanks to the members of the German Lazarus Forum!
   wp_xyz helped me jump over many hurdles!
   For some improvements see https://www.lazarusforum.de/viewtopic.php?f=29&t=13252
@@ -1541,6 +1541,7 @@ procedure TMultiButton.MouseUp(Button: TMouseButton; Shift: TShiftState; X,
 var MulBIn,MesBIn : boolean;
 begin
   inherited MouseUp(Button, Shift, X, Y);
+  if Assigned(OnClick) then OnClick(self);
  if not FEnabled then exit;
  pressed := false;
  FMessageButton.pressed := false;

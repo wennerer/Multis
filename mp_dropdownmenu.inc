@@ -26,6 +26,18 @@ begin
   if Assigned(FOwner) then FOwner.Invalidate;
 end;
 
+procedure TDDMenu.SetSpeed(AValue: integer);
+begin
+  if FSpeed=AValue then Exit;
+  FSpeed:=AValue;
+end;
+
+procedure TDDMenu.SetStep(AValue: integer);
+begin
+  if FStep=AValue then Exit;
+  FStep:=AValue;
+end;
+
 procedure TDDMenu.SetTrigger(AValue: TTrigger);
 begin
   if FTrigger=AValue then Exit;

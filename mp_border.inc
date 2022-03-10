@@ -26,6 +26,13 @@ begin
   if Assigned(FOwner) then FOwner.Invalidate;
 end;
 
+procedure TBorder.SetBetween(AValue: integer);
+begin
+  if FBetween=AValue then Exit;
+  FBetween:=AValue;
+  if Assigned(FOwner) then FOwner.Invalidate;
+end;
+
 procedure TBorder.SetInnerWidth(AValue: integer);
 begin
   if FInnerWidth=AValue then Exit;
