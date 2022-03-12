@@ -204,6 +204,20 @@ object Form1: TForm1
     DropDownMenu.Active = True
     DropDownMenu.Stretched.Width = 150
   end
+  object MultiPanel4: TMultiPanel
+    Left = 569
+    Height = 135
+    Top = 89
+    Width = 247
+    Caption = 'Mein Panel'
+    Font.Color = clInfoBk
+    Font.Height = -32
+    Font.Name = 'Purisa'
+    CaptionAlignment = taLeftJustify
+    CaptionLayout = tlTop
+    CaptionHorMargin = 10
+    CaptionVerMargin = 10
+  end
   object MultiButtonStyleManager1: TMultiButtonStyleManager
     Style = mbsRect
     Width = 200

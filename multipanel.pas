@@ -228,9 +228,14 @@ type
   TMultiPanel = class(TCustomPanel)
   private
     FBorder: TBorder;
+    FCapLeft: integer;
+    FCaption: TCaption;
+    FCaptionWordbreak: boolean;
+    FCapTop: integer;
     FColorEnd        : TColor;
     FColorStart      : TColor;
     FDDMenu          : TDDMenu;
+    FFont: TFont;
     FGradient        : TGradientCourse;
     FImageIndex: TImageIndex;
     FImageLeft: integer;
@@ -254,6 +259,7 @@ type
     FStyle           : TMPanelStyle;
     FChangeable      : boolean;  //flag for dropdownmenu
     FSwitch          : boolean;  //flag for dropdownmenu in designtime
+    FTextStyle: TTextStyle;
     FTriggerNot      : boolean;
     FTimer           : TTimer;
     FRunThroughPaint : boolean;
@@ -261,15 +267,22 @@ type
 
 
     procedure MultiBkgrdBmp;
+    procedure SetAlignment(AValue: TAlignment);
     procedure SetBorder(AValue: TBorder);
+    procedure SetCapLeft(AValue: integer);
+    procedure SetCaption(AValue: TCaption);
+    procedure SetCaptionWordbreak(AValue: boolean);
+    procedure SetCapTop(AValue: integer);
     procedure SetColorEnd(AValue: TColor);
     procedure SetColorStart(AValue: TColor);
     procedure SetDropDownMenu(Sender: TPersistent; aValue: boolean);
+    procedure SetFont(AValue: TFont);
     procedure SetImageIndex(AValue: TImageIndex);
     procedure SetImageLeft(AValue: integer);
     procedure SetImageList(AValue: TCustomImageList);
     procedure SetImageTop(AValue: integer);
     procedure SetImageWidth(AValue: integer);
+    procedure SetLayout(AValue: TTextLayout);
     procedure SetSizeDropDownMenu(Sender:TPersistent);
     procedure SetGradient(AValue: TGradientCourse);
     procedure SetRRRadius(AValue: integer);
@@ -280,6 +293,8 @@ type
     procedure LeftBottomToRightTop;
     procedure RightBottomToLeftTop;
     procedure ImagesChanged({%H-}Sender: TObject);
+    procedure FontPropertyChanged({%H-}Sender:TObject);
+    procedure SetTextStyle(AValue: TTextStyle);
 
   protected
     procedure DrawThePanel;
@@ -303,6 +318,8 @@ type
    procedure MouseDown({%H-}Button: TMouseButton;{%H-}Shift: TShiftState; X, Y: Integer);override;
    procedure MouseUp({%H-}Button: TMouseButton; {%H-}Shift: TShiftState; {%H-}X, {%H-}Y: Integer);override;
    procedure Paint; override;
+
+   property TextStyle: TTextStyle read FTextStyle write SetTextStyle;
   published
    //The geometric shape of the panel
    //Die geometrische Form des Panels
@@ -343,6 +360,30 @@ type
    //Die Koordinate der oberen Ecke des Bildes
    property ImageTop   : integer read FImageTop write SetImageTop default 2;
 
+   //The text that the user writes in the panel
+   //Der Text den der Benutzer in das Panel schreibt
+   property Caption : TCaption read FCaption write SetCaption;
+   //The font to be used for text display in this panel.
+   //Die Schrift die für die Textanzeige in diesem Panel verwendet werden soll.
+   property Font: TFont read FFont write SetFont;
+   //Alignment of the text in the caption (left, center, right)
+   //Ausrichtung des Textes in der Caption (Links,Mitte,Rechts)
+   property CaptionAlignment:TAlignment read FTextStyle.Alignment write SetAlignment default taCenter;
+   //Alignment of the text in the caption (top, center, bottom)
+   //Ausrichtung des Textes in der Caption (Oben,Mitte,Unten)
+   property CaptionLayout:TTextLayout read FTextStyle.Layout write SetLayout default tlCenter;
+   //Allows a line break in the caption
+   //Ermöglicht einen Zeilenumbruch in der Caption
+   property CaptionWordbreak : boolean read FCaptionWordbreak write SetCaptionWordbreak default true;
+   //The horizontal distance of the text in the text rectangle (only effective with taLeftJustify)
+   //Der horizontale Abstand des Textes im Textrechteck (nur wirksam mit taLeftJustify)
+   property CaptionHorMargin : integer read FCapLeft write SetCapLeft default 0;
+   //The vertical distance of the text in the text rectangle (only effective with tlTop)
+   //Der vertikale Abstand des Textes im Textrechteck (nur wirksam mit tlTop)
+   property CaptionVerMargin : integer read FCapTop write SetCapTop default 0;
+   //Allows to show or hide the control, and all of its children
+   //Ermöglicht das Ein- oder Ausblenden des Steuerelements und aller seiner untergeordneten Elemente
+
 
    property Width  default 250;
    property Height default 150;
@@ -361,6 +402,7 @@ type
    property BorderSpacing;
    property Constraints;
    property HelpType;
+   property Visible;
 
    property OnClick : TClickEvent read FOnClick     write FOnClick;
    property OnMouseMove : TMouseMoveEvent read FOnMouseMove write FOnMouseMove;
@@ -464,6 +506,18 @@ begin
   FImageWidth          := 0;
   FImageLeft           := 2;
   FImageTop            := 2;
+
+  FCaption := '';
+  FCaptionWordbreak := true;
+
+  fFont := TFont.Create;
+  ffont.OnChange:= @FontPropertyChanged;
+
+  FTextStyle.Alignment := taCenter;
+  FTextStyle.Layout    := tlCenter;
+  FTextStyle.SingleLine:= false;
+  FTextStyle.Wordbreak := true;
+  FTextStyle.Clipping  := true;
 end;
 
 destructor TMultiPanel.Destroy;
@@ -475,6 +529,7 @@ begin
   FDDMenu.FCompressed.Free;
   FDDMenu.FStretched.Free;
   FDDMenu.Free;
+  FFont.Free;
   inherited Destroy;
 end;
 
@@ -648,6 +703,45 @@ begin
   invalidate;
 end;
 
+procedure TMultiPanel.SetCapLeft(AValue: integer);
+begin
+ if FCapLeft=AValue then Exit;
+ FCapLeft:=AValue;
+ //if FAutoSize then TriggerAutoSize;
+ Invalidate;
+end;
+
+procedure TMultiPanel.SetCaption(AValue: TCaption);
+begin
+  if FCaption=AValue then Exit;
+  FCaption:=AValue;
+  invalidate;
+end;
+
+procedure TMultiPanel.SetCaptionWordbreak(AValue: boolean);
+begin
+  if FCaptionWordbreak=AValue then Exit;
+  FCaptionWordbreak:=AValue;
+   if not  FCaptionWordbreak then
+    begin
+     FTextStyle.SingleLine:= true;
+     FTextStyle.Wordbreak := false;
+    end else
+    begin
+     FTextStyle.SingleLine:= false;
+     FTextStyle.Wordbreak := true;
+    end;
+  invalidate;
+end;
+
+procedure TMultiPanel.SetCapTop(AValue: integer);
+begin
+ if FCapTop=AValue then Exit;
+ FCapTop:=AValue;
+ //if FAutoSize then TriggerAutoSize;
+ Invalidate;
+end;
+
 procedure TMultiPanel.SetColorStart(AValue: TColor);
 begin
   if FColorStart=AValue then Exit;
@@ -683,6 +777,12 @@ begin
   //FSwitch:= true;
   SetSizeDropDownMenu(Sender);
 
+end;
+
+procedure TMultiPanel.SetFont(AValue: TFont);
+begin
+  if FFont=AValue then Exit;
+  fFont.Assign(aValue);            //not := !!!
 end;
 
 procedure TMultiPanel.SetImageIndex(AValue: TImageIndex);
@@ -729,6 +829,15 @@ begin
   if FImageWidth=AValue then Exit;
   FImageWidth:=AValue;
   Invalidate;
+end;
+
+procedure TMultiPanel.SetLayout(AValue: TTextLayout);
+begin
+  if fTextStyle.Layout=AValue then exit;
+ fTextStyle.Layout:=AValue;
+ if aValue <> tlTop then FCapTop:=0;
+ //if FAutoSize then TriggerAutoSize;
+ Invalidate;
 end;
 
 procedure TMultiPanel.SetSizeDropDownMenu(Sender: TPersistent);  //only at design time
@@ -980,6 +1089,19 @@ begin
   Invalidate;
 end;
 
+procedure TMultiPanel.FontPropertyChanged(Sender: TObject);
+begin
+ canvas.Font.Assign(FFont);
+ //if FAutoSize then TriggerAutoSize;
+ Invalidate;
+end;
+
+procedure TMultiPanel.SetTextStyle(AValue: TTextStyle);
+begin
+  //if FTextStyle=AValue then Exit;
+  FTextStyle:=AValue;
+end;
+
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx---drawing---XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 procedure TMultiPanel.DrawThePanel;
@@ -1105,6 +1227,15 @@ begin
    Dest.Free;
 end;
 
+procedure TMultiPanel.SetAlignment(AValue: TAlignment);
+begin
+ if fTextStyle.Alignment=AValue then exit;
+ fTextStyle.Alignment:=AValue;
+ if aValue <> taLeftJustify then FCapLeft:=0;
+ //if FAutoSize then TriggerAutoSize;
+ Invalidate;
+end;
+
 procedure TMultiPanel.DrawABorder;
 var i : integer;
 begin
@@ -1133,7 +1264,8 @@ begin
 end;
 
 procedure TMultiPanel.Paint;
-var lv : integer;
+var lv   : integer;
+    textrect : TRect;
 begin
   if parent.Color = clDefault then color:=clForm else ParentColor:=true;
   //inherited Paint;
@@ -1143,8 +1275,12 @@ begin
      if (FImageList <> nil) and (FImageIndex > -1) and (FImageIndex < FImageList.Count) then
       FImageList.ResolutionForPPI[FImageWidth, Font.PixelsPerInch, GetCanvasScaleFactor].Draw(Canvas,
       FImageLeft,FImageTop,FImageIndex);
+  //caption
+  textrect := rect(0,0,width,height);
+  canvas.TextRect(TextRect,FCapLeft,FCapTop,FCaption,FTextStyle);
 
-  FRunThroughPaint := true;
+
+  FRunThroughPaint := true; //checks if paint was run
   //update all child windows
    for lv := 0 to pred(ControlCount) do
      begin

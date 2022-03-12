@@ -23,6 +23,7 @@ type
     MultiPanel1: TMultiPanel;
     MultiPanel2: TMultiPanel;
     MultiPanel3: TMultiPanel;
+    MultiPanel4: TMultiPanel;
     procedure FormCreate(Sender: TObject);
     procedure MultiPanel2Compressed(Sender: TObject);
     procedure MultiPanel2Streched(Sender: TObject);
