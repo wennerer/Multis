@@ -35,7 +35,8 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  infmultis, LMessages, LCLIntf, LCLType, LCLProc, dbugintf;
+  infmultis, LMessages, LCLIntf, LCLType, ImgList, LCLProc, GraphPropEdits,
+  PropEdits, dbugintf;
 
 type
   TClickEvent = procedure(Sender: TObject) of object;
@@ -231,7 +232,13 @@ type
     FColorStart      : TColor;
     FDDMenu          : TDDMenu;
     FGradient        : TGradientCourse;
+    FImageIndex: TImageIndex;
+    FImageLeft: integer;
+    FImageList: TCustomImageList;
+    FImageTop: integer;
+    FImageWidth: integer;
     FOnClick: TClickEvent;
+    FOnCompressed: TNotifyEvent;
     FOnEnter: TNotifyEvent;
     FOnExit: TNotifyEvent;
     FOnKeyDown: TKeyEvent;
@@ -242,6 +249,7 @@ type
     FOnMouseLeave: TMouseEnterLeave;
     FOnMouseMove: TMouseMoveEvent;
     FOnMouseUp: TMouseEvent;
+    FOnStreched: TNotifyEvent;
     FRRRadius        : integer;
     FStyle           : TMPanelStyle;
     FChangeable      : boolean;  //flag for dropdownmenu
@@ -249,7 +257,7 @@ type
     FTriggerNot      : boolean;
     FTimer           : TTimer;
     FRunThroughPaint : boolean;
-
+    FImageListChangeLink: TChangeLink;
 
 
     procedure MultiBkgrdBmp;
@@ -257,6 +265,11 @@ type
     procedure SetColorEnd(AValue: TColor);
     procedure SetColorStart(AValue: TColor);
     procedure SetDropDownMenu(Sender: TPersistent; aValue: boolean);
+    procedure SetImageIndex(AValue: TImageIndex);
+    procedure SetImageLeft(AValue: integer);
+    procedure SetImageList(AValue: TCustomImageList);
+    procedure SetImageTop(AValue: integer);
+    procedure SetImageWidth(AValue: integer);
     procedure SetSizeDropDownMenu(Sender:TPersistent);
     procedure SetGradient(AValue: TGradientCourse);
     procedure SetRRRadius(AValue: integer);
@@ -266,6 +279,7 @@ type
     procedure RightTopToLeftBottom;
     procedure LeftBottomToRightTop;
     procedure RightBottomToLeftTop;
+    procedure ImagesChanged({%H-}Sender: TObject);
 
   protected
     procedure DrawThePanel;
@@ -280,6 +294,7 @@ type
   public
    FMultiBkgrdBmp         : TBitmap;
    procedure ParentInputHandler({%H-}Sender: TObject; Msg: Cardinal);
+   procedure Notification(AComponent: TComponent;Operation: TOperation); override;
    constructor Create(AOwner: TComponent); override;
    destructor  Destroy; override;
    procedure MouseEnter; override;
@@ -312,6 +327,23 @@ type
    property DropDownMenu : TDDMenu read FDDMenu write FDDMenu;
 
 
+   //The Index of a Image in a ImageList
+   //Der Index eines Bildes in einer ImageList
+   property ImageIndex: TImageIndex read FImageIndex write SetImageIndex default -1;
+   //A list for including images
+   //Eine Liste zum Einfügen von Bildern
+   property Images  :  TCustomImageList  read FImageList write SetImageList default nil;
+   //The unique width of all images in the list.
+   //Die einmalige Breite aller Bilder in der Liste.
+   property ImageWidth : integer read FImageWidth write SetImageWidth default 0;
+   //The coordinate of the left edge of a Image
+   //Die Koordinate der linken Ecke des Bildes
+   property ImageLeft  : integer read FImageLeft write SetImageLeft default 2;
+   //The coordinate of the top edge of a Image
+   //Die Koordinate der oberen Ecke des Bildes
+   property ImageTop   : integer read FImageTop write SetImageTop default 2;
+
+
    property Width  default 250;
    property Height default 150;
 
@@ -341,6 +373,8 @@ type
    property OnKeyPress :TKeyPressEvent read FOnKeyPress write FOnKeyPress;
    property OnKeyDown: TKeyEvent read FOnKeyDown write FOnKeyDown;
    property OnKeyUp: TKeyEvent read FOnKeyUp write FOnKeyUp;
+   property OnCompressed : TNotifyEvent read FOnCompressed write FOnCompressed;
+   property OnStreched : TNotifyEvent read FOnStreched write FOnStreched;
 
   end;
 
@@ -349,10 +383,25 @@ procedure Register;
 implementation
 uses multibutton, multiplexslider;
 
+type
+  TMultiPanelImageIndexPropertyEditor = class(TImageIndexPropertyEditor)
+  protected
+    function GetImageList: TCustomImageList; override;
+  end;
+
+function TMultiPanelImageIndexPropertyEditor.GetImageList: TCustomImagelist;
+begin
+  Result := TMultiPanel(GetComponent(0)).Images;
+end;
+
+
+
+
 procedure Register;
 begin
   {$I multipanel_icon.lrs}
   RegisterComponents('Multi',[TMultiPanel]);
+  RegisterPropertyEditor(TypeInfo(TImageIndex), TMultiPanel, 'ImageIndex', TMultiPanelImageIndexPropertyEditor);
 end;
 
 
@@ -408,10 +457,18 @@ begin
   Application.AddOnUserInputHandler(@ParentInputHandler);
   FChangeable := true;
   FTriggerNot := false;
+
+  FImageListChangeLink := TChangeLink.Create;
+  FImageListChangeLink.OnChange := @ImagesChanged;
+  FImageIndex          := -1;
+  FImageWidth          := 0;
+  FImageLeft           := 2;
+  FImageTop            := 2;
 end;
 
 destructor TMultiPanel.Destroy;
 begin
+  FImageListChangeLink.Free;
   Application.RemoveOnUserInputHandler(@ParentInputHandler);
   FMultiBkgrdBmp.Free;
   FBorder.Free;
@@ -504,6 +561,16 @@ begin
     end;
   end;
 
+end;
+
+procedure TMultiPanel.Notification(AComponent: TComponent; Operation: TOperation
+  );
+begin
+  inherited Notification(AComponent, Operation);
+ if (Operation = opRemove) and (AComponent = FImageList) then
+  begin
+   Images := nil;
+  end;
 end;
 
 
@@ -618,6 +685,52 @@ begin
 
 end;
 
+procedure TMultiPanel.SetImageIndex(AValue: TImageIndex);
+begin
+  if FImageIndex=AValue then Exit;
+  FImageIndex:=AValue;
+  ImagesChanged(nil);
+end;
+
+procedure TMultiPanel.SetImageLeft(AValue: integer);
+begin
+  if FImageLeft=AValue then Exit;
+  FImageLeft:=AValue;
+  Invalidate;
+end;
+
+procedure TMultiPanel.SetImageList(AValue: TCustomImageList);
+begin
+  if FImageList=AValue then Exit;
+   if FImageList <> nil then
+  begin
+    FImageList.UnRegisterChanges(FImageListChangeLink);
+    FImageList.RemoveFreeNotification(Self);
+  end;
+  FImageList := AValue;
+
+  if FImageList <> nil then
+  begin
+    FImageList.FreeNotification(Self);
+    FImageList.RegisterChanges(FImageListChangeLink);
+  end;
+  ImagesChanged(Self);
+end;
+
+procedure TMultiPanel.SetImageTop(AValue: integer);
+begin
+  if FImageTop=AValue then Exit;
+  FImageTop:=AValue;
+  Invalidate;
+end;
+
+procedure TMultiPanel.SetImageWidth(AValue: integer);
+begin
+  if FImageWidth=AValue then Exit;
+  FImageWidth:=AValue;
+  Invalidate;
+end;
+
 procedure TMultiPanel.SetSizeDropDownMenu(Sender: TPersistent);  //only at design time
 begin
   if not FDDMenu.FActive then exit;
@@ -720,6 +833,7 @@ begin
        width := FDDMenu.FStretched.FWidth;
        height:= FDDMenu.FStretched.FHeight;
        FTimer.Enabled:= false;
+       if Assigned(OnStreched) then OnStreched(self);
       end;
     end;
   //that pulls together
@@ -732,6 +846,7 @@ begin
        width := FDDMenu.FCompressed.FWidth;
        height:= FDDMenu.FCompressed.FHeight;
        FTimer.Enabled:= false;
+       if Assigned(OnCompressed) then OnCompressed(self);
       end;
     end;
 
@@ -753,6 +868,7 @@ begin
        width := FDDMenu.FStretched.FWidth;
        height:= FDDMenu.FStretched.FHeight;
        FTimer.Enabled:= false;
+       if Assigned(OnStreched) then OnStreched(self);
       end;
     end;
   //that pulls together
@@ -769,6 +885,7 @@ begin
        width := FDDMenu.FCompressed.FWidth;
        height:= FDDMenu.FCompressed.FHeight;
        FTimer.Enabled:= false;
+       if Assigned(OnCompressed) then OnCompressed(self);
       end;
     end;
 end;
@@ -789,6 +906,7 @@ begin
        width := FDDMenu.FStretched.FWidth;
        height:= FDDMenu.FStretched.FHeight;
        FTimer.Enabled:= false;
+       if Assigned(OnStreched) then OnStreched(self);
       end;
     end;
   //that pulls together
@@ -805,6 +923,7 @@ begin
        width := FDDMenu.FCompressed.FWidth;
        height:= FDDMenu.FCompressed.FHeight;
        FTimer.Enabled:= false;
+       if Assigned(OnCompressed) then OnCompressed(self);
       end;
     end;
 end;
@@ -830,6 +949,7 @@ begin
        width := FDDMenu.FStretched.FWidth;
        height:= FDDMenu.FStretched.FHeight;
        FTimer.Enabled:= false;
+       if Assigned(OnStreched) then OnStreched(self);
       end;
     end;
   //that pulls together
@@ -850,8 +970,14 @@ begin
        width := FDDMenu.FCompressed.FWidth;
        height:= FDDMenu.FCompressed.FHeight;
        FTimer.Enabled:= false;
+       if Assigned(OnCompressed) then OnCompressed(self);
       end;
     end;
+end;
+
+procedure TMultiPanel.ImagesChanged(Sender: TObject);
+begin
+  Invalidate;
 end;
 
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx---drawing---XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -1013,7 +1139,10 @@ begin
   //inherited Paint;
   DrawThePanel;
   DrawABorder;
-
+  //Draw the Image
+     if (FImageList <> nil) and (FImageIndex > -1) and (FImageIndex < FImageList.Count) then
+      FImageList.ResolutionForPPI[FImageWidth, Font.PixelsPerInch, GetCanvasScaleFactor].Draw(Canvas,
+      FImageLeft,FImageTop,FImageIndex);
 
   FRunThroughPaint := true;
   //update all child windows
