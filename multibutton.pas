@@ -1541,7 +1541,7 @@ procedure TMultiButton.MouseUp(Button: TMouseButton; Shift: TShiftState; X,
 var MulBIn,MesBIn : boolean;
 begin
   inherited MouseUp(Button, Shift, X, Y);
-  if Assigned(OnClick) then OnClick(self);
+  //if Assigned(OnClick) then OnClick(self);
  if not FEnabled then exit;
  pressed := false;
  FMessageButton.pressed := false;
@@ -1559,6 +1559,7 @@ begin
    if MesBIn then
   begin
      if Assigned(MessageButton.OnClick) then MessageButton.OnClick(self);
+     if Assigned(OnMouseUp) then OnMouseUp(self,Button,Shift,x,y);
      Invalidate;
      exit;
     end;
@@ -1587,6 +1588,7 @@ begin
      Invalidate;
      exit;
     end;
+
  Invalidate;
 end;
 
