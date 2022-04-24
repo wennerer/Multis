@@ -62,7 +62,7 @@ type
   TGradientCourse = (gcHorizontal,gcVertical,gcSpread,gcRadiant,gcAlternate); //for background color
 
 type
-  TTrigger = (trClick,trHover);
+  TTrigger = (trClick,trHover,trPinned);
 
 type
   TDirection = (LeftTop_RightBottom,RightTop_LeftBottom,LeftBottom_RightTop,RightBottom_LeftTop);
@@ -614,6 +614,16 @@ begin
      if not ptinrect(HotspotStretched,P) then
       DropDownMenu.Compressed.Active:= true;
     end;
+
+   if FDDMenu.FTrigger = trPinned then
+    begin
+     if ptinrect(HotspotCompressed,P) and (msg = LM_LBUTTONDOWN) and (FDDMenu.FStretched.FActive = false) then
+      begin
+       DropDownMenu.Stretched.Active:= true;
+       exit;
+      end;
+     if ptinrect(HotspotCompressed,P)  and (msg = LM_LBUTTONDOWN) then DropDownMenu.Compressed.Active:= true;
+    end;
   end;
 
 end;
@@ -775,6 +785,7 @@ begin
 
   if FDDMenu.FCompressed.FActive then FSwitch:= true;
   //FSwitch:= true;
+
   SetSizeDropDownMenu(Sender);
 
 end;
@@ -851,17 +862,23 @@ begin
     if FDDMenu.FStretched.FActive  then Sender := FDDMenu.FStretched;
    end;
 
-
-
   if (Sender is TStre) or (Sender is TComp) then  //set size with OI
   begin
    FChangeable := false;
-   if FDDMenu.FCompressed.FActive then
-   begin
-    width := FDDMenu.FCompressed.FWidth;
-    height:= FDDMenu.FCompressed.FHeight;
-    if FDDMenu.FDirection = RightTop_LeftBottom then left := FDDMenu.FCompressed.FLeft;
-    if FDDMenu.FDirection = LeftBottom_RightTop then top  := FDDMenu.FCompressed.FTop;
+
+   width := FDDMenu.FCompressed.FWidth;
+   height:= FDDMenu.FCompressed.FHeight;
+
+    begin
+     if FDDMenu.FDirection = RightTop_LeftBottom then
+     begin
+      left := FDDMenu.FCompressed.FLeft;
+
+
+     end;
+
+
+     if FDDMenu.FDirection = LeftBottom_RightTop then top  := FDDMenu.FCompressed.FTop;
     if FDDMenu.FDirection = RightBottom_LeftTop then
      begin
       FChangeable := false;
@@ -870,12 +887,22 @@ begin
       top  := FDDMenu.FCompressed.FTop;
      end;
    end;//if compressed active
+
   if FDDMenu.FStretched.FActive then
    begin
-    width := FDDMenu.FStretched.FWidth;
-    height:= FDDMenu.FStretched.FHeight;
-    if FDDMenu.FDirection = RightTop_LeftBottom then
-     left := (FDDMenu.FCompressed.FLeft+FDDMenu.FCompressed.FWidth)-FDDMenu.FStretched.FWidth;
+
+   width := FDDMenu.FStretched.FWidth;
+
+   height:= FDDMenu.FStretched.FHeight;
+
+
+   if FDDMenu.FDirection = RightTop_LeftBottom then
+     begin
+      left := (FDDMenu.FCompressed.FLeft+FDDMenu.FCompressed.FWidth)-FDDMenu.FStretched.FWidth;
+
+     end;
+
+
     if FDDMenu.FDirection = LeftBottom_RightTop then
      top := (FDDMenu.FCompressed.FTop+FDDMenu.FCompressed.FHeight)-FDDMenu.FStretched.FHeight;
     if FDDMenu.FDirection = RightBottom_LeftTop then

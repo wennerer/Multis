@@ -16,6 +16,9 @@ type
   TForm1 = class(TForm)
     ImageList1: TImageList;
     MultiButton1: TMultiButton;
+    MultiButton10: TMultiButton;
+    MultiButton11: TMultiButton;
+    MultiButton12: TMultiButton;
     MultiButton2: TMultiButton;
     MultiButton3: TMultiButton;
     MultiButton4: TMultiButton;
@@ -29,11 +32,16 @@ type
     MultiPanel1: TMultiPanel;
     MultiPanel2: TMultiPanel;
     MultiPanel3: TMultiPanel;
+    MultiPanel4: TMultiPanel;
+    MultiPanel5: TMultiPanel;
+    MultiplexSlider1: TMultiplexSlider;
     MultiSeperator1: TMultiSeperator;
     procedure FormCreate(Sender: TObject);
     procedure MultiButtonClick(Sender: TObject);
     procedure MultiPanel2Compressed(Sender: TObject);
     procedure MultiPanel2Streched(Sender: TObject);
+    procedure MultiPanel4Compressed(Sender: TObject);
+    procedure MultiPanel4Streched(Sender: TObject);
 
   private
 
@@ -75,6 +83,16 @@ end;
 procedure TForm1.MultiPanel2Streched(Sender: TObject);
 begin
  MultiPanel2.ImageIndex:=10;
+end;
+
+procedure TForm1.MultiPanel4Compressed(Sender: TObject);
+begin
+ MultiPanel4.ImageIndex:=12;
+end;
+
+procedure TForm1.MultiPanel4Streched(Sender: TObject);
+begin
+ MultiPanel4.ImageIndex:=11;
 end;
 
 
