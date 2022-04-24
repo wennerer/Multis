@@ -458,12 +458,10 @@ object Form1: TForm1
     Style = mpsRoundRect
     RndRctRadius = 36
     DropDownMenu.Active = True
-    DropDownMenu.Compressed.Active = False
     DropDownMenu.Compressed.Width = 36
     DropDownMenu.Compressed.Height = 36
-    DropDownMenu.Stretched.Active = True
-    DropDownMenu.Stretched.Width = 36
-    DropDownMenu.Stretched.Height = 36
+    DropDownMenu.Stretched.Width = 250
+    DropDownMenu.Stretched.Height = 120
     DropDownMenu.Trigger = trClick
     DropDownMenu.Direction = RightTop_LeftBottom
     Anchors = [akTop, akRight]

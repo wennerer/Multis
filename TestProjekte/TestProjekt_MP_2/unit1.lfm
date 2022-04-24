@@ -1,0 +1,26 @@
+object Form1: TForm1
+  Left = 366
+  Height = 489
+  Top = 250
+  Width = 825
+  Caption = 'Form1'
+  ClientHeight = 489
+  ClientWidth = 825
+  object MultiPanel1: TMultiPanel
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 785
+    Height = 40
+    Top = 449
+    Width = 40
+    DropDownMenu.Active = True
+    DropDownMenu.Compressed.Width = 40
+    DropDownMenu.Compressed.Height = 40
+    DropDownMenu.Stretched.Width = 100
+    DropDownMenu.Stretched.Height = 100
+    DropDownMenu.Direction = RightBottom_LeftTop
+    Anchors = [akRight, akBottom]
+  end
+end

@@ -20,6 +20,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
+        <IsVisibleTab Value="True"/>
         <TopLine Value="67"/>
         <CursorPos X="28" Y="90"/>
         <UsageCount Value="230"/>
@@ -29,26 +30,21 @@
       <Unit2>
         <Filename Value="../../multipanel.pas"/>
         <UnitName Value="MultiPanel"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="786"/>
-        <CursorPos X="67" Y="810"/>
+        <TopLine Value="699"/>
+        <CursorPos X="4" Y="699"/>
         <UsageCount Value="117"/>
-        <Bookmarks Count="4">
-          <Item0 X="2" Y="865"/>
-          <Item1 Y="991" ID="1"/>
-          <Item2 X="2" Y="764" ID="2"/>
-          <Item3 X="2" Y="653" ID="3"/>
+        <Bookmarks Count="1">
+          <Item0 X="4" Y="699"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit2>
       <Unit3>
         <Filename Value="../../mp_dropdownmenu.inc"/>
-        <EditorIndex Value="2"/>
-        <TopLine Value="61"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="82"/>
         <CursorPos X="3" Y="63"/>
         <UsageCount Value="103"/>
-        <Loaded Value="True"/>
       </Unit3>
       <Unit4>
         <Filename Value="../../multibutton.pas"/>

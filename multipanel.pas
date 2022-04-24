@@ -638,29 +638,6 @@ begin
   end;
 end;
 
-
-procedure TMultiPanel.BoundsChanged;
-begin
-  inherited BoundsChanged;
-  if not assigned(FDDMenu) then exit;
-  if not FDDMenu.FActive then exit;
-  if not FChangeable then
-   begin
-    FChangeable := true;
-    exit;
-   end;
-  //this is only for designtime
-  if FDDMenu.FCompressed.FActive and not FSwitch then
-   begin
-    FDDMenu.FCompressed.FLeft:= left;
-    FDDMenu.FCompressed.FTop := top;
-   end;
-  FSwitch := false;
-
-  SetSizeDropDownMenu(self);
-
-end;
-
 procedure TMultiPanel.Loaded;
 begin
  inherited Loaded;
@@ -697,67 +674,29 @@ begin
   if Assigned(OnEnter) then OnEnter(self);
 end;
 
+procedure TMultiPanel.BoundsChanged;
+begin
+  inherited BoundsChanged;
+  if not assigned(FDDMenu) then exit;
+  if not FDDMenu.FActive then exit;
+  if not FChangeable then
+   begin
+    FChangeable := true;
+    exit;
+   end;
+  //this is only for designtime
+  if FDDMenu.FCompressed.FActive and not FSwitch then
+   begin
+    FDDMenu.FCompressed.FLeft:= left;
+    FDDMenu.FCompressed.FTop := top;
+   end;
+  FSwitch := false;
+
+  //SetSizeDropDownMenu(self);
+
+end;
 
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx---Setter---XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-procedure TMultiPanel.SetColorEnd(AValue: TColor);
-begin
-  if FColorEnd=AValue then Exit;
-  FColorEnd:=AValue;
-  invalidate;
-end;
-
-procedure TMultiPanel.SetBorder(AValue: TBorder);
-begin
-  if FBorder=AValue then Exit;
-  FBorder:=AValue;
-  invalidate;
-end;
-
-procedure TMultiPanel.SetCapLeft(AValue: integer);
-begin
- if FCapLeft=AValue then Exit;
- FCapLeft:=AValue;
- //if FAutoSize then TriggerAutoSize;
- Invalidate;
-end;
-
-procedure TMultiPanel.SetCaption(AValue: TCaption);
-begin
-  if FCaption=AValue then Exit;
-  FCaption:=AValue;
-  invalidate;
-end;
-
-procedure TMultiPanel.SetCaptionWordbreak(AValue: boolean);
-begin
-  if FCaptionWordbreak=AValue then Exit;
-  FCaptionWordbreak:=AValue;
-   if not  FCaptionWordbreak then
-    begin
-     FTextStyle.SingleLine:= true;
-     FTextStyle.Wordbreak := false;
-    end else
-    begin
-     FTextStyle.SingleLine:= false;
-     FTextStyle.Wordbreak := true;
-    end;
-  invalidate;
-end;
-
-procedure TMultiPanel.SetCapTop(AValue: integer);
-begin
- if FCapTop=AValue then Exit;
- FCapTop:=AValue;
- //if FAutoSize then TriggerAutoSize;
- Invalidate;
-end;
-
-procedure TMultiPanel.SetColorStart(AValue: TColor);
-begin
-  if FColorStart=AValue then Exit;
-  FColorStart:=AValue;
-  invalidate;
-end;
 
 procedure TMultiPanel.SetDropDownMenu(Sender:TPersistent;aValue:boolean);
 begin
@@ -790,66 +729,7 @@ begin
 
 end;
 
-procedure TMultiPanel.SetFont(AValue: TFont);
-begin
-  if FFont=AValue then Exit;
-  fFont.Assign(aValue);            //not := !!!
-end;
-
-procedure TMultiPanel.SetImageIndex(AValue: TImageIndex);
-begin
-  if FImageIndex=AValue then Exit;
-  FImageIndex:=AValue;
-  ImagesChanged(nil);
-end;
-
-procedure TMultiPanel.SetImageLeft(AValue: integer);
-begin
-  if FImageLeft=AValue then Exit;
-  FImageLeft:=AValue;
-  Invalidate;
-end;
-
-procedure TMultiPanel.SetImageList(AValue: TCustomImageList);
-begin
-  if FImageList=AValue then Exit;
-   if FImageList <> nil then
-  begin
-    FImageList.UnRegisterChanges(FImageListChangeLink);
-    FImageList.RemoveFreeNotification(Self);
-  end;
-  FImageList := AValue;
-
-  if FImageList <> nil then
-  begin
-    FImageList.FreeNotification(Self);
-    FImageList.RegisterChanges(FImageListChangeLink);
-  end;
-  ImagesChanged(Self);
-end;
-
-procedure TMultiPanel.SetImageTop(AValue: integer);
-begin
-  if FImageTop=AValue then Exit;
-  FImageTop:=AValue;
-  Invalidate;
-end;
-
-procedure TMultiPanel.SetImageWidth(AValue: integer);
-begin
-  if FImageWidth=AValue then Exit;
-  FImageWidth:=AValue;
-  Invalidate;
-end;
-
-procedure TMultiPanel.SetLayout(AValue: TTextLayout);
-begin
-  if fTextStyle.Layout=AValue then exit;
- fTextStyle.Layout:=AValue;
- if aValue <> tlTop then FCapTop:=0;
- //if FAutoSize then TriggerAutoSize;
- Invalidate;
-end;
+//VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV---Set Size At Designtime---VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
 
 procedure TMultiPanel.SetSizeDropDownMenu(Sender: TPersistent);  //only at design time
 begin
@@ -862,47 +742,33 @@ begin
     if FDDMenu.FStretched.FActive  then Sender := FDDMenu.FStretched;
    end;
 
-  if (Sender is TStre) or (Sender is TComp) then  //set size with OI
+ //set size with OI
+  if (Sender is TStre) or (Sender is TComp) then
   begin
    FChangeable := false;
-
-   width := FDDMenu.FCompressed.FWidth;
-   height:= FDDMenu.FCompressed.FHeight;
-
+   //CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+   if FDDMenu.FCompressed.FActive then
     begin
-     if FDDMenu.FDirection = RightTop_LeftBottom then
-     begin
-      left := FDDMenu.FCompressed.FLeft;
-
-
-     end;
-
-
+     width := FDDMenu.FCompressed.FWidth;
+     height:= FDDMenu.FCompressed.FHeight;
+     if FDDMenu.FDirection = RightTop_LeftBottom then left := FDDMenu.FCompressed.FLeft;
      if FDDMenu.FDirection = LeftBottom_RightTop then top  := FDDMenu.FCompressed.FTop;
-    if FDDMenu.FDirection = RightBottom_LeftTop then
-     begin
-      FChangeable := false;
-      left := FDDMenu.FCompressed.FLeft;
-      FChangeable := false;
-      top  := FDDMenu.FCompressed.FTop;
-     end;
+     if FDDMenu.FDirection = RightBottom_LeftTop then
+      begin
+       FChangeable := false;
+       left := FDDMenu.FCompressed.FLeft;
+       FChangeable := false;
+       top  := FDDMenu.FCompressed.FTop;
+      end;
    end;//if compressed active
-
+   //SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
   if FDDMenu.FStretched.FActive then
    begin
+    width := FDDMenu.FStretched.FWidth;
+    height:= FDDMenu.FStretched.FHeight;
 
-   width := FDDMenu.FStretched.FWidth;
-
-   height:= FDDMenu.FStretched.FHeight;
-
-
-   if FDDMenu.FDirection = RightTop_LeftBottom then
-     begin
-      left := (FDDMenu.FCompressed.FLeft+FDDMenu.FCompressed.FWidth)-FDDMenu.FStretched.FWidth;
-
-     end;
-
-
+    if FDDMenu.FDirection = RightTop_LeftBottom then
+     left := (FDDMenu.FCompressed.FLeft+FDDMenu.FCompressed.FWidth)-FDDMenu.FStretched.FWidth;
     if FDDMenu.FDirection = LeftBottom_RightTop then
      top := (FDDMenu.FCompressed.FTop+FDDMenu.FCompressed.FHeight)-FDDMenu.FStretched.FHeight;
     if FDDMenu.FDirection = RightBottom_LeftTop then
@@ -915,7 +781,8 @@ begin
    exit;
   end;
 
-  if FDDMenu.FCompressed.FActive then    //set Size with drag
+ //set Size with drag
+  if FDDMenu.FCompressed.FActive then
    begin
     FDDMenu.FCompressed.FWidth  := width;
     FDDMenu.FCompressed.FHeight := height;
@@ -927,27 +794,8 @@ begin
    end; //if streched active
 end;
 
-procedure TMultiPanel.SetGradient(AValue: TGradientCourse);
-begin
-  if FGradient=AValue then Exit;
-  FGradient:=AValue;
-  invalidate;
-end;
 
-procedure TMultiPanel.SetRRRadius(AValue: integer);
-begin
-  if FRRRadius=AValue then Exit;
-  FRRRadius:=AValue;
-  invalidate;
-end;
-
-procedure TMultiPanel.SetStyle(AValue: TMPanelStyle);
-begin
-  if FStyle=AValue then Exit;
-  FStyle:=AValue;
-  invalidate;
-end;
-
+//VVVVVVVVVVVVVVVVVVVVVVVVVVV---Set Size At Runtime---VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
 procedure TMultiPanel.MultiPanelOnTimer(Sender: TObject);
 begin
  if FDDMenu.FDirection = LeftTop_RightBottom then LeftTopToRightBottom;
@@ -1109,6 +957,151 @@ begin
        if Assigned(OnCompressed) then OnCompressed(self);
       end;
     end;
+end;
+//VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+
+
+
+procedure TMultiPanel.SetColorEnd(AValue: TColor);
+begin
+  if FColorEnd=AValue then Exit;
+  FColorEnd:=AValue;
+  invalidate;
+end;
+
+procedure TMultiPanel.SetBorder(AValue: TBorder);
+begin
+  if FBorder=AValue then Exit;
+  FBorder:=AValue;
+  invalidate;
+end;
+
+procedure TMultiPanel.SetCapLeft(AValue: integer);
+begin
+ if FCapLeft=AValue then Exit;
+ FCapLeft:=AValue;
+ //if FAutoSize then TriggerAutoSize;
+ Invalidate;
+end;
+
+procedure TMultiPanel.SetCaption(AValue: TCaption);
+begin
+  if FCaption=AValue then Exit;
+  FCaption:=AValue;
+  invalidate;
+end;
+
+procedure TMultiPanel.SetCaptionWordbreak(AValue: boolean);
+begin
+  if FCaptionWordbreak=AValue then Exit;
+  FCaptionWordbreak:=AValue;
+   if not  FCaptionWordbreak then
+    begin
+     FTextStyle.SingleLine:= true;
+     FTextStyle.Wordbreak := false;
+    end else
+    begin
+     FTextStyle.SingleLine:= false;
+     FTextStyle.Wordbreak := true;
+    end;
+  invalidate;
+end;
+
+procedure TMultiPanel.SetCapTop(AValue: integer);
+begin
+ if FCapTop=AValue then Exit;
+ FCapTop:=AValue;
+ //if FAutoSize then TriggerAutoSize;
+ Invalidate;
+end;
+
+procedure TMultiPanel.SetColorStart(AValue: TColor);
+begin
+  if FColorStart=AValue then Exit;
+  FColorStart:=AValue;
+  invalidate;
+end;
+
+procedure TMultiPanel.SetFont(AValue: TFont);
+begin
+  if FFont=AValue then Exit;
+  fFont.Assign(aValue);            //not := !!!
+end;
+
+procedure TMultiPanel.SetImageIndex(AValue: TImageIndex);
+begin
+  if FImageIndex=AValue then Exit;
+  FImageIndex:=AValue;
+  ImagesChanged(nil);
+end;
+
+procedure TMultiPanel.SetImageLeft(AValue: integer);
+begin
+  if FImageLeft=AValue then Exit;
+  FImageLeft:=AValue;
+  Invalidate;
+end;
+
+procedure TMultiPanel.SetImageList(AValue: TCustomImageList);
+begin
+  if FImageList=AValue then Exit;
+   if FImageList <> nil then
+  begin
+    FImageList.UnRegisterChanges(FImageListChangeLink);
+    FImageList.RemoveFreeNotification(Self);
+  end;
+  FImageList := AValue;
+
+  if FImageList <> nil then
+  begin
+    FImageList.FreeNotification(Self);
+    FImageList.RegisterChanges(FImageListChangeLink);
+  end;
+  ImagesChanged(Self);
+end;
+
+procedure TMultiPanel.SetImageTop(AValue: integer);
+begin
+  if FImageTop=AValue then Exit;
+  FImageTop:=AValue;
+  Invalidate;
+end;
+
+procedure TMultiPanel.SetImageWidth(AValue: integer);
+begin
+  if FImageWidth=AValue then Exit;
+  FImageWidth:=AValue;
+  Invalidate;
+end;
+
+procedure TMultiPanel.SetLayout(AValue: TTextLayout);
+begin
+  if fTextStyle.Layout=AValue then exit;
+ fTextStyle.Layout:=AValue;
+ if aValue <> tlTop then FCapTop:=0;
+ //if FAutoSize then TriggerAutoSize;
+ Invalidate;
+end;
+
+procedure TMultiPanel.SetGradient(AValue: TGradientCourse);
+begin
+  if FGradient=AValue then Exit;
+  FGradient:=AValue;
+  invalidate;
+end;
+
+procedure TMultiPanel.SetRRRadius(AValue: integer);
+begin
+  if FRRRadius=AValue then Exit;
+  FRRRadius:=AValue;
+  invalidate;
+end;
+
+procedure TMultiPanel.SetStyle(AValue: TMPanelStyle);
+begin
+  if FStyle=AValue then Exit;
+  FStyle:=AValue;
+  invalidate;
 end;
 
 procedure TMultiPanel.ImagesChanged(Sender: TObject);
