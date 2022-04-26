@@ -42,6 +42,12 @@ type
     procedure MultiPanel2Streched(Sender: TObject);
     procedure MultiPanel4Compressed(Sender: TObject);
     procedure MultiPanel4Streched(Sender: TObject);
+    procedure MultiPanel5Compressed(Sender: TObject);
+    procedure MultiPanel5MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure MultiPanel5Streched(Sender: TObject);
+    procedure MultiplexSlider1ChangeStr(const aStrValue: string);
+
 
   private
 
@@ -94,6 +100,37 @@ procedure TForm1.MultiPanel4Streched(Sender: TObject);
 begin
  MultiPanel4.ImageIndex:=11;
 end;
+
+procedure TForm1.MultiPanel5Compressed(Sender: TObject);
+begin
+ MultiButton10.Visible:= false;
+ MultiButton11.Visible:= false;
+ MultiButton12.Visible:= false;
+ MultiPanel5.ImageIndex:=13;
+end;
+
+procedure TForm1.MultiPanel5MouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+ MultiButton10.Visible:= true;
+ MultiButton11.Visible:= true;
+ MultiButton12.Visible:= true;
+ MultiPanel5.ImageIndex:=-1;
+end;
+
+procedure TForm1.MultiPanel5Streched(Sender: TObject);
+begin
+ MultiButton10.Visible:= true;
+ MultiButton11.Visible:= true;
+ MultiButton12.Visible:= true;
+ MultiPanel5.ImageIndex:=-1;
+end;
+
+procedure TForm1.MultiplexSlider1ChangeStr(const aStrValue: string);
+begin
+ MultiPanel3.Caption:= aStrValue;
+end;
+
 
 
 end.

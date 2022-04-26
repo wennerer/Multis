@@ -2614,6 +2614,11 @@ var tmpBmp     : TBitmap;
     ImgIdx     : TImageIndex;
     ImgIdxFlag : integer;
 begin
+  if Parent is TMultiPanel and not FVisible then
+  begin
+   if assigned((parent as TMultiPanel).FMultiBkgrdBmp) then
+   canvas.CopyRect(rect(0,0,width,height),(parent as TMultiPanel).FMultiBkgrdBmp.Canvas,rect(left,top,left+width,top+height));
+  end;
  if FVisible = false then exit;
  if (csDesigning in ComponentState) and (FVisible = false) then left:= -100;
 
@@ -2623,8 +2628,8 @@ begin
 
  if Parent is TMultiPanel then
   begin
-   if assigned((parent as TMultiPanel).FMultiBkgrdBmp) then
-   canvas.CopyRect(rect(0,0,width,height),(parent as TMultiPanel).FMultiBkgrdBmp.Canvas,rect(left,top,left+width,top+height));
+   if assigned((Parent as TMultiPanel).FMultiBkgrdBmp) then
+    canvas.CopyRect(rect(0,0,width,height),(Parent as TMultiPanel).FMultiBkgrdBmp.Canvas,rect(left,top,left+width,top+height));
   end;
 
 //draw the Focusframe

@@ -259,7 +259,7 @@ type
     FStyle           : TMPanelStyle;
     FChangeable      : boolean;  //flag for dropdownmenu
     FSwitch          : boolean;  //flag for dropdownmenu in designtime
-    FTextStyle: TTextStyle;
+    FTextStyle       : TTextStyle;
     FTriggerNot      : boolean;
     FTimer           : TTimer;
     FRunThroughPaint : boolean;
@@ -1112,6 +1112,7 @@ end;
 procedure TMultiPanel.FontPropertyChanged(Sender: TObject);
 begin
  canvas.Font.Assign(FFont);
+ FMultiBkgrdBmp.Canvas.Font.Assign(FFont);
  //if FAutoSize then TriggerAutoSize;
  Invalidate;
 end;
@@ -1134,7 +1135,6 @@ begin
 
    bkBmp := TBitmap.Create;
    bkBmp.SetSize(Width,Height);
-   FMultiBkgrdBmp.SetSize(width,height);
 
    if FGradient = gcAlternate then Gradient_Bmp(bkBmp,clGray,clSilver,ord(gcVertical)); //otherwise flickers
 
@@ -1178,7 +1178,6 @@ begin
    Dest.Canvas.Draw(0,0,mask);
 
    canvas.Draw(0,0,Dest);
-   FMultiBkgrdBmp.Canvas.Draw(0,0,Dest);
 
    bkBmp.Free;
    trBmp.Free;
@@ -1186,17 +1185,23 @@ begin
    Dest.Free;
 end;
 
-procedure TMultiPanel.MultiBkgrdBmp;
+procedure TMultiPanel.MultiBkgrdBmp; //this is the bitmap that will be sent to the children
 var   bkBmp        : TBitmap;
       trBmp        : TBitmap;
       mask         : TBitmap;
       Dest         : TBitmap;
+      textrect     : TRect;
+      i            : integer;
 
 begin
 
    bkBmp := TBitmap.Create;
-   bkBmp.SetSize(FDDMenu.FStretched.FWidth,FDDMenu.FStretched.FHeight);
-   FMultiBkgrdBmp.SetSize(FDDMenu.FStretched.FWidth,FDDMenu.FStretched.FHeight);
+   bkBmp.SetSize(Width,Height);
+
+   FMultiBkgrdBmp.SetSize(Width,Height);
+   FMultiBkgrdBmp.Canvas.Brush.Color:= GetColorResolvingParent;
+   FMultiBkgrdBmp.Canvas.FillRect(0,0,width,height);
+
 
    if FGradient = gcAlternate then Gradient_Bmp(bkBmp,clGray,clSilver,ord(gcVertical)); //otherwise flickers
 
@@ -1204,12 +1209,12 @@ begin
 
 
    trBmp := TBitmap.Create;
-   trBmp.SetSize(FDDMenu.FStretched.FWidth,FDDMenu.FStretched.FHeight);
+   trBmp.SetSize(Width,Height);
    trBmp.TransparentColor:=clblack;
    trBmp.Transparent:= true;
    trBmp.Canvas.Brush.Color:=clwhite;
    trBmp.Canvas.FillRect(0,0,Width,Height);
-   trBmp.Canvas.Brush.Color:=clBlack;
+   trBmp.Canvas.Brush.Color:=clblack;
    case FStyle of
     mpsRoundRect : trBmp.Canvas.RoundRect(0,0,Width,height,FRRRadius,FRRRadius);
     mpsRect      : trBmp.Canvas.Rectangle(0,0,Width,height);
@@ -1217,10 +1222,10 @@ begin
    end;
 
    mask := TBitmap.Create;
-   mask.SetSize(FDDMenu.FStretched.FWidth,FDDMenu.FStretched.FHeight);
+   mask.SetSize(Width,Height);
    mask.Canvas.Brush.Color:=clwhite;
    mask.Canvas.FillRect(0,0,Width,Height);
-   mask.Canvas.Brush.Color:=clBlack;
+   mask.Canvas.Brush.Color:=clblack;
    case FStyle of
     mpsRoundRect : mask.Canvas.RoundRect(0,0,Width,height,FRRRadius,FRRRadius);
     mpsRect      : mask.Canvas.Rectangle(0,0,Width,height);
@@ -1228,9 +1233,9 @@ begin
    end;
 
    Dest       := TBitmap.Create;
-   Dest.SetSize(FDDMenu.FStretched.FWidth,FDDMenu.FStretched.FHeight);
+   Dest.SetSize(Width,Height);
    Dest.Transparent:= true;
-   Dest.TransparentColor:= clBlack;
+   Dest.TransparentColor:= clblack;
    Dest.Canvas.Brush.Color:=clBlack;
    Dest.Canvas.FillRect(0,0,100,100);
    Dest.Canvas.copymode:=cmSrcCopy;
@@ -1240,6 +1245,35 @@ begin
    Dest.Canvas.Draw(0,0,mask);
 
    FMultiBkgrdBmp.Canvas.Draw(0,0,Dest);
+
+   if (FImageList <> nil) and (FImageIndex > -1) and (FImageIndex < FImageList.Count) then
+      FImageList.ResolutionForPPI[FImageWidth, Font.PixelsPerInch, GetCanvasScaleFactor].Draw(FMultiBkgrdBmp.Canvas,
+      FImageLeft,FImageTop,FImageIndex);
+   textrect := rect(0,0,width,height);
+   FMultiBkgrdBmp.Canvas.TextRect(TextRect,FCapLeft,FCapTop,FCaption,FTextStyle);
+
+    FMultiBkgrdBmp.Canvas.Brush.Style := bsClear;
+    if FBorder.FOuterColor <> clNone then
+    begin
+     FMultiBkgrdBmp.Canvas.Pen.Color   := FBorder.FOuterColor;
+     FMultiBkgrdBmp.Canvas.Pen.Width   := FBorder.FOuterWidth;
+     case FStyle of
+      mpsRoundRect : FMultiBkgrdBmp.Canvas.RoundRect(0,0,Width,height,FRRRadius,FRRRadius);
+      mpsRect      : FMultiBkgrdBmp.Canvas.Rectangle(0,0,Width,height);
+      mpsEllipse   : FMultiBkgrdBmp.Canvas.Ellipse(0,0,Width,height);
+     end;
+    end;
+    if FBorder.FInnerColor <> clNone then
+     begin
+      FMultiBkgrdBmp.Canvas.Pen.Color   := FBorder.FInnerColor;
+      FMultiBkgrdBmp.Canvas.Pen.Width   := FBorder.FInnerWidth;
+      i := FBorder.FBetween;
+      case FStyle of
+       mpsRoundRect : FMultiBkgrdBmp.Canvas.RoundRect(0+i,0+i,Width-i,height-i,FRRRadius- round(i*1.5),FRRRadius- round(i*1.5));
+       mpsRect      : FMultiBkgrdBmp.Canvas.Rectangle(0+i,0+i,Width-i,height-i);
+       mpsEllipse   : FMultiBkgrdBmp.Canvas.Ellipse(0+i,0+i,Width-i,height-i);
+      end;
+     end;
 
    bkBmp.Free;
    trBmp.Free;
@@ -1284,8 +1318,8 @@ begin
 end;
 
 procedure TMultiPanel.Paint;
-var lv   : integer;
-    textrect : TRect;
+var lv         : integer;
+    textrect   : TRect;
 begin
   if parent.Color = clDefault then color:=clForm else ParentColor:=true;
   //inherited Paint;
@@ -1298,7 +1332,8 @@ begin
   //caption
   textrect := rect(0,0,width,height);
   canvas.TextRect(TextRect,FCapLeft,FCapTop,FCaption,FTextStyle);
-
+  //this is the bitmap that will be sent to the children
+  MultiBkgrdBmp;
 
   FRunThroughPaint := true; //checks if paint was run
   //update all child windows
