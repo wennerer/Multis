@@ -7,20 +7,24 @@ object Form1: TForm1
   ClientHeight = 489
   ClientWidth = 825
   object MultiPanel1: TMultiPanel
+    AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    AnchorSideBottom.Control = Owner
-    AnchorSideBottom.Side = asrBottom
-    Left = 785
-    Height = 40
-    Top = 449
-    Width = 40
+    Left = 712
+    Height = 114
+    Top = 0
+    Width = 113
+    BorderSettings.OuterColor = clBlue
+    BorderSettings.OuterWidth = 2
+    BorderSettings.InnerWidth = 4
+    BorderSettings.Between = 5
     DropDownMenu.Active = True
-    DropDownMenu.Compressed.Width = 40
-    DropDownMenu.Compressed.Height = 40
-    DropDownMenu.Stretched.Width = 100
-    DropDownMenu.Stretched.Height = 100
-    DropDownMenu.Direction = RightBottom_LeftTop
-    Anchors = [akRight, akBottom]
+    DropDownMenu.Compressed.Active = False
+    DropDownMenu.Compressed.Width = 57
+    DropDownMenu.Stretched.Active = True
+    DropDownMenu.Stretched.Width = 57
+    DropDownMenu.Stretched.Height = 50
+    ImageIndex = 0
+    Anchors = [akTop, akRight]
   end
 end

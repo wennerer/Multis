@@ -570,7 +570,8 @@ procedure TMultiPanel.ParentInputHandler(Sender: TObject; Msg: Cardinal);
 var x,y,h : integer;
     HotspotCompressed : TRect;
     HotspotStretched  : TRect;
-    P : TPoint;
+    P                 : TPoint;
+
 begin
  if not FDDMenu.FActive then exit;
 
@@ -692,7 +693,6 @@ begin
    end;
   FSwitch := false;
 
-  //SetSizeDropDownMenu(self);
 
 end;
 
