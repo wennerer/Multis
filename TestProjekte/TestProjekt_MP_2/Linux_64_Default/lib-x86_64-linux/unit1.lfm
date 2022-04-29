@@ -1,30 +1,134 @@
 object Form1: TForm1
   Left = 366
-  Height = 489
+  Height = 300
   Top = 250
-  Width = 825
-  Caption = 'Form1'
-  ClientHeight = 489
-  ClientWidth = 825
+  Width = 300
+  Caption = 'Test The MultiPanel'
+  ClientHeight = 300
+  ClientWidth = 300
   object MultiPanel1: TMultiPanel
+    Tag = 1
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    Left = 0
+    Height = 50
+    Top = 0
+    Width = 50
+    DropDownMenu.Active = True
+    DropDownMenu.Stretched.Width = 100
+    DropDownMenu.Stretched.Height = 100
+    DropDownMenu.Trigger = trClick
+    Images = ImageList1
+    ImageLeft = 15
+    ImageTop = 15
+    Caption = 'akTop ,akLeft'
+    OnCompressed = MultiPanelCompressed
+    OnStreched = MultiPanelStreched
+  end
+  object MultiPanel2: TMultiPanel
+    Tag = 2
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 712
-    Height = 114
+    Left = 250
+    Height = 50
     Top = 0
-    Width = 113
-    BorderSettings.OuterColor = clBlue
-    BorderSettings.OuterWidth = 2
-    BorderSettings.InnerWidth = 4
-    BorderSettings.Between = 5
+    Width = 50
     DropDownMenu.Active = True
-    DropDownMenu.Compressed.Active = False
-    DropDownMenu.Compressed.Width = 57
-    DropDownMenu.Stretched.Active = True
-    DropDownMenu.Stretched.Width = 57
-    DropDownMenu.Stretched.Height = 50
-    ImageIndex = 0
+    DropDownMenu.Stretched.Width = 100
+    DropDownMenu.Stretched.Height = 100
+    DropDownMenu.Trigger = trClick
+    Images = ImageList1
+    ImageLeft = 15
+    ImageTop = 15
+    Caption = 'akTop, akRight'
     Anchors = [akTop, akRight]
+    OnCompressed = MultiPanelCompressed
+    OnStreched = MultiPanelStreched
+  end
+  object MultiPanel3: TMultiPanel
+    Tag = 3
+    AnchorSideLeft.Control = Owner
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 0
+    Height = 50
+    Top = 250
+    Width = 60
+    DropDownMenu.Active = True
+    DropDownMenu.Compressed.Width = 60
+    DropDownMenu.Stretched.Width = 100
+    DropDownMenu.Stretched.Height = 100
+    DropDownMenu.Trigger = trClick
+    Images = ImageList1
+    ImageLeft = 15
+    ImageTop = 15
+    Caption = 'akLeft, akBottom'
+    Anchors = [akLeft, akBottom]
+    OnCompressed = MultiPanelCompressed
+    OnStreched = MultiPanelStreched
+  end
+  object MultiPanel4: TMultiPanel
+    Tag = 4
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 240
+    Height = 50
+    Top = 250
+    Width = 60
+    DropDownMenu.Active = True
+    DropDownMenu.Compressed.Width = 60
+    DropDownMenu.Stretched.Width = 100
+    DropDownMenu.Stretched.Height = 100
+    DropDownMenu.Trigger = trClick
+    Images = ImageList1
+    ImageLeft = 15
+    ImageTop = 15
+    Caption = 'akRight, akBottom'
+    Anchors = [akRight, akBottom]
+    OnCompressed = MultiPanelCompressed
+    OnStreched = MultiPanelStreched
+  end
+  object MultiButton1: TMultiButton
+    Left = 96
+    Height = 50
+    Top = 104
+    Width = 110
+    MessageButton.ImageLeft = 0
+    MessageButton.ImageTop = 0
+    Caption = 'trClick'
+    OnClick = MultiButton1Click
+    TabOrder = 4
+  end
+  object ImageList1: TImageList
+    Left = 136
+    Top = 248
+    Bitmap = {
+      4C7A010000001000000010000000860100000000000078DADD914F4BC27018C7
+      37572DC434D083602A4E3730D2E1C1C374074521113550E8203946E44A4410F1
+      E61B10BC9420E6293AF41E7A0BD1BD5790FFB62975D5C3D37EC3EB46B7A0073E
+      F0F0FCBE9F87077E18F6FFCA62B190384E9FE17856C2B0EC2D8E875882208E7E
+      E33A1C6E47383C9E743AF27630F8867EFF0B9ACDE596614613A7F3C46DE6DA6C
+      B6BD58ECF9B1D75B43ABA56A9E0A8D860AF5BA02EDF60A58F6694C5194CDC83F
+      3DBD0809C26223083288A2AA53ABA950AD2A502C2E209F9F6E785E8C18F92CDB
+      BD12C515944AB29657209351201E9781A6E7E0F17C4222B18442E1E1C6C4AF26
+      933278BD33080416100C2A3A81C0127CBE19F03CBAEBE5DAC8CF661B7E8E9B6D
+      5096A2646098954E302883DF3F078E9B6E2469C018F92E970B2B97DFEF130945
+      F7695AD5413D9A09C2C73097CBED9B7C011E8D72D674FA75C8F3F36D2AB50604
+      EA2B95B79120DCD951C6C8D538D0B09224696798F308CB76EAB158578AC72F59
+      EDB663F4B6CB98ED2034D08DA4C6E10E7237234CDC3FA91F8A34A1DE
+    }
+    BitmapAdv = {
+      4C69020000004C7A0100000004000000040000003D0000000000000078DA6360
+      0001364E20E602B3D87839C2C3AF3CF6F4BCFC988B4B909383839FDDC0E0E623
+      53D37B8F0404C439416A58597978D8D97979406C003FC20A104C7A0100000008
+      000000080000008F0000000000000078DA6360201A30323048A900B12A90CD8C
+      2CC1CCCCCC6869D93FA1B4F4CDBF828237FFCCCCFA27717070C0D58889192A44
+      47BFFA1712F2E6BF8BCBABFFD6D6CFFF2929D9A8C0E46565CDE574749EFF5356
+      7EFD1F84416C43431F25983C2B2B2B83BDFDAA6E43C3D7FF403828686FAF9090
+      1023921398181919394445F53424258D3481EA394062C4780A00196E286A
+    }
   end
 end

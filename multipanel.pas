@@ -258,7 +258,7 @@ type
     FRRRadius        : integer;
     FStyle           : TMPanelStyle;
     FChangeable      : boolean;  //flag for dropdownmenu
-    FSwitch          : boolean;  //flag for dropdownmenu in designtime
+    FSwitch          : word;  //flag for dropdownmenu in designtime
     FTextStyle       : TTextStyle;
     FTriggerNot      : boolean;
     FTimer           : TTimer;
@@ -286,6 +286,7 @@ type
     procedure SetSizeDropDownMenu(Sender:TPersistent);
     procedure SetGradient(AValue: TGradientCourse);
     procedure SetRRRadius(AValue: integer);
+    procedure SetSizeWithDrag;
     procedure SetStyle(AValue: TMPanelStyle);
     procedure MultiPanelOnTimer({%H-}Sender : TObject);
     procedure LeftTopToRightBottom;
@@ -518,6 +519,8 @@ begin
   FTextStyle.SingleLine:= false;
   FTextStyle.Wordbreak := true;
   FTextStyle.Clipping  := true;
+
+  FSwitch:= 0;
 end;
 
 destructor TMultiPanel.Destroy;
@@ -686,17 +689,33 @@ begin
     exit;
    end;
   //this is only for designtime
-  if FDDMenu.FCompressed.FActive and not FSwitch then
+  if FDDMenu.FCompressed.FActive and (FSwitch > 2) then //not FSwitch then
    begin
     FDDMenu.FCompressed.FLeft:= left;
     FDDMenu.FCompressed.FTop := top;
    end;
-  FSwitch := false;
+  //FSwitch := false;
 
+  if (FSwitch > 3) and (csDesigning in ComponentState) then SetSizeWithDrag;
+  inc(FSwitch);
+  if FSwitch > 100 then FSwitch:=10;
 
 end;
 
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx---Setter---XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+procedure TMultiPanel.SetSizeWithDrag;
+begin
+ if FDDMenu.FCompressed.FActive then
+   begin
+    FDDMenu.FCompressed.FWidth  := width;
+    FDDMenu.FCompressed.FHeight := height;
+   end;//if compressed active
+  if FDDMenu.FStretched.FActive then
+   begin
+    FDDMenu.FStretched.FWidth  := width;
+    FDDMenu.FStretched.FHeight := height;
+   end; //if streched active
+end;
 
 procedure TMultiPanel.SetDropDownMenu(Sender:TPersistent;aValue:boolean);
 begin
@@ -722,8 +741,8 @@ begin
    exit;
   end;
 
-  if FDDMenu.FCompressed.FActive then FSwitch:= true;
-  //FSwitch:= true;
+  //if FDDMenu.FCompressed.FActive then FSwitch:= 1;
+  FSwitch:= 1;
 
   SetSizeDropDownMenu(Sender);
 
@@ -781,17 +800,6 @@ begin
    exit;
   end;
 
- //set Size with drag
-  if FDDMenu.FCompressed.FActive then
-   begin
-    FDDMenu.FCompressed.FWidth  := width;
-    FDDMenu.FCompressed.FHeight := height;
-   end;//if compressed active
-  if FDDMenu.FStretched.FActive then
-   begin
-    FDDMenu.FStretched.FWidth  := width;
-    FDDMenu.FStretched.FHeight := height;
-   end; //if streched active
 end;
 
 
