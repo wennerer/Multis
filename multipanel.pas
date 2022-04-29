@@ -138,15 +138,17 @@ type
   private
     FActive        : boolean;
     FCompressed    : TComp;
-    FDirection: TDirection;
+    FDirection     : TDirection;
     FOwner         : TCustomPanel;
-    FSpeed: integer;
-    FStep: integer;
+    FSpeed         : integer;
+    FStep          : integer;
     FStretched     : TStre;
     FTrigger       : TTrigger;
+    FHotspot       : TRect;
 
    procedure SetActive(AValue: boolean);
    procedure SetDirection(AValue: TDirection);
+   procedure SetHotspot(AValue: TRect);
    procedure SetSpeed(AValue: integer);
    procedure SetStep(AValue: integer);
    procedure SetTrigger(AValue: TTrigger);
@@ -155,6 +157,7 @@ type
 
   public
    constructor create(aOwner: TCustomPanel);
+   property Hotspot :TRect read FHotspot write SetHotspot;
   published
    //activates the dropdown function
    //Aktiviert die DropDown-Funktion
@@ -177,6 +180,8 @@ type
    //the drawing steps (pixels)
    //der Zeichenschritt(Pixel)
    property Step : integer read FStep write SetStep default 2; //for Dropdownmenu
+
+
  end;
 
 type
@@ -521,6 +526,7 @@ begin
   FTextStyle.Clipping  := true;
 
   FSwitch:= 0;
+  FDDMenu.FHotspot := rect(0,0,25,25);
 end;
 
 destructor TMultiPanel.Destroy;
@@ -626,7 +632,7 @@ begin
        DropDownMenu.Stretched.Active:= true;
        exit;
       end;
-     if ptinrect(HotspotCompressed,P)  and (msg = LM_LBUTTONDOWN) then DropDownMenu.Compressed.Active:= true;
+     if ptinrect(FDDMenu.FHotspot,P)  and (msg = LM_LBUTTONDOWN) then DropDownMenu.Compressed.Active:= true;
     end;
   end;
 

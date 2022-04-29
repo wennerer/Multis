@@ -5,52 +5,27 @@ unit Unit1;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
-  MultiPanel, MultiButton, MultiButtonStyleManager, MultiSeperator,
-  MultiplexSlider;
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, MultiPanel,
+  MultiButton, TypInfo, MultiplexSlider;
 
 type
 
   { TForm1 }
 
   TForm1 = class(TForm)
-    ComboBox1: TComboBox;
     ImageList1: TImageList;
     MultiButton1: TMultiButton;
-    MultiButton10: TMultiButton;
-    MultiButton11: TMultiButton;
-    MultiButton12: TMultiButton;
-    MultiButton2: TMultiButton;
-    MultiButton3: TMultiButton;
-    MultiButton4: TMultiButton;
-    MultiButton5: TMultiButton;
-    MultiButton6: TMultiButton;
-    MultiButton7: TMultiButton;
-    MultiButton8: TMultiButton;
-    MultiButton9: TMultiButton;
-    MultiButtonStyleManager1: TMultiButtonStyleManager;
-    MultiButtonStyleManager2: TMultiButtonStyleManager;
     MultiPanel1: TMultiPanel;
     MultiPanel2: TMultiPanel;
     MultiPanel3: TMultiPanel;
     MultiPanel4: TMultiPanel;
-    MultiPanel5: TMultiPanel;
-    MultiPanel6: TMultiPanel;
-    MultiplexSlider1: TMultiplexSlider;
-    MultiSeperator1: TMultiSeperator;
     procedure FormCreate(Sender: TObject);
-    procedure MultiButtonClick(Sender: TObject);
-    procedure MultiPanel2Compressed(Sender: TObject);
-    procedure MultiPanel2Streched(Sender: TObject);
-    procedure MultiPanel4Compressed(Sender: TObject);
-    procedure MultiPanel4Streched(Sender: TObject);
-    procedure MultiPanel5Compressed(Sender: TObject);
-    procedure MultiPanel5Streched(Sender: TObject);
-    procedure MultiplexSlider1ChangeStr(const aStrValue: string);
-
+    procedure MultiButton1Click(Sender: TObject);
+    procedure MultiPanelCompressed(Sender: TObject);
+    procedure MultiPanelStreched(Sender: TObject);
 
   private
-
+    i : integer;
   public
 
   end;
@@ -64,68 +39,45 @@ implementation
 
 { TForm1 }
 
+procedure TForm1.MultiButton1Click(Sender: TObject);
+var lv : integer;
+begin
+ inc(i);
+ if i > 2 then i:=0;
+ MultiButton1.Caption:= GetEnumName(TypeInfo(TTrigger), Ord(i));
+
+ for lv:=0 to pred(ComponentCount) do
+  begin
+   if Components[lv] is TMultiPanel then TMultiPanel(Components[lv]).DropDownMenu.Trigger:= TTrigger(integer(i));
+   if Components[lv] is TMultiPanel then TMultiPanel(Components[lv]).ImageIndex:= -1;
+  end;
+end;
+
 procedure TForm1.FormCreate(Sender: TObject);
+var lv : integer;
 begin
-
+ for lv:=0 to pred(ComponentCount) do if Components[lv] is TMultiPanel then
+  TMultiPanel(Components[lv]).DropDownMenu.Hotspot := rect(15,15,30,30);
 end;
 
-
-procedure TForm1.MultiButtonClick(Sender: TObject);
+procedure TForm1.MultiPanelCompressed(Sender: TObject);
+var lv : integer;
 begin
-  if Sender = Multibutton2 then MultiPanel3.Caption:='Tomate';
-  if Sender = Multibutton3 then MultiPanel3.Caption:='Kirsche';
-  if Sender = Multibutton4 then MultiPanel3.Caption:='Pilz';
-  if Sender = Multibutton5 then MultiPanel3.Caption:='Baum';
-  if Sender = Multibutton6 then MultiPanel3.Caption:='Auswahl 1';
-  if Sender = Multibutton7 then MultiPanel3.Caption:='Auswahl 2';
-  if Sender = Multibutton8 then MultiPanel3.Caption:='Auswahl 3';
-  if Sender = Multibutton9 then MultiPanel3.Caption:='Auswahl 4';
-  if Sender = Multibutton10 then MultiPanel3.Caption:='Einloggen';
-  if Sender = Multibutton11 then MultiPanel3.Caption:='Hilfe';
-  if Sender = Multibutton12 then MultiPanel3.Caption:='Einstellungen';
+ for lv:=0 to pred(ComponentCount) do if Components[lv] is TMultiPanel then TMultiPanel(Components[lv]).ImageIndex:= -1;
 end;
 
-procedure TForm1.MultiPanel2Compressed(Sender: TObject);
+procedure TForm1.MultiPanelStreched(Sender: TObject);
 begin
- MultiPanel2.ImageIndex:=7;
+ if i=2 then
+  begin
+   case (Sender as TMultiPanel).Tag of
+    1: MultiPanel1.ImageIndex:= 0;
+    2: MultiPanel2.ImageIndex:= 0;
+    3: MultiPanel3.ImageIndex:= 0;
+    4: MultiPanel4.ImageIndex:= 0;
+   end;
+  end;
 end;
-
-procedure TForm1.MultiPanel2Streched(Sender: TObject);
-begin
- MultiPanel2.ImageIndex:=10;
-end;
-
-procedure TForm1.MultiPanel4Compressed(Sender: TObject);
-begin
- MultiPanel4.ImageIndex:=12;
-end;
-
-procedure TForm1.MultiPanel4Streched(Sender: TObject);
-begin
- MultiPanel4.ImageIndex:=11;
-end;
-
-procedure TForm1.MultiPanel5Compressed(Sender: TObject);
-begin
- MultiButton10.Visible:= false;
- MultiButton11.Visible:= false;
- MultiButton12.Visible:= false;
- MultiPanel5.ImageIndex:=13;
-end;
-
-procedure TForm1.MultiPanel5Streched(Sender: TObject);
-begin
- MultiButton10.Visible:= true;
- MultiButton11.Visible:= true;
- MultiButton12.Visible:= true;
- MultiPanel5.ImageIndex:=-1;
-end;
-
-procedure TForm1.MultiplexSlider1ChangeStr(const aStrValue: string);
-begin
- MultiPanel3.Caption:= aStrValue;
-end;
-
 
 
 end.

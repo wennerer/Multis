@@ -26,6 +26,12 @@ begin
   if Assigned(FOwner) then FOwner.Invalidate;
 end;
 
+procedure TDDMenu.SetHotspot(AValue: TRect);
+begin
+  if FHotspot=AValue then Exit;
+  FHotspot:=AValue;
+end;
+
 procedure TDDMenu.SetSpeed(AValue: integer);
 begin
   if FSpeed=AValue then Exit;
