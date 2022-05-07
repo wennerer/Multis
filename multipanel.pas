@@ -278,6 +278,7 @@ type
     FIsVisible       : boolean;
     FAnimationTimer  : TTimer;
     FAnimationFrac   : Double;
+    FVisible: boolean;
 
 
     procedure DoAppear;
@@ -302,6 +303,9 @@ type
     procedure SetSizeDropDownMenu(Sender:TPersistent);
     procedure SetGradient(AValue: TGradientCourse);
     procedure SetRRRadius(AValue: integer);
+
+    procedure SetVisible(Value: Boolean);override;
+
     procedure SetSizeWithDrag;
     procedure SetStyle(AValue: TMPanelStyle);
     procedure MultiPanelOnTimer({%H-}Sender : TObject);
@@ -342,6 +346,8 @@ type
    procedure Paint; override;
 
    property TextStyle: TTextStyle read FTextStyle write SetTextStyle;
+
+   property Appear : boolean read FAppear write SetAppear;
   published
    //The geometric shape of the panel
    //Die geometrische Form des Panels
@@ -407,7 +413,7 @@ type
    //Ermöglicht das Ein- oder Ausblenden des Steuerelements und aller seiner untergeordneten Elemente
 
 
-   property Appear : boolean read FAppear write SetAppear default false;
+   property Visible :boolean read FVisible write SetVisible;
 
 
    property Width  default 250;
@@ -427,7 +433,7 @@ type
    property BorderSpacing;
    property Constraints;
    property HelpType;
-   property Visible;
+
 
    property OnClick : TClickEvent read FOnClick     write FOnClick;
    property OnMouseMove : TMouseMoveEvent read FOnMouseMove write FOnMouseMove;
@@ -1173,6 +1179,16 @@ begin
   invalidate;
 end;
 
+procedure TMultiPanel.SetVisible(Value: Boolean);
+begin
+  if not Value then
+   begin
+    FPanelBmp.SetSize(width,height);
+    FPanelBmp.Canvas.CopyRect(Rect(0,0,width,height),Canvas,Rect(0,0,width,height));
+   end;
+  inherited SetVisible(Value);
+end;
+
 procedure TMultiPanel.SetStyle(AValue: TMPanelStyle);
 begin
   if FStyle=AValue then Exit;
@@ -1486,7 +1502,7 @@ begin
 
 
   //Canvas.Draw(0,0,FParentBmp);
-  debugln('paint');
+  //debugln('paint');
 
 
 
