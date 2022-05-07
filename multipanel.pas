@@ -157,6 +157,8 @@ type
 
   public
    constructor create(aOwner: TCustomPanel);
+   //
+   //
    property Hotspot :TRect read FHotspot write SetHotspot;
   published
    //activates the dropdown function
@@ -270,9 +272,18 @@ type
     FRunThroughPaint : boolean;
     FImageListChangeLink: TChangeLink;
 
+    FAppear: boolean;
+    FPanelBmp        : TBitmap;
+    FParentBmp       : TBitmap;
+    FIsVisible       : boolean;
+    FAnimationTimer  : TTimer;
+    FAnimationFrac   : Double;
 
+
+    procedure DoAppear;
     procedure MultiBkgrdBmp;
     procedure SetAlignment(AValue: TAlignment);
+    procedure SetAppear(AValue: boolean);
     procedure SetBorder(AValue: TBorder);
     procedure SetCapLeft(AValue: integer);
     procedure SetCaption(AValue: TCaption);
@@ -301,6 +312,7 @@ type
     procedure ImagesChanged({%H-}Sender: TObject);
     procedure FontPropertyChanged({%H-}Sender:TObject);
     procedure SetTextStyle(AValue: TTextStyle);
+    procedure AnimationOnTimer({%H-}Sender : TObject);
 
   protected
     procedure DrawThePanel;
@@ -312,6 +324,10 @@ type
     procedure KeyUp(var Key: Word; Shift: TShiftState);  override;
     procedure DoExit;  override;
     procedure DoEnter; override;
+
+    //procedure Resize;override;
+    //procedure WMPaint(var Msg: TLMPaint); message LM_PAINT;
+
   public
    FMultiBkgrdBmp         : TBitmap;
    procedure ParentInputHandler({%H-}Sender: TObject; Msg: Cardinal);
@@ -389,6 +405,9 @@ type
    property CaptionVerMargin : integer read FCapTop write SetCapTop default 0;
    //Allows to show or hide the control, and all of its children
    //Ermöglicht das Ein- oder Ausblenden des Steuerelements und aller seiner untergeordneten Elemente
+
+
+   property Appear : boolean read FAppear write SetAppear default false;
 
 
    property Width  default 250;
@@ -501,6 +520,8 @@ begin
   FTimer.OnTimer             := @MultiPanelOnTimer;
 
 
+
+
   FMultiBkgrdBmp := TBitmap.Create;
   Application.AddOnUserInputHandler(@ParentInputHandler);
   FChangeable := true;
@@ -527,10 +548,24 @@ begin
 
   FSwitch:= 0;
   FDDMenu.FHotspot := rect(0,0,25,25);
+
+  FAppear   := false;
+  FPanelBmp := TBitmap.Create;
+  FParentBmp:= TBitmap.Create;
+  FAnimationTimer                     := TTimer.Create(self);
+  FAnimationTimer.Enabled             := false;
+  FAnimationTimer.Interval            := 20;
+  FAnimationTimer.OnTimer             := @AnimationOnTimer;
+  FIsVisible := true;
+
 end;
 
 destructor TMultiPanel.Destroy;
 begin
+  FPanelBmp.Free;
+  FParentBmp.Free;
+  FAnimationTimer.Free;
+  FTimer.Free;
   FImageListChangeLink.Free;
   Application.RemoveOnUserInputHandler(@ParentInputHandler);
   FMultiBkgrdBmp.Free;
@@ -652,6 +687,14 @@ procedure TMultiPanel.Loaded;
 begin
  inherited Loaded;
  if not FRunThroughPaint then MultiBkgrdBmp;
+
+ if not visible then
+  begin
+   FIsVisible := false;
+   visible:=true;
+
+  end;
+
 end;
 
 procedure TMultiPanel.KeyPress(var Key: char);
@@ -683,6 +726,26 @@ begin
   inherited DoEnter;
   if Assigned(OnEnter) then OnEnter(self);
 end;
+ (*
+procedure TMultiPanel.Resize;
+begin
+  inherited Resize;
+  debugln('resize');
+end;
+
+
+procedure TMultiPanel.WMPaint(var Msg: TLMPaint);
+begin
+  FParentBmp.SetSize(width,height);
+ // FParentBmp.Canvas.CopyRect(rect(0,0,width,height),(Parent as TCustomControl).Canvas,
+   //                         rect(left,top,width,height));
+ FParentBmp.Canvas.CopyRect(rect(0,0,width,height),(Parent as TCustomControl).Canvas,
+                      rect(0,0,width,height));
+
+  debugln('wmpaint');
+
+  Paint;
+end;  *)
 
 procedure TMultiPanel.BoundsChanged;
 begin
@@ -1137,6 +1200,7 @@ begin
   FTextStyle:=AValue;
 end;
 
+
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx---drawing---XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 procedure TMultiPanel.DrawThePanel;
@@ -1146,7 +1210,7 @@ var   bkBmp        : TBitmap;
       Dest         : TBitmap;
 
 begin
-
+ (*
    bkBmp := TBitmap.Create;
    bkBmp.SetSize(Width,Height);
 
@@ -1196,7 +1260,7 @@ begin
    bkBmp.Free;
    trBmp.Free;
    mask.Free;
-   Dest.Free;
+   Dest.Free;     *)
 end;
 
 procedure TMultiPanel.MultiBkgrdBmp; //this is the bitmap that will be sent to the children
@@ -1304,6 +1368,25 @@ begin
  Invalidate;
 end;
 
+procedure TMultiPanel.SetAppear(AValue: boolean);
+begin
+  if FAppear=AValue then Exit;
+  if visible then
+   begin
+    showmessage('The panel is already visible');
+    exit;
+   end;
+  FAppear:=AValue;
+  if FAppear then
+   begin
+    FParentBmp.SetSize(width,height);
+    FParentBmp.Canvas.CopyRect(Rect(0,0,width,height),Canvas,Rect(0,0,width,height));
+    visible := true;
+   end;
+
+  Invalidate;
+end;
+
 procedure TMultiPanel.DrawABorder;
 var i : integer;
 begin
@@ -1331,23 +1414,81 @@ begin
   end;
 end;
 
+procedure TMultiPanel.DoAppear;
+var lv : integer;
+begin
+ if FAnimationTimer.Enabled then exit;
+ Canvas.Draw(0,0,FParentBmp);
+ //set all kindcontrolls to unvisible
+ for lv := 0 to pred(ControlCount) do
+  if Controls[lv] is TControl then (Controls[lv] as TControl).Visible:=false;
+
+ //canvas.Draw(0,0,FPanelBmp);
+ if not FAnimationTimer.Enabled then
+  begin
+   FAnimationFrac:=0;
+   FAnimationTimer.Enabled:=true;
+  end;
+end;
+
+
+procedure TMultiPanel.AnimationOnTimer(Sender: TObject);
+var bmp1,bmp2 :TBitmap;
+      lv : integer;
+begin
+
+ bmp1 := TBitmap.Create;
+ bmp1.SetSize(FPanelBmp.Width,FPanelBmp.Height);
+ //bmp2 := TBitmap.Create;
+ //bmp2.SetSize(FPanelBmp.Width,FPanelBmp.Height);
+ //bmp2.Canvas.Brush.Color:=clForm;
+ //bmp2.Canvas.FillRect(0,0,FPanelBmp.Width,FPanelBmp.Height);
+
+
+
+ Blend_Bmp(bmp1,FParentBmp,FPanelBmp,FAnimationFrac);
+ canvas.Draw(0,0,bmp1);
+
+ bmp1.Free;
+ //bmp2.Free;
+
+ FAnimationFrac := FAnimationFrac +0.005;
+ if FAnimationFrac >=1 then
+  begin
+   FAnimationTimer.Enabled:=false;
+   for lv := 0 to pred(ControlCount) do
+    if Controls[lv] is TControl then (Controls[lv] as TControl).Visible:=true;
+   FAppear:=false;
+   invalidate;
+  end;
+end;
+
+
+
+
 procedure TMultiPanel.Paint;
 var lv         : integer;
     textrect   : TRect;
 begin
-  if parent.Color = clDefault then color:=clForm else ParentColor:=true;
-  //inherited Paint;
-  DrawThePanel;
-  DrawABorder;
-  //Draw the Image
-     if (FImageList <> nil) and (FImageIndex > -1) and (FImageIndex < FImageList.Count) then
-      FImageList.ResolutionForPPI[FImageWidth, Font.PixelsPerInch, GetCanvasScaleFactor].Draw(Canvas,
-      FImageLeft,FImageTop,FImageIndex);
-  //caption
-  textrect := rect(0,0,width,height);
-  canvas.TextRect(TextRect,FCapLeft,FCapTop,FCaption,FTextStyle);
-  //this is the bitmap that will be sent to the children
-  MultiBkgrdBmp;
+ if parent.Color = clDefault then color:=clForm else ParentColor:=true; //GetColorResolvingParent
+
+ if FAppear and not (csDesigning in Componentstate) then
+  begin
+   Canvas.Draw(0,0,FParentBmp);
+   DoAppear;
+  end
+
+ //if not FAppear then
+ else
+  begin
+   MultiBkgrdBmp;
+   Canvas.Draw(0,0,FMultiBkgrdBmp);
+  end;
+
+
+  //Canvas.Draw(0,0,FParentBmp);
+  debugln('paint');
+
 
   FRunThroughPaint := true; //checks if paint was run
   //update all child windows
@@ -1356,6 +1497,16 @@ begin
       if Controls[lv] is TMultiButton then (Controls[lv] as TMultiButton).Invalidate;
       if Controls[lv] is TMultiplexSlider then (Controls[lv] as TMultiplexSlider).Invalidate;
      end;
+
+  if not FIsVisible then  //copys the canvas of the panel for appear
+   begin
+    FPanelBmp.SetSize(width,height);
+    FPanelBmp.Canvas.CopyRect(Rect(0,0,width,height),Canvas,Rect(0,0,width,height));
+    FIsVisible := true;
+    visible := false;
+   end;
+
+
 end;
 
 {$Include mp_dropdownmenu.inc}

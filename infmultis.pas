@@ -1,6 +1,6 @@
 { <infmultis a part of the multis package>
 
-  Copyright (C) <01.01.2022> <Bernd Hübner>
+  Copyright (C) <01.05.2022> <Bernd Hübner>
 
   This library is free software; you can redistribute it and/or modify it under the
   terms of the GNU Library General Public License as published by the Free Software
@@ -42,6 +42,7 @@ uses
 procedure BmpToAlphaBmp(var AlphaBmp :TBitmap;BlendValue : byte);
 procedure Gradient_Bmp(var aBmp: TBitmap; aStart, aStop: TColor;aCourse: integer);
 procedure Gradient_Bmp(var aBmp: TBitmap; aWidth, aHeight: integer);
+procedure Blend_Bmp(var BackBmp: TBitmap; const StartBmp,EndBmp: TBitmap; aFrac: double);
 
 implementation
 
@@ -116,7 +117,8 @@ begin
 end;
 
 
-procedure Gradient_Bmp(var aBmp: TBitmap; aStart, AStop: TColor;aCourse: integer);
+procedure Gradient_Bmp(var aBmp: TBitmap; aStart, aStop: TColor;
+  aCourse: integer);
 var lv:integer;
     StartR,StartG,StartB : integer;
     StopR,StopG,StopB    : integer;
@@ -296,6 +298,37 @@ begin
 
   finally
    tmpBmp.Free;
+  end;
+end;
+
+procedure Blend_Bmp(var BackBmp: TBitmap; const StartBmp,EndBmp: TBitmap; aFrac: double);
+var
+  x, y     : Integer;
+  r,g, b   : Word;
+  BackImg  : TLazIntfImage;
+  StartImg : TLazIntfImage;
+  EndImg   : TLazIntfImage;
+begin
+
+ BackImg  := BackBmp.CreateIntfImage;
+ StartImg := StartBmp.CreateIntfImage;
+ EndImg   := EndBmp.CreateIntfImage;
+ try
+    for y := 0 to StartBmp.Height-1 do
+      for x := 0 to StartBmp.Width - 1 do
+      begin
+        r := round((1.0-aFrac) * StartImg.Colors[x, y].Red   + aFrac * EndImg.Colors[x, y].Red);
+        g := round((1.0-aFrac) * StartImg.Colors[x, y].Green + aFrac * EndImg.Colors[x, y].Green);
+        b := round((1.0-aFrac) * StartImg.Colors[x, y].Blue  + aFrac * EndImg.Colors[x, y].Blue);
+        BackImg.Colors[x, y] := FPColor(r, g, b);
+      end;
+
+    BackBmp.LoadFromIntfImage(BackImg);
+
+  finally
+    BackImg.Free;
+    StartImg.Free;
+    EndImg.Free;
   end;
 end;
 
