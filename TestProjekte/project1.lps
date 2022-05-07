@@ -9,7 +9,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <CursorPos Y="24"/>
-        <UsageCount Value="152"/>
+        <UsageCount Value="154"/>
       </Unit>
       <Unit>
         <Filename Value="unit1.pas"/>
@@ -21,7 +21,7 @@
         <IsVisibleTab Value="True"/>
         <TopLine Value="29"/>
         <CursorPos X="29" Y="55"/>
-        <UsageCount Value="152"/>
+        <UsageCount Value="154"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -29,14 +29,14 @@
         <Filename Value="../multipanel.pas"/>
         <UnitName Value="MultiPanel"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="674"/>
-        <CursorPos Y="689"/>
-        <UsageCount Value="75"/>
+        <TopLine Value="671"/>
+        <CursorPos X="44" Y="684"/>
+        <UsageCount Value="76"/>
         <Bookmarks Count="4">
-          <Item0 X="52" Y="1371"/>
-          <Item1 X="32" Y="1417" ID="1"/>
+          <Item0 X="52" Y="1370"/>
+          <Item1 X="32" Y="1416" ID="1"/>
           <Item2 Y="689" ID="2"/>
-          <Item3 Y="749" ID="3"/>
+          <Item3 Y="748" ID="3"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit>
@@ -59,10 +59,10 @@
       <Unit>
         <Filename Value="../multibutton.pas"/>
         <UnitName Value="MultiButton"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="2"/>
         <TopLine Value="2608"/>
         <CursorPos X="80" Y="2623"/>
-        <UsageCount Value="55"/>
+        <UsageCount Value="56"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -96,11 +96,10 @@
       </Unit>
       <Unit>
         <Filename Value="../../../../../../../Programme/Stable_01_22/lazarus/lcl/include/custompanel.inc"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="179"/>
         <CursorPos Y="197"/>
         <UsageCount Value="31"/>
-        <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="../../../../../../../Programme/Stable_01_22/lazarus/lcl/stdctrls.pp"/>
@@ -111,7 +110,7 @@
         <UsageCount Value="9"/>
       </Unit>
     </Units>
-    <JumpHistory HistoryIndex="25">
+    <JumpHistory HistoryIndex="29">
       <Position>
         <Filename Value="../multipanel.pas"/>
         <Caret Line="277" Column="15" TopLine="264"/>
@@ -215,6 +214,22 @@
       <Position>
         <Filename Value="unit1.pas"/>
         <Caret Line="54" Column="29" TopLine="28"/>
+      </Position>
+      <Position>
+        <Filename Value="../multipanel.pas"/>
+        <Caret Line="1501" Column="26" TopLine="1484"/>
+      </Position>
+      <Position>
+        <Filename Value="../multipanel.pas"/>
+        <Caret Line="695" Column="3" TopLine="673"/>
+      </Position>
+      <Position>
+        <Filename Value="../multipanel.pas"/>
+        <Caret Line="748" TopLine="733"/>
+      </Position>
+      <Position>
+        <Filename Value="../multipanel.pas"/>
+        <Caret Line="1504" Column="28" TopLine="747"/>
       </Position>
     </JumpHistory>
     <RunParams>

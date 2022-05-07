@@ -28,7 +28,6 @@ object Form1: TForm1
   object MultiPanel1: TMultiPanel
     Left = 64
     Top = 40
-    Visible = False
     object MultiplexSlider1: TMultiplexSlider
       Left = 46
       Height = 40

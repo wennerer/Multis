@@ -691,8 +691,7 @@ begin
  if not visible then
   begin
    FIsVisible := false;
-   visible:=true;
-
+   visible:=true;//So that the bitmaps can be drawn
   end;
 
 end;
@@ -1490,7 +1489,7 @@ begin
   debugln('paint');
 
 
-  FRunThroughPaint := true; //checks if paint was run
+
   //update all child windows
    for lv := 0 to pred(ControlCount) do
      begin
@@ -1498,15 +1497,14 @@ begin
       if Controls[lv] is TMultiplexSlider then (Controls[lv] as TMultiplexSlider).Invalidate;
      end;
 
-  if not FIsVisible then  //copys the canvas of the panel for appear
+  if not FRunThroughPaint then  //copys the canvas of the panel for appear
    begin
     FPanelBmp.SetSize(width,height);
     FPanelBmp.Canvas.CopyRect(Rect(0,0,width,height),Canvas,Rect(0,0,width,height));
-    FIsVisible := true;
-    visible := false;
+    if not FIsVisible then visible := false;
    end;
 
-
+  FRunThroughPaint := true; //checks if paint was run
 end;
 
 {$Include mp_dropdownmenu.inc}
