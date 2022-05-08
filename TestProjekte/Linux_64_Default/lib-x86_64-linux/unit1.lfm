@@ -1,19 +1,21 @@
 object Form1: TForm1
   Left = 100
-  Height = 240
+  Height = 361
   Top = 100
-  Width = 320
+  Width = 542
   Caption = 'Form1'
-  ClientHeight = 240
-  ClientWidth = 320
+  ClientHeight = 361
+  ClientWidth = 542
+  Color = clForm
   OnPaint = FormPaint
   OnShow = FormShow
+  LCLVersion = '2.2.0.4'
   object Button1: TButton
     Left = 216
     Height = 25
     Top = 8
     Width = 75
-    Caption = 'Button1'
+    Caption = 'Appear'
     OnClick = Button1Click
     TabOrder = 0
   end
@@ -22,16 +24,19 @@ object Form1: TForm1
     Height = 25
     Top = 86
     Width = 75
-    Caption = 'Button3'
-    TabOrder = 2
+    Caption = 'Disappear'
+    OnClick = Button2Click
+    TabOrder = 1
   end
   object MultiPanel1: TMultiPanel
-    Left = 64
+    Left = 41
     Top = 40
+    Style = mpsEllipse
+    Visible = True
     object MultiplexSlider1: TMultiplexSlider
-      Left = 46
+      Left = 24
       Height = 40
-      Top = 32
+      Top = 24
       Width = 210
       Knob1Settings.KnobPosition = 0
       Knob1Settings.Visible = True
@@ -73,11 +78,20 @@ object Form1: TForm1
     object Button2: TButton
       Left = 62
       Height = 25
-      Top = 87
+      Top = 91
       Width = 75
-      Caption = 'Button2'
+      Caption = 'Disappear'
       OnClick = Button2Click
       TabOrder = 1
     end
+  end
+  object Button4: TButton
+    Left = 8
+    Height = 25
+    Top = 224
+    Width = 75
+    Caption = 'un- visible'
+    OnClick = Button4Click
+    TabOrder = 3
   end
 end

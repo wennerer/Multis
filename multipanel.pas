@@ -234,6 +234,7 @@ type
 
   TMultiPanel = class(TCustomPanel)
   private
+    FVisible: boolean;
     FBorder: TBorder;
     FCapLeft: integer;
     FCaption: TCaption;
@@ -273,15 +274,17 @@ type
     FImageListChangeLink: TChangeLink;
 
     FAppear: boolean;
+    FDisappear: boolean;
     FPanelBmp        : TBitmap;
     FParentBmp       : TBitmap;
     FIsVisible       : boolean;
     FAnimationTimer  : TTimer;
     FAnimationFrac   : Double;
-    FVisible: boolean;
+
 
 
     procedure DoAppear;
+    procedure DoDisappear;
     procedure MultiBkgrdBmp;
     procedure SetAlignment(AValue: TAlignment);
     procedure SetAppear(AValue: boolean);
@@ -292,6 +295,7 @@ type
     procedure SetCapTop(AValue: integer);
     procedure SetColorEnd(AValue: TColor);
     procedure SetColorStart(AValue: TColor);
+    procedure SetDisappear(AValue: boolean);
     procedure SetDropDownMenu(Sender: TPersistent; aValue: boolean);
     procedure SetFont(AValue: TFont);
     procedure SetImageIndex(AValue: TImageIndex);
@@ -348,6 +352,7 @@ type
    property TextStyle: TTextStyle read FTextStyle write SetTextStyle;
 
    property Appear : boolean read FAppear write SetAppear;
+   property Disappear : boolean read FDisappear write SetDisappear;
   published
    //The geometric shape of the panel
    //Die geometrische Form des Panels
@@ -1181,12 +1186,29 @@ end;
 
 procedure TMultiPanel.SetVisible(Value: Boolean);
 begin
-  if not Value then
-   begin
-    FPanelBmp.SetSize(width,height);
-    FPanelBmp.Canvas.CopyRect(Rect(0,0,width,height),Canvas,Rect(0,0,width,height));
-   end;
+  if FVisible=Value then Exit;
+
+  if not (csDesigning in Componentstate) or not(csLoading in Componentstate) then
+  begin
+   if not Value then
+    begin
+     if not FAppear and not FDisappear then
+      begin
+       FPanelBmp.SetSize(width,height);
+       FPanelBmp.Canvas.CopyRect(Rect(0,0,width,height),Canvas,Rect(0,0,width,height));
+      end;
+    end;
+   if Value then
+    begin
+     FParentBmp.SetSize(width,height);
+     FParentBmp.Canvas.CopyRect(Rect(0,0,width,height),Canvas,Rect(0,0,width,height));
+    end;
+
+  end;
+
+  FVisible :=Value;
   inherited SetVisible(Value);
+  invalidate;
 end;
 
 procedure TMultiPanel.SetStyle(AValue: TMPanelStyle);
@@ -1402,6 +1424,27 @@ begin
   Invalidate;
 end;
 
+
+procedure TMultiPanel.SetDisappear(AValue: boolean);
+begin
+  if FDisappear=AValue then Exit;
+  if not FVisible then
+   begin
+    showmessage('The panel is already unvisible');
+    exit;
+   end;
+  FDisappear:=AValue;
+  if FDisappear then
+   begin
+    FPanelBmp.SetSize(width,height);
+    FPanelBmp.Canvas.CopyRect(Rect(0,0,width,height),Canvas,Rect(0,0,width,height));
+    //visible := true;
+   end;
+
+  Invalidate;
+end;
+
+
 procedure TMultiPanel.DrawABorder;
 var i : integer;
 begin
@@ -1446,6 +1489,23 @@ begin
   end;
 end;
 
+procedure TMultiPanel.DoDisappear;
+var lv : integer;
+begin
+ if FAnimationTimer.Enabled then exit;
+ Canvas.Draw(0,0,FPanelBmp);
+ //set all kindcontrolls to unvisible
+ for lv := 0 to pred(ControlCount) do
+  if Controls[lv] is TControl then (Controls[lv] as TControl).Visible:=false;
+
+ //canvas.Draw(0,0,FPanelBmp);
+ if not FAnimationTimer.Enabled then
+  begin
+   FAnimationFrac:=0;
+   FAnimationTimer.Enabled:=true;
+  end;
+end;
+
 
 procedure TMultiPanel.AnimationOnTimer(Sender: TObject);
 var bmp1,bmp2 :TBitmap;
@@ -1460,20 +1520,23 @@ begin
  //bmp2.Canvas.FillRect(0,0,FPanelBmp.Width,FPanelBmp.Height);
 
 
-
- Blend_Bmp(bmp1,FParentBmp,FPanelBmp,FAnimationFrac);
+ if FAppear then Blend_Bmp(bmp1,FParentBmp,FPanelBmp,FAnimationFrac);
+ if FDisappear then Blend_Bmp(bmp1,FPanelBmp,FParentBmp,FAnimationFrac);
  canvas.Draw(0,0,bmp1);
 
  bmp1.Free;
  //bmp2.Free;
 
  FAnimationFrac := FAnimationFrac +0.005;
- if FAnimationFrac >=1 then
+ if (FAnimationFrac >=1) or (FAnimationFrac <=0) then
   begin
-   FAnimationTimer.Enabled:=false;
    for lv := 0 to pred(ControlCount) do
     if Controls[lv] is TControl then (Controls[lv] as TControl).Visible:=true;
+   if FDisappear then visible := false;
+
+   FDisappear := false;
    FAppear:=false;
+   FAnimationTimer.Enabled:=false;
    invalidate;
   end;
 end;
@@ -1487,18 +1550,24 @@ var lv         : integer;
 begin
  if parent.Color = clDefault then color:=clForm else ParentColor:=true; //GetColorResolvingParent
 
- if FAppear and not (csDesigning in Componentstate) then
+ if FAppear or FDisappear and not (csDesigning in Componentstate) then
   begin
-   Canvas.Draw(0,0,FParentBmp);
-   DoAppear;
+   if FAppear then
+    begin
+     Canvas.Draw(0,0,FParentBmp);
+     DoAppear;
+    end;
+   if FDisappear then
+    begin
+     Canvas.Draw(0,0,FPanelBmp);
+     DoDisappear;
+    end;
   end
-
- //if not FAppear then
- else
-  begin
-   MultiBkgrdBmp;
-   Canvas.Draw(0,0,FMultiBkgrdBmp);
-  end;
+  else //if not FAppear then
+   begin
+    MultiBkgrdBmp;
+    Canvas.Draw(0,0,FMultiBkgrdBmp);
+   end;
 
 
   //Canvas.Draw(0,0,FParentBmp);
