@@ -18,12 +18,15 @@ type
     Button3: TButton;
     Button4: TButton;
     MultiPanel1: TMultiPanel;
+    MultiPanel2: TMultiPanel;
     MultiplexSlider1: TMultiplexSlider;
+    Panel1: TPanel;
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure Button4Click(Sender: TObject);
     procedure FormPaint(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure Panel1Paint(Sender: TObject);
   private
 
   public
@@ -50,12 +53,14 @@ end;
 procedure TForm1.Button1Click(Sender: TObject);
 begin
   MultiPanel1.Appear:=true;
+  MultiPanel2.Appear:=true;
 end;
 
 procedure TForm1.Button2Click(Sender: TObject);
 begin
   //MultiPanel1.Visible:=false;
   MultiPanel1.Disappear:=true;
+   MultiPanel2.Disappear:=true;
 end;
 
 procedure TForm1.Button4Click(Sender: TObject);
@@ -66,6 +71,13 @@ end;
 procedure TForm1.FormShow(Sender: TObject);
 begin
 
+end;
+
+procedure TForm1.Panel1Paint(Sender: TObject);
+begin
+ Panel1.canvas.Pen.Color:=clred;
+ Panel1.canvas.Pen.Width:=5;
+ Panel1.canvas.Line(0,0,width,height);
 end;
 
 end.

@@ -421,7 +421,7 @@ type
    //Ermöglicht das Ein- oder Ausblenden des Steuerelements und aller seiner untergeordneten Elemente
 
 
-   property Visible :boolean read FVisible write SetVisible;
+   property Visible :boolean read FVisible write SetVisible default true;
 
 
    property Width  default 250;
@@ -498,6 +498,7 @@ begin
   FGradient      := gcSpread;
   FRRRadius      := 40;
   FStyle         := mpsRect;
+  FVisible       := true;
 
   FBorder                := TBorder.create(self);
   FBorder.FOuterColor    := clNone;
