@@ -9,7 +9,6 @@ object Form1: TForm1
   Color = clForm
   OnPaint = FormPaint
   OnShow = FormShow
-  LCLVersion = '2.2.0.4'
   object Button1: TButton
     Left = 216
     Height = 25
@@ -32,13 +31,13 @@ object Form1: TForm1
     Left = 41
     Top = 40
     Style = mpsEllipse
-    Visible = True
+    Visible = False
     object MultiplexSlider1: TMultiplexSlider
       Left = 24
       Height = 40
       Top = 24
       Width = 210
-      Knob1Settings.KnobPosition = 0
+      Knob1Settings.KnobPosition = 5
       Knob1Settings.Visible = True
       Knob1Settings.KnobStyle = ksCircle
       Knob1Settings.ColorGradient = gcAlternate

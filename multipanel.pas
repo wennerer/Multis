@@ -280,7 +280,8 @@ type
     FIsVisible       : boolean;
     FAnimationTimer  : TTimer;
     FAnimationFrac   : Double;
-
+    FirstCopy        : integer;
+    FParentBmpTimer  : TTimer;
 
 
     procedure DoAppear;
@@ -321,7 +322,7 @@ type
     procedure FontPropertyChanged({%H-}Sender:TObject);
     procedure SetTextStyle(AValue: TTextStyle);
     procedure AnimationOnTimer({%H-}Sender : TObject);
-
+    procedure CheckParentIsVisible({%H-}Sender : TObject);
   protected
     procedure DrawThePanel;
     procedure DrawABorder;
@@ -347,12 +348,14 @@ type
    procedure MouseMove({%H-}Shift: TShiftState; X, Y: Integer);override;
    procedure MouseDown({%H-}Button: TMouseButton;{%H-}Shift: TShiftState; X, Y: Integer);override;
    procedure MouseUp({%H-}Button: TMouseButton; {%H-}Shift: TShiftState; {%H-}X, {%H-}Y: Integer);override;
+   procedure CopyParentCanvas;
    procedure Paint; override;
 
    property TextStyle: TTextStyle read FTextStyle write SetTextStyle;
 
    property Appear : boolean read FAppear write SetAppear;
    property Disappear : boolean read FDisappear write SetDisappear;
+
   published
    //The geometric shape of the panel
    //Die geometrische Form des Panels
@@ -568,13 +571,18 @@ begin
   FAnimationTimer.Interval            := 20;
   FAnimationTimer.OnTimer             := @AnimationOnTimer;
   FIsVisible := true;
-
+  //FirstCopy := true;
+  FParentBmpTimer                     := TTimer.Create(self);
+  FParentBmpTimer.Interval            := 10;
+  FParentBmpTimer.OnTimer             := @CheckParentIsVisible;
+  FParentBmpTimer.Enabled             := false;
 end;
 
 destructor TMultiPanel.Destroy;
 begin
   FPanelBmp.Free;
   FParentBmp.Free;
+  FParentBmpTimer.Free;
   FAnimationTimer.Free;
   FTimer.Free;
   FImageListChangeLink.Free;
@@ -621,14 +629,36 @@ begin
   if Assigned(OnClick) then OnClick(self);
 end;
 
+procedure TMultiPanel.CopyParentCanvas;
+begin
+
+
+ FParentBmp.SetSize(width,height);
+ FParentBmp.Canvas.CopyRect(rect(0,0,width,height),(Parent as TCustomControl).Canvas,
+                            rect(left,top,left+width,top+height));
+
+
+end;
+
 procedure TMultiPanel.ParentInputHandler(Sender: TObject; Msg: Cardinal);
 var x,y,h : integer;
     HotspotCompressed : TRect;
     HotspotStretched  : TRect;
     P                 : TPoint;
-
+//const    visibleflag  : boolean = true;
 begin
- if not FDDMenu.FActive then exit;
+ (* if not (csDesigning in ComponentState) and (FirstCopy < 2) and (msg = LM_MOUSEMOVE) then
+   begin
+   // if visible then visibleflag:=true else visibleflag:=false;
+    visible := false;
+    CopyParentCanvas;
+    if (FirstCopy >= 1) then visible:=true;
+    inc(FirstCopy);
+   end;
+          *)
+ //if msg = LM_SIZE then showmessage('');
+
+  if not FDDMenu.FActive then exit;
 
  if not (csDesigning in ComponentState) then
   begin
@@ -638,6 +668,9 @@ begin
    HotspotCompressed := Rect(0,0,FDDMenu.FCompressed.FWidth,FDDMenu.FCompressed.FHeight);
    HotspotStretched  := Rect(0,0,FDDMenu.FStretched.FWidth,FDDMenu.FStretched.FHeight);
    P := Point(x,y);
+
+
+
 
    if FDDMenu.FTrigger = trClick then
     begin
@@ -1201,7 +1234,7 @@ begin
    if Value then
     begin
      FParentBmp.SetSize(width,height);
-     FParentBmp.Canvas.CopyRect(Rect(0,0,width,height),Canvas,Rect(0,0,width,height));
+     //FParentBmp.Canvas.CopyRect(Rect(0,0,width,height),Canvas,Rect(0,0,width,height));
     end;
 
   end;
@@ -1541,6 +1574,28 @@ begin
   end;
 end;
 
+procedure TMultiPanel.CheckParentIsVisible(Sender: TObject);
+var CurControl  : TControl;
+    i           : integer;
+    exitflag    : boolean;
+begin
+ i:=0; exitflag := false;
+ CurControl := Parent;
+ repeat
+  if CurControl is TForm then exitflag := true
+   else
+    CurControl := CurControl.Parent;      //back to the Form
+  inc(i);
+ until (i =100) or (exitflag = true);
+
+ if (CurControl as TForm).Active then
+  begin
+   FParentBmpTimer.Enabled:=false;
+   CopyParentCanvas;
+   if not FIsVisible then Visible := false else Visible:=true;
+  end;
+end;
+
 
 
 
@@ -1571,7 +1626,7 @@ begin
 
 
   //Canvas.Draw(0,0,FParentBmp);
-  //debugln('paint');
+//debugln('paint');
 
 
 
@@ -1586,7 +1641,8 @@ begin
    begin
     FPanelBmp.SetSize(width,height);
     FPanelBmp.Canvas.CopyRect(Rect(0,0,width,height),Canvas,Rect(0,0,width,height));
-    if not FIsVisible then visible := false;
+    Visible := false;
+    FParentBmpTimer.Enabled:= true;
    end;
 
   FRunThroughPaint := true; //checks if paint was run
