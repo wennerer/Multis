@@ -17,13 +17,17 @@ type
     Button2: TButton;
     Button3: TButton;
     Button4: TButton;
+    Button5: TButton;
+    Button6: TButton;
     MultiPanel1: TMultiPanel;
     MultiPanel2: TMultiPanel;
+    MultiPanel3: TMultiPanel;
     MultiplexSlider1: TMultiplexSlider;
     Panel1: TPanel;
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure Button4Click(Sender: TObject);
+    procedure Button5Click(Sender: TObject);
     procedure FormPaint(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure Panel1Paint(Sender: TObject);
@@ -66,6 +70,11 @@ end;
 procedure TForm1.Button4Click(Sender: TObject);
 begin
   if MultiPanel1.Visible then MultiPanel1.Visible:=false else MultiPanel1.Visible:=true;
+end;
+
+procedure TForm1.Button5Click(Sender: TObject);
+begin
+ MultiPanel3.Disappear:=true;
 end;
 
 procedure TForm1.FormShow(Sender: TObject);

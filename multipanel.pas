@@ -157,8 +157,8 @@ type
 
   public
    constructor create(aOwner: TCustomPanel);
-   //
-   //
+   //Determines the area in which a click works, only active with DropDownMenu.Active und trPinned
+   //Legt den Bereich fest in dem in dem ein Klick wirkt, nur aktive mit DropDownMenu.Active und trPinned
    property Hotspot :TRect read FHotspot write SetHotspot;
   published
    //activates the dropdown function
@@ -234,54 +234,54 @@ type
 
   TMultiPanel = class(TCustomPanel)
   private
-    FVisible: boolean;
-    FBorder: TBorder;
-    FCapLeft: integer;
-    FCaption: TCaption;
-    FCaptionWordbreak: boolean;
-    FCapTop: integer;
-    FColorEnd        : TColor;
-    FColorStart      : TColor;
-    FDDMenu          : TDDMenu;
-    FFont: TFont;
-    FGradient        : TGradientCourse;
-    FImageIndex: TImageIndex;
-    FImageLeft: integer;
-    FImageList: TCustomImageList;
-    FImageTop: integer;
-    FImageWidth: integer;
-    FOnClick: TClickEvent;
-    FOnCompressed: TNotifyEvent;
-    FOnEnter: TNotifyEvent;
-    FOnExit: TNotifyEvent;
-    FOnKeyDown: TKeyEvent;
-    FOnKeyPress: TKeyPressEvent;
-    FOnKeyUp: TKeyEvent;
-    FOnMouseDown: TMouseEvent;
-    FOnMouseEnter: TMouseEnterLeave;
-    FOnMouseLeave: TMouseEnterLeave;
-    FOnMouseMove: TMouseMoveEvent;
-    FOnMouseUp: TMouseEvent;
-    FOnStreched: TNotifyEvent;
-    FRRRadius        : integer;
-    FStyle           : TMPanelStyle;
-    FChangeable      : boolean;  //flag for dropdownmenu
-    FSwitch          : word;  //flag for dropdownmenu in designtime
-    FTextStyle       : TTextStyle;
-    FTriggerNot      : boolean;
-    FTimer           : TTimer;
-    FRunThroughPaint : boolean;
+    FVisible          : boolean;
+    FBorder           : TBorder;
+    FCapLeft          : integer;
+    FCaption          : TCaption;
+    FCaptionWordbreak : boolean;
+    FCapTop           : integer;
+    FColorEnd         : TColor;
+    FColorStart       : TColor;
+    FDDMenu           : TDDMenu;
+    FFont             : TFont;
+    FGradient         : TGradientCourse;
+    FImageIndex       : TImageIndex;
+    FImageLeft        : integer;
+    FImageList        : TCustomImageList;
+    FImageTop         : integer;
+    FImageWidth       : integer;
+    FOnClick          : TClickEvent;
+    FOnCompressed     : TNotifyEvent;
+    FOnEnter          : TNotifyEvent;
+    FOnExit           : TNotifyEvent;
+    FOnKeyDown        : TKeyEvent;
+    FOnKeyPress       : TKeyPressEvent;
+    FOnKeyUp          : TKeyEvent;
+    FOnMouseDown      : TMouseEvent;
+    FOnMouseEnter     : TMouseEnterLeave;
+    FOnMouseLeave     : TMouseEnterLeave;
+    FOnMouseMove      : TMouseMoveEvent;
+    FOnMouseUp        : TMouseEvent;
+    FOnStreched       : TNotifyEvent;
+    FRRRadius         : integer;
+    FStyle            : TMPanelStyle;
+    FChangeable       : boolean;  //flag for dropdownmenu
+    FSwitch           : word;  //flag for dropdownmenu in designtime
+    FTextStyle        : TTextStyle;
+    FTriggerNot       : boolean;
+    FTimer            : TTimer;
+    FRunThroughPaint  : boolean;
     FImageListChangeLink: TChangeLink;
 
-    FAppear: boolean;
-    FDisappear: boolean;
-    FPanelBmp        : TBitmap;
-    FParentBmp       : TBitmap;
-    FIsVisible       : boolean;
-    FAnimationTimer  : TTimer;
-    FAnimationFrac   : Double;
-    FirstCopy        : integer;
-    FParentBmpTimer  : TTimer;
+    FAppear           : boolean;
+    FDisappear        : boolean;
+    FPanelBmp         : TBitmap;
+    FParentBmp        : TBitmap;
+    FIsVisible        : boolean;
+    FAnimationTimer   : TTimer;
+    FAnimationFrac    : Double;
+    FirstCopy         : integer;
+    FParentBmpTimer   : TTimer;
 
 
     procedure DoAppear;
@@ -308,9 +308,7 @@ type
     procedure SetSizeDropDownMenu(Sender:TPersistent);
     procedure SetGradient(AValue: TGradientCourse);
     procedure SetRRRadius(AValue: integer);
-
     procedure SetVisible(Value: Boolean);override;
-
     procedure SetSizeWithDrag;
     procedure SetStyle(AValue: TMPanelStyle);
     procedure MultiPanelOnTimer({%H-}Sender : TObject);
@@ -334,9 +332,6 @@ type
     procedure DoExit;  override;
     procedure DoEnter; override;
 
-    //procedure Resize;override;
-    //procedure WMPaint(var Msg: TLMPaint); message LM_PAINT;
-
   public
    FMultiBkgrdBmp         : TBitmap;
    procedure ParentInputHandler({%H-}Sender: TObject; Msg: Cardinal);
@@ -352,8 +347,11 @@ type
    procedure Paint; override;
 
    property TextStyle: TTextStyle read FTextStyle write SetTextStyle;
-
+   //makes the panel appear
+   //läßt das Panel erscheinen
    property Appear : boolean read FAppear write SetAppear;
+   //makes the panel disappear
+   //läßt das Panel verschwinden
    property Disappear : boolean read FDisappear write SetDisappear;
 
   published
@@ -422,11 +420,8 @@ type
 
 
    property Visible :boolean read FVisible write SetVisible default true;
-
-
    property Width  default 250;
    property Height default 150;
-
    property DragMode;
    property DragKind;
    property DragCursor;
@@ -454,7 +449,11 @@ type
    property OnKeyPress :TKeyPressEvent read FOnKeyPress write FOnKeyPress;
    property OnKeyDown: TKeyEvent read FOnKeyDown write FOnKeyDown;
    property OnKeyUp: TKeyEvent read FOnKeyUp write FOnKeyUp;
+   //Handler when the panel is compressed, only active when DropDownMenu.Active
+   //Handler wenn das Panel komprimiert ist, nur aktive wenn DropDownMenu.Active
    property OnCompressed : TNotifyEvent read FOnCompressed write FOnCompressed;
+   //Handler when the panel is streched, only active when DropDownMenu.Active
+   //Handler wenn das Panel ausgeklappt ist, nur aktive wenn DropDownMenu.Active
    property OnStreched : TNotifyEvent read FOnStreched write FOnStreched;
 
   end;
@@ -564,15 +563,14 @@ begin
   FSwitch:= 0;
   FDDMenu.FHotspot := rect(0,0,25,25);
 
-  FAppear   := false;
-  FPanelBmp := TBitmap.Create;
-  FParentBmp:= TBitmap.Create;
+  FAppear                             := false;
+  FPanelBmp                           := TBitmap.Create;
+  FParentBmp                          := TBitmap.Create;
   FAnimationTimer                     := TTimer.Create(self);
   FAnimationTimer.Enabled             := false;
   FAnimationTimer.Interval            := 20;
   FAnimationTimer.OnTimer             := @AnimationOnTimer;
-  FIsVisible := true;
-  //FirstCopy := true;
+  FIsVisible                          := true;
   FParentBmpTimer                     := TTimer.Create(self);
   FParentBmpTimer.Interval            := 10;
   FParentBmpTimer.OnTimer             := @CheckParentIsVisible;
@@ -632,13 +630,9 @@ end;
 
 procedure TMultiPanel.CopyParentCanvas;
 begin
-
-
  FParentBmp.SetSize(width,height);
  FParentBmp.Canvas.CopyRect(rect(0,0,width,height),(Parent as TCustomControl).Canvas,
                             rect(left,top,left+width,top+height));
-
-
 end;
 
 procedure TMultiPanel.ParentInputHandler(Sender: TObject; Msg: Cardinal);
@@ -646,20 +640,8 @@ var x,y,h : integer;
     HotspotCompressed : TRect;
     HotspotStretched  : TRect;
     P                 : TPoint;
-//const    visibleflag  : boolean = true;
 begin
- (* if not (csDesigning in ComponentState) and (FirstCopy < 2) and (msg = LM_MOUSEMOVE) then
-   begin
-   // if visible then visibleflag:=true else visibleflag:=false;
-    visible := false;
-    CopyParentCanvas;
-    if (FirstCopy >= 1) then visible:=true;
-    inc(FirstCopy);
-   end;
-          *)
- //if msg = LM_SIZE then showmessage('');
-
-  if not FDDMenu.FActive then exit;
+ if not FDDMenu.FActive then exit;
 
  if not (csDesigning in ComponentState) then
   begin
@@ -669,9 +651,6 @@ begin
    HotspotCompressed := Rect(0,0,FDDMenu.FCompressed.FWidth,FDDMenu.FCompressed.FHeight);
    HotspotStretched  := Rect(0,0,FDDMenu.FStretched.FWidth,FDDMenu.FStretched.FHeight);
    P := Point(x,y);
-
-
-
 
    if FDDMenu.FTrigger = trClick then
     begin
@@ -685,8 +664,6 @@ begin
 
    if FDDMenu.FTrigger = trHover then
     begin
-     //if ptinrect(HotspotCompressed,P) and (msg = LM_LBUTTONUp) then FTriggerNot := true;
-
      if not ptinrect(HotspotCompressed,P) then FTriggerNot := false;
      if (msg = LM_LBUTTONUp) then FTriggerNot := true;
 
@@ -770,26 +747,6 @@ begin
   inherited DoEnter;
   if Assigned(OnEnter) then OnEnter(self);
 end;
- (*
-procedure TMultiPanel.Resize;
-begin
-  inherited Resize;
-  debugln('resize');
-end;
-
-
-procedure TMultiPanel.WMPaint(var Msg: TLMPaint);
-begin
-  FParentBmp.SetSize(width,height);
- // FParentBmp.Canvas.CopyRect(rect(0,0,width,height),(Parent as TCustomControl).Canvas,
-   //                         rect(left,top,width,height));
- FParentBmp.Canvas.CopyRect(rect(0,0,width,height),(Parent as TCustomControl).Canvas,
-                      rect(0,0,width,height));
-
-  debugln('wmpaint');
-
-  Paint;
-end;  *)
 
 procedure TMultiPanel.BoundsChanged;
 begin
@@ -807,7 +764,6 @@ begin
     FDDMenu.FCompressed.FLeft:= left;
     FDDMenu.FCompressed.FTop := top;
    end;
-  //FSwitch := false;
 
   if (FSwitch > 3) and (csDesigning in ComponentState) then SetSizeWithDrag;
   inc(FSwitch);
@@ -854,9 +810,7 @@ begin
    exit;
   end;
 
-  //if FDDMenu.FCompressed.FActive then FSwitch:= 1;
   FSwitch:= 1;
-
   SetSizeDropDownMenu(Sender);
 
 end;
@@ -1081,8 +1035,6 @@ begin
 end;
 //VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
 
-
-
 procedure TMultiPanel.SetColorEnd(AValue: TColor);
 begin
   if FColorEnd=AValue then Exit;
@@ -1232,11 +1184,11 @@ begin
        FPanelBmp.Canvas.CopyRect(Rect(0,0,width,height),Canvas,Rect(0,0,width,height));
       end;
     end;
-   if Value then
+   (*if Value then
     begin
      FParentBmp.SetSize(width,height);
      //FParentBmp.Canvas.CopyRect(Rect(0,0,width,height),Canvas,Rect(0,0,width,height));
-    end;
+    end; *)
 
   end;
 
@@ -1472,7 +1424,6 @@ begin
    begin
     FPanelBmp.SetSize(width,height);
     FPanelBmp.Canvas.CopyRect(Rect(0,0,width,height),Canvas,Rect(0,0,width,height));
-    //visible := true;
    end;
 
   Invalidate;
@@ -1542,24 +1493,18 @@ end;
 
 
 procedure TMultiPanel.AnimationOnTimer(Sender: TObject);
-var bmp1,bmp2 :TBitmap;
+var bmp1 :TBitmap;
       lv : integer;
 begin
 
  bmp1 := TBitmap.Create;
  bmp1.SetSize(FPanelBmp.Width,FPanelBmp.Height);
- //bmp2 := TBitmap.Create;
- //bmp2.SetSize(FPanelBmp.Width,FPanelBmp.Height);
- //bmp2.Canvas.Brush.Color:=clForm;
- //bmp2.Canvas.FillRect(0,0,FPanelBmp.Width,FPanelBmp.Height);
-
 
  if FAppear then Blend_Bmp(bmp1,FParentBmp,FPanelBmp,FAnimationFrac);
  if FDisappear then Blend_Bmp(bmp1,FPanelBmp,FParentBmp,FAnimationFrac);
  canvas.Draw(0,0,bmp1);
 
  bmp1.Free;
- //bmp2.Free;
 
  FAnimationFrac := FAnimationFrac +0.005;
  if (FAnimationFrac >=1) or (FAnimationFrac <=0) then
@@ -1597,9 +1542,6 @@ begin
   end;
 end;
 
-
-
-
 procedure TMultiPanel.Paint;
 var lv         : integer;
     textrect   : TRect;
@@ -1625,12 +1567,6 @@ begin
     Canvas.Draw(0,0,FMultiBkgrdBmp);
    end;
 
-
-  //Canvas.Draw(0,0,FParentBmp);
-//debugln('paint');
-
-
-
   //update all child windows
    for lv := 0 to pred(ControlCount) do
      begin
@@ -1638,7 +1574,7 @@ begin
       if Controls[lv] is TMultiplexSlider then (Controls[lv] as TMultiplexSlider).Invalidate;
      end;
 
-  if not FRunThroughPaint then  //copys the canvas of the panel for appear
+  if not FRunThroughPaint and not (csDesigning in Componentstate) then  //copys the canvas of the panel for appear
    begin
     FPanelBmp.SetSize(width,height);
     FPanelBmp.Canvas.CopyRect(Rect(0,0,width,height),Canvas,Rect(0,0,width,height));

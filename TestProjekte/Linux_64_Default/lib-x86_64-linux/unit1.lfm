@@ -1,14 +1,15 @@
 object Form1: TForm1
   Left = 100
-  Height = 425
+  Height = 499
   Top = 100
   Width = 662
   Caption = 'Form1'
-  ClientHeight = 425
+  ClientHeight = 499
   ClientWidth = 662
   Color = clForm
   OnPaint = FormPaint
   OnShow = FormShow
+  Visible = True
   object Button1: TButton
     Left = 216
     Height = 25
@@ -31,6 +32,7 @@ object Form1: TForm1
     Left = 41
     Top = 40
     Style = mpsEllipse
+    Visible = False
     object MultiplexSlider1: TMultiplexSlider
       Left = 24
       Height = 40
@@ -107,6 +109,33 @@ object Form1: TForm1
       Height = 94
       Top = 48
       Width = 130
+      Visible = False
+    end
+  end
+  object MultiPanel3: TMultiPanel
+    Left = 41
+    Height = 50
+    Top = 288
+    Width = 50
+    DropDownMenu.Active = True
+    DropDownMenu.Stretched.Width = 239
+    DropDownMenu.Trigger = trClick
+    object Button5: TButton
+      Left = 16
+      Height = 25
+      Top = 56
+      Width = 208
+      Caption = 'Button5'
+      OnClick = Button5Click
+      TabOrder = 0
+    end
+    object Button6: TButton
+      Left = 16
+      Height = 25
+      Top = 96
+      Width = 208
+      Caption = 'Button6'
+      TabOrder = 1
     end
   end
 end
