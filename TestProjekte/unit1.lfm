@@ -32,7 +32,6 @@ object Form1: TForm1
     Left = 41
     Top = 40
     Style = mpsEllipse
-    Visible = False
     object MultiplexSlider1: TMultiplexSlider
       Left = 24
       Height = 40
@@ -109,7 +108,6 @@ object Form1: TForm1
       Height = 94
       Top = 48
       Width = 130
-      Visible = False
     end
   end
   object MultiPanel3: TMultiPanel
@@ -120,6 +118,7 @@ object Form1: TForm1
     DropDownMenu.Active = True
     DropDownMenu.Stretched.Width = 239
     DropDownMenu.Trigger = trClick
+    Visible = False
     object Button5: TButton
       Left = 16
       Height = 25

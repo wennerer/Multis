@@ -286,7 +286,6 @@ type
 
     procedure DoAppear;
     procedure DoDisappear;
-    procedure MultiBkgrdBmp;
     procedure SetAlignment(AValue: TAlignment);
     procedure SetAppear(AValue: boolean);
     procedure SetBorder(AValue: TBorder);
@@ -708,7 +707,7 @@ end;
 procedure TMultiPanel.Loaded;
 begin
  inherited Loaded;
- if not FRunThroughPaint then MultiBkgrdBmp;
+ if not FRunThroughPaint then DrawThePanel;
 
  if not visible then
   begin
@@ -1231,66 +1230,6 @@ var   bkBmp        : TBitmap;
       trBmp        : TBitmap;
       mask         : TBitmap;
       Dest         : TBitmap;
-
-begin
- (*
-   bkBmp := TBitmap.Create;
-   bkBmp.SetSize(Width,Height);
-
-   if FGradient = gcAlternate then Gradient_Bmp(bkBmp,clGray,clSilver,ord(gcVertical)); //otherwise flickers
-
-   Gradient_Bmp(bkBmp,FColorStart,FColorEnd,ord(FGradient));
-
-
-   trBmp := TBitmap.Create;
-   trBmp.SetSize(Width,Height);
-   trBmp.TransparentColor:=clblack;
-   trBmp.Transparent:= true;
-   trBmp.Canvas.Brush.Color:=clwhite;
-   trBmp.Canvas.FillRect(0,0,Width,Height);
-   trBmp.Canvas.Brush.Color:=clBlack;
-   case FStyle of
-    mpsRoundRect : trBmp.Canvas.RoundRect(0,0,Width,height,FRRRadius,FRRRadius);
-    mpsRect      : trBmp.Canvas.Rectangle(0,0,Width,height);
-    mpsEllipse   : trBmp.Canvas.Ellipse(0,0,Width,height);
-   end;
-
-   mask := TBitmap.Create;
-   mask.SetSize(Width,Height);
-   mask.Canvas.Brush.Color:=clwhite;
-   mask.Canvas.FillRect(0,0,Width,Height);
-   mask.Canvas.Brush.Color:=clBlack;
-   case FStyle of
-    mpsRoundRect : mask.Canvas.RoundRect(0,0,Width,height,FRRRadius,FRRRadius);
-    mpsRect      : mask.Canvas.Rectangle(0,0,Width,height);
-    mpsEllipse   : mask.Canvas.Ellipse(0,0,Width,height);
-   end;
-
-   Dest       := TBitmap.Create;
-   Dest.SetSize(Width,Height);
-   Dest.Transparent:= true;
-   Dest.TransparentColor:= clBlack;
-   Dest.Canvas.Brush.Color:=clBlack;
-   Dest.Canvas.FillRect(0,0,100,100);
-   Dest.Canvas.copymode:=cmSrcCopy;
-   Dest.Canvas.Draw(0,0,bkBmp);
-   Dest.Canvas.Draw(0,0,trBmp);
-   Dest.Canvas.copymode:=cmSrcInvert;
-   Dest.Canvas.Draw(0,0,mask);
-
-   canvas.Draw(0,0,Dest);
-
-   bkBmp.Free;
-   trBmp.Free;
-   mask.Free;
-   Dest.Free;     *)
-end;
-
-procedure TMultiPanel.MultiBkgrdBmp; //this is the bitmap that will be sent to the children
-var   bkBmp        : TBitmap;
-      trBmp        : TBitmap;
-      mask         : TBitmap;
-      Dest         : TBitmap;
       textrect     : TRect;
       i            : integer;
 
@@ -1299,6 +1238,7 @@ begin
    bkBmp := TBitmap.Create;
    bkBmp.SetSize(Width,Height);
 
+   //this is the bitmap that will be sent to the children and draw in the canvas
    FMultiBkgrdBmp.SetSize(Width,Height);
    FMultiBkgrdBmp.Canvas.Brush.Color:= GetColorResolvingParent;
    FMultiBkgrdBmp.Canvas.FillRect(0,0,width,height);
@@ -1544,7 +1484,7 @@ end;
 
 procedure TMultiPanel.Paint;
 var lv         : integer;
-    textrect   : TRect;
+
 begin
  if parent.Color = clDefault then color:=clForm else ParentColor:=true; //GetColorResolvingParent
 
@@ -1563,7 +1503,7 @@ begin
   end
   else //if not FAppear then
    begin
-    MultiBkgrdBmp;
+    DrawThePanel;
     Canvas.Draw(0,0,FMultiBkgrdBmp);
    end;
 
@@ -1574,7 +1514,7 @@ begin
       if Controls[lv] is TMultiplexSlider then (Controls[lv] as TMultiplexSlider).Invalidate;
      end;
 
-  if not FRunThroughPaint and not (csDesigning in Componentstate) then  //copys the canvas of the panel for appear
+  if not FRunThroughPaint  and not (csDesigning in Componentstate) then  //copys the canvas of the panel for appear
    begin
     FPanelBmp.SetSize(width,height);
     FPanelBmp.Canvas.CopyRect(Rect(0,0,width,height),Canvas,Rect(0,0,width,height));
