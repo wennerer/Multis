@@ -32,6 +32,7 @@ object Form1: TForm1
     Left = 41
     Top = 40
     Style = mpsEllipse
+    Visible = False
     object MultiplexSlider1: TMultiplexSlider
       Left = 24
       Height = 40
@@ -94,47 +95,12 @@ object Form1: TForm1
     TabOrder = 3
   end
   object Panel1: TPanel
-    Left = 352
-    Height = 169
-    Top = 136
-    Width = 293
+    Left = 528
+    Height = 100
+    Top = 368
+    Width = 100
     Caption = 'Panel1'
-    ClientHeight = 169
-    ClientWidth = 293
     TabOrder = 4
     OnPaint = Panel1Paint
-    object MultiPanel2: TMultiPanel
-      Left = 80
-      Height = 94
-      Top = 48
-      Width = 130
-    end
-  end
-  object MultiPanel3: TMultiPanel
-    Left = 41
-    Height = 50
-    Top = 288
-    Width = 50
-    DropDownMenu.Active = True
-    DropDownMenu.Stretched.Width = 239
-    DropDownMenu.Trigger = trClick
-    Visible = False
-    object Button5: TButton
-      Left = 16
-      Height = 25
-      Top = 56
-      Width = 208
-      Caption = 'Button5'
-      OnClick = Button5Click
-      TabOrder = 0
-    end
-    object Button6: TButton
-      Left = 16
-      Height = 25
-      Top = 96
-      Width = 208
-      Caption = 'Button6'
-      TabOrder = 1
-    end
   end
 end

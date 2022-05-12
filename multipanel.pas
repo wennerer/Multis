@@ -234,6 +234,7 @@ type
 
   TMultiPanel = class(TCustomPanel)
   private
+    FAnimationSpeed: double;
     FVisible          : boolean;
     FBorder           : TBorder;
     FCapLeft          : integer;
@@ -287,6 +288,7 @@ type
     procedure DoAppear;
     procedure DoDisappear;
     procedure SetAlignment(AValue: TAlignment);
+    procedure SetAnimationSpeed(AValue: double);
     procedure SetAppear(AValue: boolean);
     procedure SetBorder(AValue: TBorder);
     procedure SetCapLeft(AValue: integer);
@@ -352,6 +354,8 @@ type
    //makes the panel disappear
    //läßt das Panel verschwinden
    property Disappear : boolean read FDisappear write SetDisappear;
+
+   property AnimationSpeed : double read FAnimationSpeed write SetAnimationSpeed;
 
   published
    //The geometric shape of the panel
@@ -568,6 +572,7 @@ begin
   FAnimationTimer                     := TTimer.Create(self);
   FAnimationTimer.Enabled             := false;
   FAnimationTimer.Interval            := 20;
+  FAnimationSpeed                     := 0.05;
   FAnimationTimer.OnTimer             := @AnimationOnTimer;
   FIsVisible                          := true;
   FParentBmpTimer                     := TTimer.Create(self);
@@ -1173,7 +1178,7 @@ procedure TMultiPanel.SetVisible(Value: Boolean);
 begin
   if FVisible=Value then Exit;
 
-  if not (csDesigning in Componentstate) or not(csLoading in Componentstate) then
+  if not (csDesigning in Componentstate) and not(csLoading in Componentstate) then
   begin
    if not Value then
     begin
@@ -1331,6 +1336,14 @@ begin
  Invalidate;
 end;
 
+procedure TMultiPanel.SetAnimationSpeed(AValue: double);
+begin
+  if FAnimationSpeed=AValue then Exit;
+  if aValue < 0 then aValue := 0;
+  if aValue > 1 then aValue := 1;
+  FAnimationSpeed:=AValue;
+end;
+
 procedure TMultiPanel.SetAppear(AValue: boolean);
 begin
   if FAppear=AValue then Exit;
@@ -1446,7 +1459,7 @@ begin
 
  bmp1.Free;
 
- FAnimationFrac := FAnimationFrac +0.005;
+ FAnimationFrac := FAnimationFrac + FAnimationSpeed;
  if (FAnimationFrac >=1) or (FAnimationFrac <=0) then
   begin
    for lv := 0 to pred(ControlCount) do
