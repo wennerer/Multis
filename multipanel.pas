@@ -1373,7 +1373,7 @@ begin
   if FAppear=AValue then Exit;
   if visible then
    begin
-    showmessage('The panel is already visible');
+    //showmessage('The panel is already visible');
     exit;
    end;
   FAppear:=AValue;
@@ -1407,7 +1407,7 @@ begin
   if FDisappear=AValue then Exit;
   if not FVisible then
    begin
-    showmessage('The panel is already unvisible');
+    //showmessage('The panel is already unvisible');
     exit;
    end;
   FDisappear:=AValue;
@@ -1530,7 +1530,12 @@ begin
  if (CurControl as TForm).Active then
   begin
    FParentBmpTimer.Enabled:=false;
-   CopyParentCanvas;
+   if not FParentAsBkgrd then
+    begin
+     FParentBmp.Canvas.Brush.Color:= GetColorResolvingParent;
+     FParentBmp.Canvas.FillRect(0,0,width,height);
+    end
+   else CopyParentCanvas;
    DrawThePanel;
    if not FIsVisible then Visible := false else Visible:=true;
   end;

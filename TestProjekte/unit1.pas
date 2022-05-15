@@ -85,7 +85,7 @@ end;
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
- MultiPanel1.ParentAsBkgrd:=false;
+ //MultiPanel1.ParentAsBkgrd:=false;
 end;
 
 procedure TForm1.FormShow(Sender: TObject);
