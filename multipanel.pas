@@ -235,6 +235,7 @@ type
   TMultiPanel = class(TCustomPanel)
   private
     FAnimationSpeed: double;
+    FParentAsBkgrd: boolean;
     FVisible          : boolean;
     FBorder           : TBorder;
     FCapLeft          : integer;
@@ -281,8 +282,8 @@ type
     FIsVisible        : boolean;
     FAnimationTimer   : TTimer;
     FAnimationFrac    : Double;
-    FirstCopy         : integer;
     FParentBmpTimer   : TTimer;
+
 
 
     procedure DoAppear;
@@ -306,10 +307,10 @@ type
     procedure SetImageTop(AValue: integer);
     procedure SetImageWidth(AValue: integer);
     procedure SetLayout(AValue: TTextLayout);
+    procedure SetParentAsBkgrd(AValue: boolean);
     procedure SetSizeDropDownMenu(Sender:TPersistent);
     procedure SetGradient(AValue: TGradientCourse);
     procedure SetRRRadius(AValue: integer);
-    procedure SetVisible(Value: Boolean);override;
     procedure SetSizeWithDrag;
     procedure SetStyle(AValue: TMPanelStyle);
     procedure MultiPanelOnTimer({%H-}Sender : TObject);
@@ -322,7 +323,9 @@ type
     procedure SetTextStyle(AValue: TTextStyle);
     procedure AnimationOnTimer({%H-}Sender : TObject);
     procedure CheckParentIsVisible({%H-}Sender : TObject);
+
   protected
+    procedure SetVisible(Value: Boolean);override;
     procedure DrawThePanel;
     procedure DrawABorder;
     procedure BoundsChanged;override;
@@ -356,6 +359,8 @@ type
    property Disappear : boolean read FDisappear write SetDisappear;
 
    property AnimationSpeed : double read FAnimationSpeed write SetAnimationSpeed;
+
+   property ParentAsBkgrd : boolean read FParentAsBkgrd write SetParentAsBkgrd;
 
   published
    //The geometric shape of the panel
@@ -576,9 +581,10 @@ begin
   FAnimationTimer.OnTimer             := @AnimationOnTimer;
   FIsVisible                          := true;
   FParentBmpTimer                     := TTimer.Create(self);
-  FParentBmpTimer.Interval            := 10;
+  FParentBmpTimer.Interval            := 1;
   FParentBmpTimer.OnTimer             := @CheckParentIsVisible;
   FParentBmpTimer.Enabled             := false;
+  FParentAsBkgrd                      := true;
 end;
 
 destructor TMultiPanel.Destroy;
@@ -1160,6 +1166,12 @@ begin
  Invalidate;
 end;
 
+procedure TMultiPanel.SetParentAsBkgrd(AValue: boolean);
+begin
+  if FParentAsBkgrd=AValue then Exit;
+  FParentAsBkgrd:=AValue;
+end;
+
 procedure TMultiPanel.SetGradient(AValue: TGradientCourse);
 begin
   if FGradient=AValue then Exit;
@@ -1191,7 +1203,7 @@ begin
    (*if Value then
     begin
      FParentBmp.SetSize(width,height);
-     //FParentBmp.Canvas.CopyRect(Rect(0,0,width,height),Canvas,Rect(0,0,width,height));
+     FParentBmp.Canvas.CopyRect(Rect(0,0,width,height),Canvas,Rect(0,0,width,height));
     end; *)
 
   end;
@@ -1245,9 +1257,18 @@ begin
 
    //this is the bitmap that will be sent to the children and draw in the canvas
    FMultiBkgrdBmp.SetSize(Width,Height);
-   FMultiBkgrdBmp.Canvas.Brush.Color:= GetColorResolvingParent;
-   FMultiBkgrdBmp.Canvas.FillRect(0,0,width,height);
-
+  if (csDesigning in Componentstate) or (csLoading in Componentstate) then
+    begin
+     FMultiBkgrdBmp.Canvas.Brush.Color:= GetColorResolvingParent;
+     FMultiBkgrdBmp.Canvas.FillRect(0,0,width,height);
+    end else
+    begin
+     if FParentAsBkgrd then
+      FMultiBkgrdBmp.Canvas.Brush.Color:= rgb(1,1,1)
+     else
+      FMultiBkgrdBmp.Canvas.Brush.Color:= GetColorResolvingParent;
+      FMultiBkgrdBmp.Canvas.FillRect(0,0,width,height);
+    end;
 
    if FGradient = gcAlternate then Gradient_Bmp(bkBmp,clGray,clSilver,ord(gcVertical)); //otherwise flickers
 
@@ -1345,6 +1366,7 @@ begin
 end;
 
 procedure TMultiPanel.SetAppear(AValue: boolean);
+var tmpbmp : TBitmap;
 begin
   if FAppear=AValue then Exit;
   if visible then
@@ -1358,6 +1380,20 @@ begin
     FParentBmp.SetSize(width,height);
     FParentBmp.Canvas.CopyRect(Rect(0,0,width,height),Canvas,Rect(0,0,width,height));
     visible := true;
+
+    FPanelBmp.TransparentColor:= rgb(1,1,1);
+    FPanelBmp.Transparent:=true;
+
+    tmpbmp := TBitmap.Create;
+    tmpbmp.SetSize(width,height);
+    tmpbmp.Canvas.Draw(0,0,FParentBmp);
+    tmpbmp.TransparentColor:= rgb(1,1,1);
+    tmpbmp.Transparent:=true;
+    tmpbmp.Canvas.Draw(0,0,FPanelBmp);
+
+    FPanelBmp.Transparent:= false;
+    FPanelBmp.Canvas.Draw(0,0,tmpbmp);
+    tmpbmp.Free;
    end;
 
   Invalidate;
@@ -1376,7 +1412,7 @@ begin
   if FDisappear then
    begin
     FPanelBmp.SetSize(width,height);
-    FPanelBmp.Canvas.CopyRect(Rect(0,0,width,height),Canvas,Rect(0,0,width,height));
+    FPanelBmp.Canvas.CopyRect(Rect(0,0,width,height),Canvas,Rect(0,0,width,height)); debugln('Copy PanelBmp3');
    end;
 
   Invalidate;
@@ -1453,6 +1489,8 @@ begin
  bmp1 := TBitmap.Create;
  bmp1.SetSize(FPanelBmp.Width,FPanelBmp.Height);
 
+
+
  if FAppear then Blend_Bmp(bmp1,FParentBmp,FPanelBmp,FAnimationFrac);
  if FDisappear then Blend_Bmp(bmp1,FPanelBmp,FParentBmp,FAnimationFrac);
  canvas.Draw(0,0,bmp1);
@@ -1491,6 +1529,7 @@ begin
   begin
    FParentBmpTimer.Enabled:=false;
    CopyParentCanvas;
+
    if not FIsVisible then Visible := false else Visible:=true;
   end;
 end;
@@ -1530,9 +1569,9 @@ begin
   if not FRunThroughPaint  and not (csDesigning in Componentstate) then  //copys the canvas of the panel for appear
    begin
     FPanelBmp.SetSize(width,height);
-    FPanelBmp.Canvas.CopyRect(Rect(0,0,width,height),Canvas,Rect(0,0,width,height));
+    FPanelBmp.Canvas.CopyRect(Rect(0,0,width,height),Canvas,Rect(0,0,width,height));debugln('Copy PanelBmp1');
     Visible := false;
-    FParentBmpTimer.Enabled:= true;
+    FParentBmpTimer.Enabled:= true; //jumps to CheckParentIsVisible
    end;
 
   FRunThroughPaint := true; //checks if paint was run

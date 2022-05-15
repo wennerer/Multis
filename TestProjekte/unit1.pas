@@ -24,6 +24,7 @@ type
     procedure Button2Click(Sender: TObject);
     procedure Button4Click(Sender: TObject);
     procedure Button5Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
     procedure FormPaint(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure Panel1Paint(Sender: TObject);
@@ -52,6 +53,7 @@ end;
 
 procedure TForm1.Button1Click(Sender: TObject);
 begin
+  MultiPanel1.AnimationSpeed:=0.005;
   MultiPanel1.Appear:=true;
  // MultiPanel2.Appear:=true;
 end;
@@ -59,6 +61,7 @@ end;
 procedure TForm1.Button2Click(Sender: TObject);
 begin
   //MultiPanel1.Visible:=false;
+  MultiPanel1.AnimationSpeed:=0.005;
   MultiPanel1.Disappear:=true;
    //MultiPanel2.Disappear:=true;
 end;
@@ -71,6 +74,11 @@ end;
 procedure TForm1.Button5Click(Sender: TObject);
 begin
  //MultiPanel3.Disappear:=true;
+end;
+
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+ MultiPanel1.ParentAsBkgrd:=false;
 end;
 
 procedure TForm1.FormShow(Sender: TObject);
