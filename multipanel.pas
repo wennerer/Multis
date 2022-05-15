@@ -278,7 +278,7 @@ type
     FAppear           : boolean;
     FDisappear        : boolean;
     FPanelBmp         : TBitmap;
-    FParentBmp        : TBitmap;
+
     FIsVisible        : boolean;
     FAnimationTimer   : TTimer;
     FAnimationFrac    : Double;
@@ -338,6 +338,7 @@ type
 
   public
    FMultiBkgrdBmp         : TBitmap;
+   FParentBmp             : TBitmap;
    procedure ParentInputHandler({%H-}Sender: TObject; Msg: Cardinal);
    procedure Notification(AComponent: TComponent;Operation: TOperation); override;
    constructor Create(AOwner: TComponent); override;
@@ -1257,6 +1258,7 @@ begin
 
    //this is the bitmap that will be sent to the children and draw in the canvas
    FMultiBkgrdBmp.SetSize(Width,Height);
+
   if (csDesigning in Componentstate) or (csLoading in Componentstate) then
     begin
      FMultiBkgrdBmp.Canvas.Brush.Color:= GetColorResolvingParent;
@@ -1269,7 +1271,7 @@ begin
       FMultiBkgrdBmp.Canvas.Brush.Color:= GetColorResolvingParent;
       FMultiBkgrdBmp.Canvas.FillRect(0,0,width,height);
     end;
-
+   if FParentAsBkgrd then FMultiBkgrdBmp.Canvas.Draw(0,0,FParentBmp);
    if FGradient = gcAlternate then Gradient_Bmp(bkBmp,clGray,clSilver,ord(gcVertical)); //otherwise flickers
 
    Gradient_Bmp(bkBmp,FColorStart,FColorEnd,ord(FGradient));
@@ -1529,7 +1531,7 @@ begin
   begin
    FParentBmpTimer.Enabled:=false;
    CopyParentCanvas;
-
+   DrawThePanel;
    if not FIsVisible then Visible := false else Visible:=true;
   end;
 end;
@@ -1569,7 +1571,7 @@ begin
   if not FRunThroughPaint  and not (csDesigning in Componentstate) then  //copys the canvas of the panel for appear
    begin
     FPanelBmp.SetSize(width,height);
-    FPanelBmp.Canvas.CopyRect(Rect(0,0,width,height),Canvas,Rect(0,0,width,height));debugln('Copy PanelBmp1');
+    FPanelBmp.Canvas.CopyRect(Rect(0,0,width,height),Canvas,Rect(0,0,width,height));
     Visible := false;
     FParentBmpTimer.Enabled:= true; //jumps to CheckParentIsVisible
    end;

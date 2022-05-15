@@ -48,7 +48,14 @@ begin
  canvas.Pen.Color:=cllime;
  canvas.Pen.Width:=5;
  canvas.Line(0,0,width,height);
+
+ canvas.Pen.Color:=clred;
+ canvas.Pen.Width:=4;
+ canvas.Line(0,50,width,50);
  //DebugLn('FormPaint');
+
+ MultiPanel1.FParentBmp.Canvas.Line(0,10,width,10);
+ Multipanel1.Invalidate;
 end;
 
 procedure TForm1.Button1Click(Sender: TObject);
