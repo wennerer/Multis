@@ -445,6 +445,7 @@ type
    property BorderSpacing;
    property Constraints;
    property HelpType;
+   property Autosize;
 
 
    property OnClick : TClickEvent read FOnClick     write FOnClick;
