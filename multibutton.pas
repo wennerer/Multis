@@ -401,7 +401,7 @@ type
    procedure FontPropertyChanged({%H-}Sender:TObject);
    procedure MessageFontPropertyChanged({%H-}Sender:TObject);
    procedure SetCaption(AValue: TCaption);
-   procedure SetVisible(aValue: boolean);reintroduce;
+   procedure SetVisible(Value: boolean);override; //reintroduce;
    procedure SetEnabled(aValue: boolean);reintroduce;
 
 
@@ -1994,10 +1994,11 @@ begin
   Invalidate;
 end;
 
-procedure TMultiButton.SetVisible(aValue: boolean);
+procedure TMultiButton.SetVisible(Value: boolean);
 begin
-  if FVisible=AValue then Exit;
-  FVisible:=AValue;
+  if FVisible=Value then Exit;
+  FVisible:=Value;
+  inherited SetVisible(Value);
   Invalidate;
 end;
 
@@ -2614,13 +2615,13 @@ var tmpBmp     : TBitmap;
     ImgIdx     : TImageIndex;
     ImgIdxFlag : integer;
 begin
-  if Parent is TMultiPanel and not FVisible then
+ (* if Parent is TMultiPanel and not FVisible then
   begin
    if assigned((parent as TMultiPanel).FMultiBkgrdBmp) then
    canvas.CopyRect(rect(0,0,width,height),(parent as TMultiPanel).FMultiBkgrdBmp.Canvas,rect(left,top,left+width,top+height));
   end;
  if FVisible = false then exit;
- if (csDesigning in ComponentState) and (FVisible = false) then left:= -100;
+ if (csDesigning in ComponentState) and (FVisible = false) then left:= -100;  *)
 
  canvas.Font.Assign(FFont);
  if canvas.Font <> FFont then
