@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectSession>
-    <Version Value="11"/>
+    <Version Value="12"/>
     <BuildModes Active="Linux_64_Release"/>
     <Units Count="24">
       <Unit0>
@@ -162,43 +162,29 @@
       <Unit22>
         <Filename Value="../../../../../LazGit/LazGitPkg/lazgitgeneral.pas"/>
         <UnitName Value="LazGitGeneral"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="58"/>
         <CursorPos X="6" Y="76"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit22>
       <Unit23>
         <Filename Value="../../../../../LazGit/LazGitPkg/lazgitintf.pas"/>
         <UnitName Value="LazGitIntf"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="42"/>
         <CursorPos Y="67"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit23>
     </Units>
-    <JumpHistory Count="4" HistoryIndex="3">
+    <JumpHistory Count="1">
       <Position1>
         <Filename Value="unit1.pas"/>
         <Caret Line="117" Column="70" TopLine="105"/>
       </Position1>
-      <Position2>
-        <Filename Value="../../../../../LazGit/LazGitPkg/lazgitgeneral.pas"/>
-        <Caret Line="71" Column="4" TopLine="49"/>
-      </Position2>
-      <Position3>
-        <Filename Value="../../../../../LazGit/LazGitPkg/lazgitgeneral.pas"/>
-        <Caret Line="76" Column="6" TopLine="58"/>
-      </Position3>
-      <Position4>
-        <Filename Value="../../../../../LazGit/LazGitPkg/lazgitintf.pas"/>
-        <Caret Line="66" Column="4" TopLine="40"/>
-      </Position4>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
-      <Modes Count="0" ActiveMode=""/>
+      <Modes ActiveMode=""/>
     </RunParams>
   </ProjectSession>
 </CONFIG>

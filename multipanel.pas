@@ -1415,7 +1415,7 @@ begin
   if FDisappear then
    begin
     FPanelBmp.SetSize(width,height);
-    FPanelBmp.Canvas.CopyRect(Rect(0,0,width,height),Canvas,Rect(0,0,width,height)); debugln('Copy PanelBmp3');
+    FPanelBmp.Canvas.CopyRect(Rect(0,0,width,height),Canvas,Rect(0,0,width,height));
    end;
 
   Invalidate;
@@ -1570,10 +1570,11 @@ begin
   //update all child windows
    for lv := 0 to pred(ControlCount) do
      begin
+      if csDesigning in Componentstate then break; //needed unter windows
       if Controls[lv] is TMultiButton then (Controls[lv] as TMultiButton).Invalidate;
       if Controls[lv] is TMultiplexSlider then (Controls[lv] as TMultiplexSlider).Invalidate;
      end;
-
+  debugln('Paint');
   if not FRunThroughPaint  and not (csDesigning in Componentstate) then  //copys the canvas of the panel for appear
    begin
     FPanelBmp.SetSize(width,height);
