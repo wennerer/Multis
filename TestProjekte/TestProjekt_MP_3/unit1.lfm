@@ -6,65 +6,6 @@ object Form1: TForm1
   Caption = 'Form1'
   ClientHeight = 445
   ClientWidth = 689
-  object MultiPanel1: TMultiPanel
-    Left = 208
-    Top = 104
-    ColorStart = clYellow
-    ColorEnd = clRed
-    object MultiplexSlider1: TMultiplexSlider
-      Left = 24
-      Height = 40
-      Top = 24
-      Width = 210
-      Knob1Settings.KnobPosition = 0
-      Knob1Settings.Visible = True
-      Knob1Settings.KnobStyle = ksCircle
-      Knob1Settings.ColorGradient = gcAlternate
-      Knob1Settings.KnobColorStart = clWhite
-      Knob1Settings.KnobColorEnd = 14082019
-      Knob1Settings.HoverOn = True
-      Knob1Settings.HoverEndColor = 11121077
-      Knob1Settings.HoverStartColor = clWhite
-      Knob1Settings.Design = kdDefault
-      Knob1Settings.DesignColor = clSilver
-      Knob2Settings.KnobPosition = 5
-      Knob2Settings.Visible = False
-      Knob2Settings.KnobStyle = ksCircle
-      Knob2Settings.ColorGradient = gcAlternate
-      Knob2Settings.KnobColorStart = clWhite
-      Knob2Settings.KnobColorEnd = clLime
-      Knob2Settings.HoverOn = True
-      Knob2Settings.HoverEndColor = 753419
-      Knob2Settings.HoverStartColor = clLime
-      Knob2Settings.Design = kdDefault
-      Knob2Settings.DesignColor = clSilver
-      Knob3Settings.KnobPosition = 10
-      Knob3Settings.Visible = False
-      Knob3Settings.KnobStyle = ksCircle
-      Knob3Settings.ColorGradient = gcAlternate
-      Knob3Settings.KnobColorStart = clWhite
-      Knob3Settings.KnobColorEnd = clSkyBlue
-      Knob3Settings.HoverOn = True
-      Knob3Settings.HoverEndColor = 16038531
-      Knob3Settings.HoverStartColor = clSkyBlue
-      Knob3Settings.Design = kdDefault
-      Knob3Settings.DesignColor = clSilver
-      ValueDisplaySettings.X = 0
-      ValueDisplaySettings.Y = 0
-      TabOrder = 0
-    end
-    object MultiButton2: TMultiButton
-      Left = 72
-      Height = 50
-      Top = 80
-      Width = 110
-      MessageButton.ImageLeft = 0
-      MessageButton.ImageTop = 0
-      Caption = 'MultiButton2'
-      OnClick = MultiButton2Click
-      TabOrder = 1
-    end
-  end
   object MultiButton1: TMultiButton
     Left = 24
     Height = 50
@@ -74,6 +15,22 @@ object Form1: TForm1
     MessageButton.ImageTop = 0
     Caption = 'MultiButton1'
     OnClick = MultiButton1Click
-    TabOrder = 1
+    TabOrder = 0
+  end
+  object MultiPanel1: TMultiPanel
+    Left = 221
+    Top = 171
+    Visible = False
+    object MultiButton2: TMultiButton
+      Left = 81
+      Height = 50
+      Top = 82
+      Width = 110
+      MessageButton.ImageLeft = 0
+      MessageButton.ImageTop = 0
+      Caption = 'MultiButton2'
+      OnClick = MultiButton2Click
+      TabOrder = 0
+    end
   end
 end

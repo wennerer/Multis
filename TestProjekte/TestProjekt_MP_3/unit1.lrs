@@ -1,0 +1,37 @@
+{ This is an automatically generated lazarus resource file }
+
+LazarusResources.Add('TForm1','FORMDATA',[
+  'TPF0'#6'TForm1'#5'Form1'#4'Left'#3'n'#1#6'Height'#3#189#1#3'Top'#3#250#0#5'W'
+  +'idth'#3#177#2#7'Caption'#6#5'Form1'#12'ClientHeight'#3#189#1#11'ClientWidth'
+  +#3#177#2#10'LCLVersion'#6#7'2.2.0.4'#0#11'TMultiPanel'#11'MultiPanel1'#4'Lef'
+  +'t'#3#210#0#6'Height'#3#24#1#3'Top'#2'h'#5'Width'#3#146#1#10'ColorStart'#7#8
+  +'clYellow'#8'ColorEnd'#7#5'clRed'#7'Visible'#8#0#16'TMultiplexSlider'#16'Mul'
+  +'tiplexSlider1'#4'Left'#2#24#6'Height'#2'('#3'Top'#2#24#5'Width'#3#210#0#26
+  +'Knob1Settings.KnobPosition'#2#0#21'Knob1Settings.Visible'#9#23'Knob1Setting'
+  +'s.KnobStyle'#7#8'ksCircle'#27'Knob1Settings.ColorGradient'#7#11'gcAlternate'
+  +#28'Knob1Settings.KnobColorStart'#7#7'clWhite'#26'Knob1Settings.KnobColorEnd'
+  +#4#227#223#214#0#21'Knob1Settings.HoverOn'#9#27'Knob1Settings.HoverEndColor'
+  +#4#181#177#169#0#29'Knob1Settings.HoverStartColor'#7#7'clWhite'#20'Knob1Sett'
+  +'ings.Design'#7#9'kdDefault'#25'Knob1Settings.DesignColor'#7#8'clSilver'#26
+  +'Knob2Settings.KnobPosition'#2#5#21'Knob2Settings.Visible'#8#23'Knob2Setting'
+  +'s.KnobStyle'#7#8'ksCircle'#27'Knob2Settings.ColorGradient'#7#11'gcAlternate'
+  +#28'Knob2Settings.KnobColorStart'#7#7'clWhite'#26'Knob2Settings.KnobColorEnd'
+  +#7#6'clLime'#21'Knob2Settings.HoverOn'#9#27'Knob2Settings.HoverEndColor'#4#11
+  +#127#11#0#29'Knob2Settings.HoverStartColor'#7#6'clLime'#20'Knob2Settings.Des'
+  +'ign'#7#9'kdDefault'#25'Knob2Settings.DesignColor'#7#8'clSilver'#26'Knob3Set'
+  +'tings.KnobPosition'#2#10#21'Knob3Settings.Visible'#8#23'Knob3Settings.KnobS'
+  +'tyle'#7#8'ksCircle'#27'Knob3Settings.ColorGradient'#7#11'gcAlternate'#28'Kn'
+  +'ob3Settings.KnobColorStart'#7#7'clWhite'#26'Knob3Settings.KnobColorEnd'#7#9
+  +'clSkyBlue'#21'Knob3Settings.HoverOn'#9#27'Knob3Settings.HoverEndColor'#4#131
+  +#186#244#0#29'Knob3Settings.HoverStartColor'#7#9'clSkyBlue'#20'Knob3Settings'
+  +'.Design'#7#9'kdDefault'#25'Knob3Settings.DesignColor'#7#8'clSilver'#22'Valu'
+  +'eDisplaySettings.X'#2#0#22'ValueDisplaySettings.Y'#2#0#8'TabOrder'#2#0#0#0
+  +#12'TMultiButton'#12'MultiButton2'#4'Left'#2'H'#6'Height'#2'2'#3'Top'#2'P'#5
+  +'Width'#2'n'#23'MessageButton.ImageLeft'#2#0#22'MessageButton.ImageTop'#2#0#7
+  +'Caption'#6#12'MultiButton2'#7'OnClick'#7#17'MultiButton2Click'#8'TabOrder'#2
+  +#1#0#0#7'TButton'#7'Button1'#4'Left'#2'6'#6'Height'#2#25#3'Top'#3#153#0#5'Wi'
+  +'dth'#2'K'#7'Caption'#6#7'Button1'#8'TabOrder'#2#2#0#0#0#12'TMultiButton'#12
+  +'MultiButton1'#4'Left'#2#24#6'Height'#2'2'#3'Top'#2#16#5'Width'#2'n'#23'Mess'
+  +'ageButton.ImageLeft'#2#0#22'MessageButton.ImageTop'#2#0#7'Caption'#6#12'Mul'
+  +'tiButton1'#7'OnClick'#7#17'MultiButton1Click'#8'TabOrder'#2#1#0#0#0
+]);

@@ -6,9 +6,12 @@ object Form1: TForm1
   Caption = 'Form1'
   ClientHeight = 445
   ClientWidth = 689
+  LCLVersion = '2.2.0.4'
   object MultiPanel1: TMultiPanel
     Left = 208
+    Height = 280
     Top = 104
+    Width = 402
     ColorStart = clYellow
     ColorEnd = clRed
     Visible = False
@@ -64,6 +67,14 @@ object Form1: TForm1
       Caption = 'MultiButton2'
       OnClick = MultiButton2Click
       TabOrder = 1
+    end
+    object Button1: TButton
+      Left = 54
+      Height = 25
+      Top = 153
+      Width = 75
+      Caption = 'Button1'
+      TabOrder = 2
     end
   end
   object MultiButton1: TMultiButton

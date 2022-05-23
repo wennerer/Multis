@@ -283,6 +283,7 @@ type
     FAnimationTimer   : TTimer;
     FAnimationFrac    : Double;
     FParentBmpTimer   : TTimer;
+    FFirstAppear      : byte;
 
 
 
@@ -587,6 +588,7 @@ begin
   FParentBmpTimer.OnTimer             := @CheckParentIsVisible;
   FParentBmpTimer.Enabled             := false;
   FParentAsBkgrd                      := true;
+  FFirstAppear                        := 0;
 end;
 
 destructor TMultiPanel.Destroy;
@@ -1345,6 +1347,10 @@ begin
       end;
      end;
 
+   {$IFDEF WINDOWS}
+   if FFirstAppear = 0 then FPanelBmp.Canvas.Draw(0,0,FMultiBkgrdBmp);
+   {$ENDIF}
+
    bkBmp.Free;
    trBmp.Free;
    mask.Free;
@@ -1486,13 +1492,45 @@ end;
 
 procedure TMultiPanel.AnimationOnTimer(Sender: TObject);
 var bmp1 :TBitmap;
-      lv : integer;
+    lv   : integer;
+  {$IFDEF WINDOWS}
+    l,t,r,b : integer;
+    tmpbmp  : TBitmap;
+  {$ENDIF}
 begin
 
  bmp1 := TBitmap.Create;
  bmp1.SetSize(FPanelBmp.Width,FPanelBmp.Height);
 
+ {$IFDEF WINDOWS}
+  if (FAnimationFrac > 0.2) and (FFirstAppear < 2) and (FAppear = true) then
+   begin
+    tmpbmp := TBitmap.Create;
+    tmpbmp.SetSize(FPanelBmp.Width,FPanelBmp.Height);
+    tmpbmp.Canvas.Draw(0,0,FPanelBmp);
+    if FFirstAppear < 2 then
+     begin
+      if FFirstAppear = 0 then
+       for lv := 0 to pred(ControlCount) do
+        if Controls[lv] is TControl then (Controls[lv] as TControl).Visible:=true;
 
+      if FFirstAppear = 1 then
+       for lv := 0 to pred(ControlCount) do
+        if Controls[lv] is TControl then
+         begin
+          l := (Controls[lv] as TControl).Left;
+          t := (Controls[lv] as TControl).Top;
+          r := l + (Controls[lv] as TControl).Width;
+          b := t + (Controls[lv] as TControl).Height;
+          tmpBmp.Canvas.CopyRect(rect(l,t,r,b),canvas,rect(l,t,r,b));
+          (Controls[lv] as TControl).Visible:=false;
+         end;//is TControl
+      inc(FFirstAppear);
+     end; //<2
+   FPanelBmp.Canvas.Draw(0,0,tmpbmp);
+   tmpbmp.Free;
+  end;//FFirstAppear
+  {$ENDIF}
 
  if FAppear then Blend_Bmp(bmp1,FParentBmp,FPanelBmp,FAnimationFrac);
  if FDisappear then Blend_Bmp(bmp1,FPanelBmp,FParentBmp,FAnimationFrac);
@@ -1574,7 +1612,7 @@ begin
       if Controls[lv] is TMultiButton then (Controls[lv] as TMultiButton).Invalidate;
       if Controls[lv] is TMultiplexSlider then (Controls[lv] as TMultiplexSlider).Invalidate;
      end;
-  debugln('Paint');
+
   if not FRunThroughPaint  and not (csDesigning in Componentstate) then  //copys the canvas of the panel for appear
    begin
     FPanelBmp.SetSize(width,height);
@@ -1584,6 +1622,7 @@ begin
    end;
 
   FRunThroughPaint := true; //checks if paint was run
+
 end;
 
 {$Include mp_dropdownmenu.inc}

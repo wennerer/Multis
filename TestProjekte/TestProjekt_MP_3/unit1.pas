@@ -16,7 +16,6 @@ type
     MultiButton1: TMultiButton;
     MultiButton2: TMultiButton;
     MultiPanel1: TMultiPanel;
-    MultiplexSlider1: TMultiplexSlider;
     procedure MultiButton1Click(Sender: TObject);
     procedure MultiButton2Click(Sender: TObject);
   private
@@ -36,11 +35,13 @@ implementation
 
 procedure TForm1.MultiButton1Click(Sender: TObject);
 begin
+  MultiPanel1.AnimationSpeed:=0.005;
   MultiPanel1.Appear:=true;
 end;
 
 procedure TForm1.MultiButton2Click(Sender: TObject);
 begin
+  MultiPanel1.AnimationSpeed:=0.01;
   MultiPanel1.DisAppear:=true;
 end;
 
