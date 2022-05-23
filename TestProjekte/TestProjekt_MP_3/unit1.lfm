@@ -6,6 +6,7 @@ object Form1: TForm1
   Caption = 'Form1'
   ClientHeight = 445
   ClientWidth = 689
+  LCLVersion = '2.2.0.4'
   object MultiButton1: TMultiButton
     Left = 24
     Height = 50

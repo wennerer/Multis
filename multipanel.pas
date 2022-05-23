@@ -236,7 +236,7 @@ type
   private
     FAnimationSpeed: double;
     FParentAsBkgrd: boolean;
-    FVisible          : boolean;
+    //FVisible          : boolean;
     FBorder           : TBorder;
     FCapLeft          : integer;
     FCaption          : TCaption;
@@ -326,7 +326,8 @@ type
     procedure CheckParentIsVisible({%H-}Sender : TObject);
 
   protected
-    procedure SetVisible(Value: Boolean);override;
+    //procedure SetVisible(Value: Boolean);override;
+    procedure VisibleChanged;override;
     procedure DrawThePanel;
     procedure DrawABorder;
     procedure BoundsChanged;override;
@@ -429,7 +430,8 @@ type
    //Ermöglicht das Ein- oder Ausblenden des Steuerelements und aller seiner untergeordneten Elemente
 
 
-   property Visible :boolean read FVisible write SetVisible default true;
+   //property Visible :boolean read FVisible write SetVisible default true;
+   property Visible;
    property Width  default 250;
    property Height default 150;
    property DragMode;
@@ -508,7 +510,7 @@ begin
   FGradient      := gcSpread;
   FRRRadius      := 40;
   FStyle         := mpsRect;
-  FVisible       := true;
+  //FVisible       := true;
 
   FBorder                := TBorder.create(self);
   FBorder.FOuterColor    := clNone;
@@ -724,6 +726,7 @@ begin
  inherited Loaded;
  if not FRunThroughPaint then DrawThePanel;
 
+ if csDesigning in Componentstate then exit;
  if not visible then
   begin
    FIsVisible := false;
@@ -1189,11 +1192,11 @@ begin
   FRRRadius:=AValue;
   invalidate;
 end;
-
+(*
 procedure TMultiPanel.SetVisible(Value: Boolean);
 begin
   if FVisible=Value then Exit;
-
+ (*
   if not (csDesigning in Componentstate) and not(csLoading in Componentstate) then
   begin
    if not Value then
@@ -1203,18 +1206,35 @@ begin
        FPanelBmp.SetSize(width,height);
        FPanelBmp.Canvas.CopyRect(Rect(0,0,width,height),Canvas,Rect(0,0,width,height));
       end;
-    end;
+    end;*)
    (*if Value then
     begin
      FParentBmp.SetSize(width,height);
      FParentBmp.Canvas.CopyRect(Rect(0,0,width,height),Canvas,Rect(0,0,width,height));
     end; *)
 
-  end;
+ // end;
 
   FVisible :=Value;
   inherited SetVisible(Value);
   invalidate;
+end;   *)
+
+procedure TMultiPanel.VisibleChanged;
+begin
+  inherited VisibleChanged;
+   if not (csDesigning in Componentstate) and not(csLoading in Componentstate) then
+  begin
+   //if not Value then
+   if Visible then
+    begin
+     if not FAppear and not FDisappear then
+      begin
+       FPanelBmp.SetSize(width,height);
+       FPanelBmp.Canvas.CopyRect(Rect(0,0,width,height),Canvas,Rect(0,0,width,height));
+      end;
+    end;
+  end;
 end;
 
 procedure TMultiPanel.SetStyle(AValue: TMPanelStyle);
@@ -1412,7 +1432,7 @@ end;
 procedure TMultiPanel.SetDisappear(AValue: boolean);
 begin
   if FDisappear=AValue then Exit;
-  if not FVisible then
+  if not Visible then
    begin
     //showmessage('The panel is already unvisible');
     exit;
