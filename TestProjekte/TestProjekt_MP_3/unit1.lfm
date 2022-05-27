@@ -2,11 +2,10 @@ object Form1: TForm1
   Left = 366
   Height = 445
   Top = 250
-  Width = 689
+  Width = 1173
   Caption = 'Form1'
   ClientHeight = 445
-  ClientWidth = 689
-  LCLVersion = '2.2.0.4'
+  ClientWidth = 1173
   object MultiButton1: TMultiButton
     Left = 24
     Height = 50
@@ -20,7 +19,10 @@ object Form1: TForm1
   end
   object MultiPanel1: TMultiPanel
     Left = 221
-    Top = 171
+    Height = 257
+    Top = 64
+    Style = mpsRoundRect
+    RndRctRadius = 80
     Visible = False
     object MultiButton2: TMultiButton
       Left = 81
@@ -32,6 +34,75 @@ object Form1: TForm1
       Caption = 'MultiButton2'
       OnClick = MultiButton2Click
       TabOrder = 0
+    end
+    object Button1: TButton
+      Left = 51
+      Height = 25
+      Top = 200
+      Width = 75
+      Caption = 'Button1'
+      TabOrder = 1
+    end
+    object MultiplexSlider1: TMultiplexSlider
+      Left = 24
+      Height = 40
+      Top = 27
+      Width = 210
+      Knob1Settings.KnobPosition = 0
+      Knob1Settings.Visible = True
+      Knob1Settings.KnobStyle = ksCircle
+      Knob1Settings.ColorGradient = gcAlternate
+      Knob1Settings.KnobColorStart = clWhite
+      Knob1Settings.KnobColorEnd = 14082019
+      Knob1Settings.HoverOn = True
+      Knob1Settings.HoverEndColor = 11121077
+      Knob1Settings.HoverStartColor = clWhite
+      Knob1Settings.Design = kdDefault
+      Knob1Settings.DesignColor = clSilver
+      Knob2Settings.KnobPosition = 5
+      Knob2Settings.Visible = False
+      Knob2Settings.KnobStyle = ksCircle
+      Knob2Settings.ColorGradient = gcAlternate
+      Knob2Settings.KnobColorStart = clWhite
+      Knob2Settings.KnobColorEnd = clLime
+      Knob2Settings.HoverOn = True
+      Knob2Settings.HoverEndColor = 753419
+      Knob2Settings.HoverStartColor = clLime
+      Knob2Settings.Design = kdDefault
+      Knob2Settings.DesignColor = clSilver
+      Knob3Settings.KnobPosition = 10
+      Knob3Settings.Visible = False
+      Knob3Settings.KnobStyle = ksCircle
+      Knob3Settings.ColorGradient = gcAlternate
+      Knob3Settings.KnobColorStart = clWhite
+      Knob3Settings.KnobColorEnd = clSkyBlue
+      Knob3Settings.HoverOn = True
+      Knob3Settings.HoverEndColor = 16038531
+      Knob3Settings.HoverStartColor = clSkyBlue
+      Knob3Settings.Design = kdDefault
+      Knob3Settings.DesignColor = clSilver
+      ValueDisplaySettings.X = 0
+      ValueDisplaySettings.Y = 0
+      TabOrder = 2
+    end
+  end
+  object Button2: TButton
+    Left = 48
+    Height = 25
+    Top = 360
+    Width = 75
+    Caption = 'Button2'
+    TabOrder = 2
+  end
+  object MultiPanel2: TMultiPanel
+    Left = 632
+    Height = 265
+    Top = 79
+    Width = 448
+    object MultiPanel3: TMultiPanel
+      Left = 118
+      Top = 70
+      Visible = False
     end
   end
 end

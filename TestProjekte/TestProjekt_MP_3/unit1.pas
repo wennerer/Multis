@@ -13,9 +13,14 @@ type
   { TForm1 }
 
   TForm1 = class(TForm)
+    Button1: TButton;
+    Button2: TButton;
     MultiButton1: TMultiButton;
     MultiButton2: TMultiButton;
     MultiPanel1: TMultiPanel;
+    MultiPanel2: TMultiPanel;
+    MultiPanel3: TMultiPanel;
+    MultiplexSlider1: TMultiplexSlider;
     procedure MultiButton1Click(Sender: TObject);
     procedure MultiButton2Click(Sender: TObject);
   private

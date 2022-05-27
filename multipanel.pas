@@ -284,7 +284,7 @@ type
     FAnimationFrac    : Double;
     FParentBmpTimer   : TTimer;
     FFirstAppear      : byte;
-
+    FFormIsActive     : boolean;
 
 
     procedure DoAppear;
@@ -1231,7 +1231,8 @@ begin
      if not FAppear and not FDisappear then
       begin
        FPanelBmp.SetSize(width,height);
-       FPanelBmp.Canvas.CopyRect(Rect(0,0,width,height),Canvas,Rect(0,0,width,height));
+       if FFormIsActive then
+        FPanelBmp.Canvas.CopyRect(Rect(0,0,width,height),Canvas,Rect(0,0,width,height));
       end;
     end;
   end;
@@ -1589,6 +1590,7 @@ begin
  if (CurControl as TForm).Active then
   begin
    FParentBmpTimer.Enabled:=false;
+   FFormIsActive := true;
    if not FParentAsBkgrd then
     begin
      FParentBmp.Canvas.Brush.Color:= GetColorResolvingParent;
