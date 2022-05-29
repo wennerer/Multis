@@ -1,16 +1,16 @@
 object Form1: TForm1
   Left = 346
-  Height = 511
+  Height = 495
   Top = 250
-  Width = 520
-  Caption = 'Form1'
-  ClientHeight = 511
-  ClientWidth = 520
+  Width = 440
+  Caption = 'Test Appear Disappear'
+  ClientHeight = 495
+  ClientWidth = 440
   OnCreate = FormCreate
   object MultiPanel1: TMultiPanel
-    Left = 136
+    Left = 96
     Height = 288
-    Top = 168
+    Top = 120
     Style = mpsRoundRect
     RndRctRadius = 80
     BorderSettings.OuterColor = clLime
@@ -20,7 +20,6 @@ object Form1: TForm1
     ImageWidth = 36
     ImageLeft = 10
     ImageTop = 125
-    Visible = False
     object MultiButton3: TMultiButton
       Left = 69
       Height = 50
@@ -38,10 +37,11 @@ object Form1: TForm1
     end
     object MultiplexSlider1: TMultiplexSlider
       Left = 24
-      Height = 40
+      Height = 55
       Top = 64
       Width = 210
-      Knob1Settings.KnobPosition = 0
+      Max = 200
+      Knob1Settings.KnobPosition = 50
       Knob1Settings.Visible = True
       Knob1Settings.KnobStyle = ksCircle
       Knob1Settings.ColorGradient = gcAlternate
@@ -74,16 +74,17 @@ object Form1: TForm1
       Knob3Settings.HoverStartColor = clSkyBlue
       Knob3Settings.Design = kdDefault
       Knob3Settings.DesignColor = clSilver
+      TextSettings.Position = poTop
+      TextSettings.PostCaption = 'Animation Speed:'
       ValueDisplaySettings.X = 0
       ValueDisplaySettings.Y = 0
       TabOrder = 1
-      Visible = False
       OnChange = MultiplexSlider1Change
     end
     object MultiPanel2: TMultiPanel
       Left = 58
       Height = 81
-      Top = 167
+      Top = 184
       Width = 142
       Style = mpsEllipse
       ColorStart = clYellow
@@ -94,7 +95,7 @@ object Form1: TForm1
         Top = 27
         Width = 64
         BevelOuter = bvNone
-        Caption = '0'
+        Caption = '0,05'
         Color = clBlack
         Font.Color = clWhite
         ParentColor = False
@@ -105,7 +106,7 @@ object Form1: TForm1
     object Button1: TButton
       Left = 80
       Height = 25
-      Top = 113
+      Top = 144
       Width = 96
       Caption = 'Appear'
       OnClick = Button1Click
@@ -146,8 +147,8 @@ object Form1: TForm1
     TabOrder = 3
   end
   object ImageList1: TImageList
-    Left = 468
-    Top = 471
+    Left = 320
+    Top = 456
     Bitmap = {
       4C7A010000001000000010000000DF0200000000000078DA6360A00D60125453
       63D22F9A01C64036410D9C420C4C52ABD598F4EA2C19D885599825AD7CAB16DE

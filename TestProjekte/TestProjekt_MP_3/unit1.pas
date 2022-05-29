@@ -77,7 +77,9 @@ end;
 
 procedure TForm1.MultiplexSlider1Change(const aValue: integer);
 begin
-  Panel1.Caption:=inttostr(aValue);
+  Panel1.Caption:=floattostr(aValue / 1000);
+  MultiPanel1.AnimationSpeed:=aValue / 1000;
+  MultiPanel2.AnimationSpeed:=aValue / 1000;
 end;
 
 end.

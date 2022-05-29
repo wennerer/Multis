@@ -12,7 +12,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="72"/>
+        <UsageCount Value="75"/>
       </Unit0>
       <Unit1>
         <Filename Value="unit1.pas"/>
@@ -21,9 +21,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
-        <TopLine Value="54"/>
-        <CursorPos X="8" Y="80"/>
-        <UsageCount Value="72"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="58"/>
+        <CursorPos X="44" Y="82"/>
+        <UsageCount Value="75"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit1>
@@ -46,11 +47,10 @@
       <Unit4>
         <Filename Value="..\..\multipanel.pas"/>
         <UnitName Value="MultiPanel"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="1375"/>
-        <CursorPos X="58" Y="1389"/>
-        <UsageCount Value="34"/>
+        <TopLine Value="575"/>
+        <CursorPos X="43" Y="584"/>
+        <UsageCount Value="35"/>
         <Bookmarks Count="3">
           <Item0 X="4" Y="1500"/>
           <Item1 X="15" Y="1572" ID="1"/>
