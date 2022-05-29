@@ -285,6 +285,7 @@ type
     FParentBmpTimer   : TTimer;
     FFirstAppear      : byte;
     FFormIsActive     : boolean;
+    FListVisibleKinds : TStringlist;
 
 
     procedure DoAppear;
@@ -327,7 +328,6 @@ type
 
   protected
     procedure SetVisible(Value: Boolean);override;
-    procedure VisibleChanged;override;
     procedure DrawThePanel;
     procedure DrawABorder;
     procedure BoundsChanged;override;
@@ -431,7 +431,6 @@ type
 
 
    property Visible :boolean read FVisible write SetVisible default true;
-   //property Visible;
    property Width  default 250;
    property Height default 150;
    property DragMode;
@@ -592,10 +591,12 @@ begin
   FParentBmpTimer.Enabled             := false;
   FParentAsBkgrd                      := true;
   FFirstAppear                        := 0;
+  FListVisibleKinds                   := TStringlist.Create;
 end;
 
 destructor TMultiPanel.Destroy;
 begin
+  FListVisibleKinds.Free;
   FPanelBmp.Free;
   FParentBmp.Free;
   FParentBmpTimer.Free;
@@ -723,11 +724,19 @@ begin
 end;
 
 procedure TMultiPanel.Loaded;
+var lv : integer;
 begin
  inherited Loaded;
  if not FRunThroughPaint then DrawThePanel;
 
  if csDesigning in Componentstate then exit;
+
+ for lv := 0 to pred(ControlCount) do
+  begin
+   if Controls[lv] is TControl then
+    if (Controls[lv] as TControl).Visible then FListVisibleKinds.Add((Controls[lv] as TControl).Name);
+  end;
+
  if not visible then
   begin
    FIsVisible := false;
@@ -1071,7 +1080,6 @@ procedure TMultiPanel.SetCapLeft(AValue: integer);
 begin
  if FCapLeft=AValue then Exit;
  FCapLeft:=AValue;
- //if FAutoSize then TriggerAutoSize;
  Invalidate;
 end;
 
@@ -1102,7 +1110,6 @@ procedure TMultiPanel.SetCapTop(AValue: integer);
 begin
  if FCapTop=AValue then Exit;
  FCapTop:=AValue;
- //if FAutoSize then TriggerAutoSize;
  Invalidate;
 end;
 
@@ -1170,7 +1177,6 @@ begin
   if fTextStyle.Layout=AValue then exit;
  fTextStyle.Layout:=AValue;
  if aValue <> tlTop then FCapTop:=0;
- //if FAutoSize then TriggerAutoSize;
  Invalidate;
 end;
 
@@ -1209,43 +1215,11 @@ begin
         FPanelBmp.Canvas.CopyRect(Rect(0,0,width,height),Canvas,Rect(0,0,width,height));
       end;
     end;
-   (*if Value then
-    begin
-     FParentBmp.SetSize(width,height);
-     FParentBmp.Canvas.CopyRect(Rect(0,0,width,height),Canvas,Rect(0,0,width,height));
-    end; *)
-
   end;
 
   FVisible :=Value;
   inherited SetVisible(Value);
   invalidate;
-end;
-
-procedure TMultiPanel.VisibleChanged;
-begin
-  inherited VisibleChanged;
-
- (*
-
-   if not (csDesigning in Componentstate) and not(csLoading in Componentstate) then
-  begin
-   //if not Value then
-   if visible then debugln('visible1');
-   if not visible then debugln('not visible');
-   if Visible then
-    begin
-     if not FAppear and not FDisappear then
-      begin
-       if visible then debugln('visible2');
-
-
-       FPanelBmp.SetSize(width,height);
-       if FFormIsActive then
-        FPanelBmp.Canvas.CopyRect(Rect(0,0,width,height),Canvas,Rect(0,0,width,height));
-      end;
-    end;
-  end;   *)
 end;
 
 procedure TMultiPanel.SetStyle(AValue: TMPanelStyle);
@@ -1264,7 +1238,6 @@ procedure TMultiPanel.FontPropertyChanged(Sender: TObject);
 begin
  canvas.Font.Assign(FFont);
  FMultiBkgrdBmp.Canvas.Font.Assign(FFont);
- //if FAutoSize then TriggerAutoSize;
  Invalidate;
 end;
 
@@ -1400,7 +1373,6 @@ begin
  if fTextStyle.Alignment=AValue then exit;
  fTextStyle.Alignment:=AValue;
  if aValue <> taLeftJustify then FCapLeft:=0;
- //if FAutoSize then TriggerAutoSize;
  Invalidate;
 end;
 
@@ -1518,9 +1490,15 @@ begin
  if FAnimationTimer.Enabled then exit;
 
  Canvas.Draw(0,0,FPanelBmp);
+
+ FListVisibleKinds.Clear;
  //set all kindcontrolls to unvisible
  for lv := 0 to pred(ControlCount) do
-  if Controls[lv] is TControl then (Controls[lv] as TControl).Visible:=false;
+  begin
+   if Controls[lv] is TControl then
+    if (Controls[lv] as TControl).Visible then FListVisibleKinds.Add((Controls[lv] as TControl).Name);
+   if Controls[lv] is TControl then (Controls[lv] as TControl).Visible:=false;
+  end;
 
  //canvas.Draw(0,0,FPanelBmp);
  if not FAnimationTimer.Enabled then
@@ -1533,7 +1511,7 @@ end;
 
 procedure TMultiPanel.AnimationOnTimer(Sender: TObject);
 var bmp1 :TBitmap;
-    lv   : integer;
+    lv,i : integer;
   {$IFDEF WINDOWS}
     l,t,r,b : integer;
     tmpbmp  : TBitmap;
@@ -1552,12 +1530,18 @@ begin
     if FFirstAppear < 2 then
      begin
       if FFirstAppear = 0 then
+       //for lv := 0 to pred(ControlCount) do
+        //if Controls[lv] is TControl then (Controls[lv] as TControl).Visible:=true;
        for lv := 0 to pred(ControlCount) do
-        if Controls[lv] is TControl then (Controls[lv] as TControl).Visible:=true;
+        begin
+         for i := 0 to pred(FListVisibleKinds.Count) do
+          if (Controls[lv] as TControl).Name = FListVisibleKinds[i] then
+           if Controls[lv] is TControl then (Controls[lv] as TControl).Visible:=true;
+        end;
 
       if FFirstAppear = 1 then
        for lv := 0 to pred(ControlCount) do
-        if Controls[lv] is TControl then
+        if (Controls[lv] is TControl) and (Controls[lv] as TControl).Visible then
          begin
           l := (Controls[lv] as TControl).Left;
           t := (Controls[lv] as TControl).Top;
@@ -1584,7 +1568,13 @@ begin
  if (FAnimationFrac >=1) or (FAnimationFrac <=0) then
   begin
    for lv := 0 to pred(ControlCount) do
-    if Controls[lv] is TControl then (Controls[lv] as TControl).Visible:=true;
+    begin
+     for i := 0 to pred(FListVisibleKinds.Count) do
+      if (Controls[lv] as TControl).Name = FListVisibleKinds[i] then
+       if Controls[lv] is TControl then (Controls[lv] as TControl).Visible:=true;
+    end;
+
+
    if FDisappear then visible := false;
 
    FDisappear := false;
