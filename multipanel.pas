@@ -730,7 +730,7 @@ begin
  if not FRunThroughPaint then DrawThePanel;
 
  if csDesigning in Componentstate then exit;
-
+ if parent.Color = clDefault then color:=clForm else ParentColor:=true;//colored the corners
  for lv := 0 to pred(ControlCount) do
   begin
    if Controls[lv] is TControl then
@@ -1627,8 +1627,9 @@ procedure TMultiPanel.Paint;
 var lv         : integer;
 
 begin
-
- if parent.Color = clDefault then color:=clForm else ParentColor:=true; //GetColorResolvingParent
+ //colored the corners at Designtime
+ if (csDesigning in Componentstate) then
+  if parent.Color = clDefault then color:=clForm else ParentColor:=true; //GetColorResolvingParent
 
  if FAppear or FDisappear and not (csDesigning in Componentstate) then
   begin
