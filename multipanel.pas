@@ -56,7 +56,7 @@ type
   TKeyPressEvent = procedure(Sender: TObject; var Key: char) of Object;
 
 type
-  TMPanelStyle = (mpsRect,mpsRoundRect,mpsEllipse);
+  TMPanelStyle = (mpsRect,mpsRoundRect,mpsEllipse,mpsCustom);
 
 type
   TGradientCourse = (gcHorizontal,gcVertical,gcSpread,gcRadiant,gcAlternate); //for background color
@@ -66,6 +66,29 @@ type
 
 type
   TDirection = (LeftTop_RightBottom,RightTop_LeftBottom,LeftBottom_RightTop,RightBottom_LeftTop);
+
+type
+  TCustomStyleValues   = record
+    P             : array of TPoint;
+    Num           : Integer;
+  end;
+
+type
+
+    { TCustomPanelStyle }
+
+    TCustomPanelStyle = class (TPropertyEditor)
+    private
+     FCustomValues : TCustomStyleValues;
+    protected
+
+    public
+     procedure Edit; Override;
+     function  GetValue: string;Override;
+     function  GetAttributes: TPropertyAttributes; Override;
+
+    end;
+
 
 type
 
@@ -236,6 +259,7 @@ type
   private
     FAnimationSpeed: double;
     FParentAsBkgrd: boolean;
+    FValues: TCustomPanelStyle;
     FVisible          : boolean;
     FBorder           : TBorder;
     FCapLeft          : integer;
@@ -325,6 +349,7 @@ type
     procedure SetTextStyle(AValue: TTextStyle);
     procedure AnimationOnTimer({%H-}Sender : TObject);
     procedure CheckParentIsVisible({%H-}Sender : TObject);
+    procedure SetValues(AValue: TCustomPanelStyle);
 
   protected
     procedure SetVisible(Value: Boolean);override;
@@ -429,6 +454,8 @@ type
    //Allows to show or hide the control, and all of its children
    //Ermöglicht das Ein- oder Ausblenden des Steuerelements und aller seiner untergeordneten Elemente
 
+   property CustomPanelStyle : TCustomPanelStyle read FValues write SetValues;
+
 
    property Visible :boolean read FVisible write SetVisible default true;
    property Width  default 250;
@@ -495,8 +522,8 @@ begin
   {$I multipanel_icon.lrs}
   RegisterComponents('Multi',[TMultiPanel]);
   RegisterPropertyEditor(TypeInfo(TImageIndex), TMultiPanel, 'ImageIndex', TMultiPanelImageIndexPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(TCustomPanelStyle),TMultiPanel,'CustomPanelStyle',TCustomPanelStyle);
 end;
-
 
 { TMultiPanel }
 
@@ -1623,6 +1650,12 @@ begin
   end;
 end;
 
+procedure TMultiPanel.SetValues(AValue: TCustomPanelStyle);
+begin
+  if FValues=AValue then Exit;
+  FValues:=AValue;
+end;
+
 procedure TMultiPanel.Paint;
 var lv         : integer;
 
@@ -1672,4 +1705,5 @@ end;
 
 {$Include mp_dropdownmenu.inc}
 {$Include mp_border.inc}
+{$Include mp_CustomPanelStyleEditor.inc}
 end.

@@ -1,0 +1,15 @@
+object Form1: TForm1
+  Left = 366
+  Height = 476
+  Top = 250
+  Width = 513
+  Caption = 'Form1'
+  ClientHeight = 476
+  ClientWidth = 513
+  LCLVersion = '2.2.0.4'
+  object MultiPanel1: TMultiPanel
+    Left = 101
+    Top = 103
+    Style = mpsRoundRect
+  end
+end
