@@ -212,6 +212,10 @@ msgstr "Die Schriftfarbe des Messagebuttons"
 msgid "The color of a hoverevent"
 msgstr "Die Farbe während eines Hoverereignisses"
 
+#: rs_mbstylemanager.rs_new
+msgid "New"
+msgstr "Neu"
+
 #: rs_mbstylemanager.rs_ok
 msgid "OK"
 msgstr "Ok"

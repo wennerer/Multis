@@ -201,6 +201,10 @@ msgstr ""
 msgid "The color of a hoverevent"
 msgstr ""
 
+#: rs_mbstylemanager.rs_new
+msgid "New"
+msgstr ""
+
 #: rs_mbstylemanager.rs_ok
 msgid "OK"
 msgstr ""

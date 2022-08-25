@@ -20,7 +20,7 @@
 "/>
     <License Value="modified LGPL-2"/>
     <Version Major="1" Release="3" Build="3"/>
-    <Files Count="18">
+    <Files Count="19">
       <Item1>
         <Filename Value="multibuttonstylemanager.pas"/>
         <HasRegisterProc Value="True"/>
@@ -98,6 +98,10 @@
         <Filename Value="mp_dropdownmenu.inc"/>
         <Type Value="Include"/>
       </Item18>
+      <Item19>
+        <Filename Value="mp_CustomPanelStyleEditor.inc"/>
+        <Type Value="Include"/>
+      </Item19>
     </Files>
     <CompatibilityMode Value="True"/>
     <i18n>

@@ -5,7 +5,8 @@ unit Unit1;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, MultiPanel;
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
+  MultiPanel, MultiButtonStyleManager, MultiplexSlider;
 
 type
 
@@ -13,6 +14,14 @@ type
 
   TForm1 = class(TForm)
     MultiPanel1: TMultiPanel;
+    Panel1: TPanel;
+    procedure MultiPanel1Click(Sender: TObject);
+    procedure MultiPanel1MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure MultiPanel1MouseMove(Sender: TObject; Shift: TShiftState; X,
+      Y: Integer);
+    procedure MultiPanel1MouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
   private
 
   public
@@ -25,6 +34,31 @@ var
 implementation
 
 {$R *.lfm}
+
+{ TForm1 }
+
+procedure TForm1.MultiPanel1MouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+
+end;
+
+procedure TForm1.MultiPanel1Click(Sender: TObject);
+begin
+  showmessage('');
+end;
+
+procedure TForm1.MultiPanel1MouseMove(Sender: TObject; Shift: TShiftState; X,
+  Y: Integer);
+begin
+
+end;
+
+procedure TForm1.MultiPanel1MouseUp(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+
+end;
 
 end.
 

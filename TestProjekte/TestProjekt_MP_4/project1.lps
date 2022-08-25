@@ -11,7 +11,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="281"/>
       </Unit>
       <Unit>
         <Filename Value="unit1.pas"/>
@@ -20,8 +20,9 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
-        <CursorPos X="52" Y="16"/>
-        <UsageCount Value="20"/>
+        <TopLine Value="13"/>
+        <CursorPos X="31" Y="43"/>
+        <UsageCount Value="281"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -30,38 +31,161 @@
         <UnitName Value="MultiPanel"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="519"/>
-        <CursorPos Y="527"/>
-        <UsageCount Value="10"/>
+        <TopLine Value="61"/>
+        <CursorPos X="16" Y="79"/>
+        <UsageCount Value="140"/>
+        <Bookmarks Count="1">
+          <Item0 X="3" Y="86"/>
+        </Bookmarks>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="../../mp_CustomPanelStyleEditor.inc"/>
         <EditorIndex Value="2"/>
-        <CursorPos X="68" Y="23"/>
-        <UsageCount Value="10"/>
+        <TopLine Value="8"/>
+        <CursorPos X="2" Y="10"/>
+        <UsageCount Value="140"/>
+        <Bookmarks Count="1">
+          <Item0 X="4" Y="120" ID="1"/>
+        </Bookmarks>
         <Loaded Value="True"/>
       </Unit>
+      <Unit>
+        <Filename Value="../../stylemanagercomponent.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="5"/>
+        <CursorPos X="3" Y="26"/>
+        <UsageCount Value="11"/>
+      </Unit>
+      <Unit>
+        <Filename Value="../../multibutton.pas"/>
+        <UnitName Value="MultiButton"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1064"/>
+        <CursorPos X="3" Y="272"/>
+        <UsageCount Value="17"/>
+      </Unit>
     </Units>
-    <JumpHistory HistoryIndex="4">
+    <JumpHistory HistoryIndex="29">
       <Position>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="12" Column="52"/>
+        <Filename Value="../../multipanel.pas"/>
+        <Caret Line="374" Column="17" TopLine="361"/>
       </Position>
       <Position>
         <Filename Value="../../multipanel.pas"/>
+        <Caret Line="479" Column="25" TopLine="465"/>
       </Position>
       <Position>
         <Filename Value="../../multipanel.pas"/>
-        <Caret Line="457" Column="79" TopLine="441"/>
+        <Caret Line="523" TopLine="507"/>
+      </Position>
+      <Position>
+        <Filename Value="../../multipanel.pas"/>
+        <Caret Line="552" Column="31" TopLine="537"/>
+      </Position>
+      <Position>
+        <Filename Value="../../multipanel.pas"/>
+        <Caret Line="1418" Column="8" TopLine="1389"/>
       </Position>
       <Position>
         <Filename Value="unit1.pas"/>
-        <Caret Line="16" Column="52"/>
+        <Caret Line="36" Column="46" TopLine="27"/>
       </Position>
       <Position>
         <Filename Value="unit1.pas"/>
-        <Caret Line="15" Column="52"/>
+        <Caret Line="35" Column="46" TopLine="26"/>
+      </Position>
+      <Position>
+        <Filename Value="../../multipanel.pas"/>
+        <Caret Line="374" Column="24" TopLine="351"/>
+      </Position>
+      <Position>
+        <Filename Value="../../multipanel.pas"/>
+        <Caret Line="1698" Column="46" TopLine="1343"/>
+      </Position>
+      <Position>
+        <Filename Value="../../multipanel.pas"/>
+        <Caret Line="70" TopLine="55"/>
+      </Position>
+      <Position>
+        <Filename Value="../../multipanel.pas"/>
+        <Caret Line="283" Column="16" TopLine="268"/>
+      </Position>
+      <Position>
+        <Filename Value="../../multipanel.pas"/>
+        <Caret Line="374" Column="17" TopLine="361"/>
+      </Position>
+      <Position>
+        <Filename Value="../../multipanel.pas"/>
+        <Caret Line="479" Column="25" TopLine="465"/>
+      </Position>
+      <Position>
+        <Filename Value="../../multipanel.pas"/>
+        <Caret Line="523" TopLine="507"/>
+      </Position>
+      <Position>
+        <Filename Value="../../multipanel.pas"/>
+        <Caret Line="552" Column="31" TopLine="537"/>
+      </Position>
+      <Position>
+        <Filename Value="../../multipanel.pas"/>
+        <Caret Line="650" Column="3" TopLine="636"/>
+      </Position>
+      <Position>
+        <Filename Value="../../multipanel.pas"/>
+        <Caret Line="1362" Column="39" TopLine="1347"/>
+      </Position>
+      <Position>
+        <Filename Value="../../multipanel.pas"/>
+        <Caret Line="1690" Column="25" TopLine="1671"/>
+      </Position>
+      <Position>
+        <Filename Value="../../multipanel.pas"/>
+        <Caret Line="70" TopLine="55"/>
+      </Position>
+      <Position>
+        <Filename Value="../../multipanel.pas"/>
+        <Caret Line="284" Column="7" TopLine="268"/>
+      </Position>
+      <Position>
+        <Filename Value="../../multipanel.pas"/>
+        <Caret Line="374" Column="17" TopLine="361"/>
+      </Position>
+      <Position>
+        <Filename Value="../../multipanel.pas"/>
+        <Caret Line="479" Column="25" TopLine="465"/>
+      </Position>
+      <Position>
+        <Filename Value="../../multipanel.pas"/>
+        <Caret Line="523" TopLine="507"/>
+      </Position>
+      <Position>
+        <Filename Value="../../multipanel.pas"/>
+        <Caret Line="552" Column="31" TopLine="537"/>
+      </Position>
+      <Position>
+        <Filename Value="../../multipanel.pas"/>
+        <Caret Line="650" Column="3" TopLine="636"/>
+      </Position>
+      <Position>
+        <Filename Value="../../mp_CustomPanelStyleEditor.inc"/>
+        <Caret Line="124" Column="2" TopLine="103"/>
+      </Position>
+      <Position>
+        <Filename Value="../../mp_CustomPanelStyleEditor.inc"/>
+        <Caret Line="120" Column="4" TopLine="106"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="37" Column="46" TopLine="28"/>
+      </Position>
+      <Position>
+        <Filename Value="../../multipanel.pas"/>
+        <Caret Line="79" Column="19" TopLine="67"/>
+      </Position>
+      <Position>
+        <Filename Value="../../mp_CustomPanelStyleEditor.inc"/>
+        <Caret Line="10" Column="2" TopLine="8"/>
       </Position>
     </JumpHistory>
     <RunParams>

@@ -36,7 +36,7 @@ interface
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, ExtCtrls,
   infmultis, LMessages, LCLIntf, LCLType, ImgList, LCLProc, GraphPropEdits,
-  PropEdits, dbugintf;
+  PropEdits, StdCtrls, rs_mbstylemanager, dbugintf;
 
 type
   TClickEvent = procedure(Sender: TObject) of object;
@@ -68,9 +68,15 @@ type
   TDirection = (LeftTop_RightBottom,RightTop_LeftBottom,LeftBottom_RightTop,RightBottom_LeftTop);
 
 type
-  TCustomStyleValues   = record
-    P             : array of TPoint;
-    Num           : Integer;
+
+  { TCustomStyleValues }
+
+  TCustomStyleValues   = class (TObject)
+  public
+    FPolygon       : array of TPoint;
+    FWidth         : integer;
+    FHeight        : integer;
+   constructor Create;
   end;
 
 type
@@ -79,16 +85,31 @@ type
 
     TCustomPanelStyle = class (TPropertyEditor)
     private
+     Editor        : TCustomForm;
+     DrawPanel     : TPanel;
+     Buttons       : array [0..4] of TButton;
      FCustomValues : TCustomStyleValues;
+     FStart        : boolean;
+     FDrawing      : boolean;
+     FPolygon      : array of TPoint;
+     FCount        : integer;
+     FStartPoint   : TPoint;
     protected
-
+     procedure DoShowEditor;
+     procedure ButtonsOnClick(Sender : TObject);
+     procedure New;
+     procedure CurtailTheDrawing;
+     procedure Apply;
+     procedure DrawPanelPaint(Sender : TObject);
+     procedure DrawPanelMouseDown(Sender: TObject; Button: TMouseButton;Shift: TShiftState; X, Y: Integer);
+     procedure DrawPanelMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
+     procedure DrawPanelMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     public
-     procedure Edit; Override;
-     function  GetValue: string;Override;
-     function  GetAttributes: TPropertyAttributes; Override;
+     procedure Edit; override;
+     function  GetValue: string; override;
+     function  GetAttributes: TPropertyAttributes; override;
 
     end;
-
 
 type
 
@@ -257,9 +278,9 @@ type
 
   TMultiPanel = class(TCustomPanel)
   private
-    FAnimationSpeed: double;
-    FParentAsBkgrd: boolean;
-    FValues: TCustomPanelStyle;
+    FAnimationSpeed   : double;
+    FParentAsBkgrd    : boolean;
+    FCustomValues     : TCustomStyleValues;
     FVisible          : boolean;
     FBorder           : TBorder;
     FCapLeft          : integer;
@@ -349,7 +370,7 @@ type
     procedure SetTextStyle(AValue: TTextStyle);
     procedure AnimationOnTimer({%H-}Sender : TObject);
     procedure CheckParentIsVisible({%H-}Sender : TObject);
-    procedure SetValues(AValue: TCustomPanelStyle);
+    procedure SetCustomValues(AValue: TCustomStyleValues);
 
   protected
     procedure SetVisible(Value: Boolean);override;
@@ -451,12 +472,12 @@ type
    //The vertical distance of the text in the text rectangle (only effective with tlTop)
    //Der vertikale Abstand des Textes im Textrechteck (nur wirksam mit tlTop)
    property CaptionVerMargin : integer read FCapTop write SetCapTop default 0;
+   //Opens an editor where you can draw a panel
+   //Öffnet einen Editor in dem man ein Panel zeichnen kann
+   property DrawACustomPanel : TCustomStyleValues read FCustomValues write SetCustomValues;
+
    //Allows to show or hide the control, and all of its children
    //Ermöglicht das Ein- oder Ausblenden des Steuerelements und aller seiner untergeordneten Elemente
-
-   property CustomPanelStyle : TCustomPanelStyle read FValues write SetValues;
-
-
    property Visible :boolean read FVisible write SetVisible default true;
    property Width  default 250;
    property Height default 150;
@@ -498,6 +519,10 @@ type
 
   end;
 
+
+
+
+
 procedure Register;
 
 implementation
@@ -508,6 +533,7 @@ type
   protected
     function GetImageList: TCustomImageList; override;
   end;
+
 
 function TMultiPanelImageIndexPropertyEditor.GetImageList: TCustomImagelist;
 begin
@@ -522,7 +548,7 @@ begin
   {$I multipanel_icon.lrs}
   RegisterComponents('Multi',[TMultiPanel]);
   RegisterPropertyEditor(TypeInfo(TImageIndex), TMultiPanel, 'ImageIndex', TMultiPanelImageIndexPropertyEditor);
-  RegisterPropertyEditor(TypeInfo(TCustomPanelStyle),TMultiPanel,'CustomPanelStyle',TCustomPanelStyle);
+  RegisterPropertyEditor(TypeInfo(TCustomStyleValues),TMultiPanel,'DrawACustomPanel',TCustomPanelStyle);
 end;
 
 { TMultiPanel }
@@ -619,10 +645,13 @@ begin
   FParentAsBkgrd                      := true;
   FFirstAppear                        := 0;
   FListVisibleKinds                   := TStringlist.Create;
+
+  FCustomValues   := TCustomStyleValues.Create;
 end;
 
 destructor TMultiPanel.Destroy;
 begin
+  FCustomValues.Free;
   FListVisibleKinds.Free;
   FPanelBmp.Free;
   FParentBmp.Free;
@@ -1284,7 +1313,7 @@ var   bkBmp        : TBitmap;
       Dest         : TBitmap;
       textrect     : TRect;
       i            : integer;
-
+     // p : array of TPoint;
 begin
 
    bkBmp := TBitmap.Create;
@@ -1329,6 +1358,7 @@ begin
     mpsRoundRect : trBmp.Canvas.RoundRect(0,0,Width,height,FRRRadius,FRRRadius);
     mpsRect      : trBmp.Canvas.Rectangle(0,0,Width,height);
     mpsEllipse   : trBmp.Canvas.Ellipse(0,0,Width,height);
+    mpsCustom    : trBmp.Canvas.Polygon(FCustomValues.FPolygon);
    end;
 
    mask := TBitmap.Create;
@@ -1340,6 +1370,7 @@ begin
     mpsRoundRect : mask.Canvas.RoundRect(0,0,Width,height,FRRRadius,FRRRadius);
     mpsRect      : mask.Canvas.Rectangle(0,0,Width,height);
     mpsEllipse   : mask.Canvas.Ellipse(0,0,Width,height);
+    mpsCustom    : mask.Canvas.Polygon(FCustomValues.FPolygon);
    end;
 
    Dest       := TBitmap.Create;
@@ -1371,6 +1402,7 @@ begin
       mpsRoundRect : FMultiBkgrdBmp.Canvas.RoundRect(0,0,Width,height,FRRRadius,FRRRadius);
       mpsRect      : FMultiBkgrdBmp.Canvas.Rectangle(0,0,Width,height);
       mpsEllipse   : FMultiBkgrdBmp.Canvas.Ellipse(0,0,Width,height);
+      mpsCustom    : FMultiBkgrdBmp.Canvas.Polygon(FCustomValues.FPolygon);
      end;
     end;
     if FBorder.FInnerColor <> clNone then
@@ -1382,6 +1414,7 @@ begin
        mpsRoundRect : FMultiBkgrdBmp.Canvas.RoundRect(0+i,0+i,Width-i,height-i,FRRRadius- round(i*1.5),FRRRadius- round(i*1.5));
        mpsRect      : FMultiBkgrdBmp.Canvas.Rectangle(0+i,0+i,Width-i,height-i);
        mpsEllipse   : FMultiBkgrdBmp.Canvas.Ellipse(0+i,0+i,Width-i,height-i);
+       mpsCustom    : FMultiBkgrdBmp.Canvas.Polygon(FCustomValues.FPolygon);
       end;
      end;
 
@@ -1650,10 +1683,12 @@ begin
   end;
 end;
 
-procedure TMultiPanel.SetValues(AValue: TCustomPanelStyle);
-begin
-  if FValues=AValue then Exit;
-  FValues:=AValue;
+procedure TMultiPanel.SetCustomValues(AValue: TCustomStyleValues);
+begin    showmessage('');
+  if FCustomValues=AValue then Exit;
+  FCustomValues.FPolygon   := copy(AValue.FPolygon);
+
+  invalidate;
 end;
 
 procedure TMultiPanel.Paint;

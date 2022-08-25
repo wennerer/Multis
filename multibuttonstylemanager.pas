@@ -360,7 +360,8 @@ type
     OffSetWidth    : boolean;
     OffSetHeight   : boolean;
     TmpOffSetWidth    : boolean;
-    TmpOffSetHeight   : boolean;    Editor         : TCustomForm;
+    TmpOffSetHeight   : boolean;
+    Editor         : TCustomForm;
     DesignButton   : TMultiButton;
     TmpButton      : TMultiButton;
     Settings       : TPageControl;
