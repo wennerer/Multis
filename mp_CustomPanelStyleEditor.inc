@@ -3,25 +3,7 @@
 {%MultiPanel ,this is a part of MultiPanel last change 24.01.2022}
 
 
-{ TCustomStyleValues }
-
-constructor TCustomStyleValues.Create;
-begin
- setlength(FPolygon,4);
-  FPolygon[0].X:=0;
-  FPolygon[0].Y:=0;
-  FPolygon[1].X:=48;
-  FPolygon[1].Y:=2;
-  FPolygon[2].X:=25;
-  FPolygon[2].Y:=48;
-  FPolygon[3].X:=0;
-  FPolygon[3].Y:=0;
-end;
-
-
-
-
-
+//PropertyEditor
 { TCustomPanelStyle }
 
 procedure TCustomPanelStyle.Edit;
@@ -54,7 +36,7 @@ begin
    Editor.BorderStyle    := bsSingle;
    Editor.Caption        := 'CustomPanelStyleEditor';
 
-   FCustomValues         := TCustomStyleValues.Create;
+   //FCustomValues         := TCustomStyleValues.Create;
 
    DrawPanel             := TPanel.Create(nil);
    DrawPanel.Parent      := Editor;
@@ -88,7 +70,7 @@ begin
 
     Editor.ShowModal;
  finally
-   FCustomValues.Free;
+   //FCustomValues.Free;
    for lv:=0 to 4 do Buttons[lv].Free;
    DrawPanel.Free;
    Editor.Free;
@@ -122,11 +104,18 @@ begin
 end;
 
 procedure TCustomPanelStyle.Apply;
+var  FCustomValues : TCustomStyleValues;
 begin
- CurtailTheDrawing;
- FCustomValues.FPolygon := copy(FPolygon);
- SetPtrValue(FCustomValues);
- Editor.Close;
+ //CurtailTheDrawing;
+ FCustomValues          := TCustomStyleValues.Create;
+ try
+  FCustomValues.FPolygon := copy(FPolygon);
+
+  SetPtrValue(FCustomValues);
+ finally
+  FCustomValues.Free;
+  Editor.Close;
+ end;
 end;
 
 procedure TCustomPanelStyle.DrawPanelMouseDown(Sender: TObject;

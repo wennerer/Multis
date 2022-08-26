@@ -93,6 +93,9 @@
     </RunParams>
     <RequiredPackages>
       <Item>
+        <PackageName Value="acustomshape"/>
+      </Item>
+      <Item>
         <PackageName Value="Multis"/>
       </Item>
       <Item>

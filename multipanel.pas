@@ -71,12 +71,15 @@ type
 
   { TCustomStyleValues }
 
-  TCustomStyleValues   = class (TObject)
+  TCustomStyleValues   = class (TPersistent)
+  private
+    FStrPolygon    : TStrings;
+    //FWidth         : integer;
+    //FHeight        : integer;
   public
-    FPolygon       : array of TPoint;
-    FWidth         : integer;
-    FHeight        : integer;
-   constructor Create;
+    FPolygon : array of TPoint;
+  published
+    property StrPolygon : TStrings read FStrPolygon write FStrPolygon;
   end;
 
 type
@@ -88,7 +91,7 @@ type
      Editor        : TCustomForm;
      DrawPanel     : TPanel;
      Buttons       : array [0..4] of TButton;
-     FCustomValues : TCustomStyleValues;
+     //FCustomValues : TCustomStyleValues;
      FStart        : boolean;
      FDrawing      : boolean;
      FPolygon      : array of TPoint;
@@ -373,6 +376,9 @@ type
     procedure SetCustomValues(AValue: TCustomStyleValues);
 
   protected
+    procedure DefineProperties(Filer: TFiler); override;
+    procedure ReadPoints(Reader: TReader);
+    procedure WritePoints(Writer: TWriter);
     procedure SetVisible(Value: Boolean);override;
     procedure DrawThePanel;
     procedure DrawABorder;
@@ -647,6 +653,15 @@ begin
   FListVisibleKinds                   := TStringlist.Create;
 
   FCustomValues   := TCustomStyleValues.Create;
+  setlength(FCustomValues.FPolygon,4);
+  FCustomValues.FPolygon[0].X:=  50;
+  FCustomValues.FPolygon[0].Y:=   2;
+  FCustomValues.FPolygon[1].X:=  98;
+  FCustomValues.FPolygon[1].Y:=  98;
+  FCustomValues.FPolygon[2].X:=   2;
+  FCustomValues.FPolygon[2].Y:=  98;
+  FCustomValues.FPolygon[3].X:=  50;
+  FCustomValues.FPolygon[3].Y:=   2;
 end;
 
 destructor TMultiPanel.Destroy;
@@ -1684,12 +1699,61 @@ begin
 end;
 
 procedure TMultiPanel.SetCustomValues(AValue: TCustomStyleValues);
-begin    showmessage('');
+begin
   if FCustomValues=AValue then Exit;
-  FCustomValues.FPolygon   := copy(AValue.FPolygon);
-
+  //FCustomValues.FPolygon   := copy(AValue.FPolygon);
+  FCustomValues.FPolygon   := AValue.FPolygon;
   invalidate;
 end;
+
+procedure TMultiPanel.DefineProperties(Filer: TFiler);
+begin
+  inherited DefineProperties(Filer);
+  Filer.DefineProperty('StrPolygon',@ReadPoints,@WritePoints,true);
+end;
+
+procedure TMultiPanel.ReadPoints(Reader: TReader);
+var lv,i : integer;
+begin
+ FCustomValues.FStrPolygon := TStringList.Create;
+ try
+  with Reader do begin
+   ReadListBegin;
+    while not EndOfList do
+      FCustomValues.FStrPolygon.Add(ReadString);
+   ReadListEnd;
+ end;
+  setlength(FCustomValues.FPolygon,FCustomValues.FStrPolygon.Count div 2);
+  i :=0;
+ for lv :=0 to (FCustomValues.FStrPolygon.Count div 2)-1 do
+  begin
+   FCustomValues.FPolygon[lv].X:=  strtoint(FCustomValues.FStrPolygon[i]);
+   inc(i);
+   FCustomValues.FPolygon[lv].Y:=  strtoint(FCustomValues.FStrPolygon[i]);
+   inc(i);
+  end;
+ finally
+  FCustomValues.FStrPolygon.Free;
+ end;
+
+end;
+
+procedure TMultiPanel.WritePoints(Writer: TWriter);
+var lv : integer;
+begin
+ with Writer do begin
+  WriteListBegin;
+   for lv := 0 to High(FCustomValues.FPolygon) do
+    begin
+     WriteString(inttostr(FCustomValues.FPolygon[lv].x));
+     WriteString(inttostr(FCustomValues.FPolygon[lv].y));
+    end;
+  WriteListEnd;
+ end;
+end;
+
+
+
 
 procedure TMultiPanel.Paint;
 var lv         : integer;

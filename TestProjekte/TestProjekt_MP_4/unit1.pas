@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
-  MultiPanel, MultiButtonStyleManager, MultiplexSlider;
+  MultiPanel, MultiButtonStyleManager, MultiplexSlider, CustomShape;
 
 type
 
