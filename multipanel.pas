@@ -36,7 +36,7 @@ interface
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, ExtCtrls,
   infmultis, LMessages, LCLIntf, LCLType, ImgList, LCLProc, GraphPropEdits,
-  PropEdits, StdCtrls, rs_mbstylemanager, dbugintf;
+  PropEdits, StdCtrls, rs_mbstylemanager, ptin;// dbugintf;
 
 type
   TClickEvent = procedure(Sender: TObject) of object;
@@ -81,6 +81,8 @@ type
     FPolygon : array of TPoint;
   published
     property StrPolygon : TStrings read FStrPolygon write FStrPolygon;
+    property CSVWidth : integer read FWidth write FWidth;
+    property CSVHeight : integer read FHeight write FHeight;
   end;
 
 type
@@ -678,6 +680,7 @@ begin
   FCustomValues.FPolygon[3].Y:=   2;
   FCustomValues.FWidth       := 100;
   FCustomValues.FHeight      := 100;
+
 end;
 
 destructor TMultiPanel.Destroy;
@@ -714,23 +717,29 @@ end;
 
 procedure TMultiPanel.MouseMove(Shift: TShiftState; X, Y: Integer);
 begin
-  inherited MouseMove(Shift, X, Y);
-  if Assigned(OnMouseMove) then OnMouseMove(self,Shift,x,y);
+ if Style = mpsCustom then
+  if not PtInPoly(FPolygon,point(x,y)) then exit;
+ inherited MouseMove(Shift, X, Y);
+ if Assigned(OnMouseMove) then OnMouseMove(self,Shift,x,y);
 end;
 
 procedure TMultiPanel.MouseDown(Button: TMouseButton; Shift: TShiftState; X,
   Y: Integer);
 begin
-  inherited MouseDown(Button, Shift, X, Y);
-  if Assigned(OnMouseDown) then OnMouseDown(self,Button,Shift,x,y);
+ if Style = mpsCustom then
+  if not PtInPoly(FPolygon,point(x,y)) then exit;
+ inherited MouseDown(Button, Shift, X, Y);
+ if Assigned(OnMouseDown) then OnMouseDown(self,Button,Shift,x,y);
 end;
 
 procedure TMultiPanel.MouseUp(Button: TMouseButton; Shift: TShiftState; X,
   Y: Integer);
 begin
-  inherited MouseUp(Button, Shift, X, Y);
-  if Assigned(OnMouseUp) then OnMouseUp(self,Button,Shift,x,y);
-  if Assigned(OnClick) then OnClick(self);
+ if Style = mpsCustom then
+  if not PtInPoly(FPolygon,point(x,y)) then exit;
+ inherited MouseUp(Button, Shift, X, Y);
+ if Assigned(OnMouseUp) then OnMouseUp(self,Button,Shift,x,y);
+ if Assigned(OnClick) then OnClick(self);
 end;
 
 procedure TMultiPanel.CopyParentCanvas;
@@ -890,8 +899,8 @@ procedure TMultiPanel.PolyScalingFactor;
 begin
  if FStyle <> mpsCustom then exit;
 
- FX_PolyFac := Width  / FCustomValues.FWidth;
- FY_PolyFac := Height / FCustomValues.FHeight;
+ FX_PolyFac := (Width - (FBorder.FOuterWidth*2))  / FCustomValues.FWidth;
+ FY_PolyFac := (Height - (FBorder.FOuterWidth*2)) / FCustomValues.FHeight;
  AdjustPolygon;
 end;
 
@@ -901,8 +910,8 @@ begin
  setlength(FPolygon,High(FCustomValues.FPolygon) +1);
  for lv:= 0 to High(FCustomValues.FPolygon) do
   begin
-   FPolygon[lv].X := round(FCustomValues.FPolygon[lv].X * FX_PolyFac);
-   FPolygon[lv].Y := round(FCustomValues.FPolygon[lv].Y * FY_PolyFac);
+   FPolygon[lv].X := round(FCustomValues.FPolygon[lv].X * FX_PolyFac)+(FBorder.FOuterWidth);
+   FPolygon[lv].Y := round(FCustomValues.FPolygon[lv].Y * FY_PolyFac)+(FBorder.FOuterWidth);
   end;
 end;
 
@@ -1357,6 +1366,88 @@ begin
 end;
 
 
+procedure TMultiPanel.SetAlignment(AValue: TAlignment);
+begin
+ if fTextStyle.Alignment=AValue then exit;
+ fTextStyle.Alignment:=AValue;
+ if aValue <> taLeftJustify then FCapLeft:=0;
+ Invalidate;
+end;
+
+procedure TMultiPanel.SetAnimationSpeed(AValue: double);
+begin
+  if FAnimationSpeed=AValue then Exit;
+  if aValue < 0 then aValue := 0;
+  if aValue > 1 then aValue := 1;
+  FAnimationSpeed:=AValue;
+end;
+
+procedure TMultiPanel.SetAppear(AValue: boolean);
+var tmpbmp : TBitmap;
+begin
+  if FAppear=AValue then Exit;
+  if visible then
+   begin
+    //showmessage('The panel is already visible');
+    exit;
+   end;
+  FAppear:=AValue;
+  if FAppear then
+   begin
+    FParentBmp.SetSize(width,height);
+    FParentBmp.Canvas.CopyRect(Rect(0,0,width,height),Canvas,Rect(0,0,width,height));
+    visible := true;
+
+    FPanelBmp.TransparentColor:= rgb(1,1,1);
+    FPanelBmp.Transparent:=true;
+
+    tmpbmp := TBitmap.Create;
+    tmpbmp.SetSize(width,height);
+    tmpbmp.Canvas.Draw(0,0,FParentBmp);
+    tmpbmp.TransparentColor:= rgb(1,1,1);
+    tmpbmp.Transparent:=true;
+    tmpbmp.Canvas.Draw(0,0,FPanelBmp);
+
+    FPanelBmp.Transparent:= false;
+    FPanelBmp.Canvas.Draw(0,0,tmpbmp);
+    tmpbmp.Free;
+   end;
+
+  Invalidate;
+end;
+
+
+procedure TMultiPanel.SetDisappear(AValue: boolean);
+begin
+  if FDisappear=AValue then Exit;
+  if not Visible then
+   begin
+    //showmessage('The panel is already unvisible');
+    exit;
+   end;
+  FDisappear:=AValue;
+  if FDisappear then
+   begin
+    FPanelBmp.SetSize(width,height);
+    FPanelBmp.Canvas.CopyRect(Rect(0,0,width,height),Canvas,Rect(0,0,width,height));
+   end;
+
+  Invalidate;
+end;
+
+procedure TMultiPanel.SetCustomValues(AValue: TCustomStyleValues);
+begin
+  //if FCustomValues=AValue then Exit;
+
+  FCustomValues.FPolygon   := AValue.FPolygon;
+  FCustomValues.FWidth     := AValue.FWidth;
+  FCustomValues.FHeight    := AValue.FHeight;
+
+  PolyScalingFactor;
+
+  invalidate;
+end;
+
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx---drawing---XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 procedure TMultiPanel.DrawThePanel;
@@ -1483,74 +1574,6 @@ begin
    Dest.Free;
 end;
 
-procedure TMultiPanel.SetAlignment(AValue: TAlignment);
-begin
- if fTextStyle.Alignment=AValue then exit;
- fTextStyle.Alignment:=AValue;
- if aValue <> taLeftJustify then FCapLeft:=0;
- Invalidate;
-end;
-
-procedure TMultiPanel.SetAnimationSpeed(AValue: double);
-begin
-  if FAnimationSpeed=AValue then Exit;
-  if aValue < 0 then aValue := 0;
-  if aValue > 1 then aValue := 1;
-  FAnimationSpeed:=AValue;
-end;
-
-procedure TMultiPanel.SetAppear(AValue: boolean);
-var tmpbmp : TBitmap;
-begin
-  if FAppear=AValue then Exit;
-  if visible then
-   begin
-    //showmessage('The panel is already visible');
-    exit;
-   end;
-  FAppear:=AValue;
-  if FAppear then
-   begin
-    FParentBmp.SetSize(width,height);
-    FParentBmp.Canvas.CopyRect(Rect(0,0,width,height),Canvas,Rect(0,0,width,height));
-    visible := true;
-
-    FPanelBmp.TransparentColor:= rgb(1,1,1);
-    FPanelBmp.Transparent:=true;
-
-    tmpbmp := TBitmap.Create;
-    tmpbmp.SetSize(width,height);
-    tmpbmp.Canvas.Draw(0,0,FParentBmp);
-    tmpbmp.TransparentColor:= rgb(1,1,1);
-    tmpbmp.Transparent:=true;
-    tmpbmp.Canvas.Draw(0,0,FPanelBmp);
-
-    FPanelBmp.Transparent:= false;
-    FPanelBmp.Canvas.Draw(0,0,tmpbmp);
-    tmpbmp.Free;
-   end;
-
-  Invalidate;
-end;
-
-
-procedure TMultiPanel.SetDisappear(AValue: boolean);
-begin
-  if FDisappear=AValue then Exit;
-  if not Visible then
-   begin
-    //showmessage('The panel is already unvisible');
-    exit;
-   end;
-  FDisappear:=AValue;
-  if FDisappear then
-   begin
-    FPanelBmp.SetSize(width,height);
-    FPanelBmp.Canvas.CopyRect(Rect(0,0,width,height),Canvas,Rect(0,0,width,height));
-   end;
-
-  Invalidate;
-end;
 
 
 procedure TMultiPanel.DrawABorder;
@@ -1565,6 +1588,7 @@ begin
     mpsRoundRect : Canvas.RoundRect(0,0,Width,height,FRRRadius,FRRRadius);
     mpsRect      : Canvas.Rectangle(0,0,Width,height);
     mpsEllipse   : Canvas.Ellipse(0,0,Width,height);
+    mpsCustom    : Canvas.Polygon(FPolygon);
    end;
   end;
  if FBorder.FInnerColor <> clNone then
@@ -1738,18 +1762,6 @@ begin
   end;
 end;
 
-procedure TMultiPanel.SetCustomValues(AValue: TCustomStyleValues);
-begin
-  if FCustomValues=AValue then Exit;
-
-  FCustomValues.FPolygon   := AValue.FPolygon;
-  FCustomValues.FWidth     := AValue.FWidth;
-  FCustomValues.FHeight    := AValue.FHeight;
-
-  PolyScalingFactor;
-
-  invalidate;
-end;
 
 procedure TMultiPanel.DefineProperties(Filer: TFiler);
 begin
@@ -1768,15 +1780,17 @@ begin
       FCustomValues.FStrPolygon.Add(ReadString);
    ReadListEnd;
  end;
-  setlength(FPolygon,FCustomValues.FStrPolygon.Count div 2);
+  setlength(FCustomValues.FPolygon,FCustomValues.FStrPolygon.Count div 2);
   i :=0;
  for lv :=0 to (FCustomValues.FStrPolygon.Count div 2)-1 do
   begin
-   FPolygon[lv].X:=  strtoint(FCustomValues.FStrPolygon[i]);
+   FCustomValues.FPolygon[lv].X:=  strtoint(FCustomValues.FStrPolygon[i]);
    inc(i);
-   FPolygon[lv].Y:=  strtoint(FCustomValues.FStrPolygon[i]);
+   FCustomValues.FPolygon[lv].Y:=  strtoint(FCustomValues.FStrPolygon[i]);
    inc(i);
   end;
+ SetCustomValues(FCustomValues);
+
  finally
   FCustomValues.FStrPolygon.Free;
  end;
@@ -1788,10 +1802,10 @@ var lv : integer;
 begin
  with Writer do begin
   WriteListBegin;
-   for lv := 0 to High(FPolygon) do
+   for lv := 0 to High(FCustomValues.FPolygon) do
     begin
-     WriteString(inttostr(FPolygon[lv].x));
-     WriteString(inttostr(FPolygon[lv].y));
+     WriteString(inttostr(FCustomValues.FPolygon[lv].x));
+     WriteString(inttostr(FCustomValues.FPolygon[lv].y));
     end;
   WriteListEnd;
  end;
