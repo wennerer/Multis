@@ -74,8 +74,9 @@ type
   TCustomStyleValues   = class (TPersistent)
   private
     FStrPolygon    : TStrings;
-    //FWidth         : integer;
-    //FHeight        : integer;
+    FWidth         : integer;
+    FHeight        : integer;
+
   public
     FPolygon : array of TPoint;
   published
@@ -91,22 +92,30 @@ type
      Editor        : TCustomForm;
      DrawPanel     : TPanel;
      Buttons       : array [0..4] of TButton;
-     //FCustomValues : TCustomStyleValues;
      FStart        : boolean;
      FDrawing      : boolean;
-     FPolygon      : array of TPoint;
      FCount        : integer;
      FStartPoint   : TPoint;
+
+     FPolygon      : array of TPoint;
+     FWidth        : integer;
+     FHeight       : integer;
+     FX_Min        : integer;
+     FX_Max        : integer;
+     FY_Min        : integer;
+     FY_Max        : integer;
+
     protected
      procedure DoShowEditor;
      procedure ButtonsOnClick(Sender : TObject);
      procedure New;
-     procedure CurtailTheDrawing;
+     procedure VisitThePolygon;
+     procedure CurtailThePolygon;
      procedure Apply;
-     procedure DrawPanelPaint(Sender : TObject);
-     procedure DrawPanelMouseDown(Sender: TObject; Button: TMouseButton;Shift: TShiftState; X, Y: Integer);
-     procedure DrawPanelMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
-     procedure DrawPanelMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+     procedure DrawPanelPaint({%H-}Sender : TObject);
+     procedure DrawPanelMouseDown({%H-}Sender: TObject; {%H-}Button: TMouseButton;{%H-}Shift: TShiftState; X, Y: Integer);
+     procedure DrawPanelMouseMove({%H-}Sender: TObject; {%H-}Shift: TShiftState; X, Y: Integer);
+     procedure DrawPanelMouseUp({%H-}Sender: TObject; {%H-}Button: TMouseButton; {%H-}Shift: TShiftState; X, Y: Integer);
     public
      procedure Edit; override;
      function  GetValue: string; override;
@@ -335,6 +344,9 @@ type
     FFormIsActive     : boolean;
     FListVisibleKinds : TStringlist;
 
+    FX_PolyFac        : double;
+    FY_PolyFac        : double;
+    FPolygon          : array of TPoint;
 
     procedure DoAppear;
     procedure DoDisappear;
@@ -383,6 +395,8 @@ type
     procedure DrawThePanel;
     procedure DrawABorder;
     procedure BoundsChanged;override;
+    procedure PolyScalingFactor;
+    procedure AdjustPolygon;
     procedure Loaded; override;
     procedure KeyPress(var Key: char);override;
     procedure KeyDown(var Key: Word; Shift: TShiftState);  override;
@@ -662,6 +676,8 @@ begin
   FCustomValues.FPolygon[2].Y:=  98;
   FCustomValues.FPolygon[3].X:=  50;
   FCustomValues.FPolygon[3].Y:=   2;
+  FCustomValues.FWidth       := 100;
+  FCustomValues.FHeight      := 100;
 end;
 
 destructor TMultiPanel.Destroy;
@@ -849,6 +865,7 @@ end;
 procedure TMultiPanel.BoundsChanged;
 begin
   inherited BoundsChanged;
+  PolyScalingFactor;
   if not assigned(FDDMenu) then exit;
   if not FDDMenu.FActive then exit;
   if not FChangeable then
@@ -867,6 +884,26 @@ begin
   inc(FSwitch);
   if FSwitch > 100 then FSwitch:=10;
 
+end;
+
+procedure TMultiPanel.PolyScalingFactor;
+begin
+ if FStyle <> mpsCustom then exit;
+
+ FX_PolyFac := Width  / FCustomValues.FWidth;
+ FY_PolyFac := Height / FCustomValues.FHeight;
+ AdjustPolygon;
+end;
+
+procedure TMultiPanel.AdjustPolygon;
+var lv : integer;
+begin
+ setlength(FPolygon,High(FCustomValues.FPolygon) +1);
+ for lv:= 0 to High(FCustomValues.FPolygon) do
+  begin
+   FPolygon[lv].X := round(FCustomValues.FPolygon[lv].X * FX_PolyFac);
+   FPolygon[lv].Y := round(FCustomValues.FPolygon[lv].Y * FY_PolyFac);
+  end;
 end;
 
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx---Setter---XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -1297,6 +1334,7 @@ procedure TMultiPanel.SetStyle(AValue: TMPanelStyle);
 begin
   if FStyle=AValue then Exit;
   FStyle:=AValue;
+  if AValue = mpsCustom then PolyScalingFactor;
   invalidate;
 end;
 
@@ -1373,8 +1411,10 @@ begin
     mpsRoundRect : trBmp.Canvas.RoundRect(0,0,Width,height,FRRRadius,FRRRadius);
     mpsRect      : trBmp.Canvas.Rectangle(0,0,Width,height);
     mpsEllipse   : trBmp.Canvas.Ellipse(0,0,Width,height);
-    mpsCustom    : trBmp.Canvas.Polygon(FCustomValues.FPolygon);
+    mpsCustom    : trBmp.Canvas.Polygon(FPolygon);
    end;
+
+
 
    mask := TBitmap.Create;
    mask.SetSize(Width,Height);
@@ -1385,7 +1425,7 @@ begin
     mpsRoundRect : mask.Canvas.RoundRect(0,0,Width,height,FRRRadius,FRRRadius);
     mpsRect      : mask.Canvas.Rectangle(0,0,Width,height);
     mpsEllipse   : mask.Canvas.Ellipse(0,0,Width,height);
-    mpsCustom    : mask.Canvas.Polygon(FCustomValues.FPolygon);
+    mpsCustom    : mask.Canvas.Polygon(FPolygon);
    end;
 
    Dest       := TBitmap.Create;
@@ -1417,7 +1457,7 @@ begin
       mpsRoundRect : FMultiBkgrdBmp.Canvas.RoundRect(0,0,Width,height,FRRRadius,FRRRadius);
       mpsRect      : FMultiBkgrdBmp.Canvas.Rectangle(0,0,Width,height);
       mpsEllipse   : FMultiBkgrdBmp.Canvas.Ellipse(0,0,Width,height);
-      mpsCustom    : FMultiBkgrdBmp.Canvas.Polygon(FCustomValues.FPolygon);
+      mpsCustom    : FMultiBkgrdBmp.Canvas.Polygon(FPolygon);
      end;
     end;
     if FBorder.FInnerColor <> clNone then
@@ -1429,7 +1469,7 @@ begin
        mpsRoundRect : FMultiBkgrdBmp.Canvas.RoundRect(0+i,0+i,Width-i,height-i,FRRRadius- round(i*1.5),FRRRadius- round(i*1.5));
        mpsRect      : FMultiBkgrdBmp.Canvas.Rectangle(0+i,0+i,Width-i,height-i);
        mpsEllipse   : FMultiBkgrdBmp.Canvas.Ellipse(0+i,0+i,Width-i,height-i);
-       mpsCustom    : FMultiBkgrdBmp.Canvas.Polygon(FCustomValues.FPolygon);
+       mpsCustom    : FMultiBkgrdBmp.Canvas.Polygon(FPolygon);
       end;
      end;
 
@@ -1701,8 +1741,13 @@ end;
 procedure TMultiPanel.SetCustomValues(AValue: TCustomStyleValues);
 begin
   if FCustomValues=AValue then Exit;
-  //FCustomValues.FPolygon   := copy(AValue.FPolygon);
+
   FCustomValues.FPolygon   := AValue.FPolygon;
+  FCustomValues.FWidth     := AValue.FWidth;
+  FCustomValues.FHeight    := AValue.FHeight;
+
+  PolyScalingFactor;
+
   invalidate;
 end;
 
@@ -1723,13 +1768,13 @@ begin
       FCustomValues.FStrPolygon.Add(ReadString);
    ReadListEnd;
  end;
-  setlength(FCustomValues.FPolygon,FCustomValues.FStrPolygon.Count div 2);
+  setlength(FPolygon,FCustomValues.FStrPolygon.Count div 2);
   i :=0;
  for lv :=0 to (FCustomValues.FStrPolygon.Count div 2)-1 do
   begin
-   FCustomValues.FPolygon[lv].X:=  strtoint(FCustomValues.FStrPolygon[i]);
+   FPolygon[lv].X:=  strtoint(FCustomValues.FStrPolygon[i]);
    inc(i);
-   FCustomValues.FPolygon[lv].Y:=  strtoint(FCustomValues.FStrPolygon[i]);
+   FPolygon[lv].Y:=  strtoint(FCustomValues.FStrPolygon[i]);
    inc(i);
   end;
  finally
@@ -1743,10 +1788,10 @@ var lv : integer;
 begin
  with Writer do begin
   WriteListBegin;
-   for lv := 0 to High(FCustomValues.FPolygon) do
+   for lv := 0 to High(FPolygon) do
     begin
-     WriteString(inttostr(FCustomValues.FPolygon[lv].x));
-     WriteString(inttostr(FCustomValues.FPolygon[lv].y));
+     WriteString(inttostr(FPolygon[lv].x));
+     WriteString(inttostr(FPolygon[lv].y));
     end;
   WriteListEnd;
  end;

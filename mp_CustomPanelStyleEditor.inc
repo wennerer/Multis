@@ -94,22 +94,49 @@ begin
  DrawPanel.Invalidate;
 end;
 
-procedure TCustomPanelStyle.CurtailTheDrawing; //Beschneiden
+procedure TCustomPanelStyle.VisitThePolygon;
 var lv : integer;
 begin
- for lv := 0 to pred(length(FPolygon)) do
+ FX_Min := 10000;
+ FX_Max := 0;
+ FY_Min := 10000;
+ FY_Max := 0;
+
+ for lv:= 0 to High(FPolygon) do
   begin
-   //FPolygon[lv].x
+   if FPolygon[lv].X < FX_Min then FX_Min := FPolygon[lv].X;
+   if FPolygon[lv].X > FX_Max then FX_Max := FPolygon[lv].X;
+   if FPolygon[lv].Y < FY_Min then FY_Min := FPolygon[lv].Y;
+   if FPolygon[lv].Y > FY_Max then FY_Max := FPolygon[lv].Y;
+  end;//High
+ if FX_Min < 0 then FX_Min := 0;
+ if FY_Min < 0 then FY_Min := 0;
+
+ FWidth := FX_Max - FX_Min;
+ FHeight:= FY_Max - FY_Min;
+
+end;
+
+procedure TCustomPanelStyle.CurtailThePolygon; //Zuschneiden
+var lv : integer;
+begin
+ for lv:= 0 to High(FPolygon) do
+  begin
+   FPolygon[lv].X := FPolygon[lv].X - FX_Min;
+   FPolygon[lv].Y := FPolygon[lv].Y - FY_Min;
   end;
 end;
 
 procedure TCustomPanelStyle.Apply;
 var  FCustomValues : TCustomStyleValues;
 begin
- //CurtailTheDrawing;
+ VisitThePolygon;
+ CurtailThePolygon;
  FCustomValues          := TCustomStyleValues.Create;
  try
   FCustomValues.FPolygon := copy(FPolygon);
+  FCustomValues.FWidth   := FWidth;
+  FCustomValues.FHeight  := FHeight;
 
   SetPtrValue(FCustomValues);
  finally
