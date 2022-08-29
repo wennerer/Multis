@@ -1438,7 +1438,9 @@ end;
 
 procedure TMultiPanel.SetCustomValues(AValue: TCustomStyleValues);
 begin
-  //if FCustomValues=AValue then Exit; //Das muss weg sonst Probleme beim streamen!
+  //if FCustomValues=AValue then Exit; //This has to go, otherwise there will be problems with streaming!
+  Canvas.Pen.Color:= clDefault;  //This must be set, otherwise there will be problems with streaming!
+  Canvas.Pen.Width:= 1;          //This must be set, otherwise there will be problems with streaming!
 
   FCustomValues.FPolygon   := AValue.FPolygon;
   FCustomValues.FWidth     := AValue.FWidth;
@@ -1814,6 +1816,7 @@ begin
  //colored the corners at Designtime
  if (csDesigning in Componentstate) then
   if parent.Color = clDefault then color:=clForm else ParentColor:=true; //GetColorResolvingParent
+
 
  if FAppear or FDisappear and not (csDesigning in Componentstate) then
   begin

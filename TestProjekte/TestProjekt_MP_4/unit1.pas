@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, MultiPanel,
-  CustomShape;
+  CustomShape, MultiplexSlider;
 
 type
 
@@ -14,6 +14,7 @@ type
 
   TForm1 = class(TForm)
     MultiPanel1: TMultiPanel;
+    procedure MultiPanel1Click(Sender: TObject);
   private
 
   public
@@ -26,6 +27,13 @@ var
 implementation
 
 {$R *.lfm}
+
+{ TForm1 }
+
+procedure TForm1.MultiPanel1Click(Sender: TObject);
+begin
+  showmessage('Klick');
+end;
 
 end.
 
