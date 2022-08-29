@@ -1,6 +1,6 @@
 { <A panel for the multi components>
   <Version 1.0.0.0>
-  Copyright (C) <07.03.2022> <Bernd Hübner>
+  Copyright (C) <29.08.2022> <Bernd Hübner>
   For some improvements see https://www.lazarusforum.de/viewtopic.php?f=29&t=14033
 
   This library is free software; you can redistribute it and/or modify it under the
@@ -395,7 +395,7 @@ type
     procedure WritePoints(Writer: TWriter);
     procedure SetVisible(Value: Boolean);override;
     procedure DrawThePanel;
-    procedure DrawABorder;
+    procedure CalcPolyInnerBorder(var InnerPoly: array of TPoint);
     procedure BoundsChanged;override;
     procedure PolyScalingFactor;
     procedure AdjustPolygon;
@@ -428,7 +428,8 @@ type
    //makes the panel disappear
    //läßt das Panel verschwinden
    property Disappear : boolean read FDisappear write SetDisappear;
-
+   //Speed for Appear bzw. Disappear
+   //Geschwindigkeit für Appear bzw. Disappear
    property AnimationSpeed : double read FAnimationSpeed write SetAnimationSpeed;
 
    property ParentAsBkgrd : boolean read FParentAsBkgrd write SetParentAsBkgrd;
@@ -1437,7 +1438,7 @@ end;
 
 procedure TMultiPanel.SetCustomValues(AValue: TCustomStyleValues);
 begin
-  //if FCustomValues=AValue then Exit;
+  //if FCustomValues=AValue then Exit; //Das muss weg sonst Probleme beim streamen!
 
   FCustomValues.FPolygon   := AValue.FPolygon;
   FCustomValues.FWidth     := AValue.FWidth;
@@ -1457,7 +1458,7 @@ var   bkBmp        : TBitmap;
       Dest         : TBitmap;
       textrect     : TRect;
       i            : integer;
-     // p : array of TPoint;
+      aInnerPoly   : array of TPoint;
 begin
 
    bkBmp := TBitmap.Create;
@@ -1539,6 +1540,8 @@ begin
    textrect := rect(0,0,width,height);
    FMultiBkgrdBmp.Canvas.TextRect(TextRect,FCapLeft,FCapTop,FCaption,FTextStyle);
 
+
+ //Draw a Border
     FMultiBkgrdBmp.Canvas.Brush.Style := bsClear;
     if FBorder.FOuterColor <> clNone then
     begin
@@ -1556,11 +1559,15 @@ begin
       FMultiBkgrdBmp.Canvas.Pen.Color   := FBorder.FInnerColor;
       FMultiBkgrdBmp.Canvas.Pen.Width   := FBorder.FInnerWidth;
       i := FBorder.FBetween;
+
+      setlength(aInnerPoly,High(FCustomValues.FPolygon) +1);
+      CalcPolyInnerBorder(aInnerPoly);
+
       case FStyle of
        mpsRoundRect : FMultiBkgrdBmp.Canvas.RoundRect(0+i,0+i,Width-i,height-i,FRRRadius- round(i*1.5),FRRRadius- round(i*1.5));
        mpsRect      : FMultiBkgrdBmp.Canvas.Rectangle(0+i,0+i,Width-i,height-i);
        mpsEllipse   : FMultiBkgrdBmp.Canvas.Ellipse(0+i,0+i,Width-i,height-i);
-       mpsCustom    : FMultiBkgrdBmp.Canvas.Polygon(FPolygon);
+       mpsCustom    : FMultiBkgrdBmp.Canvas.Polyline(aInnerPoly);
       end;
      end;
 
@@ -1574,35 +1581,21 @@ begin
    Dest.Free;
 end;
 
-
-
-procedure TMultiPanel.DrawABorder;
-var i : integer;
+procedure TMultiPanel.CalcPolyInnerBorder(var InnerPoly : array of TPoint);
+var lv : integer;
+    FX,FY : double;
 begin
- Canvas.Brush.Style := bsClear;
- if FBorder.FOuterColor <> clNone then
+ FX := (Width - ((FBorder.FOuterWidth+FBorder.FBetween)*2))  / FCustomValues.FWidth;
+ FY := (Height - ((FBorder.FOuterWidth+FBorder.FBetween)*2)) / FCustomValues.FHeight;
+
+ for lv:= 0 to High(FCustomValues.FPolygon) do
   begin
-   Canvas.Pen.Color   := FBorder.FOuterColor;
-   Canvas.Pen.Width   := FBorder.FOuterWidth;
-   case FStyle of
-    mpsRoundRect : Canvas.RoundRect(0,0,Width,height,FRRRadius,FRRRadius);
-    mpsRect      : Canvas.Rectangle(0,0,Width,height);
-    mpsEllipse   : Canvas.Ellipse(0,0,Width,height);
-    mpsCustom    : Canvas.Polygon(FPolygon);
-   end;
+   InnerPoly[lv].X := round(FCustomValues.FPolygon[lv].X * FX)+(FBorder.FOuterWidth+FBorder.FBetween);
+   InnerPoly[lv].Y := round(FCustomValues.FPolygon[lv].Y * FY)+(FBorder.FOuterWidth+FBorder.FBetween);
   end;
- if FBorder.FInnerColor <> clNone then
-  begin
-   Canvas.Pen.Color   := FBorder.FInnerColor;
-   Canvas.Pen.Width   := FBorder.FInnerWidth;
-   i := FBorder.FBetween;
-   case FStyle of
-    mpsRoundRect : Canvas.RoundRect(0+i,0+i,Width-i,height-i,FRRRadius- round(i*1.5),FRRRadius- round(i*1.5));
-    mpsRect      : Canvas.Rectangle(0+i,0+i,Width-i,height-i);
-    mpsEllipse   : Canvas.Ellipse(0+i,0+i,Width-i,height-i);
-   end;
-  end;
+
 end;
+
 
 procedure TMultiPanel.DoAppear;
 var lv : integer;
