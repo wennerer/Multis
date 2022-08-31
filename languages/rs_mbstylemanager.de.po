@@ -131,6 +131,10 @@ msgctxt "rs_mbstylemanager.rs_foregrdfocuson"
 msgid "Indicates when the button has focus"
 msgstr "Zeigt an wenn der Button den Fokus besitzt"
 
+#: rs_mbstylemanager.rs_grid
+msgid "Grid"
+msgstr "Gitter"
+
 #: rs_mbstylemanager.rs_height
 msgid "The height of the messagebutton"
 msgstr "Die Höhe des Messagebuttons"
@@ -311,4 +315,3 @@ msgstr "Die Breite des Controls. Die Breite des MultiButtons ist minus HoverFram
 #: rs_mbstylemanager.rs_wordbreak
 msgid "Allows a line break in the caption"
 msgstr "Ermöglicht einen Zeilenumbruch in der Caption"
-

@@ -36,7 +36,7 @@ begin
    Editor.BorderStyle    := bsSingle;
    Editor.Caption        := 'CustomPanelStyleEditor';
 
-   //FCustomValues         := TCustomStyleValues.Create;
+   setLength(FPolygon,0);
 
    DrawPanel             := TPanel.Create(nil);
    DrawPanel.Parent      := Editor;
@@ -49,7 +49,7 @@ begin
    DrawPanel.OnMouseMove := @DrawPanelMouseMove;
    DrawPanel.OnMouseUp   := @DrawPanelMouseUp;
 
-   for lv:=0 to 4 do
+   for lv:=0 to 5 do
     begin
      Buttons[lv]           := TButton.Create(nil);
      Buttons[lv].Parent    := Editor;
@@ -65,8 +65,11 @@ begin
    Buttons[2].Caption:= rs_cancel;
    Buttons[3].Caption:= rs_load;
    Buttons[4].Caption:= rs_save;
+   Buttons[5].Caption:= rs_grid;
 
-
+   FDrawing := false;
+   FStart   := false;
+   FShowGrid:= false;
 
     Editor.ShowModal;
  finally
@@ -83,12 +86,16 @@ begin
  case (Sender as TButton).Tag of
  0 : New;
  1 : Apply;
+ 2 : Editor.Close;
+ 3 : LoadPolygon;
+ 4 : SavePolygon;
+ 5 : ShowAGrid;
  end;
 end;
 
 procedure TCustomPanelStyle.New;
 begin
- FStart := true;
+ FStart := true;   showmessage('New');
  FCount := 1;
  setLength(FPolygon,0);
  DrawPanel.Invalidate;
@@ -130,7 +137,7 @@ end;
 procedure TCustomPanelStyle.Apply;
 var  FCustomValues : TCustomStyleValues;
 begin
- VisitThePolygon;
+ VisitThePolygon;      showmessage('apply');
  CurtailThePolygon;
  FCustomValues          := TCustomStyleValues.Create;
  try
@@ -143,6 +150,61 @@ begin
   FCustomValues.Free;
   Editor.Close;
  end;
+end;
+
+procedure TCustomPanelStyle.LoadPolygon;
+var FStream: TFileStream;
+    lv,i   : Integer;
+    Dialog : TOpenDialog;
+    AFilename : string;
+    ArrayData: TArrayData;
+begin
+  setLength(FPolygon,0);
+  Dialog  := TOpenDialog.Create(nil);
+  try
+   if Dialog.Execute then AFilename := Dialog.FileName;
+  finally
+   Dialog.Free;
+  end;
+  FStream := TFileStream.Create(AFilename, fmOpenRead);
+   try
+     FStream.Read(i, SizeOf(i));
+     setlength(ArrayData,i+1);
+     for lv := 0 to (High(ArrayData)) do
+       FStream.Read(ArrayData[lv], SizeOf(ArrayData[lv]));
+   finally
+     FStream.Free;
+   end;
+   FPolygon := copy(ArrayData);
+end;
+
+procedure TCustomPanelStyle.SavePolygon;
+var FStream: TFileStream;
+    lv,i   : Integer;
+    Dialog : TSaveDialog;
+    AFilename : string;
+begin
+  Dialog  := TSaveDialog.Create(nil);
+  try
+   if Dialog.Execute then AFilename := Dialog.FileName;
+  finally
+   Dialog.Free;
+  end;
+  i := High(FPolygon);
+  FStream := TFileStream.Create(AFilename, fmCreate);
+  try
+    FStream.Write(i,SizeOf (i));
+    for lv := 0 to i do
+      FStream.Write(FPolygon[lv], SizeOf(FPolygon[lv]));
+  finally
+    FStream.Free;
+  end;
+end;
+
+procedure TCustomPanelStyle.ShowAGrid;
+begin
+  if FShowGrid then FShowGrid := false else FShowGrid := true;
+  DrawPanel.Invalidate;
 end;
 
 procedure TCustomPanelStyle.DrawPanelMouseDown(Sender: TObject;
@@ -193,7 +255,20 @@ begin
 end;
 
 procedure TCustomPanelStyle.DrawPanelPaint(Sender: TObject);
+var lv : integer;
 begin
+ if FShowGrid then
+  begin
+   for Lv:=1 to 49 do
+    begin
+     if Frac(lv/10) = 0 then DrawPanel.Canvas.Pen.Color := clSilver else
+      DrawPanel.Canvas.Pen.Color := clBackground;
+     DrawPanel.Canvas.Line(lv*10,0,lv*10,DrawPanel.Height);
+     DrawPanel.Canvas.Line(0,lv*10,DrawPanel.width,lv*10);
+    end;
+   DrawPanel.Canvas.Pen.Color := clDefault;
+  end;
+
  if FDrawing then
   DrawPanel.Canvas.Polyline(FPolygon);
  if not FStart and not FDrawing then

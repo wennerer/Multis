@@ -84,6 +84,8 @@ type
     property CSVWidth : integer read FWidth write FWidth;
     property CSVHeight : integer read FHeight write FHeight;
   end;
+type
+  TArrayData = array of TPoint;
 
 type
 
@@ -98,6 +100,7 @@ type
      FDrawing      : boolean;
      FCount        : integer;
      FStartPoint   : TPoint;
+     FShowGrid     : boolean;
 
      FPolygon      : array of TPoint;
      FWidth        : integer;
@@ -114,6 +117,9 @@ type
      procedure VisitThePolygon;
      procedure CurtailThePolygon;
      procedure Apply;
+     procedure LoadPolygon;
+     procedure SavePolygon;
+     procedure ShowAGrid;
      procedure DrawPanelPaint({%H-}Sender : TObject);
      procedure DrawPanelMouseDown({%H-}Sender: TObject; {%H-}Button: TMouseButton;{%H-}Shift: TShiftState; X, Y: Integer);
      procedure DrawPanelMouseMove({%H-}Sender: TObject; {%H-}Shift: TShiftState; X, Y: Integer);

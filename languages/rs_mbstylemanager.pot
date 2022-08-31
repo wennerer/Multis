@@ -120,6 +120,10 @@ msgctxt "rs_mbstylemanager.rs_foregrdfocuson"
 msgid "Indicates when the button has focus"
 msgstr ""
 
+#: rs_mbstylemanager.rs_grid
+msgid "Grid"
+msgstr ""
+
 #: rs_mbstylemanager.rs_height
 msgid "The height of the messagebutton"
 msgstr ""

@@ -94,7 +94,7 @@ resourcestring
 
     //for unit mp_customPanelStyleEditor
      rs_new                 = 'New';
-
+     rs_grid                = 'Grid';
 
 implementation
 
