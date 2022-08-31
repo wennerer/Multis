@@ -70,6 +70,7 @@ begin
    FDrawing := false;
    FStart   := false;
    FShowGrid:= false;
+   FNotice  := true;
 
     Editor.ShowModal;
  finally
@@ -95,7 +96,8 @@ end;
 
 procedure TCustomPanelStyle.New;
 begin
- FStart := true;   showmessage('New');
+ FNotice := false;
+ FStart := true;
  FCount := 1;
  setLength(FPolygon,0);
  DrawPanel.Invalidate;
@@ -137,7 +139,7 @@ end;
 procedure TCustomPanelStyle.Apply;
 var  FCustomValues : TCustomStyleValues;
 begin
- VisitThePolygon;      showmessage('apply');
+ VisitThePolygon;
  CurtailThePolygon;
  FCustomValues          := TCustomStyleValues.Create;
  try
@@ -268,6 +270,8 @@ begin
     end;
    DrawPanel.Canvas.Pen.Color := clDefault;
   end;
+
+ if FNotice then DrawPanel.Canvas.TextOut(50,240,rs_notice);
 
  if FDrawing then
   DrawPanel.Canvas.Polyline(FPolygon);

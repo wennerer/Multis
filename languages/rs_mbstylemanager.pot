@@ -209,6 +209,10 @@ msgstr ""
 msgid "New"
 msgstr ""
 
+#: rs_mbstylemanager.rs_notice
+msgid "The artboard is 500 x 500 pixels"
+msgstr ""
+
 #: rs_mbstylemanager.rs_ok
 msgid "OK"
 msgstr ""

@@ -101,6 +101,7 @@ type
      FCount        : integer;
      FStartPoint   : TPoint;
      FShowGrid     : boolean;
+     FNotice       : boolean;
 
      FPolygon      : array of TPoint;
      FWidth        : integer;

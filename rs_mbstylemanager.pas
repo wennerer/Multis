@@ -95,6 +95,7 @@ resourcestring
     //for unit mp_customPanelStyleEditor
      rs_new                 = 'New';
      rs_grid                = 'Grid';
+     rs_notice              = 'The artboard is 500 x 500 pixels';
 
 implementation
 

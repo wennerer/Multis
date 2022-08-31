@@ -220,6 +220,10 @@ msgstr "Die Farbe während eines Hoverereignisses"
 msgid "New"
 msgstr "Neu"
 
+#: rs_mbstylemanager.rs_notice
+msgid "The artboard is 500 x 500 pixels"
+msgstr "Die Zeichenfläche besitzt 500 x 500 Pixel"
+
 #: rs_mbstylemanager.rs_ok
 msgid "OK"
 msgstr "Ok"
