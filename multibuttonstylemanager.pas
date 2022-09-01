@@ -406,8 +406,8 @@ type
     procedure ColorButtonsOnClick(Sender: TObject);
     procedure ColorBoxOnChange(Sender: TObject);
     procedure ColorButtonsMouseEnter(Sender: TObject);
-    procedure Item0CopyColor(Sender: TObject);
-    procedure Item1PasteColor(Sender: TObject);
+    procedure Item0CopyColor({%H-}Sender: TObject);
+    procedure Item1PasteColor({%H-}Sender: TObject);
     procedure SetColorGradient(Sender: TObject);
     procedure SetLeftTop(Sender: TObject);
     procedure OffSet(Sender: TObject);

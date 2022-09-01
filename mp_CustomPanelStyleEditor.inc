@@ -67,6 +67,7 @@ begin
    Buttons[4].Caption:= rs_save;
    Buttons[5].Caption:= rs_grid;
 
+
    FDrawing := false;
    FStart   := false;
    FShowGrid:= false;

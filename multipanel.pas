@@ -95,7 +95,7 @@ type
     private
      Editor        : TCustomForm;
      DrawPanel     : TPanel;
-     Buttons       : array [0..4] of TButton;
+     Buttons       : array [0..5] of TButton;
      FStart        : boolean;
      FDrawing      : boolean;
      FCount        : integer;
