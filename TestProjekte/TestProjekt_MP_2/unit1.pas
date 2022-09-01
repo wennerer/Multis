@@ -66,7 +66,8 @@ implementation
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
-
+ MultiPanel4.DropDownMenu.Hotspot:= rect(0,0,42,42);
+ MultiPanel5.ParentAsBkgrd:=false;
 end;
 
 

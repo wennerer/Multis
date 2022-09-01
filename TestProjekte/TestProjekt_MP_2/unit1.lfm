@@ -26,8 +26,20 @@ object Form1: TForm1
     Images = ImageList1
     ImageWidth = 36
     ImageTop = 82
+    DrawACustomPanel.CSVWidth = 100
+    DrawACustomPanel.CSVHeight = 100
     OnCompressed = MultiPanel2Compressed
     OnStreched = MultiPanel2Streched
+    StrPolygon = (
+      '50'
+      '2'
+      '98'
+      '98'
+      '2'
+      '98'
+      '50'
+      '2'
+    )
     object MultiSeperator1: TMultiSeperator
       AnchorSideTop.Control = MultiPanel2
       AnchorSideRight.Control = MultiPanel2
@@ -178,6 +190,18 @@ object Form1: TForm1
     ImageIndex = 0
     ImageLeft = 0
     ImageTop = 0
+    DrawACustomPanel.CSVWidth = 100
+    DrawACustomPanel.CSVHeight = 100
+    StrPolygon = (
+      '50'
+      '2'
+      '98'
+      '98'
+      '2'
+      '98'
+      '50'
+      '2'
+    )
     object MultiButton1: TMultiButton
       AnchorSideLeft.Control = MultiPanel1
       AnchorSideTop.Control = MultiPanel1
@@ -384,6 +408,18 @@ object Form1: TForm1
     Font.Color = clWhite
     Font.Height = 30
     Font.Style = [fsBold]
+    DrawACustomPanel.CSVWidth = 100
+    DrawACustomPanel.CSVHeight = 100
+    StrPolygon = (
+      '50'
+      '2'
+      '98'
+      '98'
+      '2'
+      '98'
+      '50'
+      '2'
+    )
   end
   object MultiPanel4: TMultiPanel
     AnchorSideLeft.Control = Owner
@@ -403,9 +439,21 @@ object Form1: TForm1
     Images = ImageList1
     ImageWidth = 42
     ImageLeft = 3
+    DrawACustomPanel.CSVWidth = 100
+    DrawACustomPanel.CSVHeight = 100
     Anchors = [akLeft, akBottom]
     OnCompressed = MultiPanel4Compressed
     OnStreched = MultiPanel4Streched
+    StrPolygon = (
+      '50'
+      '2'
+      '98'
+      '98'
+      '2'
+      '98'
+      '50'
+      '2'
+    )
     object MultiplexSlider1: TMultiplexSlider
       Left = 56
       Height = 210
@@ -479,10 +527,22 @@ object Form1: TForm1
     ImageWidth = 36
     ImageLeft = 0
     ImageTop = 0
-    Anchors = []
+    DrawACustomPanel.CSVWidth = 100
+    DrawACustomPanel.CSVHeight = 100
+    Anchors = [akTop, akRight]
     BorderSpacing.Around = 5
     OnCompressed = MultiPanel5Compressed
     OnStreched = MultiPanel5Streched
+    StrPolygon = (
+      '50'
+      '2'
+      '98'
+      '98'
+      '2'
+      '98'
+      '50'
+      '2'
+    )
     object MultiButton10: TMultiButton
       Left = 16
       Height = 35
@@ -532,7 +592,19 @@ object Form1: TForm1
     DropDownMenu.Stretched.Width = 200
     DropDownMenu.Stretched.Height = 200
     DropDownMenu.Direction = RightTop_LeftBottom
+    DrawACustomPanel.CSVWidth = 100
+    DrawACustomPanel.CSVHeight = 100
     Anchors = []
+    StrPolygon = (
+      '50'
+      '2'
+      '98'
+      '98'
+      '2'
+      '98'
+      '50'
+      '2'
+    )
     object ComboBox1: TComboBox
       Left = 56
       Height = 27

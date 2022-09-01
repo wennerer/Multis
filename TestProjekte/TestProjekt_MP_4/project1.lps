@@ -20,7 +20,6 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
-        <IsVisibleTab Value="True"/>
         <TopLine Value="16"/>
         <CursorPos X="3" Y="42"/>
         <UsageCount Value="210"/>
@@ -55,6 +54,7 @@
       </Unit>
       <Unit>
         <Filename Value="../../rs_mbstylemanager.pas"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
         <TopLine Value="72"/>
         <CursorPos X="44" Y="99"/>

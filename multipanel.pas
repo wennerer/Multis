@@ -223,7 +223,7 @@ type
   public
    constructor create(aOwner: TCustomPanel);
    //Determines the area in which a click works, only active with DropDownMenu.Active und trPinned
-   //Legt den Bereich fest in dem in dem ein Klick wirkt, nur aktive mit DropDownMenu.Active und trPinned
+   //Legt den Bereich fest in dem ein Klick wirkt, nur aktive mit DropDownMenu.Active und trPinned
    property Hotspot :TRect read FHotspot write SetHotspot;
   published
    //activates the dropdown function
@@ -1458,138 +1458,6 @@ begin
   invalidate;
 end;
 
-//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx---drawing---XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-procedure TMultiPanel.DrawThePanel;
-var   bkBmp        : TBitmap;
-      trBmp        : TBitmap;
-      mask         : TBitmap;
-      Dest         : TBitmap;
-      textrect     : TRect;
-      i            : integer;
-      aInnerPoly   : array of TPoint;
-begin
-
-   bkBmp := TBitmap.Create;
-   bkBmp.SetSize(Width,Height);
-
-   //this is the bitmap that will be sent to the children and draw in the canvas
-   FMultiBkgrdBmp.SetSize(Width,Height);
-
-  if (csDesigning in Componentstate) or (csLoading in Componentstate) then
-    begin
-     FMultiBkgrdBmp.Canvas.Brush.Color:= GetColorResolvingParent;
-     FMultiBkgrdBmp.Canvas.FillRect(0,0,width,height);
-    end else
-    begin
-     if FParentAsBkgrd then
-      FMultiBkgrdBmp.Canvas.Brush.Color:= rgb(1,1,1)
-     else
-      FMultiBkgrdBmp.Canvas.Brush.Color:= GetColorResolvingParent;
-      FMultiBkgrdBmp.Canvas.FillRect(0,0,width,height);
-    end;
-   if FParentAsBkgrd then FMultiBkgrdBmp.Canvas.Draw(0,0,FParentBmp);
-
-  if Parent is TMultiPanel then
-   begin
-    if assigned((Parent as TMultiPanel).FMultiBkgrdBmp) then
-    FMultiBkgrdBmp.canvas.CopyRect(rect(0,0,width,height),(Parent as TMultiPanel).FMultiBkgrdBmp.Canvas,rect(left,top,left+width,top+height));
-   end;
-
-   if FGradient = gcAlternate then Gradient_Bmp(bkBmp,clGray,clSilver,ord(gcVertical)); //otherwise flickers
-
-   Gradient_Bmp(bkBmp,FColorStart,FColorEnd,ord(FGradient));
-
-
-   trBmp := TBitmap.Create;
-   trBmp.SetSize(Width,Height);
-   trBmp.TransparentColor:=clblack;
-   trBmp.Transparent:= true;
-   trBmp.Canvas.Brush.Color:=clwhite;
-   trBmp.Canvas.FillRect(0,0,Width,Height);
-   trBmp.Canvas.Brush.Color:=clblack;
-   case FStyle of
-    mpsRoundRect : trBmp.Canvas.RoundRect(0,0,Width,height,FRRRadius,FRRRadius);
-    mpsRect      : trBmp.Canvas.Rectangle(0,0,Width,height);
-    mpsEllipse   : trBmp.Canvas.Ellipse(0,0,Width,height);
-    mpsCustom    : trBmp.Canvas.Polygon(FPolygon);
-   end;
-
-
-
-   mask := TBitmap.Create;
-   mask.SetSize(Width,Height);
-   mask.Canvas.Brush.Color:=clwhite;
-   mask.Canvas.FillRect(0,0,Width,Height);
-   mask.Canvas.Brush.Color:=clblack;
-   case FStyle of
-    mpsRoundRect : mask.Canvas.RoundRect(0,0,Width,height,FRRRadius,FRRRadius);
-    mpsRect      : mask.Canvas.Rectangle(0,0,Width,height);
-    mpsEllipse   : mask.Canvas.Ellipse(0,0,Width,height);
-    mpsCustom    : mask.Canvas.Polygon(FPolygon);
-   end;
-
-   Dest       := TBitmap.Create;
-   Dest.SetSize(Width,Height);
-   Dest.Transparent:= true;
-   Dest.TransparentColor:= clblack;
-   Dest.Canvas.Brush.Color:=clBlack;
-   Dest.Canvas.FillRect(0,0,100,100);
-   Dest.Canvas.copymode:=cmSrcCopy;
-   Dest.Canvas.Draw(0,0,bkBmp);
-   Dest.Canvas.Draw(0,0,trBmp);
-   Dest.Canvas.copymode:=cmSrcInvert;
-   Dest.Canvas.Draw(0,0,mask);
-
-   FMultiBkgrdBmp.Canvas.Draw(0,0,Dest);
-
-   if (FImageList <> nil) and (FImageIndex > -1) and (FImageIndex < FImageList.Count) then
-      FImageList.ResolutionForPPI[FImageWidth, Font.PixelsPerInch, GetCanvasScaleFactor].Draw(FMultiBkgrdBmp.Canvas,
-      FImageLeft,FImageTop,FImageIndex);
-   textrect := rect(0,0,width,height);
-   FMultiBkgrdBmp.Canvas.TextRect(TextRect,FCapLeft,FCapTop,FCaption,FTextStyle);
-
-
- //Draw a Border
-    FMultiBkgrdBmp.Canvas.Brush.Style := bsClear;
-    if FBorder.FOuterColor <> clNone then
-    begin
-     FMultiBkgrdBmp.Canvas.Pen.Color   := FBorder.FOuterColor;
-     FMultiBkgrdBmp.Canvas.Pen.Width   := FBorder.FOuterWidth;
-     case FStyle of
-      mpsRoundRect : FMultiBkgrdBmp.Canvas.RoundRect(0,0,Width,height,FRRRadius,FRRRadius);
-      mpsRect      : FMultiBkgrdBmp.Canvas.Rectangle(0,0,Width,height);
-      mpsEllipse   : FMultiBkgrdBmp.Canvas.Ellipse(0,0,Width,height);
-      mpsCustom    : FMultiBkgrdBmp.Canvas.Polygon(FPolygon);
-     end;
-    end;
-    if FBorder.FInnerColor <> clNone then
-     begin
-      FMultiBkgrdBmp.Canvas.Pen.Color   := FBorder.FInnerColor;
-      FMultiBkgrdBmp.Canvas.Pen.Width   := FBorder.FInnerWidth;
-      i := FBorder.FBetween;
-
-      setlength(aInnerPoly,High(FCustomValues.FPolygon) +1);
-      CalcPolyInnerBorder(aInnerPoly);
-
-      case FStyle of
-       mpsRoundRect : FMultiBkgrdBmp.Canvas.RoundRect(0+i,0+i,Width-i,height-i,FRRRadius- round(i*1.5),FRRRadius- round(i*1.5));
-       mpsRect      : FMultiBkgrdBmp.Canvas.Rectangle(0+i,0+i,Width-i,height-i);
-       mpsEllipse   : FMultiBkgrdBmp.Canvas.Ellipse(0+i,0+i,Width-i,height-i);
-       mpsCustom    : FMultiBkgrdBmp.Canvas.Polyline(aInnerPoly);
-      end;
-     end;
-
-   {$IFDEF WINDOWS}
-   if FFirstAppear = 0 then FPanelBmp.Canvas.Draw(0,0,FMultiBkgrdBmp);
-   {$ENDIF}
-
-   bkBmp.Free;
-   trBmp.Free;
-   mask.Free;
-   Dest.Free;
-end;
-
 procedure TMultiPanel.CalcPolyInnerBorder(var InnerPoly : array of TPoint);
 var lv : integer;
     FX,FY : double;
@@ -1813,7 +1681,137 @@ begin
  end;
 end;
 
+//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx---drawing---XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+procedure TMultiPanel.DrawThePanel;
+var   bkBmp        : TBitmap;
+      trBmp        : TBitmap;
+      mask         : TBitmap;
+      Dest         : TBitmap;
+      textrect     : TRect;
+      i            : integer;
+      aInnerPoly   : array of TPoint;
+begin
+
+   bkBmp := TBitmap.Create;
+   bkBmp.SetSize(Width,Height);
+
+   //this is the bitmap that will be sent to the children and draw in the canvas
+   FMultiBkgrdBmp.SetSize(Width,Height);
+
+  if (csDesigning in Componentstate) or (csLoading in Componentstate) then
+    begin
+     FMultiBkgrdBmp.Canvas.Brush.Color:= GetColorResolvingParent;
+     FMultiBkgrdBmp.Canvas.FillRect(0,0,width,height);
+    end else
+    begin
+     if FParentAsBkgrd then
+      FMultiBkgrdBmp.Canvas.Brush.Color:= rgb(1,1,1)
+     else
+      FMultiBkgrdBmp.Canvas.Brush.Color:= GetColorResolvingParent;
+      FMultiBkgrdBmp.Canvas.FillRect(0,0,width,height);
+    end;
+   if FParentAsBkgrd then FMultiBkgrdBmp.Canvas.Draw(0,0,FParentBmp);
+
+  if Parent is TMultiPanel then
+   begin
+    if assigned((Parent as TMultiPanel).FMultiBkgrdBmp) then
+    FMultiBkgrdBmp.canvas.CopyRect(rect(0,0,width,height),(Parent as TMultiPanel).FMultiBkgrdBmp.Canvas,rect(left,top,left+width,top+height));
+   end;
+
+   if FGradient = gcAlternate then Gradient_Bmp(bkBmp,clGray,clSilver,ord(gcVertical)); //otherwise flickers
+
+   Gradient_Bmp(bkBmp,FColorStart,FColorEnd,ord(FGradient));
+
+
+   trBmp := TBitmap.Create;
+   trBmp.SetSize(Width,Height);
+   trBmp.TransparentColor:=clblack;
+   trBmp.Transparent:= true;
+   trBmp.Canvas.Brush.Color:=clwhite;
+   trBmp.Canvas.FillRect(0,0,Width,Height);
+   trBmp.Canvas.Brush.Color:=clblack;
+   case FStyle of
+    mpsRoundRect : trBmp.Canvas.RoundRect(0,0,Width,height,FRRRadius,FRRRadius);
+    mpsRect      : trBmp.Canvas.Rectangle(0,0,Width,height);
+    mpsEllipse   : trBmp.Canvas.Ellipse(0,0,Width,height);
+    mpsCustom    : trBmp.Canvas.Polygon(FPolygon);
+   end;
+
+
+
+   mask := TBitmap.Create;
+   mask.SetSize(Width,Height);
+   mask.Canvas.Brush.Color:=clwhite;
+   mask.Canvas.FillRect(0,0,Width,Height);
+   mask.Canvas.Brush.Color:=clblack;
+   case FStyle of
+    mpsRoundRect : mask.Canvas.RoundRect(0,0,Width,height,FRRRadius,FRRRadius);
+    mpsRect      : mask.Canvas.Rectangle(0,0,Width,height);
+    mpsEllipse   : mask.Canvas.Ellipse(0,0,Width,height);
+    mpsCustom    : mask.Canvas.Polygon(FPolygon);
+   end;
+
+   Dest       := TBitmap.Create;
+   Dest.SetSize(Width,Height);
+   Dest.Transparent:= true;
+   Dest.TransparentColor:= clblack;
+   Dest.Canvas.Brush.Color:=clBlack;
+   Dest.Canvas.FillRect(0,0,100,100);
+   Dest.Canvas.copymode:=cmSrcCopy;
+   Dest.Canvas.Draw(0,0,bkBmp);
+   Dest.Canvas.Draw(0,0,trBmp);
+   Dest.Canvas.copymode:=cmSrcInvert;
+   Dest.Canvas.Draw(0,0,mask);
+
+   FMultiBkgrdBmp.Canvas.Draw(0,0,Dest);
+
+   if (FImageList <> nil) and (FImageIndex > -1) and (FImageIndex < FImageList.Count) then
+      FImageList.ResolutionForPPI[FImageWidth, Font.PixelsPerInch, GetCanvasScaleFactor].Draw(FMultiBkgrdBmp.Canvas,
+      FImageLeft,FImageTop,FImageIndex);
+   textrect := rect(0,0,width,height);
+   FMultiBkgrdBmp.Canvas.TextRect(TextRect,FCapLeft,FCapTop,FCaption,FTextStyle);
+
+
+ //Draw a Border
+    FMultiBkgrdBmp.Canvas.Brush.Style := bsClear;
+    if FBorder.FOuterColor <> clNone then
+    begin
+     FMultiBkgrdBmp.Canvas.Pen.Color   := FBorder.FOuterColor;
+     FMultiBkgrdBmp.Canvas.Pen.Width   := FBorder.FOuterWidth;
+     case FStyle of
+      mpsRoundRect : FMultiBkgrdBmp.Canvas.RoundRect(0,0,Width,height,FRRRadius,FRRRadius);
+      mpsRect      : FMultiBkgrdBmp.Canvas.Rectangle(0,0,Width,height);
+      mpsEllipse   : FMultiBkgrdBmp.Canvas.Ellipse(0,0,Width,height);
+      mpsCustom    : FMultiBkgrdBmp.Canvas.Polygon(FPolygon);
+     end;
+    end;
+    if FBorder.FInnerColor <> clNone then
+     begin
+      FMultiBkgrdBmp.Canvas.Pen.Color   := FBorder.FInnerColor;
+      FMultiBkgrdBmp.Canvas.Pen.Width   := FBorder.FInnerWidth;
+      i := FBorder.FBetween;
+
+      setlength(aInnerPoly,High(FCustomValues.FPolygon) +1);
+      CalcPolyInnerBorder(aInnerPoly);
+
+      case FStyle of
+       mpsRoundRect : FMultiBkgrdBmp.Canvas.RoundRect(0+i,0+i,Width-i,height-i,FRRRadius- round(i*1.5),FRRRadius- round(i*1.5));
+       mpsRect      : FMultiBkgrdBmp.Canvas.Rectangle(0+i,0+i,Width-i,height-i);
+       mpsEllipse   : FMultiBkgrdBmp.Canvas.Ellipse(0+i,0+i,Width-i,height-i);
+       mpsCustom    : FMultiBkgrdBmp.Canvas.Polyline(aInnerPoly);
+      end;
+     end;
+
+   {$IFDEF WINDOWS}
+   if FFirstAppear = 0 then FPanelBmp.Canvas.Draw(0,0,FMultiBkgrdBmp);
+   {$ENDIF}
+
+   bkBmp.Free;
+   trBmp.Free;
+   mask.Free;
+   Dest.Free;
+end;
 
 
 procedure TMultiPanel.Paint;
