@@ -81,8 +81,8 @@ type
     FPolygon : array of TPoint;
   published
     property StrPolygon : TStrings read FStrPolygon write FStrPolygon;
-    property CSVWidth : integer read FWidth write FWidth;
-    property CSVHeight : integer read FHeight write FHeight;
+    property CSVWidth : integer read FWidth write FWidth default 100;
+    property CSVHeight : integer read FHeight write FHeight default 100;
   end;
 type
   TArrayData = array of TPoint;
@@ -688,11 +688,12 @@ begin
   FCustomValues.FPolygon[3].Y:=   2;
   FCustomValues.FWidth       := 100;
   FCustomValues.FHeight      := 100;
-
+  FCustomValues.FStrPolygon := TStringList.Create;
 end;
 
 destructor TMultiPanel.Destroy;
 begin
+  FCustomValues.FStrPolygon.Free;
   FCustomValues.Free;
   FListVisibleKinds.Free;
   FPanelBmp.Free;
@@ -758,7 +759,7 @@ begin
 end;
 
 procedure TMultiPanel.ParentInputHandler(Sender: TObject; Msg: Cardinal);
-var x,y,h : integer;
+var (*x,y,h : integer;*)
     HotspotCompressed : TRect;
     HotspotStretched  : TRect;
     P                 : TPoint;
@@ -767,12 +768,15 @@ begin
 
  if not (csDesigning in ComponentState) then
   begin
-   x := Mouse.CursorPos.X - parent.Left - left;
+   (*x := Mouse.CursorPos.X - parent.Left - left;
    h := GetSystemMetrics(SM_CYCAPTION);//high of the menu
-   y := Mouse.CursorPos.Y - parent.Top - h - top;
+   y := Mouse.CursorPos.Y - parent.Top - h - top;*)
+
+   P := ScreenToControl(Point(Mouse.CursorPos.X,Mouse.CursorPos.Y));
+
    HotspotCompressed := Rect(0,0,FDDMenu.FCompressed.FWidth,FDDMenu.FCompressed.FHeight);
    HotspotStretched  := Rect(0,0,FDDMenu.FStretched.FWidth,FDDMenu.FStretched.FHeight);
-   P := Point(x,y);
+   //P := Point(x,y);
 
    if FDDMenu.FTrigger = trClick then
     begin
@@ -1015,6 +1019,7 @@ begin
       FChangeable:= false;
       top := (FDDMenu.FCompressed.FTop+FDDMenu.FCompressed.FHeight)-FDDMenu.FStretched.FHeight;
      end;
+
    end; //if streched active
    exit;
   end;
@@ -1642,8 +1647,8 @@ end;
 procedure TMultiPanel.ReadPoints(Reader: TReader);
 var lv,i : integer;
 begin
- FCustomValues.FStrPolygon := TStringList.Create;
- try
+ //FCustomValues.FStrPolygon := TStringList.Create;
+ //try
   with Reader do begin
    ReadListBegin;
     while not EndOfList do
@@ -1661,9 +1666,9 @@ begin
   end;
  SetCustomValues(FCustomValues);
 
- finally
-  FCustomValues.FStrPolygon.Free;
- end;
+ //finally
+  //FCustomValues.FStrPolygon.Free;
+ //end;
 
 end;
 
@@ -1845,7 +1850,9 @@ begin
   //update all child windows
    for lv := 0 to pred(ControlCount) do
      begin
+      {$IFDEF WINDOWS}
       if csDesigning in Componentstate then break; //needed unter windows
+      {$ENDIF}
       if Controls[lv] is TMultiButton then (Controls[lv] as TMultiButton).Invalidate;
       if Controls[lv] is TMultiplexSlider then (Controls[lv] as TMultiplexSlider).Invalidate;
      end;
@@ -1859,6 +1866,7 @@ begin
    end;
 
   FRunThroughPaint := true; //checks if paint was run
+
 
 end;
 

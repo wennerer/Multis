@@ -20,6 +20,8 @@ type
     MultiButton10: TMultiButton;
     MultiButton11: TMultiButton;
     MultiButton12: TMultiButton;
+    MultiButton13: TMultiButton;
+    MultiButton14: TMultiButton;
     MultiButton2: TMultiButton;
     MultiButton3: TMultiButton;
     MultiButton4: TMultiButton;
@@ -36,6 +38,7 @@ type
     MultiPanel4: TMultiPanel;
     MultiPanel5: TMultiPanel;
     MultiPanel6: TMultiPanel;
+    MultiPanel7: TMultiPanel;
     MultiplexSlider1: TMultiplexSlider;
     MultiSeperator1: TMultiSeperator;
     procedure FormCreate(Sender: TObject);
@@ -46,6 +49,7 @@ type
     procedure MultiPanel4Streched(Sender: TObject);
     procedure MultiPanel5Compressed(Sender: TObject);
     procedure MultiPanel5Streched(Sender: TObject);
+
     procedure MultiplexSlider1ChangeStr(const aStrValue: string);
 
 

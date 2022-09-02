@@ -26,8 +26,6 @@ object Form1: TForm1
     Images = ImageList1
     ImageWidth = 36
     ImageTop = 82
-    DrawACustomPanel.CSVWidth = 100
-    DrawACustomPanel.CSVHeight = 100
     OnCompressed = MultiPanel2Compressed
     OnStreched = MultiPanel2Streched
     StrPolygon = (
@@ -190,8 +188,6 @@ object Form1: TForm1
     ImageIndex = 0
     ImageLeft = 0
     ImageTop = 0
-    DrawACustomPanel.CSVWidth = 100
-    DrawACustomPanel.CSVHeight = 100
     StrPolygon = (
       '50'
       '2'
@@ -408,8 +404,6 @@ object Form1: TForm1
     Font.Color = clWhite
     Font.Height = 30
     Font.Style = [fsBold]
-    DrawACustomPanel.CSVWidth = 100
-    DrawACustomPanel.CSVHeight = 100
     StrPolygon = (
       '50'
       '2'
@@ -439,8 +433,6 @@ object Form1: TForm1
     Images = ImageList1
     ImageWidth = 42
     ImageLeft = 3
-    DrawACustomPanel.CSVWidth = 100
-    DrawACustomPanel.CSVHeight = 100
     Anchors = [akLeft, akBottom]
     OnCompressed = MultiPanel4Compressed
     OnStreched = MultiPanel4Streched
@@ -527,8 +519,6 @@ object Form1: TForm1
     ImageWidth = 36
     ImageLeft = 0
     ImageTop = 0
-    DrawACustomPanel.CSVWidth = 100
-    DrawACustomPanel.CSVHeight = 100
     Anchors = [akTop, akRight]
     BorderSpacing.Around = 5
     OnCompressed = MultiPanel5Compressed
@@ -580,21 +570,76 @@ object Form1: TForm1
       TabOrder = 2
     end
   end
+  object MultiPanel7: TMultiPanel
+    Left = 456
+    Height = 50
+    Top = 320
+    Width = 400
+    ColorStart = 789590
+    ColorEnd = 3158083
+    ColorGradient = gcVertical
+    DropDownMenu.Active = True
+    DropDownMenu.Compressed.Width = 400
+    DropDownMenu.Stretched.Width = 400
+    DropDownMenu.Stretched.Height = 160
+    ImageIndex = 5
+    Images = ImageList1
+    ImageWidth = 42
+    ImageLeft = 12
+    ImageTop = 4
+    Caption = 'Auswahlmenü'
+    Font.Color = 1029368
+    Font.Height = 32
+    CaptionAlignment = taLeftJustify
+    CaptionLayout = tlTop
+    CaptionHorMargin = 80
+    CaptionVerMargin = 7
+    StrPolygon = (
+      '50'
+      '2'
+      '98'
+      '98'
+      '2'
+      '98'
+      '50'
+      '2'
+    )
+    object MultiButton13: TMultiButton
+      Left = 8
+      Height = 50
+      Top = 48
+      Width = 390
+      MessageButton.ImageLeft = 0
+      MessageButton.ImageTop = 0
+      Caption = 'Auswahl 1'
+      TabOrder = 0
+    end
+    object MultiButton14: TMultiButton
+      Left = 8
+      Height = 50
+      Top = 104
+      Width = 390
+      MessageButton.ImageLeft = 0
+      MessageButton.ImageTop = 0
+      Caption = 'Auswahl 2'
+      TabOrder = 1
+    end
+  end
   object MultiPanel6: TMultiPanel
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 1163
+    Left = 1188
     Height = 200
-    Top = 304
-    Width = 50
+    Top = 288
+    Width = 25
     DropDownMenu.Active = True
+    DropDownMenu.Compressed.Width = 25
     DropDownMenu.Compressed.Height = 200
-    DropDownMenu.Stretched.Width = 200
+    DropDownMenu.Stretched.Width = 300
     DropDownMenu.Stretched.Height = 200
-    DropDownMenu.Direction = RightTop_LeftBottom
-    DrawACustomPanel.CSVWidth = 100
-    DrawACustomPanel.CSVHeight = 100
-    Anchors = []
+    DropDownMenu.Speed = 2
+    DropDownMenu.Step = 8
+    Anchors = [akRight]
     StrPolygon = (
       '50'
       '2'
@@ -608,17 +653,17 @@ object Form1: TForm1
     object ComboBox1: TComboBox
       Left = 56
       Height = 27
-      Top = 8
-      Width = 132
+      Top = 9
+      Width = 228
       ItemHeight = 0
       Items.Strings = (
-        'Item 1'
-        'Item 2'
-        'Item 3'
-        'Item 4'
+        'Auswahl 1'
+        'Auswahl 2'
+        'Auswahl 3'
+        'Auswahl 3'
       )
       TabOrder = 0
-      Text = 'ComboBox1'
+      Text = 'Bitte wählen'
     end
   end
   object MultiButtonStyleManager1: TMultiButtonStyleManager
@@ -639,12 +684,12 @@ object Form1: TForm1
     FocusColor = clWhite
     CaptionAlignment = taLeftJustify
     CaptionHorMargin = 55
-    Left = 656
-    Top = 376
+    Left = 160
+    Top = 544
   end
   object ImageList1: TImageList
-    Left = 528
-    Top = 376
+    Left = 40
+    Top = 544
     Bitmap = {
       4C7A0E00000010000000100000002F1500000000000078DAED5A075814C9B6EE
       61C8200A283908028A3264158C8098F3121491604471151116975D1398401411
@@ -1482,7 +1527,7 @@ object Form1: TForm1
     Font.Height = -24
     Font.Name = 'Sans'
     FocusColor = clWhite
-    Left = 656
-    Top = 448
+    Left = 160
+    Top = 616
   end
 end

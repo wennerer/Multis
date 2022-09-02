@@ -115,6 +115,7 @@ begin
   FActive:=AValue;
 
   (FOwner as TMultiPanel).SetDropDownMenu(self,aValue);
+
 end;
 
 procedure TStre.SetWidth(AValue: integer);
