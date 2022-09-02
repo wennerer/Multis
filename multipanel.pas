@@ -79,8 +79,9 @@ type
 
   public
     FPolygon : array of TPoint;
-  published
     property StrPolygon : TStrings read FStrPolygon write FStrPolygon;
+  published
+
     property CSVWidth : integer read FWidth write FWidth default 100;
     property CSVHeight : integer read FHeight write FHeight default 100;
   end;
@@ -759,8 +760,7 @@ begin
 end;
 
 procedure TMultiPanel.ParentInputHandler(Sender: TObject; Msg: Cardinal);
-var (*x,y,h : integer;*)
-    HotspotCompressed : TRect;
+var HotspotCompressed : TRect;
     HotspotStretched  : TRect;
     P                 : TPoint;
 begin
@@ -768,15 +768,10 @@ begin
 
  if not (csDesigning in ComponentState) then
   begin
-   (*x := Mouse.CursorPos.X - parent.Left - left;
-   h := GetSystemMetrics(SM_CYCAPTION);//high of the menu
-   y := Mouse.CursorPos.Y - parent.Top - h - top;*)
-
    P := ScreenToControl(Point(Mouse.CursorPos.X,Mouse.CursorPos.Y));
 
    HotspotCompressed := Rect(0,0,FDDMenu.FCompressed.FWidth,FDDMenu.FCompressed.FHeight);
    HotspotStretched  := Rect(0,0,FDDMenu.FStretched.FWidth,FDDMenu.FStretched.FHeight);
-   //P := Point(x,y);
 
    if FDDMenu.FTrigger = trClick then
     begin
@@ -1642,22 +1637,24 @@ procedure TMultiPanel.DefineProperties(Filer: TFiler);
 begin
   inherited DefineProperties(Filer);
   Filer.DefineProperty('StrPolygon',@ReadPoints,@WritePoints,true);
+
 end;
 
 procedure TMultiPanel.ReadPoints(Reader: TReader);
 var lv,i : integer;
+
 begin
- //FCustomValues.FStrPolygon := TStringList.Create;
- //try
+
   with Reader do begin
    ReadListBegin;
     while not EndOfList do
       FCustomValues.FStrPolygon.Add(ReadString);
    ReadListEnd;
  end;
-  setlength(FCustomValues.FPolygon,FCustomValues.FStrPolygon.Count div 2);
+ setlength(FCustomValues.FPolygon,FCustomValues.FStrPolygon.Count div 2);
+
   i :=0;
- for lv :=0 to (FCustomValues.FStrPolygon.Count div 2)-1 do
+  for lv :=0 to (FCustomValues.FStrPolygon.Count div 2)-1 do
   begin
    FCustomValues.FPolygon[lv].X:=  strtoint(FCustomValues.FStrPolygon[i]);
    inc(i);
@@ -1666,9 +1663,7 @@ begin
   end;
  SetCustomValues(FCustomValues);
 
- //finally
-  //FCustomValues.FStrPolygon.Free;
- //end;
+
 
 end;
 
