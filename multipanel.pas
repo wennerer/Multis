@@ -390,6 +390,7 @@ type
     procedure RightTopToLeftBottom;
     procedure LeftBottomToRightTop;
     procedure RightBottomToLeftTop;
+    procedure ANewBackground;
     procedure ImagesChanged({%H-}Sender: TObject);
     procedure FontPropertyChanged({%H-}Sender:TObject);
     procedure SetTextStyle(AValue: TTextStyle);
@@ -417,6 +418,7 @@ type
   public
    FMultiBkgrdBmp         : TBitmap;
    FParentBmp             : TBitmap;
+   FParentStretchedBmp    : TBitmap;
    procedure ParentInputHandler({%H-}Sender: TObject; Msg: Cardinal);
    procedure Notification(AComponent: TComponent;Operation: TOperation); override;
    constructor Create(AOwner: TComponent); override;
@@ -439,7 +441,7 @@ type
    //Speed for Appear bzw. Disappear
    //Geschwindigkeit für Appear bzw. Disappear
    property AnimationSpeed : double read FAnimationSpeed write SetAnimationSpeed;
-
+   //only active at runtime!
    property ParentAsBkgrd : boolean read FParentAsBkgrd write SetParentAsBkgrd;
 
   published
@@ -663,6 +665,7 @@ begin
   FAppear                             := false;
   FPanelBmp                           := TBitmap.Create;
   FParentBmp                          := TBitmap.Create;
+  FParentStretchedBmp                 := TBitmap.Create;
   FAnimationTimer                     := TTimer.Create(self);
   FAnimationTimer.Enabled             := false;
   FAnimationTimer.Interval            := 20;
@@ -670,7 +673,7 @@ begin
   FAnimationTimer.OnTimer             := @AnimationOnTimer;
   FIsVisible                          := true;
   FParentBmpTimer                     := TTimer.Create(self);
-  FParentBmpTimer.Interval            := 1;
+  FParentBmpTimer.Interval            := 3;
   FParentBmpTimer.OnTimer             := @CheckParentIsVisible;
   FParentBmpTimer.Enabled             := false;
   FParentAsBkgrd                      := true;
@@ -699,6 +702,7 @@ begin
   FListVisibleKinds.Free;
   FPanelBmp.Free;
   FParentBmp.Free;
+  FParentStretchedBmp.Free;
   FParentBmpTimer.Free;
   FAnimationTimer.Free;
   FTimer.Free;
@@ -752,11 +756,17 @@ begin
  if Assigned(OnClick) then OnClick(self);
 end;
 
-procedure TMultiPanel.CopyParentCanvas;
+procedure TMultiPanel.CopyParentCanvas; //for drawing the background
 begin
  FParentBmp.SetSize(width,height);
  FParentBmp.Canvas.CopyRect(rect(0,0,width,height),(Parent as TCustomControl).Canvas,
                             rect(left,top,left+width,top+height));
+
+ //this copys the parent canvas in a bitmap,is required if the size is subsequently changed
+ FParentStretchedBmp.SetSize(parent.Width,parent.Height);
+ FParentStretchedBmp.Canvas.CopyRect(rect(0,0,parent.Width,parent.Height),(Parent as TCustomControl).Canvas,
+                                     rect(0,0,parent.Width,parent.Height));
+
 end;
 
 procedure TMultiPanel.ParentInputHandler(Sender: TObject; Msg: Cardinal);
@@ -1046,6 +1056,7 @@ begin
        FTimer.Enabled:= false;
        if Assigned(OnStreched) then OnStreched(self);
       end;
+     ANewBackground;
     end;
   //that pulls together
  if FDDMenu.FCompressed.Active then
@@ -1081,6 +1092,7 @@ begin
        FTimer.Enabled:= false;
        if Assigned(OnStreched) then OnStreched(self);
       end;
+     ANewBackground;
     end;
   //that pulls together
  if FDDMenu.FCompressed.Active then
@@ -1119,6 +1131,7 @@ begin
        FTimer.Enabled:= false;
        if Assigned(OnStreched) then OnStreched(self);
       end;
+     ANewBackground;
     end;
   //that pulls together
  if FDDMenu.FCompressed.Active then
@@ -1136,6 +1149,7 @@ begin
        FTimer.Enabled:= false;
        if Assigned(OnCompressed) then OnCompressed(self);
       end;
+     ANewBackground;
     end;
 end;
 
@@ -1162,6 +1176,7 @@ begin
        FTimer.Enabled:= false;
        if Assigned(OnStreched) then OnStreched(self);
       end;
+     ANewBackground;
     end;
   //that pulls together
  if FDDMenu.FCompressed.Active then
@@ -1183,8 +1198,18 @@ begin
        FTimer.Enabled:= false;
        if Assigned(OnCompressed) then OnCompressed(self);
       end;
+     ANewBackground;
     end;
 end;
+
+procedure TMultiPanel.ANewBackground;
+begin
+ FParentBmp.SetSize(width,height);
+ FParentBmp.Canvas.CopyRect(rect(0,0,width,height),FParentStretchedBmp.Canvas,
+                            rect(left,top,left+width,top+height));
+
+end;
+
 //VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
 
 procedure TMultiPanel.SetColorEnd(AValue: TColor);
@@ -1609,6 +1634,7 @@ begin
 
  if (CurControl as TForm).Active then
   begin
+   //(CurControl as TForm).Repaint;
    FParentBmpTimer.Enabled:=false;
    FFormIsActive := true;
    if not FParentAsBkgrd then
@@ -1617,7 +1643,9 @@ begin
      FParentBmp.Canvas.Brush.Color:= GetColorResolvingParent;
      FParentBmp.Canvas.FillRect(0,0,width,height);
     end
-   else CopyParentCanvas;
+   else
+    CopyParentCanvas;
+
    if Parent is TMultiPanel then
     begin
      FParentBmp.SetSize(width,height);
