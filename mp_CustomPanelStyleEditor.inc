@@ -1,6 +1,6 @@
 (*This is a part of the TMultiPanel*)
 
-{%MultiPanel ,this is a part of MultiPanel last change 24.01.2022}
+{%MultiPanel ,this is a part of MultiPanel last change 01.09.2022}
 
 
 //PropertyEditor

@@ -21,7 +21,7 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="16"/>
+        <TopLine Value="18"/>
         <CursorPos X="3" Y="42"/>
         <UsageCount Value="210"/>
         <Loaded Value="True"/>
@@ -31,9 +31,12 @@
         <Filename Value="../../multipanel.pas"/>
         <UnitName Value="MultiPanel"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="104"/>
-        <CursorPos X="44" Y="110"/>
+        <TopLine Value="1269"/>
+        <CursorPos X="31" Y="1248"/>
         <UsageCount Value="106"/>
+        <Bookmarks Count="1">
+          <Item0 X="22" Y="1251"/>
+        </Bookmarks>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -42,15 +45,12 @@
         <TopLine Value="213"/>
         <CursorPos Y="212"/>
         <UsageCount Value="106"/>
-        <Bookmarks Count="1">
-          <Item0 X="10" Y="196"/>
-        </Bookmarks>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="unit1.lfm"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="106"/>
+        <UsageCount Value="105"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit>
       <Unit>
@@ -58,7 +58,7 @@
         <EditorIndex Value="3"/>
         <TopLine Value="72"/>
         <CursorPos X="44" Y="99"/>
-        <UsageCount Value="77"/>
+        <UsageCount Value="80"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -66,7 +66,7 @@
         <UnitName Value="Multis"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="20" Y="12"/>
-        <UsageCount Value="34"/>
+        <UsageCount Value="33"/>
       </Unit>
       <Unit>
         <Filename Value="../../multibuttonstylemanager.pas"/>
@@ -74,7 +74,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="395"/>
         <CursorPos X="59" Y="406"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">

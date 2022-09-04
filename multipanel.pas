@@ -203,6 +203,7 @@ type
  TDDMenu = class(TPersistent)
   private
     FActive        : boolean;
+    FActiveChanged : boolean;
     FCompressed    : TComp;
     FDirection     : TDirection;
     FOwner         : TCustomPanel;
@@ -976,242 +977,6 @@ begin
 
 end;
 
-//VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV---Set Size At Designtime---VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-
-procedure TMultiPanel.SetSizeDropDownMenu(Sender: TPersistent);  //only at design time
-begin
-  if not FDDMenu.FActive then exit;
-  if not (csDesigning in ComponentState) then exit;
-
-  if (Sender is TDDMenu) then  //is required when dropdownmenu.active is set
-   begin
-    if FDDMenu.FCompressed.FActive then Sender := FDDMenu.FCompressed;
-    if FDDMenu.FStretched.FActive  then Sender := FDDMenu.FStretched;
-   end;
-
- //set size with OI
-  if (Sender is TStre) or (Sender is TComp) then
-  begin
-   FChangeable := false;
-   //CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-   if FDDMenu.FCompressed.FActive then
-    begin
-     width := FDDMenu.FCompressed.FWidth;
-     height:= FDDMenu.FCompressed.FHeight;
-     if FDDMenu.FDirection = RightTop_LeftBottom then left := FDDMenu.FCompressed.FLeft;
-     if FDDMenu.FDirection = LeftBottom_RightTop then top  := FDDMenu.FCompressed.FTop;
-     if FDDMenu.FDirection = RightBottom_LeftTop then
-      begin
-       FChangeable := false;
-       left := FDDMenu.FCompressed.FLeft;
-       FChangeable := false;
-       top  := FDDMenu.FCompressed.FTop;
-      end;
-   end;//if compressed active
-   //SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
-  if FDDMenu.FStretched.FActive then
-   begin
-    width := FDDMenu.FStretched.FWidth;
-    height:= FDDMenu.FStretched.FHeight;
-
-    if FDDMenu.FDirection = RightTop_LeftBottom then
-     left := (FDDMenu.FCompressed.FLeft+FDDMenu.FCompressed.FWidth)-FDDMenu.FStretched.FWidth;
-    if FDDMenu.FDirection = LeftBottom_RightTop then
-     top := (FDDMenu.FCompressed.FTop+FDDMenu.FCompressed.FHeight)-FDDMenu.FStretched.FHeight;
-    if FDDMenu.FDirection = RightBottom_LeftTop then
-     begin
-      left := (FDDMenu.FCompressed.FLeft+FDDMenu.FCompressed.FWidth)-FDDMenu.FStretched.FWidth;
-      FChangeable:= false;
-      top := (FDDMenu.FCompressed.FTop+FDDMenu.FCompressed.FHeight)-FDDMenu.FStretched.FHeight;
-     end;
-
-   end; //if streched active
-   exit;
-  end;
-
-end;
-
-
-//VVVVVVVVVVVVVVVVVVVVVVVVVVV---Set Size At Runtime---VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-procedure TMultiPanel.MultiPanelOnTimer(Sender: TObject);
-begin
- if FDDMenu.FDirection = LeftTop_RightBottom then LeftTopToRightBottom;
- if FDDMenu.FDirection = RightTop_LeftBottom then RightTopToLeftBottom;
- if FDDMenu.FDirection = LeftBottom_RightTop then LeftBottomToRightTop;
- if FDDMenu.FDirection = RightBottom_LeftTop then RightBottomToLeftTop;
-
-end;
-
-procedure TMultiPanel.LeftTopToRightBottom;
-begin
-  //that stretches
- if FDDMenu.FStretched.Active then
-    begin
-     if width < FDDMenu.FStretched.FWidth then width := width +FDDMenu.FStep;
-     if Height < FDDMenu.FStretched.FHeight then Height := Height + FDDMenu.FStep;
-     if (width >= FDDMenu.FStretched.FWidth) and (Height >=FDDMenu.FStretched.FHeight) then
-      begin
-       width := FDDMenu.FStretched.FWidth;
-       height:= FDDMenu.FStretched.FHeight;
-       FTimer.Enabled:= false;
-       if Assigned(OnStreched) then OnStreched(self);
-      end;
-     ANewBackground;
-    end;
-  //that pulls together
- if FDDMenu.FCompressed.Active then
-    begin
-     if width > FDDMenu.FCompressed.FWidth then width := width - FDDMenu.FStep;
-     if Height > FDDMenu.FCompressed.FHeight then Height := Height - FDDMenu.FStep;
-     if (width <= FDDMenu.FCompressed.FWidth) and (Height <=FDDMenu.FCompressed.FHeight) then
-      begin
-       width := FDDMenu.FCompressed.FWidth;
-       height:= FDDMenu.FCompressed.FHeight;
-       FTimer.Enabled:= false;
-       if Assigned(OnCompressed) then OnCompressed(self);
-      end;
-    end;
-
-end;
-
-procedure TMultiPanel.RightTopToLeftBottom;
-begin
-  //that stretches
- if FDDMenu.FStretched.FActive then
-    begin
-     if Height < FDDMenu.FStretched.FHeight then Height := Height + FDDMenu.FStep;
-     if width < FDDMenu.FStretched.FWidth then
-      begin
-       width := width + FDDMenu.FStep;
-       Left  := Left - FDDMenu.FStep;
-      end;
-     if (width >= FDDMenu.FStretched.FWidth) and (Height >=FDDMenu.FStretched.FHeight) then
-      begin
-       width := FDDMenu.FStretched.FWidth;
-       height:= FDDMenu.FStretched.FHeight;
-       FTimer.Enabled:= false;
-       if Assigned(OnStreched) then OnStreched(self);
-      end;
-     ANewBackground;
-    end;
-  //that pulls together
- if FDDMenu.FCompressed.Active then
-    begin
-     if Height > FDDMenu.FCompressed.FHeight then Height := Height - FDDMenu.FStep;
-     if width > FDDMenu.FCompressed.FWidth then
-      begin
-       width := width - FDDMenu.FStep;
-       Left  := Left + FDDMenu.FStep;
-      end;
-     if (width <= FDDMenu.FCompressed.FWidth) and (Height <=FDDMenu.FCompressed.FHeight) then
-      begin
-       width := FDDMenu.FCompressed.FWidth;
-       height:= FDDMenu.FCompressed.FHeight;
-       FTimer.Enabled:= false;
-       if Assigned(OnCompressed) then OnCompressed(self);
-      end;
-    end;
-end;
-
-
-procedure TMultiPanel.LeftBottomToRightTop;
-begin
- if FDDMenu.FStretched.Active then
-    begin
-     if width < FDDMenu.FStretched.FWidth then width := width +FDDMenu.FStep;
-     if Height < FDDMenu.FStretched.FHeight then
-      begin
-       Height := Height + FDDMenu.FStep;
-       Top    := Top - FDDMenu.FStep;
-      end;
-     if (width >= FDDMenu.FStretched.FWidth) and (Height >=FDDMenu.FStretched.FHeight) then
-      begin
-       width := FDDMenu.FStretched.FWidth;
-       height:= FDDMenu.FStretched.FHeight;
-       FTimer.Enabled:= false;
-       if Assigned(OnStreched) then OnStreched(self);
-      end;
-     ANewBackground;
-    end;
-  //that pulls together
- if FDDMenu.FCompressed.Active then
-    begin
-     if width > FDDMenu.FCompressed.FWidth then width := width - FDDMenu.FStep;
-     if Height > FDDMenu.FCompressed.FHeight then
-      begin
-       Height := Height - FDDMenu.FStep;
-       Top    := Top + FDDMenu.FStep;
-      end;
-     if (width <= FDDMenu.FCompressed.FWidth) and (Height <=FDDMenu.FCompressed.FHeight) then
-      begin
-       width := FDDMenu.FCompressed.FWidth;
-       height:= FDDMenu.FCompressed.FHeight;
-       FTimer.Enabled:= false;
-       if Assigned(OnCompressed) then OnCompressed(self);
-      end;
-     ANewBackground;
-    end;
-end;
-
-
-procedure TMultiPanel.RightBottomToLeftTop;
-begin
-  //that stretches
- if FDDMenu.FStretched.FActive then
-    begin
-     if Height < FDDMenu.FStretched.FHeight then
-      begin
-       Height := Height + FDDMenu.FStep;
-       Top    := Top - FDDMenu.FStep;
-      end;
-     if width < FDDMenu.FStretched.FWidth then
-      begin
-       width := width + FDDMenu.FStep;
-       Left  := Left - FDDMenu.FStep;
-      end;
-     if (width >= FDDMenu.FStretched.FWidth) and (Height >=FDDMenu.FStretched.FHeight) then
-      begin
-       width := FDDMenu.FStretched.FWidth;
-       height:= FDDMenu.FStretched.FHeight;
-       FTimer.Enabled:= false;
-       if Assigned(OnStreched) then OnStreched(self);
-      end;
-     ANewBackground;
-    end;
-  //that pulls together
- if FDDMenu.FCompressed.Active then
-    begin
-     if Height > FDDMenu.FCompressed.FHeight then
-      begin
-       Height := Height - FDDMenu.FStep;
-       Top    := Top + FDDMenu.FStep;
-      end;
-     if width > FDDMenu.FCompressed.FWidth then
-      begin
-       width := width - FDDMenu.FStep;
-       Left  := Left + FDDMenu.FStep;
-      end;
-     if (width <= FDDMenu.FCompressed.FWidth) and (Height <=FDDMenu.FCompressed.FHeight) then
-      begin
-       width := FDDMenu.FCompressed.FWidth;
-       height:= FDDMenu.FCompressed.FHeight;
-       FTimer.Enabled:= false;
-       if Assigned(OnCompressed) then OnCompressed(self);
-      end;
-     ANewBackground;
-    end;
-end;
-
-procedure TMultiPanel.ANewBackground;
-begin
- FParentBmp.SetSize(width,height);
- FParentBmp.Canvas.CopyRect(rect(0,0,width,height),FParentStretchedBmp.Canvas,
-                            rect(left,top,left+width,top+height));
-
-end;
-
-//VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-
 procedure TMultiPanel.SetColorEnd(AValue: TColor);
 begin
   if FColorEnd=AValue then Exit;
@@ -1471,8 +1236,8 @@ end;
 procedure TMultiPanel.SetCustomValues(AValue: TCustomStyleValues);
 begin
   //if FCustomValues=AValue then Exit; //This has to go, otherwise there will be problems with streaming!
-  Canvas.Pen.Color:= clDefault;  //This must be set, otherwise there will be problems with streaming!
-  Canvas.Pen.Width:= 1;          //This must be set, otherwise there will be problems with streaming!
+  //Canvas.Pen.Color:= clDefault;  //This must be set, otherwise there will be problems with streaming!
+  //Canvas.Pen.Width:= 1;          //This must be set, otherwise there will be problems with streaming!
 
   FCustomValues.FPolygon   := AValue.FPolygon;
   FCustomValues.FWidth     := AValue.FWidth;
@@ -1482,6 +1247,254 @@ begin
 
   invalidate;
 end;
+
+
+//VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV---Set Size At Designtime---VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+
+procedure TMultiPanel.SetSizeDropDownMenu(Sender: TPersistent);  //only at design time
+begin
+  if not FDDMenu.FActive then exit;
+  if not (csDesigning in ComponentState) then exit;
+
+  if (Sender is TDDMenu) then  //is required when dropdownmenu.active is set
+   begin
+    if FDDMenu.FCompressed.FActive then Sender := FDDMenu.FCompressed;
+    if FDDMenu.FStretched.FActive  then Sender := FDDMenu.FStretched;
+   end;
+
+ //set size with OI
+  if (Sender is TStre) or (Sender is TComp) then
+  begin
+   FChangeable := false;
+
+   if FDDMenu.FActiveChanged then
+    begin
+     FDDMenu.FCompressed.FLeft  := left;
+     FDDMenu.FCompressed.FTop   := Top;
+     FDDMenu.FStretched.FLeft   := Left;
+     FDDMenu.FStretched.FTop    := Top;
+     FDDMenu.FActiveChanged:= false;
+    end;
+   //CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+   if FDDMenu.FCompressed.FActive then
+    begin
+     width := FDDMenu.FCompressed.FWidth;
+     height:= FDDMenu.FCompressed.FHeight;
+     if FDDMenu.FDirection = RightTop_LeftBottom then left := FDDMenu.FCompressed.FLeft;
+     if FDDMenu.FDirection = LeftBottom_RightTop then top  := FDDMenu.FCompressed.FTop;
+     if FDDMenu.FDirection = RightBottom_LeftTop then
+      begin
+       FChangeable := false;
+       left := FDDMenu.FCompressed.FLeft;
+       FChangeable := false;
+       top  := FDDMenu.FCompressed.FTop;
+      end;
+   end;//if compressed active
+   //SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+  if FDDMenu.FStretched.FActive then
+   begin
+    width := FDDMenu.FStretched.FWidth;
+    height:= FDDMenu.FStretched.FHeight;
+
+    if FDDMenu.FDirection = RightTop_LeftBottom then
+     left := (FDDMenu.FCompressed.FLeft+FDDMenu.FCompressed.FWidth)-FDDMenu.FStretched.FWidth;
+    if FDDMenu.FDirection = LeftBottom_RightTop then
+     top := (FDDMenu.FCompressed.FTop+FDDMenu.FCompressed.FHeight)-FDDMenu.FStretched.FHeight;
+    if FDDMenu.FDirection = RightBottom_LeftTop then
+     begin
+      left := (FDDMenu.FCompressed.FLeft+FDDMenu.FCompressed.FWidth)-FDDMenu.FStretched.FWidth;
+      FChangeable:= false;
+      top := (FDDMenu.FCompressed.FTop+FDDMenu.FCompressed.FHeight)-FDDMenu.FStretched.FHeight;
+     end;
+   end; //if streched active
+   exit;
+
+  end;
+
+end;
+
+
+//VVVVVVVVVVVVVVVVVVVVVVVVVVV---Set Size At Runtime---VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+procedure TMultiPanel.MultiPanelOnTimer(Sender: TObject);
+begin
+ if FDDMenu.FDirection = LeftTop_RightBottom then LeftTopToRightBottom;
+ if FDDMenu.FDirection = RightTop_LeftBottom then RightTopToLeftBottom;
+ if FDDMenu.FDirection = LeftBottom_RightTop then LeftBottomToRightTop;
+ if FDDMenu.FDirection = RightBottom_LeftTop then RightBottomToLeftTop;
+
+end;
+
+procedure TMultiPanel.LeftTopToRightBottom;
+begin
+  //that stretches
+ if FDDMenu.FStretched.Active then
+    begin
+     if width < FDDMenu.FStretched.FWidth then width := width +FDDMenu.FStep;
+     if Height < FDDMenu.FStretched.FHeight then Height := Height + FDDMenu.FStep;
+     if (width >= FDDMenu.FStretched.FWidth) and (Height >=FDDMenu.FStretched.FHeight) then
+      begin
+       width := FDDMenu.FStretched.FWidth;
+       height:= FDDMenu.FStretched.FHeight;
+       FTimer.Enabled:= false;
+       if Assigned(OnStreched) then OnStreched(self);
+      end;
+     ANewBackground;
+    end;
+  //that pulls together
+ if FDDMenu.FCompressed.Active then
+    begin
+     if width > FDDMenu.FCompressed.FWidth then width := width - FDDMenu.FStep;
+     if Height > FDDMenu.FCompressed.FHeight then Height := Height - FDDMenu.FStep;
+     if (width <= FDDMenu.FCompressed.FWidth) and (Height <=FDDMenu.FCompressed.FHeight) then
+      begin
+       width := FDDMenu.FCompressed.FWidth;
+       height:= FDDMenu.FCompressed.FHeight;
+       FTimer.Enabled:= false;
+       if Assigned(OnCompressed) then OnCompressed(self);
+      end;
+    end;
+
+end;
+
+procedure TMultiPanel.RightTopToLeftBottom;
+begin
+  //that stretches
+ if FDDMenu.FStretched.FActive then
+    begin
+     if Height < FDDMenu.FStretched.FHeight then Height := Height + FDDMenu.FStep;
+     if width < FDDMenu.FStretched.FWidth then
+      begin
+       width := width + FDDMenu.FStep;
+       Left  := Left - FDDMenu.FStep;
+      end;
+     if (width >= FDDMenu.FStretched.FWidth) and (Height >=FDDMenu.FStretched.FHeight) then
+      begin
+       width := FDDMenu.FStretched.FWidth;
+       height:= FDDMenu.FStretched.FHeight;
+       FTimer.Enabled:= false;
+       if Assigned(OnStreched) then OnStreched(self);
+      end;
+     ANewBackground;
+    end;
+  //that pulls together
+ if FDDMenu.FCompressed.Active then
+    begin
+     if Height > FDDMenu.FCompressed.FHeight then Height := Height - FDDMenu.FStep;
+     if width > FDDMenu.FCompressed.FWidth then
+      begin
+       width := width - FDDMenu.FStep;
+       Left  := Left + FDDMenu.FStep;
+      end;
+     if (width <= FDDMenu.FCompressed.FWidth) and (Height <=FDDMenu.FCompressed.FHeight) then
+      begin
+       width := FDDMenu.FCompressed.FWidth;
+       height:= FDDMenu.FCompressed.FHeight;
+       FTimer.Enabled:= false;
+       if Assigned(OnCompressed) then OnCompressed(self);
+      end;
+    end;
+end;
+
+
+procedure TMultiPanel.LeftBottomToRightTop;
+begin
+ if FDDMenu.FStretched.Active then
+    begin
+     if width < FDDMenu.FStretched.FWidth then width := width +FDDMenu.FStep;
+     if Height < FDDMenu.FStretched.FHeight then
+      begin
+       Height := Height + FDDMenu.FStep;
+       Top    := Top - FDDMenu.FStep;
+      end;
+     if (width >= FDDMenu.FStretched.FWidth) and (Height >=FDDMenu.FStretched.FHeight) then
+      begin
+       width := FDDMenu.FStretched.FWidth;
+       height:= FDDMenu.FStretched.FHeight;
+       FTimer.Enabled:= false;
+       if Assigned(OnStreched) then OnStreched(self);
+      end;
+     ANewBackground;
+    end;
+  //that pulls together
+ if FDDMenu.FCompressed.Active then
+    begin
+     if width > FDDMenu.FCompressed.FWidth then width := width - FDDMenu.FStep;
+     if Height > FDDMenu.FCompressed.FHeight then
+      begin
+       Height := Height - FDDMenu.FStep;
+       Top    := Top + FDDMenu.FStep;
+      end;
+     if (width <= FDDMenu.FCompressed.FWidth) and (Height <=FDDMenu.FCompressed.FHeight) then
+      begin
+       width := FDDMenu.FCompressed.FWidth;
+       height:= FDDMenu.FCompressed.FHeight;
+       FTimer.Enabled:= false;
+       if Assigned(OnCompressed) then OnCompressed(self);
+      end;
+     ANewBackground;
+    end;
+end;
+
+
+procedure TMultiPanel.RightBottomToLeftTop;
+begin
+  //that stretches
+ if FDDMenu.FStretched.FActive then
+    begin
+     if Height < FDDMenu.FStretched.FHeight then
+      begin
+       Height := Height + FDDMenu.FStep;
+       Top    := Top - FDDMenu.FStep;
+      end;
+     if width < FDDMenu.FStretched.FWidth then
+      begin
+       width := width + FDDMenu.FStep;
+       Left  := Left - FDDMenu.FStep;
+      end;
+     if (width >= FDDMenu.FStretched.FWidth) and (Height >=FDDMenu.FStretched.FHeight) then
+      begin
+       width := FDDMenu.FStretched.FWidth;
+       height:= FDDMenu.FStretched.FHeight;
+       FTimer.Enabled:= false;
+       if Assigned(OnStreched) then OnStreched(self);
+      end;
+     ANewBackground;
+    end;
+  //that pulls together
+ if FDDMenu.FCompressed.Active then
+    begin
+     if Height > FDDMenu.FCompressed.FHeight then
+      begin
+       Height := Height - FDDMenu.FStep;
+       Top    := Top + FDDMenu.FStep;
+      end;
+     if width > FDDMenu.FCompressed.FWidth then
+      begin
+       width := width - FDDMenu.FStep;
+       Left  := Left + FDDMenu.FStep;
+      end;
+     if (width <= FDDMenu.FCompressed.FWidth) and (Height <=FDDMenu.FCompressed.FHeight) then
+      begin
+       width := FDDMenu.FCompressed.FWidth;
+       height:= FDDMenu.FCompressed.FHeight;
+       FTimer.Enabled:= false;
+       if Assigned(OnCompressed) then OnCompressed(self);
+      end;
+     ANewBackground;
+    end;
+end;
+
+procedure TMultiPanel.ANewBackground;
+begin
+ FParentBmp.SetSize(width,height);
+ FParentBmp.Canvas.CopyRect(rect(0,0,width,height),FParentStretchedBmp.Canvas,
+                            rect(left,top,left+width,top+height));
+
+end;
+
+//VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+
+
 
 procedure TMultiPanel.CalcPolyInnerBorder(var InnerPoly : array of TPoint);
 var lv : integer;

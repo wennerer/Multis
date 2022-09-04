@@ -15,6 +15,7 @@ procedure TDDMenu.SetActive(AValue: boolean);
 begin
   if FActive=AValue then Exit;
   FActive:=AValue;
+  FActiveChanged := true;
   (FOwner as TMultiPanel).SetSizeDropDownMenu(self);
   if Assigned(FOwner) then FOwner.Invalidate;
 end;
