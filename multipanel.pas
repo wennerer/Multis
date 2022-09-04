@@ -933,7 +933,245 @@ begin
   end;
 end;
 
+
+
+
+procedure TMultiPanel.CalcPolyInnerBorder(var InnerPoly : array of TPoint);
+var lv : integer;
+    FX,FY : double;
+begin
+ FX := (Width - ((FBorder.FOuterWidth+FBorder.FBetween)*2))  / FCustomValues.FWidth;
+ FY := (Height - ((FBorder.FOuterWidth+FBorder.FBetween)*2)) / FCustomValues.FHeight;
+
+ for lv:= 0 to High(FCustomValues.FPolygon) do
+  begin
+   InnerPoly[lv].X := round(FCustomValues.FPolygon[lv].X * FX)+(FBorder.FOuterWidth+FBorder.FBetween);
+   InnerPoly[lv].Y := round(FCustomValues.FPolygon[lv].Y * FY)+(FBorder.FOuterWidth+FBorder.FBetween);
+  end;
+
+end;
+
+
+procedure TMultiPanel.DoAppear;
+var lv : integer;
+begin
+ if FAnimationTimer.Enabled then exit;
+
+ Canvas.Draw(0,0,FParentBmp);
+
+ //set all kindcontrolls to unvisible
+ for lv := 0 to pred(ControlCount) do
+  if Controls[lv] is TControl then (Controls[lv] as TControl).Visible:=false;
+
+ //canvas.Draw(0,0,FPanelBmp);
+ if not FAnimationTimer.Enabled then
+  begin
+   FAnimationFrac:=0;
+   FAnimationTimer.Enabled:=true;
+  end;
+end;
+
+procedure TMultiPanel.DoDisappear;
+var lv : integer;
+begin
+ if FAnimationTimer.Enabled then exit;
+
+ Canvas.Draw(0,0,FPanelBmp);
+
+ FListVisibleKinds.Clear;
+ //set all kindcontrolls to unvisible
+ for lv := 0 to pred(ControlCount) do
+  begin
+   if Controls[lv] is TControl then
+    if (Controls[lv] as TControl).Visible then FListVisibleKinds.Add((Controls[lv] as TControl).Name);
+   if Controls[lv] is TControl then (Controls[lv] as TControl).Visible:=false;
+  end;
+
+ //canvas.Draw(0,0,FPanelBmp);
+ if not FAnimationTimer.Enabled then
+  begin
+   FAnimationFrac:=0;
+   FAnimationTimer.Enabled:=true;
+  end;
+end;
+
+
+procedure TMultiPanel.AnimationOnTimer(Sender: TObject);
+var bmp1 :TBitmap;
+    lv,i : integer;
+  {$IFDEF WINDOWS}
+    l,t,r,b : integer;
+    tmpbmp  : TBitmap;
+  {$ENDIF}
+begin
+
+ bmp1 := TBitmap.Create;
+ bmp1.SetSize(FPanelBmp.Width,FPanelBmp.Height);
+
+ {$IFDEF WINDOWS}
+  if (FAnimationFrac > 0.2) and (FFirstAppear < 2) and (FAppear = true) then
+   begin
+    tmpbmp := TBitmap.Create;
+    tmpbmp.SetSize(FPanelBmp.Width,FPanelBmp.Height);
+    tmpbmp.Canvas.Draw(0,0,FPanelBmp);
+    if FFirstAppear < 2 then
+     begin
+      if FFirstAppear = 0 then
+       //for lv := 0 to pred(ControlCount) do
+        //if Controls[lv] is TControl then (Controls[lv] as TControl).Visible:=true;
+       for lv := 0 to pred(ControlCount) do
+        begin
+         for i := 0 to pred(FListVisibleKinds.Count) do
+          if (Controls[lv] as TControl).Name = FListVisibleKinds[i] then
+           if Controls[lv] is TControl then (Controls[lv] as TControl).Visible:=true;
+        end;
+
+      if FFirstAppear = 1 then
+       for lv := 0 to pred(ControlCount) do
+        if (Controls[lv] is TControl) and (Controls[lv] as TControl).Visible then
+         begin
+          l := (Controls[lv] as TControl).Left;
+          t := (Controls[lv] as TControl).Top;
+          r := l + (Controls[lv] as TControl).Width;
+          b := t + (Controls[lv] as TControl).Height;
+          tmpBmp.Canvas.CopyRect(rect(l,t,r,b),canvas,rect(l,t,r,b));
+          (Controls[lv] as TControl).Visible:=false;
+         end;//is TControl
+
+      inc(FFirstAppear);
+     end; //<2
+   FPanelBmp.Canvas.Draw(0,0,tmpbmp);
+   tmpbmp.Free;
+  end;//FFirstAppear
+  {$ENDIF}
+
+ if FAppear then Blend_Bmp(bmp1,FParentBmp,FPanelBmp,FAnimationFrac);
+ if FDisappear then Blend_Bmp(bmp1,FPanelBmp,FParentBmp,FAnimationFrac);
+ canvas.Draw(0,0,bmp1);
+
+ bmp1.Free;
+
+ FAnimationFrac := FAnimationFrac + FAnimationSpeed;
+ if (FAnimationFrac >=1) or (FAnimationFrac <=0) then
+  begin
+   for lv := 0 to pred(ControlCount) do
+    begin
+     for i := 0 to pred(FListVisibleKinds.Count) do
+      if (Controls[lv] as TControl).Name = FListVisibleKinds[i] then
+       if Controls[lv] is TControl then (Controls[lv] as TControl).Visible:=true;
+    end;
+
+
+   if FDisappear then visible := false;
+
+   FDisappear := false;
+   FAppear:=false;
+   FAnimationTimer.Enabled:=false;
+   invalidate;
+  end;
+end;
+
+procedure TMultiPanel.CheckParentIsVisible(Sender: TObject);
+var CurControl  : TControl;
+    i           : integer;
+    exitflag    : boolean;
+begin
+ i:=0; exitflag := false;
+ CurControl := Parent;
+ repeat
+  if CurControl is TForm then exitflag := true
+   else
+    CurControl := CurControl.Parent;      //back to the Form
+  inc(i);
+ until (i =100) or (exitflag = true);
+
+ if (CurControl as TForm).Active then
+  begin
+   //(CurControl as TForm).Repaint;
+   FParentBmpTimer.Enabled:=false;
+   FFormIsActive := true;
+   if not FParentAsBkgrd then
+    begin
+     FParentBmp.SetSize(width,height);
+     FParentBmp.Canvas.Brush.Color:= GetColorResolvingParent;
+     FParentBmp.Canvas.FillRect(0,0,width,height);
+    end
+   else
+    CopyParentCanvas;
+
+   if Parent is TMultiPanel then
+    begin
+     FParentBmp.SetSize(width,height);
+     FParentBmp.Canvas.CopyRect(rect(0,0,width,height),(Parent as TMultiPanel).FMultiBkgrdBmp.Canvas,
+                            rect(left,top,left+width,top+height));
+    end;
+   DrawThePanel;
+   if not FIsVisible then Visible := false else Visible:=true;
+   {$IFDEF WINDOWS}
+   if FIsVisible then FFirstAppear:=10;
+   {$ENDIF}
+  end;
+end;
+
+
+procedure TMultiPanel.DefineProperties(Filer: TFiler);
+begin
+  inherited DefineProperties(Filer);
+  Filer.DefineProperty('StrPolygon',@ReadPoints,@WritePoints,true);
+
+end;
+
+procedure TMultiPanel.ReadPoints(Reader: TReader);
+var lv,i : integer;
+
+begin
+
+  with Reader do begin
+   ReadListBegin;
+    while not EndOfList do
+      FCustomValues.FStrPolygon.Add(ReadString);
+   ReadListEnd;
+ end;
+ setlength(FCustomValues.FPolygon,FCustomValues.FStrPolygon.Count div 2);
+
+  i :=0;
+  for lv :=0 to (FCustomValues.FStrPolygon.Count div 2)-1 do
+  begin
+   FCustomValues.FPolygon[lv].X:=  strtoint(FCustomValues.FStrPolygon[i]);
+   inc(i);
+   FCustomValues.FPolygon[lv].Y:=  strtoint(FCustomValues.FStrPolygon[i]);
+   inc(i);
+  end;
+ SetCustomValues(FCustomValues);
+
+
+
+end;
+
+procedure TMultiPanel.WritePoints(Writer: TWriter);
+var lv : integer;
+begin
+ with Writer do begin
+  WriteListBegin;
+   for lv := 0 to High(FCustomValues.FPolygon) do
+    begin
+     WriteString(inttostr(FCustomValues.FPolygon[lv].x));
+     WriteString(inttostr(FCustomValues.FPolygon[lv].y));
+    end;
+  WriteListEnd;
+ end;
+end;
+
+procedure TMultiPanel.ANewBackground;
+begin
+ FParentBmp.SetSize(width,height);
+ FParentBmp.Canvas.CopyRect(rect(0,0,width,height),FParentStretchedBmp.Canvas,
+                            rect(left,top,left+width,top+height));
+
+end;
+
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx---Setter---XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
 procedure TMultiPanel.SetSizeWithDrag;
 begin
  if FDDMenu.FCompressed.FActive then
@@ -1398,6 +1636,7 @@ end;
 
 procedure TMultiPanel.LeftBottomToRightTop;
 begin
+ //that stretches
  if FDDMenu.FStretched.Active then
     begin
      if width < FDDMenu.FStretched.FWidth then width := width +FDDMenu.FStep;
@@ -1482,244 +1721,6 @@ begin
       end;
      ANewBackground;
     end;
-end;
-
-procedure TMultiPanel.ANewBackground;
-begin
- FParentBmp.SetSize(width,height);
- FParentBmp.Canvas.CopyRect(rect(0,0,width,height),FParentStretchedBmp.Canvas,
-                            rect(left,top,left+width,top+height));
-
-end;
-
-//VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-
-
-
-procedure TMultiPanel.CalcPolyInnerBorder(var InnerPoly : array of TPoint);
-var lv : integer;
-    FX,FY : double;
-begin
- FX := (Width - ((FBorder.FOuterWidth+FBorder.FBetween)*2))  / FCustomValues.FWidth;
- FY := (Height - ((FBorder.FOuterWidth+FBorder.FBetween)*2)) / FCustomValues.FHeight;
-
- for lv:= 0 to High(FCustomValues.FPolygon) do
-  begin
-   InnerPoly[lv].X := round(FCustomValues.FPolygon[lv].X * FX)+(FBorder.FOuterWidth+FBorder.FBetween);
-   InnerPoly[lv].Y := round(FCustomValues.FPolygon[lv].Y * FY)+(FBorder.FOuterWidth+FBorder.FBetween);
-  end;
-
-end;
-
-
-procedure TMultiPanel.DoAppear;
-var lv : integer;
-begin
- if FAnimationTimer.Enabled then exit;
-
- Canvas.Draw(0,0,FParentBmp);
-
- //set all kindcontrolls to unvisible
- for lv := 0 to pred(ControlCount) do
-  if Controls[lv] is TControl then (Controls[lv] as TControl).Visible:=false;
-
- //canvas.Draw(0,0,FPanelBmp);
- if not FAnimationTimer.Enabled then
-  begin
-   FAnimationFrac:=0;
-   FAnimationTimer.Enabled:=true;
-  end;
-end;
-
-procedure TMultiPanel.DoDisappear;
-var lv : integer;
-begin
- if FAnimationTimer.Enabled then exit;
-
- Canvas.Draw(0,0,FPanelBmp);
-
- FListVisibleKinds.Clear;
- //set all kindcontrolls to unvisible
- for lv := 0 to pred(ControlCount) do
-  begin
-   if Controls[lv] is TControl then
-    if (Controls[lv] as TControl).Visible then FListVisibleKinds.Add((Controls[lv] as TControl).Name);
-   if Controls[lv] is TControl then (Controls[lv] as TControl).Visible:=false;
-  end;
-
- //canvas.Draw(0,0,FPanelBmp);
- if not FAnimationTimer.Enabled then
-  begin
-   FAnimationFrac:=0;
-   FAnimationTimer.Enabled:=true;
-  end;
-end;
-
-
-procedure TMultiPanel.AnimationOnTimer(Sender: TObject);
-var bmp1 :TBitmap;
-    lv,i : integer;
-  {$IFDEF WINDOWS}
-    l,t,r,b : integer;
-    tmpbmp  : TBitmap;
-  {$ENDIF}
-begin
-
- bmp1 := TBitmap.Create;
- bmp1.SetSize(FPanelBmp.Width,FPanelBmp.Height);
-
- {$IFDEF WINDOWS}
-  if (FAnimationFrac > 0.2) and (FFirstAppear < 2) and (FAppear = true) then
-   begin
-    tmpbmp := TBitmap.Create;
-    tmpbmp.SetSize(FPanelBmp.Width,FPanelBmp.Height);
-    tmpbmp.Canvas.Draw(0,0,FPanelBmp);
-    if FFirstAppear < 2 then
-     begin
-      if FFirstAppear = 0 then
-       //for lv := 0 to pred(ControlCount) do
-        //if Controls[lv] is TControl then (Controls[lv] as TControl).Visible:=true;
-       for lv := 0 to pred(ControlCount) do
-        begin
-         for i := 0 to pred(FListVisibleKinds.Count) do
-          if (Controls[lv] as TControl).Name = FListVisibleKinds[i] then
-           if Controls[lv] is TControl then (Controls[lv] as TControl).Visible:=true;
-        end;
-
-      if FFirstAppear = 1 then
-       for lv := 0 to pred(ControlCount) do
-        if (Controls[lv] is TControl) and (Controls[lv] as TControl).Visible then
-         begin
-          l := (Controls[lv] as TControl).Left;
-          t := (Controls[lv] as TControl).Top;
-          r := l + (Controls[lv] as TControl).Width;
-          b := t + (Controls[lv] as TControl).Height;
-          tmpBmp.Canvas.CopyRect(rect(l,t,r,b),canvas,rect(l,t,r,b));
-          (Controls[lv] as TControl).Visible:=false;
-         end;//is TControl
-
-      inc(FFirstAppear);
-     end; //<2
-   FPanelBmp.Canvas.Draw(0,0,tmpbmp);
-   tmpbmp.Free;
-  end;//FFirstAppear
-  {$ENDIF}
-
- if FAppear then Blend_Bmp(bmp1,FParentBmp,FPanelBmp,FAnimationFrac);
- if FDisappear then Blend_Bmp(bmp1,FPanelBmp,FParentBmp,FAnimationFrac);
- canvas.Draw(0,0,bmp1);
-
- bmp1.Free;
-
- FAnimationFrac := FAnimationFrac + FAnimationSpeed;
- if (FAnimationFrac >=1) or (FAnimationFrac <=0) then
-  begin
-   for lv := 0 to pred(ControlCount) do
-    begin
-     for i := 0 to pred(FListVisibleKinds.Count) do
-      if (Controls[lv] as TControl).Name = FListVisibleKinds[i] then
-       if Controls[lv] is TControl then (Controls[lv] as TControl).Visible:=true;
-    end;
-
-
-   if FDisappear then visible := false;
-
-   FDisappear := false;
-   FAppear:=false;
-   FAnimationTimer.Enabled:=false;
-   invalidate;
-  end;
-end;
-
-procedure TMultiPanel.CheckParentIsVisible(Sender: TObject);
-var CurControl  : TControl;
-    i           : integer;
-    exitflag    : boolean;
-begin
- i:=0; exitflag := false;
- CurControl := Parent;
- repeat
-  if CurControl is TForm then exitflag := true
-   else
-    CurControl := CurControl.Parent;      //back to the Form
-  inc(i);
- until (i =100) or (exitflag = true);
-
- if (CurControl as TForm).Active then
-  begin
-   //(CurControl as TForm).Repaint;
-   FParentBmpTimer.Enabled:=false;
-   FFormIsActive := true;
-   if not FParentAsBkgrd then
-    begin
-     FParentBmp.SetSize(width,height);
-     FParentBmp.Canvas.Brush.Color:= GetColorResolvingParent;
-     FParentBmp.Canvas.FillRect(0,0,width,height);
-    end
-   else
-    CopyParentCanvas;
-
-   if Parent is TMultiPanel then
-    begin
-     FParentBmp.SetSize(width,height);
-     FParentBmp.Canvas.CopyRect(rect(0,0,width,height),(Parent as TMultiPanel).FMultiBkgrdBmp.Canvas,
-                            rect(left,top,left+width,top+height));
-    end;
-   DrawThePanel;
-   if not FIsVisible then Visible := false else Visible:=true;
-   {$IFDEF WINDOWS}
-   if FIsVisible then FFirstAppear:=10;
-   {$ENDIF}
-  end;
-end;
-
-
-procedure TMultiPanel.DefineProperties(Filer: TFiler);
-begin
-  inherited DefineProperties(Filer);
-  Filer.DefineProperty('StrPolygon',@ReadPoints,@WritePoints,true);
-
-end;
-
-procedure TMultiPanel.ReadPoints(Reader: TReader);
-var lv,i : integer;
-
-begin
-
-  with Reader do begin
-   ReadListBegin;
-    while not EndOfList do
-      FCustomValues.FStrPolygon.Add(ReadString);
-   ReadListEnd;
- end;
- setlength(FCustomValues.FPolygon,FCustomValues.FStrPolygon.Count div 2);
-
-  i :=0;
-  for lv :=0 to (FCustomValues.FStrPolygon.Count div 2)-1 do
-  begin
-   FCustomValues.FPolygon[lv].X:=  strtoint(FCustomValues.FStrPolygon[i]);
-   inc(i);
-   FCustomValues.FPolygon[lv].Y:=  strtoint(FCustomValues.FStrPolygon[i]);
-   inc(i);
-  end;
- SetCustomValues(FCustomValues);
-
-
-
-end;
-
-procedure TMultiPanel.WritePoints(Writer: TWriter);
-var lv : integer;
-begin
- with Writer do begin
-  WriteListBegin;
-   for lv := 0 to High(FCustomValues.FPolygon) do
-    begin
-     WriteString(inttostr(FCustomValues.FPolygon[lv].x));
-     WriteString(inttostr(FCustomValues.FPolygon[lv].y));
-    end;
-  WriteListEnd;
- end;
 end;
 
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx---drawing---XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
