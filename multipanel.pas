@@ -439,8 +439,8 @@ type
    //makes the panel disappear
    //läßt das Panel verschwinden
    property Disappear : boolean read FDisappear write SetDisappear;
-   //Speed for Appear bzw. Disappear
-   //Geschwindigkeit für Appear bzw. Disappear
+   //Speed for Appear bzw. Disappear (default 0,05)
+   //Geschwindigkeit für Appear bzw. Disappear (default 0,05)
    property AnimationSpeed : double read FAnimationSpeed write SetAnimationSpeed;
    //only active at runtime!
    property ParentAsBkgrd : boolean read FParentAsBkgrd write SetParentAsBkgrd;
@@ -900,6 +900,7 @@ begin
     FChangeable := true;
     exit;
    end;
+
   //this is only for designtime
   if FDDMenu.FCompressed.FActive and (FSwitch > 2) then //not FSwitch then
    begin
