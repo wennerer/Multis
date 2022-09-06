@@ -355,6 +355,7 @@ type
     FFormIsActive     : boolean;
     FListVisibleKinds : TStringlist;
 
+
     FX_PolyFac        : double;
     FY_PolyFac        : double;
     FPolygon          : array of TPoint;
@@ -839,6 +840,9 @@ end;
 
 procedure TMultiPanel.Loaded;
 var lv : integer;
+    i           : integer;
+    exitflag    : boolean;
+    CurControl       : TControl;
 begin
  inherited Loaded;
  if not FRunThroughPaint then DrawThePanel;
@@ -855,6 +859,18 @@ begin
   begin
    FIsVisible := false;
    visible:=true;//So that the bitmaps can be drawn
+
+   i:=0; exitflag := false;
+   CurControl := Parent;
+   repeat
+    if CurControl is TForm then exitflag := true
+    else
+     CurControl := CurControl.Parent;      //back to the Form
+    inc(i);
+   until (i =100) or (exitflag = true);
+
+   (CurControl as TForm).AlphaBlend:= true;
+   (CurControl as TForm).AlphaBlendValue:=0;
   end;
 
 end;
@@ -1085,7 +1101,7 @@ begin
     CurControl := CurControl.Parent;      //back to the Form
   inc(i);
  until (i =100) or (exitflag = true);
-
+ (CurControl as TForm).AlphaBlend:= false;
  if (CurControl as TForm).Active then
   begin
    //(CurControl as TForm).Repaint;
@@ -1901,6 +1917,7 @@ begin
     FPanelBmp.Canvas.CopyRect(Rect(0,0,width,height),Canvas,Rect(0,0,width,height));
     Visible := false;
     FParentBmpTimer.Enabled:= true; //jumps to CheckParentIsVisible
+
    end;
 
   FRunThroughPaint := true; //checks if paint was run

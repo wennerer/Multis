@@ -14,6 +14,8 @@ type
   { TForm1 }
 
   TForm1 = class(TForm)
+    Button1: TButton;
+    Button2: TButton;
     Image1: TImage;
     ImageList1: TImageList;
     MultiButton1: TMultiButton;
@@ -32,6 +34,7 @@ type
     MultiPanel4: TMultiPanel;
     MultiPanel5: TMultiPanel;
     MultiSeperator1: TMultiSeperator;
+    procedure Button2Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure MultiPanel2Compressed(Sender: TObject);
     procedure MultiPanel2MouseDown(Sender: TObject; Button: TMouseButton;
@@ -42,6 +45,7 @@ type
     procedure Rain;
   private
     aTimer : TTimer;
+    aMultiPanel : TMultiPanel;
   public
 
   end;
@@ -65,6 +69,13 @@ begin
  aTimer.Enabled  := true;
  MultiPanel1.AnimationSpeed := 0.005;
  MultiPanel5.ParentAsBkgrd:= false;
+end;
+
+procedure TForm1.Button2Click(Sender: TObject);
+begin
+ aMultiPanel := TMultiPanel.Create(self);
+ aMultiPanel.Parent := self;
+ aMultiPanel.SetBounds(50,60,50,60);
 end;
 
 procedure TForm1.MultiPanel2Compressed(Sender: TObject);

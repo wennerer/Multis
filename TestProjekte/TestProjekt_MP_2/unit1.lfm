@@ -406,6 +406,7 @@ object Form1: TForm1
     ImageTop = 18
     DrawACustomPanel.CSVWidth = 111
     DrawACustomPanel.CSVHeight = 109
+    Visible = False
     StrPolygon = (
       '7'
       '9'
@@ -2519,6 +2520,23 @@ object Form1: TForm1
       OnClick = ButtonsClick
       TabOrder = 0
     end
+    object Button1: TButton
+      Left = 67
+      Height = 25
+      Top = 41
+      Width = 75
+      Caption = 'Button1'
+      TabOrder = 1
+    end
+  end
+  object Button2: TButton
+    Left = 101
+    Height = 25
+    Top = 287
+    Width = 75
+    Caption = 'Button2'
+    OnClick = Button2Click
+    TabOrder = 4
   end
   object ImageList1: TImageList
     Left = 580

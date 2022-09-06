@@ -143,6 +143,7 @@ const gbHorizontal     = 0;
   end;
 
 begin
+ if aBmp.Width = 0 then exit; //this needs under windows
  aStart:=System_ToRGB(aStart);
  aStop:=System_ToRGB(aStop);
 
