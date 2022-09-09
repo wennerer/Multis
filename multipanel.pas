@@ -1099,8 +1099,8 @@ var CurControl  : TControl;
     exitflag    : boolean;
 begin
  FPanelBmpTimer.Enabled:= false;
- FPanelBmp.SetSize(width,height);
- FPanelBmp.Canvas.CopyRect(Rect(0,0,width,height),Canvas,Rect(0,0,width,height));
+ //FPanelBmp.SetSize(width,height);
+ //FPanelBmp.Canvas.CopyRect(Rect(0,0,width,height),Canvas,Rect(0,0,width,height));
 
  i:=0; exitflag := false;
  CurControl := Parent;
@@ -1891,6 +1891,8 @@ begin
 
   if not FRunThroughPaint  and not (csDesigning in Componentstate) then  //copys the canvas of the panel for appear/disappear
    begin
+    FPanelBmp.SetSize(width,height);
+    FPanelBmp.Canvas.CopyRect(Rect(0,0,width,height),Canvas,Rect(0,0,width,height));
     Visible := false;
     FParentBmpTimer.Enabled:= true; //jumps to CheckParentIsVisible
    end;
