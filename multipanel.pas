@@ -431,6 +431,7 @@ type
    procedure MouseMove({%H-}Shift: TShiftState; X, Y: Integer);override;
    procedure MouseDown({%H-}Button: TMouseButton;{%H-}Shift: TShiftState; X, Y: Integer);override;
    procedure MouseUp({%H-}Button: TMouseButton; {%H-}Shift: TShiftState; {%H-}X, {%H-}Y: Integer);override;
+   procedure LoadFromFile;
    procedure CopyParentCanvas;
    procedure Paint; override;
 
@@ -761,6 +762,11 @@ begin
  inherited MouseUp(Button, Shift, X, Y);
  if Assigned(OnMouseUp) then OnMouseUp(self,Button,Shift,x,y);
  if Assigned(OnClick) then OnClick(self);
+end;
+
+procedure TMultiPanel.LoadFromFile;
+begin
+
 end;
 
 procedure TMultiPanel.CopyParentCanvas; //for drawing the background
