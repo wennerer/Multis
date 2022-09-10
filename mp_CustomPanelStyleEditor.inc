@@ -187,6 +187,8 @@ var FStream: TFileStream;
     Dialog : TSaveDialog;
     AFilename : string;
 begin
+  VisitThePolygon;
+  CurtailThePolygon;
   Dialog  := TSaveDialog.Create(nil);
   try
    if Dialog.Execute then AFilename := Dialog.FileName;

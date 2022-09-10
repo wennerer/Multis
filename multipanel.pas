@@ -400,6 +400,7 @@ type
     procedure CheckParentIsVisible({%H-}Sender : TObject);
     procedure DrawPanelBmpFirst({%H-}Sender : TObject);
     procedure SetCustomValues(AValue: TCustomStyleValues);
+    procedure VisitThePolygon;
 
   protected
     procedure DefineProperties(Filer: TFiler); override;
@@ -431,7 +432,7 @@ type
    procedure MouseMove({%H-}Shift: TShiftState; X, Y: Integer);override;
    procedure MouseDown({%H-}Button: TMouseButton;{%H-}Shift: TShiftState; X, Y: Integer);override;
    procedure MouseUp({%H-}Button: TMouseButton; {%H-}Shift: TShiftState; {%H-}X, {%H-}Y: Integer);override;
-   procedure LoadFromFile;
+   procedure LoadFromFile(aFileName: string);
    procedure CopyParentCanvas;
    procedure Paint; override;
 
@@ -764,8 +765,25 @@ begin
  if Assigned(OnClick) then OnClick(self);
 end;
 
-procedure TMultiPanel.LoadFromFile;
+procedure TMultiPanel.LoadFromFile(aFileName : string);
+var FStream: TFileStream;
+    lv,i   : Integer;
+    ArrayData: TArrayData;
 begin
+  setLength(FCustomValues.FPolygon,0);
+  FStream := TFileStream.Create(AFilename, fmOpenRead);
+   try
+     FStream.Read(i, SizeOf(i));
+     setlength(ArrayData,i+1);
+     for lv := 0 to (High(ArrayData)) do
+       FStream.Read(ArrayData[lv], SizeOf(ArrayData[lv]));
+   finally
+     FStream.Free;
+   end;
+   FCustomValues.FPolygon := copy(ArrayData);
+   VisitThePolygon;
+
+  invalidate;
 
 end;
 
@@ -940,6 +958,32 @@ begin
   if FSwitch > 100 then FSwitch:=10;
 
 end;
+
+procedure TMultiPanel.VisitThePolygon;
+var lv, FX_Min, FX_Max,FY_Min, FY_Max : integer;
+begin
+ FX_Min := 10000;
+ FX_Max := 0;
+ FY_Min := 10000;
+ FY_Max := 0;
+
+ for lv:= 0 to High(FCustomValues.FPolygon) do
+  begin
+   if FCustomValues.FPolygon[lv].X < FX_Min then FX_Min := FCustomValues.FPolygon[lv].X;
+   if FCustomValues.FPolygon[lv].X > FX_Max then FX_Max := FCustomValues.FPolygon[lv].X;
+   if FCustomValues.FPolygon[lv].Y < FY_Min then FY_Min := FCustomValues.FPolygon[lv].Y;
+   if FCustomValues.FPolygon[lv].Y > FY_Max then FY_Max := FCustomValues.FPolygon[lv].Y;
+  end;//High
+ if FX_Min < 0 then FX_Min := 0;
+ if FY_Min < 0 then FY_Min := 0;
+
+ FCustomValues.FWidth := FX_Max - FX_Min;
+ FCustomValues.FHeight:= FY_Max - FY_Min;
+ PolyScalingFactor;
+end;
+
+
+
 
 procedure TMultiPanel.PolyScalingFactor;
 begin
