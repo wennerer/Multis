@@ -340,7 +340,6 @@ type
     FTextStyle        : TTextStyle;
     FTriggerNot       : boolean;
     FTimer            : TTimer;
-    FRunThroughPaint  : boolean;
     FImageListChangeLink: TChangeLink;
 
     FAppear           : boolean;
@@ -420,6 +419,7 @@ type
     procedure DoEnter; override;
 
   public
+   FRunThroughPaint       : boolean;
    FMultiBkgrdBmp         : TBitmap;
    FParentBmp             : TBitmap;
    FParentStretchedBmp    : TBitmap;
@@ -1145,13 +1145,14 @@ end;
 
 procedure TMultiPanel.DrawPanelBmpFirst(Sender: TObject);
 var CurControl  : TControl;
+    CurForm     : TForm;
+    comp        : TComponent;
     i           : integer;
     exitflag    : boolean;
+    showflag    : boolean;
 begin
  FPanelBmpTimer.Enabled:= false;
- //FPanelBmp.SetSize(width,height);
- //FPanelBmp.Canvas.CopyRect(Rect(0,0,width,height),Canvas,Rect(0,0,width,height));
-
+ showflag := true;
  i:=0; exitflag := false;
  CurControl := Parent;
  repeat
@@ -1160,6 +1161,15 @@ begin
     CurControl := CurControl.Parent;      //back to the Form
   inc(i);
  until (i =100) or (exitflag = true);
+ CurForm := (CurControl as TForm);
+ for comp in CurForm do
+        begin
+         if comp is TMultiPanel then
+          if not (comp as TMultiPanel).FRunThroughPaint then showflag := false;
+         end;
+
+ //Now the form will be shown when all MultiPanels are gone through
+ if showflag then
  (CurControl as TForm).AlphaBlend:= false;
  if not FIsVisible then Visible := false else Visible:=true;
 end;
