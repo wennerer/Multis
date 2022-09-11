@@ -1,6 +1,6 @@
 { <A button with an integrated button>
-  <Version 1.2.7.2>
-  Copyright (C) <10.09.2022> <Bernd Hübner>
+  <Version 1.2.7.3>
+  Copyright (C) <11.09.2022> <Bernd Hübner>
   Many thanks to the members of the German Lazarus Forum!
   wp_xyz helped me jump over many hurdles!
   For some improvements see https://www.lazarusforum.de/viewtopic.php?f=29&t=13252
@@ -253,8 +253,8 @@ type
      //Wird benötigt wenn der MessagButton erst zur Laufzeit sichtbar wird
      property CalculateAlthoughInvisible : boolean read FCalculateAlthoughInvisible
                                                    write SetCalculateAlthoughInvisible default false;
-     //Position factor, only active if alSE,alSW,alNW,alNE,alW,alE,alN,alS
-     //Positionsfaktor, nur aktive wenn alSE,alSW,alNW,alNE,alW,alE,alN,alS
+     //Position factor, only active if alSE,alSW,alNW,alNE,alW,alE,alN,alS,alRightIn,alLeftIn,alTopIn,alBottomIn
+     //Positionsfaktor, nur aktive wenn alSE,alSW,alNW,alNE,alW,alE,alN,alS,alRightIn,alLeftIn,alTopIn,alBottomIn
      property PositionFactor : integer read FPositionFactor write SetPositionFactor default 4;
 
 
@@ -2505,17 +2505,25 @@ begin
 
 
  if FMessageButton.FAlignment = alRightIn then
-  FMessageButton.Hotspot := rect(width-FMessageButton.FWidth-FFocusFrameWidth,(height div 2)-(FMessageButton.height div 2),
-                  Width-FFocusFrameWidth,(height div 2)+(FMessageButton.height div 2));
+  FMessageButton.Hotspot := rect(width-FMessageButton.FWidth-FFocusFrameWidth-FMessageButton.FPositionFactor,
+                                 (height div 2)-(FMessageButton.height div 2),
+                                 Width-FFocusFrameWidth-FMessageButton.FPositionFactor,
+                                 (height div 2)+(FMessageButton.height div 2));
  if FMessageButton.FAlignment = alLeftIn then
-  FMessageButton.Hotspot := rect(FFocusFrameWidth,(height div 2)-(FMessageButton.height div 2),
-                  FMessageButton.FWidth+FFocusFrameWidth,(height div 2)+(FMessageButton.height div 2));
+  FMessageButton.Hotspot := rect(FFocusFrameWidth+FMessageButton.FPositionFactor,
+                                 (height div 2)-(FMessageButton.height div 2),
+                                 FMessageButton.FWidth+FFocusFrameWidth+FMessageButton.FPositionFactor,
+                                 (height div 2)+(FMessageButton.height div 2));
  if FMessageButton.FAlignment = alTopIn then
-  FMessageButton.Hotspot := rect((width div 2)-(FMessageButton.width div 2),FFocusFrameWidth+1,
-                  (width div 2)+(FMessageButton.width div 2),FMessageButton.height+FFocusFrameWidth+1);
+  FMessageButton.Hotspot := rect((width div 2)-(FMessageButton.width div 2),
+                                 FFocusFrameWidth+FMessageButton.FPositionFactor,
+                                 (width div 2)+(FMessageButton.width div 2),
+                                 FMessageButton.height+FFocusFrameWidth+FMessageButton.FPositionFactor);
  if FMessageButton.FAlignment = alBottomIn then
-  FMessageButton.Hotspot := rect((width div 2)-(FMessageButton.width div 2),height-(FMessageButton.height+FFocusFrameWidth+1),
-                  (width div 2)+(FMessageButton.width div 2),height-FFocusFrameWidth+1);
+  FMessageButton.Hotspot := rect((width div 2)-(FMessageButton.width div 2),
+                                  height-(FMessageButton.height+FFocusFrameWidth+FMessageButton.FPositionFactor),
+                                  (width div 2)+(FMessageButton.width div 2),
+                                  height-FFocusFrameWidth+FMessageButton.FPositionFactor);
 
 
  if FMessageButton.FAlignment = alRightOut then

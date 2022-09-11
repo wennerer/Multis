@@ -26,6 +26,8 @@ type
     MultiPanel2: TMultiPanel;
     MultiPanel3: TMultiPanel;
     MultiplexSlider1: TMultiplexSlider;
+    MultiplexSlider2: TMultiplexSlider;
+    MultiplexSlider3: TMultiplexSlider;
     MultiSeperator1: TMultiSeperator;
     MultiSeperator2: TMultiSeperator;
     procedure FormCreate(Sender: TObject);

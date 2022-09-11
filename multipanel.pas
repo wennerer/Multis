@@ -346,6 +346,7 @@ type
     FAppear           : boolean;
     FDisappear        : boolean;
     FPanelBmp         : TBitmap;
+    FDrawPanels       : boolean;
 
     FIsVisible        : boolean;
     FAnimationTimer   : TTimer;
@@ -1179,11 +1180,12 @@ begin
     CurControl := CurControl.Parent;      //back to the Form
   inc(i);
  until (i =100) or (exitflag = true);
+ FDrawPanels:= true;
  CurForm := (CurControl as TForm);
  for comp in CurForm do
         begin
          if comp is TMultiPanel then
-          if not (comp as TMultiPanel).FRunThroughPaint then showflag := false;
+          if not (comp as TMultiPanel).FDrawPanels then showflag := false;
          end;
 
  //Now the form will be shown when all MultiPanels are gone through

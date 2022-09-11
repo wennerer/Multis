@@ -11,7 +11,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="93"/>
+        <UsageCount Value="96"/>
       </Unit>
       <Unit>
         <Filename Value="unit1.pas"/>
@@ -21,9 +21,9 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="74"/>
-        <CursorPos X="32" Y="103"/>
-        <UsageCount Value="93"/>
+        <TopLine Value="76"/>
+        <CursorPos X="32" Y="105"/>
+        <UsageCount Value="96"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -33,7 +33,7 @@
         <EditorIndex Value="4"/>
         <TopLine Value="1146"/>
         <CursorPos X="39" Y="1167"/>
-        <UsageCount Value="46"/>
+        <UsageCount Value="48"/>
         <Bookmarks Count="1">
           <Item0 X="39" Y="1167"/>
         </Bookmarks>
@@ -50,8 +50,9 @@
         <Filename Value="../../multibutton.pas"/>
         <UnitName Value="MultiButton"/>
         <EditorIndex Value="1"/>
-        <CursorPos X="44" Y="8"/>
-        <UsageCount Value="20"/>
+        <TopLine Value="246"/>
+        <CursorPos X="76" Y="256"/>
+        <UsageCount Value="22"/>
         <Bookmarks Count="2">
           <Item0 X="9" Y="1045" ID="1"/>
           <Item1 X="4" Y="1832" ID="2"/>
@@ -63,14 +64,14 @@
         <UnitName Value="MultiButtonStyleManager"/>
         <EditorIndex Value="2"/>
         <CursorPos X="19" Y="2"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="22"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="../../stylemanagercomponent.inc"/>
         <EditorIndex Value="3"/>
         <CursorPos X="73"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="22"/>
         <Bookmarks Count="1">
           <Item0 X="7" Y="687" ID="3"/>
         </Bookmarks>
@@ -78,14 +79,6 @@
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="../../stylemanagercomponent.inc"/>
-        <Caret Line="591" Column="10" TopLine="567"/>
-      </Position>
-      <Position>
-        <Filename Value="../../stylemanagercomponent.inc"/>
-        <Caret Line="592" Column="10" TopLine="568"/>
-      </Position>
       <Position>
         <Filename Value="../../stylemanagercomponent.inc"/>
         <Caret Line="593" Column="10" TopLine="569"/>
@@ -197,6 +190,14 @@
       <Position>
         <Filename Value="unit1.pas"/>
         <Caret Line="102" Column="32" TopLine="74"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="103" Column="32" TopLine="74"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="104" Column="32" TopLine="76"/>
       </Position>
     </JumpHistory>
     <RunParams>
