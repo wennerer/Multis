@@ -1,6 +1,6 @@
 { <A button with an integrated button>
   <Version 1.2.7.2>
-  Copyright (C) <16.05.2022> <Bernd Hübner>
+  Copyright (C) <10.09.2022> <Bernd Hübner>
   Many thanks to the members of the German Lazarus Forum!
   wp_xyz helped me jump over many hurdles!
   For some improvements see https://www.lazarusforum.de/viewtopic.php?f=29&t=13252
@@ -1828,7 +1828,8 @@ begin
    MessageButton.Font.Assign(FStyleManager.MessageButtonFont);
    MessageButton.HoverColor                    := FStyleManager.MessageButtonHoverColor;
    MessageButton.PressedColor                  := FStyleManager.MessageButtonPressedColor;
-   MessageButton.Visible                       := FStyleManager.MessageButtonVisible;
+   if not FShowMsgButtonInGroup then
+    MessageButton.Visible                       := FStyleManager.MessageButtonVisible;
    MessageButton.Style                         := TMButtonStyle(MultiButtonStyleManager.TMButtonStyle(
                                                   FStyleManager.MessageButtonStyle));
    MessageButton.Width                         := FStyleManager.MessageButtonWidth;

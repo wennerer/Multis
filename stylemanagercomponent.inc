@@ -1,4 +1,4 @@
-(*This is a part of the TMultiButtonStyleManager, last change 08.08.2021*)
+(*This is a part of the TMultiButtonStyleManager, last change 11.09.2022*)
 
 {%MultiButtonStyleManager ,this is a part of MultiButtonStyleManager}
 
@@ -544,6 +544,7 @@ begin
    MsgEdits[lv].Alignment:= taRightJustify;
    MsgEdits[lv].OnChange:= @MsgEditsOnChange;
    MsgEdits[lv].ShowHint:= true;
+   MsgEdits[lv].NumbersOnly:= true;
   end;
  MsgEdits[0].EditLabel.Caption := 'Width:';
  MsgEdits[0].Left    := 10;
@@ -678,9 +679,14 @@ procedure TStyleManagerComponent.MsgEditsOnChange(Sender: TObject);
 var i : integer;
 begin
  case (Sender as TLabeledEdit).Tag of
-  0: DesignButton.MessageButton.Width            := strtointdef((Sender as TLabeledEdit).Caption,0);
+  0: begin
+      if DesignButton.MessageButton.Style = MultiButton.TMButtonStyle(mbsCircle) then
+       if strtointdef((Sender as TLabeledEdit).Caption,0) = 1 then exit;
+       //1 throws an exception ??
+      DesignButton.MessageButton.Width            := strtointdef((Sender as TLabeledEdit).Caption,0);
+     end;
   1: DesignButton.MessageButton.Height           := strtointdef((Sender as TLabeledEdit).Caption,0);
-  2: DesignButton.MessageButton.PositionFactor   := strtointdef((Sender as TLabeledEdit).Caption,1);
+  2: DesignButton.MessageButton.PositionFactor   := strtointdef((Sender as TLabeledEdit).Caption,0);
   3: begin
       i:= strtointdef((Sender as TLabeledEdit).Caption,0);
       if (i<0) or (i>255) then
