@@ -330,6 +330,7 @@ type
     FOnMouseDown      : TMouseEvent;
     FOnMouseEnter     : TMouseEnterLeave;
     FOnMouseLeave     : TMouseEnterLeave;
+    FMouseInKind      : boolean;  //Prevents collapsing the DropDown
     FOnMouseMove      : TMouseMoveEvent;
     FOnMouseUp        : TMouseEvent;
     FOnStreched       : TNotifyEvent;
@@ -400,6 +401,8 @@ type
     procedure DrawPanelBmpFirst({%H-}Sender : TObject);
     procedure SetCustomValues(AValue: TCustomStyleValues);
     procedure VisitThePolygon;
+    procedure MouseInComponent({%H-}Sender : TObject);
+    procedure MouseNotInComponent({%H-}Sender : TObject);
 
   protected
     procedure DefineProperties(Filer: TFiler); override;
@@ -701,6 +704,8 @@ begin
   FCustomValues.FWidth       := 100;
   FCustomValues.FHeight      := 100;
   FCustomValues.FStrPolygon := TStringList.Create;
+
+
 end;
 
 destructor TMultiPanel.Destroy;
@@ -806,6 +811,7 @@ var HotspotCompressed : TRect;
     P                 : TPoint;
 begin
  if not FDDMenu.FActive then exit;
+ if FMouseInKind then exit; //Prevents collapsing the DropDown
 
  if not (csDesigning in ComponentState) then
   begin
@@ -980,6 +986,18 @@ begin
  FCustomValues.FWidth := FX_Max - FX_Min;
  FCustomValues.FHeight:= FY_Max - FY_Min;
  PolyScalingFactor;
+end;
+
+procedure TMultiPanel.MouseInComponent(Sender: TObject);
+begin
+ //Prevents collapsing the DropDown
+ FMouseInKind := true;
+end;
+
+procedure TMultiPanel.MouseNotInComponent(Sender: TObject);
+begin
+ //Prevents collapsing the DropDown
+ FMouseInKind := false;
 end;
 
 
@@ -1172,6 +1190,19 @@ begin
  if showflag then
  (CurControl as TForm).AlphaBlend:= false;
  if not FIsVisible then Visible := false else Visible:=true;
+
+ //Prevents collapsing the DropDown
+ for comp in CurForm do
+  begin
+   if comp is TMultiplexSlider then
+    if (comp as TMultiplexSlider).Parent = self then
+    begin
+     (comp as TMultiplexSlider).OnMouseInSelf    := @MouseInComponent;
+     (comp as TMultiplexSlider).OnMouseNotInSelf := @MouseNotInComponent;
+    end;
+  end;
+
+
 end;
 
 

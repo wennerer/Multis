@@ -37,7 +37,7 @@ interface
 
 uses
   Classes, SysUtils, FPImage, LResources, Forms, Controls, Graphics, Dialogs,
-  infmultis, LCLIntf, LMessages, LCLType, LazUTF8, FpCanvas,
+  infmultis, LCLIntf, LMessages, LCLType, LazUTF8, PropEdits, FpCanvas,
   Contnrs;//, LCLProc;
 
 type
@@ -482,8 +482,10 @@ type
     FOnKeyUp           : TKeyEvent;
     FOnMouseDown       : TMouseEvent;
     FOnMouseEnter      : TMouseEnterLeave;
+    FOnMouseInSelf     : TMouseEnterLeave;
     FOnMouseLeave      : TMouseEnterLeave;
     FOnMouseMove       : TMouseMoveEvent;
+    FOnMouseNotInSelf  : TMouseEnterLeave;
     FOnMouseUp         : TMouseEvent;
     FOnMouseWheelDown  : TMouseWheelUpDownEvent;
     FOnMouseWheelUp    : TMouseWheelUpDownEvent;
@@ -625,6 +627,13 @@ type
 
    property DisabledColor : TColor read FDisabledColor write SetDisabledColor;
    property DisabledAlphaBValue : integer read FDisabledAlpBV write SetDisabledAlpBV;
+
+
+   //is required for DropDown in TMultiPanel
+   property OnMouseInSelf    : TMouseEnterLeave read FOnMouseInSelf write FOnMouseInSelf;
+   property OnMouseNotInSelf : TMouseEnterLeave read FOnMouseNotInSelf write FOnMouseNotInSelf;
+
+
   published
    //The whidth of the focus-frame
    //Die Dicke des Fokus-Rahmens
@@ -1256,12 +1265,14 @@ procedure TMultiplexSlider.MouseEnter;
 begin
   inherited MouseEnter;
   if Assigned(OnMouseEnter) then OnMouseEnter(self);
+  if Assigned(OnMouseInSelf) then OnMouseInSelf(self);
 end;
 
 procedure TMultiplexSlider.MouseLeave;
 begin
   inherited MouseLeave;
   if Assigned(OnMouseLeave) then OnMouseLeave(self);
+  if Assigned(OnMouseNotInSelf) then OnMouseNotInSelf(self);
 end;
 
 procedure TMultiplexSlider.MouseDown(Button: TMouseButton; Shift: TShiftState;
