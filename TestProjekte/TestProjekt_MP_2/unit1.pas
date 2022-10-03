@@ -6,8 +6,8 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
-  MultiPanel, MultiButton, MultiSeperator, MultiButtonStyleManager,
-  MultiplexSlider;
+  LazLoggerBase, MultiPanel, MultiButton, MultiSeperator,
+  MultiButtonStyleManager, MultiplexSlider;
 
 type
 
@@ -17,6 +17,7 @@ type
     aTimer     : TTimer;
     ImageList1: TImageList;
     MultiButton1: TMultiButton;
+    MultiButton10: TMultiButton;
     MultiButton2: TMultiButton;
     MultiButton3: TMultiButton;
     MultiButton4: TMultiButton;
@@ -24,12 +25,14 @@ type
     MultiButton6: TMultiButton;
     MultiButton7: TMultiButton;
     MultiButton8: TMultiButton;
+    MultiButton9: TMultiButton;
     MultiButtonStyleManager1: TMultiButtonStyleManager;
     MultiPanel1: TMultiPanel;
     aMultiPanel: TMultiPanel;
     MultiPanel2: TMultiPanel;
     MultiPanel3: TMultiPanel;
     MultiPanel4: TMultiPanel;
+    MultiPanel5: TMultiPanel;
     MultiplexSlider1: TMultiplexSlider;
     MultiplexSlider2: TMultiplexSlider;
     MultiplexSlider3: TMultiplexSlider;
@@ -39,10 +42,19 @@ type
     procedure FormCreate(Sender: TObject);
     procedure AppearMultiPanel1(Sender: TObject);
     procedure ButtonsClick(Sender: TObject);
+    procedure FormMouseEnter(Sender: TObject);
     procedure MultiButton1MouseEnter(Sender: TObject);
     procedure MultiButton1MouseLeave(Sender: TObject);
-  private
+    procedure MultiButton8Click(Sender: TObject);
+    procedure MultiButton8MouseEnter(Sender: TObject);
+    procedure MultiButton8MouseLeave(Sender: TObject);
+    procedure MultiButton9MouseEnter(Sender: TObject);
+    procedure MultiPanel5Compressed(Sender: TObject);
+    procedure MultiPanel5MouseEnter(Sender: TObject);
 
+
+  private
+    InPanel5 : boolean;
   public
 
   end;
@@ -101,6 +113,7 @@ begin
  aMultiPanel.Style:=mpsCustom;
  aMultiPanel.LoadFromFile('Sprechblase');
  aMultiPanel.SetBounds(425,245,105,50);
+
 end;
 
 procedure TForm1.MultiButton1MouseLeave(Sender: TObject);
@@ -108,5 +121,59 @@ begin
  aMultiPanel.Visible:= false;
 end;
 
+
+
+//Submenu
+
+procedure TForm1.MultiButton8Click(Sender: TObject);
+begin
+ MultiPanel5.DropDownMenu.Stretched.Active:=true;
+ MultiPanel4.DropDownMenu.Active := false;
+end;
+
+procedure TForm1.MultiButton8MouseEnter(Sender: TObject);
+begin
+ MultiPanel5.DropDownMenu.Stretched.Active:=true;
+ MultiPanel4.DropDownMenu.Active := false;
+end;
+
+
+procedure TForm1.MultiButton8MouseLeave(Sender: TObject);
+begin
+ MultiPanel4.DropDownMenu.Active := true;
+ MultiPanel5.DropDownMenu.Compressed.Active:=true;
+ INPanel5 := false;
+end;
+
+procedure TForm1.MultiButton9MouseEnter(Sender: TObject);
+begin
+ MultiPanel4.DropDownMenu.Active := false;
+ MultiPanel5.DropDownMenu.Stretched.Active:=true;
+ InPanel5 := true;
+end;
+
+procedure TForm1.MultiPanel5MouseEnter(Sender: TObject);
+begin
+ MultiPanel4.DropDownMenu.Active := false;
+ MultiPanel5.DropDownMenu.Stretched.Active:=true;
+ InPanel5 := true;
+end;
+
+procedure TForm1.FormMouseEnter(Sender: TObject);
+begin
+ if InPanel5 then
+  begin
+   MultiPanel4.DropDownMenu.Active := true;
+   MultiPanel5.DropDownMenu.Compressed.Active:=true;
+   InPanel5 := false;
+  end;
+end;
+
+procedure TForm1.MultiPanel5Compressed(Sender: TObject);
+begin
+ MultiPanel4.DropDownMenu.Active := true;
+ if InPanel5 then MultiPanel4.DropDownMenu.Compressed.Active:=true;
+ MultiPanel5.SendToBack;
+end;
 end.
 

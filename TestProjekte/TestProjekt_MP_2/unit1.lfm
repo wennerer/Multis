@@ -8,6 +8,7 @@ object Form1: TForm1
   ClientWidth = 800
   Color = 5263440
   OnCreate = FormCreate
+  OnMouseEnter = FormMouseEnter
   object MultiPanel1: TMultiPanel
     Left = 280
     Top = 192
@@ -1332,6 +1333,7 @@ object Form1: TForm1
     DropDownMenu.Compressed.Width = 120
     DropDownMenu.Compressed.Height = 35
     DropDownMenu.Stretched.Width = 120
+    DropDownMenu.Step = 20
     ImageIndex = 0
     Images = ImageList1
     ImageTop = 10
@@ -1391,6 +1393,7 @@ object Form1: TForm1
       GroupIndex = 1
       ShowMsgButtonInGroup = True
       MultiButton_StyleManager = MultiButtonStyleManager1
+      OnClick = ButtonsClick
       TabOrder = 0
     end
     object MultiButton3: TMultiButton
@@ -1482,6 +1485,7 @@ object Form1: TForm1
     DropDownMenu.Compressed.Height = 35
     DropDownMenu.Stretched.Width = 210
     DropDownMenu.Stretched.Height = 186
+    DropDownMenu.Step = 20
     ImageIndex = 1
     Images = ImageList1
     ImageTop = 10
@@ -1719,6 +1723,7 @@ object Form1: TForm1
     DropDownMenu.Compressed.Height = 35
     DropDownMenu.Stretched.Width = 140
     DropDownMenu.Stretched.Height = 185
+    DropDownMenu.Step = 20
     ImageIndex = 2
     Images = ImageList1
     ImageWidth = 24
@@ -1887,10 +1892,119 @@ object Form1: TForm1
       PressedEndColor = clSilver
       PressedFontColor = clNavy
       FocusColor = 12305604
+      OnClick = MultiButton8Click
+      OnMouseEnter = MultiButton8MouseEnter
+      OnMouseLeave = MultiButton8MouseLeave
+      TabOrder = 3
+    end
+  end
+  object MultiPanel5: TMultiPanel
+    AnchorSideLeft.Control = MultiPanel4
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = MultiPanel4
+    Left = 476
+    Height = 2
+    Top = 140
+    Width = 2
+    ColorStart = 5263440
+    ColorEnd = 5263440
+    DropDownMenu.Active = True
+    DropDownMenu.Compressed.Width = 2
+    DropDownMenu.Compressed.Height = 2
+    DropDownMenu.Stretched.Width = 122
+    DropDownMenu.Stretched.Height = 76
+    DropDownMenu.Trigger = trClick
+    DropDownMenu.Step = 20
+    Anchors = []
+    OnMouseEnter = MultiPanel5MouseEnter
+    OnCompressed = MultiPanel5Compressed
+    StrPolygon = (
+      '50'
+      '2'
+      '98'
+      '98'
+      '2'
+      '98'
+      '50'
+      '2'
+    )
+    object MultiButton9: TMultiButton
+      AnchorSideLeft.Control = MultiPanel5
+      AnchorSideTop.Control = MultiPanel5
+      Left = 3
+      Height = 35
+      Top = 1
+      Width = 120
+      ColorStart = 8553090
+      ColorEnd = 7237230
+      ColorGradient = gcRadiant
+      MessageButton.Style = mbsRect
+      MessageButton.ColorStart = clMoneyGreen
+      MessageButton.ColorEnd = clMoneyGreen
+      MessageButton.ShowPressed = False
+      MessageButton.Font.Color = clNavy
+      MessageButton.Font.Height = -11
+      MessageButton.Font.Name = 'Sans'
+      MessageButton.ImageLeft = 0
+      MessageButton.ImageTop = 0
+      MessageButton.Width = 12
+      MessageButton.Height = 12
+      MessageButton.Alignment = alLeftIn
+      MessageButton.ShowBorder = True
+      MessageButton.HoverOn = False
+      MessageButton.PositionFactor = 2
+      Caption = 'Wolke'
+      HoverEndColor = clGray
+      HoverFontColor = clWhite
+      PressedStartColor = clGray
+      PressedEndColor = clSilver
+      PressedFontColor = clNavy
+      FocusColor = 12305604
       GroupIndex = 2
       ShowMsgButtonInGroup = True
       MultiButton_StyleManager = MultiButtonStyleManager1
-      TabOrder = 3
+      OnMouseEnter = MultiButton9MouseEnter
+      BorderSpacing.Left = 2
+      TabOrder = 0
+    end
+    object MultiButton10: TMultiButton
+      AnchorSideLeft.Control = MultiButton9
+      AnchorSideTop.Control = MultiButton9
+      AnchorSideTop.Side = asrBottom
+      Left = 5
+      Height = 35
+      Top = 36
+      Width = 120
+      ColorStart = 8553090
+      ColorEnd = 7237230
+      ColorGradient = gcRadiant
+      MessageButton.Style = mbsRect
+      MessageButton.ColorStart = clMoneyGreen
+      MessageButton.ColorEnd = clMoneyGreen
+      MessageButton.ShowPressed = False
+      MessageButton.Font.Color = clNavy
+      MessageButton.Font.Height = -11
+      MessageButton.Font.Name = 'Sans'
+      MessageButton.ImageLeft = 0
+      MessageButton.ImageTop = 0
+      MessageButton.Width = 12
+      MessageButton.Height = 12
+      MessageButton.Alignment = alLeftIn
+      MessageButton.ShowBorder = True
+      MessageButton.HoverOn = False
+      MessageButton.PositionFactor = 2
+      Caption = 'Blase'
+      HoverEndColor = clGray
+      HoverFontColor = clWhite
+      PressedStartColor = clGray
+      PressedEndColor = clSilver
+      PressedFontColor = clNavy
+      FocusColor = 12305604
+      GroupIndex = 2
+      ShowMsgButtonInGroup = True
+      MultiButton_StyleManager = MultiButtonStyleManager1
+      BorderSpacing.Left = 2
+      TabOrder = 1
     end
   end
   object MultiButtonStyleManager1: TMultiButtonStyleManager
