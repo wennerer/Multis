@@ -18,6 +18,10 @@ type
     ImageList1: TImageList;
     MultiButton1: TMultiButton;
     MultiButton10: TMultiButton;
+    MultiButton11: TMultiButton;
+    MultiButton12: TMultiButton;
+    MultiButton13: TMultiButton;
+    MultiButton14: TMultiButton;
     MultiButton2: TMultiButton;
     MultiButton3: TMultiButton;
     MultiButton4: TMultiButton;
@@ -33,6 +37,7 @@ type
     MultiPanel3: TMultiPanel;
     MultiPanel4: TMultiPanel;
     MultiPanel5: TMultiPanel;
+    MultiPanel6: TMultiPanel;
     MultiplexSlider1: TMultiplexSlider;
     MultiplexSlider2: TMultiplexSlider;
     MultiplexSlider3: TMultiplexSlider;
@@ -57,6 +62,7 @@ type
     procedure Trigger(Sender: TObject);
     procedure Style(Sender: TObject);
     procedure Custom(Sender: TObject);
+    procedure Switch(Sender: TObject);
   private
     InPanel5 : boolean;
 
@@ -86,6 +92,7 @@ begin
  MultiplexSlider1.Knob1Settings.KnobPosition:= 3;
  MultiplexSlider2.Knob1Settings.KnobPosition:= 20;
  MultiplexSlider3.Knob1Settings.KnobPosition:=  5;
+ MultiPanel6.DropDownMenu.Hotspot:= rect(0,0,10,160);
 end;
 
 procedure TForm1.AppearMultiPanel1(Sender: TObject);
@@ -238,7 +245,6 @@ begin
   0 : MultiPanel1.Style:= TMPanelStyle((Sender as TMultiButton).Tag);
   1 : MultiPanel1.Style:= TMPanelStyle((Sender as TMultiButton).Tag);
   2 : MultiPanel1.Style:= TMPanelStyle((Sender as TMultiButton).Tag);
-  //3 : MultiPanel1.Style:= TMPanelStyle((Sender as TMultiButton).Tag);
  end;
  MultiPanel1.Caption:= 'I am a MultiPanel';
 end;
@@ -251,6 +257,17 @@ begin
  end;
  MultiPanel1.Style:= mpsCustom;
  MultiPanel1.Caption:= 'I am a MultiPanel';
+end;
+
+//un-visible,dis-appear
+procedure TForm1.Switch(Sender: TObject);
+begin
+ case (Sender as TMultiButton).Tag of
+  11 : MultiPanel1.Visible:= true;
+  12 : MultiPanel1.Visible:= false;
+  13 : MultiPanel1.Appear:= true;
+  14 : MultiPanel1.Disappear:= true;
+ end;
 end;
 
 end.

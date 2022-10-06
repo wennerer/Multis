@@ -9,7 +9,6 @@ object Form1: TForm1
   Color = 5263440
   OnCreate = FormCreate
   OnMouseEnter = FormMouseEnter
-  LCLVersion = '2.2.0.4'
   object MultiPanel1: TMultiPanel
     Left = 280
     Top = 192
@@ -1781,6 +1780,7 @@ object Form1: TForm1
       MessageButton.Alignment = alLeftIn
       MessageButton.ShowBorder = True
       MessageButton.HoverOn = False
+      MessageButton.CalculateAlthoughInvisible = True
       MessageButton.PositionFactor = 2
       Caption = 'mpsRect'
       HoverEndColor = clGray
@@ -2026,6 +2026,177 @@ object Form1: TForm1
       OnClick = Custom
       BorderSpacing.Left = 2
       TabOrder = 1
+    end
+  end
+  object MultiPanel6: TMultiPanel
+    AnchorSideLeft.Control = Owner
+    Left = 0
+    Height = 160
+    Top = 176
+    Width = 10
+    DropDownMenu.Active = True
+    DropDownMenu.Compressed.Width = 10
+    DropDownMenu.Compressed.Height = 160
+    DropDownMenu.Stretched.Width = 160
+    DropDownMenu.Stretched.Height = 160
+    StrPolygon = (
+      '50'
+      '2'
+      '98'
+      '98'
+      '2'
+      '98'
+      '50'
+      '2'
+    )
+    object MultiButton11: TMultiButton
+      Tag = 11
+      AnchorSideLeft.Control = MultiPanel6
+      AnchorSideTop.Control = MultiPanel6
+      Left = 51
+      Height = 40
+      Top = 1
+      Width = 110
+      ColorStart = 8553090
+      ColorEnd = 7237230
+      ColorGradient = gcRadiant
+      MessageButton.Style = mbsRect
+      MessageButton.ColorStart = clMoneyGreen
+      MessageButton.ColorEnd = clMoneyGreen
+      MessageButton.ShowPressed = False
+      MessageButton.Font.Color = clNavy
+      MessageButton.Font.Height = -11
+      MessageButton.Font.Name = 'Sans'
+      MessageButton.ImageLeft = 0
+      MessageButton.ImageTop = 0
+      MessageButton.Width = 12
+      MessageButton.Height = 12
+      MessageButton.Alignment = alLeftIn
+      MessageButton.ShowBorder = True
+      MessageButton.HoverOn = False
+      MessageButton.PositionFactor = 2
+      Caption = 'Visible'
+      HoverEndColor = clGray
+      HoverFontColor = clWhite
+      PressedStartColor = clGray
+      PressedEndColor = clSilver
+      PressedFontColor = clNavy
+      FocusColor = 12305604
+      OnClick = Switch
+      BorderSpacing.Left = 50
+      TabOrder = 0
+    end
+    object MultiButton12: TMultiButton
+      Tag = 12
+      AnchorSideLeft.Control = MultiButton11
+      AnchorSideTop.Control = MultiButton11
+      AnchorSideTop.Side = asrBottom
+      Left = 51
+      Height = 40
+      Top = 41
+      Width = 110
+      ColorStart = 8553090
+      ColorEnd = 7237230
+      ColorGradient = gcRadiant
+      MessageButton.Style = mbsRect
+      MessageButton.ColorStart = clMoneyGreen
+      MessageButton.ColorEnd = clMoneyGreen
+      MessageButton.ShowPressed = False
+      MessageButton.Font.Color = clNavy
+      MessageButton.Font.Height = -11
+      MessageButton.Font.Name = 'Sans'
+      MessageButton.ImageLeft = 0
+      MessageButton.ImageTop = 0
+      MessageButton.Width = 12
+      MessageButton.Height = 12
+      MessageButton.Alignment = alLeftIn
+      MessageButton.ShowBorder = True
+      MessageButton.HoverOn = False
+      MessageButton.PositionFactor = 2
+      Caption = 'Unvisible'
+      HoverEndColor = clGray
+      HoverFontColor = clWhite
+      PressedStartColor = clGray
+      PressedEndColor = clSilver
+      PressedFontColor = clNavy
+      FocusColor = 12305604
+      OnClick = Switch
+      TabOrder = 1
+    end
+    object MultiButton13: TMultiButton
+      Tag = 13
+      AnchorSideLeft.Control = MultiButton12
+      AnchorSideTop.Control = MultiButton12
+      AnchorSideTop.Side = asrBottom
+      Left = 51
+      Height = 40
+      Top = 81
+      Width = 110
+      ColorStart = 8553090
+      ColorEnd = 7237230
+      ColorGradient = gcRadiant
+      MessageButton.Style = mbsRect
+      MessageButton.ColorStart = clMoneyGreen
+      MessageButton.ColorEnd = clMoneyGreen
+      MessageButton.ShowPressed = False
+      MessageButton.Font.Color = clNavy
+      MessageButton.Font.Height = -11
+      MessageButton.Font.Name = 'Sans'
+      MessageButton.ImageLeft = 0
+      MessageButton.ImageTop = 0
+      MessageButton.Width = 12
+      MessageButton.Height = 12
+      MessageButton.Alignment = alLeftIn
+      MessageButton.ShowBorder = True
+      MessageButton.HoverOn = False
+      MessageButton.PositionFactor = 2
+      Caption = 'Appear'
+      HoverEndColor = clGray
+      HoverFontColor = clWhite
+      PressedStartColor = clGray
+      PressedEndColor = clSilver
+      PressedFontColor = clNavy
+      FocusColor = 12305604
+      OnClick = Switch
+      TabOrder = 2
+    end
+    object MultiButton14: TMultiButton
+      Tag = 14
+      AnchorSideLeft.Control = MultiPanel6
+      AnchorSideTop.Control = MultiButton13
+      AnchorSideTop.Side = asrBottom
+      Left = 51
+      Height = 40
+      Top = 121
+      Width = 110
+      ColorStart = 8553090
+      ColorEnd = 7237230
+      ColorGradient = gcRadiant
+      MessageButton.Style = mbsRect
+      MessageButton.ColorStart = clMoneyGreen
+      MessageButton.ColorEnd = clMoneyGreen
+      MessageButton.ShowPressed = False
+      MessageButton.Font.Color = clNavy
+      MessageButton.Font.Height = -11
+      MessageButton.Font.Name = 'Sans'
+      MessageButton.ImageLeft = 0
+      MessageButton.ImageTop = 0
+      MessageButton.Width = 12
+      MessageButton.Height = 12
+      MessageButton.Alignment = alLeftIn
+      MessageButton.ShowBorder = True
+      MessageButton.HoverOn = False
+      MessageButton.PositionFactor = 2
+      Caption = 'Disappear'
+      HoverEndColor = clGray
+      HoverFontColor = clWhite
+      PressedStartColor = clGray
+      PressedEndColor = clSilver
+      PressedFontColor = clNavy
+      FocusColor = 12305604
+      OnClick = Switch
+      BorderSpacing.Left = 50
+      TabOrder = 3
     end
   end
   object MultiButtonStyleManager1: TMultiButtonStyleManager
