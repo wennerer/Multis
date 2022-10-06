@@ -41,7 +41,7 @@ type
     MultiSeperator3: TMultiSeperator;
     procedure FormCreate(Sender: TObject);
     procedure AppearMultiPanel1(Sender: TObject);
-    procedure ButtonsClick(Sender: TObject);
+    procedure MultiButton1Click(Sender: TObject);
     procedure FormMouseEnter(Sender: TObject);
     procedure MultiButton1MouseEnter(Sender: TObject);
     procedure MultiButton1MouseLeave(Sender: TObject);
@@ -51,10 +51,17 @@ type
     procedure MultiButton9MouseEnter(Sender: TObject);
     procedure MultiPanel5Compressed(Sender: TObject);
     procedure MultiPanel5MouseEnter(Sender: TObject);
-
-
+    procedure MultiplexSlider1Change(const aValue: integer);
+    procedure MultiplexSlider2Change(const aValue: integer);
+    procedure MultiplexSlider3Change(const aValue: integer);
+    procedure Trigger(Sender: TObject);
+    procedure Style(Sender: TObject);
+    procedure Custom(Sender: TObject);
   private
     InPanel5 : boolean;
+
+
+
   public
 
   end;
@@ -76,6 +83,9 @@ begin
  aTimer.OnTimer    := @AppearMultiPanel1;
  aTimer.Enabled    := true;
  MultiPanel1.AnimationSpeed:= 0.005;
+ MultiplexSlider1.Knob1Settings.KnobPosition:= 3;
+ MultiplexSlider2.Knob1Settings.KnobPosition:= 20;
+ MultiplexSlider3.Knob1Settings.KnobPosition:=  5;
 end;
 
 procedure TForm1.AppearMultiPanel1(Sender: TObject);
@@ -84,16 +94,10 @@ begin
   MultiPanel1.Appear:= true;
 end;
 
-procedure TForm1.ButtonsClick(Sender: TObject);
+procedure TForm1.MultiButton1Click(Sender: TObject);
 begin
- case (Sender as TMultiButton).Tag of
- 1  : begin
-       aMultiPanel.Visible:= false;
-       MultiPanel1.AnimationSpeed:= 0.05;
-       MultiPanel1.Disappear:= true;
-
-      end;
- end;
+ aMultiPanel.Visible:= false;
+ MultiPanel1.Disappear:= true;
 end;
 
 procedure TForm1.MultiButton1MouseEnter(Sender: TObject);
@@ -124,7 +128,6 @@ end;
 
 
 //Submenu
-
 procedure TForm1.MultiButton8Click(Sender: TObject);
 begin
  MultiPanel5.DropDownMenu.Stretched.Active:=true;
@@ -175,5 +178,80 @@ begin
  if InPanel5 then MultiPanel4.DropDownMenu.Compressed.Active:=true;
  MultiPanel5.SendToBack;
 end;
+
+//Set the trigger
+procedure TForm1.Trigger(Sender: TObject);
+var lv : Integer;
+begin
+ for lv := 0 to pred(ComponentCount) do
+  begin
+   if (Components[lv] is TMultiPanel) then
+    begin
+     TMultiPanel(Components[lv]).DropDownMenu.Trigger:=TTrigger((Sender as TMultiButton).Tag);
+    end;
+  end;
+end;
+
+//Set the speed
+procedure TForm1.MultiplexSlider1Change(const aValue: integer);
+var lv : Integer;
+begin
+ for lv := 0 to pred(ComponentCount) do
+  begin
+   if (Components[lv] is TMultiPanel) then
+    begin
+     TMultiPanel(Components[lv]).DropDownMenu.Speed := aValue;
+    end;
+  end;
+end;
+
+procedure TForm1.MultiplexSlider2Change(const aValue: integer);
+var lv : Integer;
+begin
+ for lv := 0 to pred(ComponentCount) do
+  begin
+   if (Components[lv] is TMultiPanel) then
+    begin
+     TMultiPanel(Components[lv]).DropDownMenu.Step := aValue;
+    end;
+  end;
+end;
+
+procedure TForm1.MultiplexSlider3Change(const aValue: integer);
+var lv : Integer;
+    d  : double;
+begin
+ d := aValue / 10000;
+ for lv := 0 to pred(ComponentCount) do
+  begin
+   if (Components[lv] is TMultiPanel) then
+    begin
+     TMultiPanel(Components[lv]).AnimationSpeed := d;
+    end;
+  end;
+end;
+
+//set the style of MultiPanel1
+procedure TForm1.Style(Sender: TObject);
+begin
+ case (Sender as TMultiButton).Tag of
+  0 : MultiPanel1.Style:= TMPanelStyle((Sender as TMultiButton).Tag);
+  1 : MultiPanel1.Style:= TMPanelStyle((Sender as TMultiButton).Tag);
+  2 : MultiPanel1.Style:= TMPanelStyle((Sender as TMultiButton).Tag);
+  //3 : MultiPanel1.Style:= TMPanelStyle((Sender as TMultiButton).Tag);
+ end;
+ MultiPanel1.Caption:= 'I am a MultiPanel';
+end;
+
+procedure TForm1.Custom(Sender: TObject);
+begin
+ case (Sender as TMultiButton).Tag of
+  4 : MultiPanel1.LoadFromFile('Wolke');
+  5 : MultiPanel1.LoadFromFile('Sprechblase');
+ end;
+ MultiPanel1.Style:= mpsCustom;
+ MultiPanel1.Caption:= 'I am a MultiPanel';
+end;
+
 end.
 

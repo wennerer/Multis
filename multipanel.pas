@@ -1069,6 +1069,7 @@ var lv : integer;
 begin
  if FAnimationTimer.Enabled then exit;
 
+
  Canvas.Draw(0,0,FPanelBmp);
 
  FListVisibleKinds.Clear;
@@ -1651,14 +1652,7 @@ procedure TMultiPanel.MultiPanelOnTimer(Sender: TObject);
 var c : TWinControl;
 begin
  if FDDMenu.FStretched.Active then self.BringToFront;
- //this brings the panel to the front
- (* if FDDMenu.FStretched.Active then
-  begin
-   c := Parent;
-   Parent := nil;
-   Parent := c;
-  end;
-         *)
+ FTimer.Interval            := FDDMenu.FSpeed;
 
  if FDDMenu.FDirection = LeftTop_RightBottom then LeftTopToRightBottom;
  if FDDMenu.FDirection = RightTop_LeftBottom then RightTopToLeftBottom;

@@ -9,6 +9,7 @@ object Form1: TForm1
   Color = 5263440
   OnCreate = FormCreate
   OnMouseEnter = FormMouseEnter
+  LCLVersion = '2.2.0.4'
   object MultiPanel1: TMultiPanel
     Left = 280
     Top = 192
@@ -1296,7 +1297,7 @@ object Form1: TForm1
       PressedEndColor = clMaroon
       PressedFontColor = clYellow
       FocusFrameOn = False
-      OnClick = ButtonsClick
+      OnClick = MultiButton1Click
       OnMouseEnter = MultiButton1MouseEnter
       OnMouseLeave = MultiButton1MouseLeave
       TabOrder = 0
@@ -1356,6 +1357,7 @@ object Form1: TForm1
       '2'
     )
     object MultiButton2: TMultiButton
+      Tag = 1
       Left = 0
       Height = 35
       Top = 35
@@ -1393,7 +1395,7 @@ object Form1: TForm1
       GroupIndex = 1
       ShowMsgButtonInGroup = True
       MultiButton_StyleManager = MultiButtonStyleManager1
-      OnClick = ButtonsClick
+      OnClick = Trigger
       TabOrder = 0
     end
     object MultiButton3: TMultiButton
@@ -1430,9 +1432,11 @@ object Form1: TForm1
       GroupIndex = 1
       ShowMsgButtonInGroup = True
       MultiButton_StyleManager = MultiButtonStyleManager1
+      OnClick = Trigger
       TabOrder = 1
     end
     object MultiButton4: TMultiButton
+      Tag = 2
       Left = 0
       Height = 35
       Top = 105
@@ -1466,6 +1470,7 @@ object Form1: TForm1
       GroupIndex = 1
       ShowMsgButtonInGroup = True
       MultiButton_StyleManager = MultiButtonStyleManager1
+      OnClick = Trigger
       TabOrder = 2
     end
   end
@@ -1517,7 +1522,7 @@ object Form1: TForm1
       ColorGradient = gcRadiant
       ColorStart = 8553090
       ColorEnd = 7237230
-      Max = 1000
+      Max = 100
       Knob1Settings.KnobPosition = 0
       Knob1Settings.Visible = True
       Knob1Settings.KnobStyle = ksRectangle
@@ -1562,6 +1567,7 @@ object Form1: TForm1
       ValueDisplaySettings.Y = 0
       BorderSpacing.Top = 35
       TabOrder = 0
+      OnChange = MultiplexSlider1Change
     end
     object MultiplexSlider2: TMultiplexSlider
       AnchorSideTop.Control = MultiplexSlider1
@@ -1618,6 +1624,7 @@ object Form1: TForm1
       ValueDisplaySettings.X = 0
       ValueDisplaySettings.Y = 0
       TabOrder = 1
+      OnChange = MultiplexSlider2Change
     end
     object MultiplexSlider3: TMultiplexSlider
       AnchorSideLeft.Control = MultiPanel3
@@ -1631,8 +1638,9 @@ object Form1: TForm1
       ColorGradient = gcRadiant
       ColorStart = 8553090
       ColorEnd = 7237230
-      Max = 100
-      Knob1Settings.KnobPosition = 0
+      Min = 4
+      Max = 500
+      Knob1Settings.KnobPosition = 5
       Knob1Settings.Visible = True
       Knob1Settings.KnobStyle = ksRectangle
       Knob1Settings.ColorGradient = gcAlternate
@@ -1668,12 +1676,14 @@ object Form1: TForm1
       TextSettings.Position = poTop
       TextSettings.AutoAd = True
       TextSettings.PreCaption = 'Animationspeed'
+      TextSettings.PostCaption = '/1000'
       TextSettings.BackgrdColor = clNone
       ValueDisplaySettings.ColorStart = clNone
       ValueDisplaySettings.ColorEnd = clNone
       ValueDisplaySettings.X = 0
       ValueDisplaySettings.Y = 0
       TabOrder = 2
+      OnChange = MultiplexSlider3Change
     end
   end
   object MultiSeperator2: TMultiSeperator
@@ -1766,7 +1776,6 @@ object Form1: TForm1
       MessageButton.Images = ImageList1
       MessageButton.ImageLeft = 0
       MessageButton.ImageTop = 0
-      MessageButton.Visible = True
       MessageButton.Width = 12
       MessageButton.Height = 12
       MessageButton.Alignment = alLeftIn
@@ -1780,13 +1789,13 @@ object Form1: TForm1
       PressedEndColor = clSilver
       PressedFontColor = clNavy
       FocusColor = 12305604
-      Down = True
       GroupIndex = 2
       ShowMsgButtonInGroup = True
-      MultiButton_StyleManager = MultiButtonStyleManager1
+      OnClick = Style
       TabOrder = 0
     end
     object MultiButton6: TMultiButton
+      Tag = 1
       Left = 0
       Height = 35
       Top = 70
@@ -1820,9 +1829,11 @@ object Form1: TForm1
       GroupIndex = 2
       ShowMsgButtonInGroup = True
       MultiButton_StyleManager = MultiButtonStyleManager1
+      OnClick = Style
       TabOrder = 1
     end
     object MultiButton7: TMultiButton
+      Tag = 2
       Left = 0
       Height = 35
       Top = 105
@@ -1856,9 +1867,11 @@ object Form1: TForm1
       GroupIndex = 2
       ShowMsgButtonInGroup = True
       MultiButton_StyleManager = MultiButtonStyleManager1
+      OnClick = Style
       TabOrder = 2
     end
     object MultiButton8: TMultiButton
+      Tag = 3
       AnchorSideLeft.Control = MultiPanel4
       AnchorSideTop.Control = MultiButton7
       AnchorSideTop.Side = asrBottom
@@ -1929,6 +1942,7 @@ object Form1: TForm1
       '2'
     )
     object MultiButton9: TMultiButton
+      Tag = 4
       AnchorSideLeft.Control = MultiPanel5
       AnchorSideTop.Control = MultiPanel5
       Left = 3
@@ -1942,32 +1956,37 @@ object Form1: TForm1
       MessageButton.ColorStart = clMoneyGreen
       MessageButton.ColorEnd = clMoneyGreen
       MessageButton.ShowPressed = False
+      MessageButton.Caption = 'X'
       MessageButton.Font.Color = clNavy
       MessageButton.Font.Height = -11
       MessageButton.Font.Name = 'Sans'
       MessageButton.ImageLeft = 0
       MessageButton.ImageTop = 0
+      MessageButton.Visible = True
       MessageButton.Width = 12
       MessageButton.Height = 12
       MessageButton.Alignment = alLeftIn
       MessageButton.ShowBorder = True
       MessageButton.HoverOn = False
       MessageButton.PositionFactor = 2
-      Caption = 'Wolke'
+      Caption = 'Cloud'
       HoverEndColor = clGray
       HoverFontColor = clWhite
       PressedStartColor = clGray
       PressedEndColor = clSilver
       PressedFontColor = clNavy
       FocusColor = 12305604
+      Down = True
       GroupIndex = 2
       ShowMsgButtonInGroup = True
       MultiButton_StyleManager = MultiButtonStyleManager1
+      OnClick = Custom
       OnMouseEnter = MultiButton9MouseEnter
       BorderSpacing.Left = 2
       TabOrder = 0
     end
     object MultiButton10: TMultiButton
+      Tag = 5
       AnchorSideLeft.Control = MultiButton9
       AnchorSideTop.Control = MultiButton9
       AnchorSideTop.Side = asrBottom
@@ -1982,6 +2001,7 @@ object Form1: TForm1
       MessageButton.ColorStart = clMoneyGreen
       MessageButton.ColorEnd = clMoneyGreen
       MessageButton.ShowPressed = False
+      MessageButton.Caption = 'X'
       MessageButton.Font.Color = clNavy
       MessageButton.Font.Height = -11
       MessageButton.Font.Name = 'Sans'
@@ -1993,7 +2013,7 @@ object Form1: TForm1
       MessageButton.ShowBorder = True
       MessageButton.HoverOn = False
       MessageButton.PositionFactor = 2
-      Caption = 'Blase'
+      Caption = 'Bubble'
       HoverEndColor = clGray
       HoverFontColor = clWhite
       PressedStartColor = clGray
@@ -2003,6 +2023,7 @@ object Form1: TForm1
       GroupIndex = 2
       ShowMsgButtonInGroup = True
       MultiButton_StyleManager = MultiButtonStyleManager1
+      OnClick = Custom
       BorderSpacing.Left = 2
       TabOrder = 1
     end
