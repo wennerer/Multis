@@ -150,7 +150,9 @@ end;
 
 procedure TForm1.MultiButton8MouseLeave(Sender: TObject);
 begin
- MultiPanel4.DropDownMenu.Active := true;
+ {$IFDEF LINUX}
+  MultiPanel4.DropDownMenu.Active := true;
+ {$ENDIF}
  MultiPanel5.DropDownMenu.Compressed.Active:=true;
  INPanel5 := false;
 end;

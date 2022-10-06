@@ -17,162 +17,8 @@
       </XPManifest>
       <Icon Value="0"/>
     </General>
-    <BuildModes Count="6">
-      <Item1 Name="Linux_64" Default="True"/>
-      <Item2 Name="Linux_64_Debug">
-        <CompilerOptions>
-          <Version Value="11"/>
-          <Target>
-            <Filename Value="$(BuildMode)/project1"/>
-          </Target>
-          <SearchPaths>
-            <IncludeFiles Value="$(ProjOutDir)"/>
-            <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
-          </SearchPaths>
-          <Parsing>
-            <SyntaxOptions>
-              <IncludeAssertionCode Value="True"/>
-            </SyntaxOptions>
-          </Parsing>
-          <CodeGeneration>
-            <Checks>
-              <IOChecks Value="True"/>
-              <RangeChecks Value="True"/>
-              <OverflowChecks Value="True"/>
-              <StackChecks Value="True"/>
-            </Checks>
-            <VerifyObjMethodCallValidity Value="True"/>
-          </CodeGeneration>
-          <Linking>
-            <Debugging>
-              <DebugInfoType Value="dsDwarf2Set"/>
-              <UseHeaptrc Value="True"/>
-              <TrashVariables Value="True"/>
-              <UseExternalDbgSyms Value="True"/>
-            </Debugging>
-            <Options>
-              <Win32>
-                <GraphicApplication Value="True"/>
-              </Win32>
-            </Options>
-          </Linking>
-          <Other>
-            <Verbosity>
-              <ShowDebugInfo Value="True"/>
-            </Verbosity>
-          </Other>
-        </CompilerOptions>
-      </Item2>
-      <Item3 Name="Linux_64_Release">
-        <CompilerOptions>
-          <Version Value="11"/>
-          <Target>
-            <Filename Value="$(BuildMode)/project1"/>
-          </Target>
-          <SearchPaths>
-            <IncludeFiles Value="$(ProjOutDir)"/>
-            <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
-          </SearchPaths>
-          <CodeGeneration>
-            <SmartLinkUnit Value="True"/>
-            <Optimizations>
-              <OptimizationLevel Value="3"/>
-            </Optimizations>
-          </CodeGeneration>
-          <Linking>
-            <Debugging>
-              <GenerateDebugInfo Value="False"/>
-            </Debugging>
-            <LinkSmart Value="True"/>
-            <Options>
-              <Win32>
-                <GraphicApplication Value="True"/>
-              </Win32>
-            </Options>
-          </Linking>
-        </CompilerOptions>
-      </Item3>
-      <Item4 Name="Linux_32">
-        <CompilerOptions>
-          <Version Value="11"/>
-          <Target>
-            <Filename Value="$(BuildMode)/project1"/>
-          </Target>
-          <SearchPaths>
-            <IncludeFiles Value="$(ProjOutDir)"/>
-            <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
-          </SearchPaths>
-          <CodeGeneration>
-            <TargetCPU Value="i386"/>
-            <TargetOS Value="linux"/>
-          </CodeGeneration>
-          <Linking>
-            <Options>
-              <Win32>
-                <GraphicApplication Value="True"/>
-              </Win32>
-            </Options>
-          </Linking>
-        </CompilerOptions>
-      </Item4>
-      <Item5 Name="Win_32">
-        <CompilerOptions>
-          <Version Value="11"/>
-          <Target>
-            <Filename Value="$(BuildMode)/project1"/>
-          </Target>
-          <SearchPaths>
-            <IncludeFiles Value="$(ProjOutDir)"/>
-            <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
-          </SearchPaths>
-          <CodeGeneration>
-            <TargetCPU Value="i386"/>
-            <TargetOS Value="win32"/>
-          </CodeGeneration>
-          <Linking>
-            <Options>
-              <Win32>
-                <GraphicApplication Value="True"/>
-              </Win32>
-            </Options>
-          </Linking>
-          <Other>
-            <ExecuteAfter>
-              <Command Value="/usr/bin/wine $(TargetCmdLine)"/>
-              <CompileReasons Compile="False" Build="False"/>
-            </ExecuteAfter>
-          </Other>
-        </CompilerOptions>
-      </Item5>
-      <Item6 Name="Win_64">
-        <CompilerOptions>
-          <Version Value="11"/>
-          <Target>
-            <Filename Value="$(BuildMode)/project1"/>
-          </Target>
-          <SearchPaths>
-            <IncludeFiles Value="$(ProjOutDir)"/>
-            <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
-          </SearchPaths>
-          <CodeGeneration>
-            <TargetCPU Value="x86_64"/>
-            <TargetOS Value="win64"/>
-          </CodeGeneration>
-          <Linking>
-            <Options>
-              <Win32>
-                <GraphicApplication Value="True"/>
-              </Win32>
-            </Options>
-          </Linking>
-          <Other>
-            <ExecuteAfter>
-              <Command Value="/usr/bin/wine $(TargetCmdLine)"/>
-              <CompileReasons Compile="False" Build="False"/>
-            </ExecuteAfter>
-          </Other>
-        </CompilerOptions>
-      </Item6>
+    <BuildModes Count="1">
+      <Item1 Name="Release" Default="True"/>
     </BuildModes>
     <PublishOptions>
       <Version Value="2"/>
@@ -213,13 +59,29 @@
       <IncludeFiles Value="$(ProjOutDir)"/>
       <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
+    <CodeGeneration>
+      <SmartLinkUnit Value="True"/>
+      <Optimizations>
+        <OptimizationLevel Value="3"/>
+      </Optimizations>
+    </CodeGeneration>
     <Linking>
+      <Debugging>
+        <GenerateDebugInfo Value="False"/>
+        <DebugInfoType Value="dsDwarf3"/>
+      </Debugging>
+      <LinkSmart Value="True"/>
       <Options>
         <Win32>
           <GraphicApplication Value="True"/>
         </Win32>
       </Options>
     </Linking>
+    <Other>
+      <Verbosity>
+        <ShowDebugInfo Value="True"/>
+      </Verbosity>
+    </Other>
   </CompilerOptions>
   <Debugging>
     <Exceptions Count="3">
