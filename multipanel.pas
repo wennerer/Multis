@@ -1,6 +1,7 @@
 { <A panel for the multi components>
-  <Version 1.0.0.0>
-  Copyright (C) <08.09.2022> <Bernd Hübner>
+  <Version 1.0.0.1>
+  Copyright (C) <07.10.2022> <Bernd Hübner>
+  Many thanks to the members of the German Lazarus Forum!
   For some improvements see https://www.lazarusforum.de/viewtopic.php?f=29&t=14033
 
   This library is free software; you can redistribute it and/or modify it under the

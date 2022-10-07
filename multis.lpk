@@ -11,15 +11,16 @@
       </SearchPaths>
     </CompilerOptions>
     <Description Value="This package contains the following components:
-- TMultiButton[1.2.7.1], a button with many adjustable properties, and a second integrated button.
-- TMultiButtonStyleManager [0.0.4.0], simplifies the design of the MultiButton.
+- TMultiButton, a button with many adjustable properties, and a second integrated button.
+- TMultiButtonStyleManager , simplifies the design of the MultiButton.
 - a i18n .po file for german (used in MB_StylManagerEditor)
-- TMultiplexSlider[1.0.3.0], a slider with many adjustable properties, up to three knobs are possible.
--TMultiSeperator[1.0.1.0], just an optical element in the look of the multis. To be used between controls.
+- TMultiplexSlider, a slider with many adjustable properties, up to three knobs are possible.
+-TMultiSeperator, just an optical element in the look of the multis. To be used between controls.
+-TMultiPanel, a panel with a panel with drop-down effect
 - the unit PointIn
-"/>
+-the unit custompen"/>
     <License Value="modified LGPL-2"/>
-    <Version Major="1" Release="3" Build="3"/>
+    <Version Major="1" Release="4"/>
     <Files Count="19">
       <Item1>
         <Filename Value="multibuttonstylemanager.pas"/>

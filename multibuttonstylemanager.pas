@@ -1,5 +1,5 @@
 { <TMultiButtonStyleManager, simplifies the design of the MultiButton>
-  <Version 0.0.4.1>
+  <Version 0.0.4.2>
   Copyright (C) <08.08.2021> <Bernd Hübner>
   Many thanks to the members of the German Lazarus Forum!
   For some improvements see https://www.lazarusforum.de/viewtopic.php?f=29&t=13252
