@@ -1140,7 +1140,6 @@ begin
 
  if (CurControl as TForm).Active then
   begin
-   //(CurControl as TForm).Repaint;
    FParentBmpTimer.Enabled:=false;
    FFormIsActive := true;
 
@@ -1207,8 +1206,6 @@ begin
      (comp as TMultiplexSlider).OnMouseNotInSelf := @MouseNotInComponent;
     end;
   end;
-
-
 end;
 
 
@@ -1216,7 +1213,6 @@ procedure TMultiPanel.DefineProperties(Filer: TFiler);
 begin
   inherited DefineProperties(Filer);
   Filer.DefineProperty('StrPolygon',@ReadPoints,@WritePoints,true);
-
 end;
 
 procedure TMultiPanel.ReadPoints(Reader: TReader);
@@ -1241,9 +1237,6 @@ begin
    inc(i);
   end;
  SetCustomValues(FCustomValues);
-
-
-
 end;
 
 procedure TMultiPanel.WritePoints(Writer: TWriter);
