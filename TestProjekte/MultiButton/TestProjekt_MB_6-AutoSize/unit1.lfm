@@ -1,0 +1,987 @@
+object Form1: TForm1
+  Left = 30
+  Height = 800
+  Top = 30
+  Width = 1265
+  HorzScrollBar.Page = 1265
+  VertScrollBar.Page = 800
+  AutoScroll = True
+  AutoSize = True
+  Caption = 'Test AutoSize'
+  ClientHeight = 800
+  ClientWidth = 1265
+  OnCreate = FormCreate
+  Visible = True
+  object MultiButton1: TMultiButton
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    Left = 10
+    Height = 50
+    Top = 20
+    Width = 101
+    MessageButton.ImageLeft = 0
+    MessageButton.ImageTop = 0
+    Caption = 'MultiButton1'
+    AutoSize = True
+    BorderSpacing.Left = 10
+    BorderSpacing.Top = 20
+    Constraints.MinHeight = 50
+    TabOrder = 0
+  end
+  object MultiButton2: TMultiButton
+    AnchorSideLeft.Control = MultiButton1
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Owner
+    Left = 131
+    Height = 50
+    Top = 20
+    Width = 137
+    ImageIndex = 0
+    Images = ImageList1
+    ImageLeft = 4
+    ImageTop = 4
+    MessageButton.Images = ImageList1
+    MessageButton.ImageLeft = 0
+    MessageButton.ImageTop = 0
+    Caption = 'MultiButton2'
+    CaptionAlignment = taLeftJustify
+    CaptionHorMargin = 40
+    HoverImageIndex = 0
+    PressedImageIndex = 0
+    AutoSize = True
+    BorderSpacing.Left = 20
+    BorderSpacing.Top = 20
+    TabOrder = 1
+  end
+  object MultiButton3: TMultiButton
+    AnchorSideLeft.Control = MultiButton2
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Owner
+    Left = 288
+    Height = 70
+    Top = 20
+    Width = 101
+    ImageIndex = 0
+    Images = ImageList1
+    ImageLeft = 29
+    ImageTop = 4
+    MessageButton.Images = ImageList1
+    MessageButton.ImageLeft = 0
+    MessageButton.ImageTop = 0
+    Caption = 'MultiButton3'
+    CaptionLayout = tlTop
+    CaptionVerMargin = 36
+    HoverImageIndex = 0
+    PressedImageIndex = 0
+    AutoSize = True
+    BorderSpacing.Left = 20
+    BorderSpacing.Top = 20
+    TabOrder = 2
+  end
+  object MultiButton4: TMultiButton
+    AnchorSideLeft.Control = MultiButton3
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Owner
+    Left = 409
+    Height = 70
+    Top = 20
+    Width = 101
+    ImageIndex = 0
+    Images = ImageList1
+    ImageLeft = 29
+    ImageTop = 20
+    MessageButton.Images = ImageList1
+    MessageButton.ImageLeft = 0
+    MessageButton.ImageTop = 0
+    Caption = 'MultiButton4'
+    CaptionLayout = tlTop
+    CaptionVerMargin = 4
+    HoverImageIndex = 0
+    PressedImageIndex = 0
+    AutoSize = True
+    BorderSpacing.Left = 20
+    BorderSpacing.Top = 20
+    TabOrder = 3
+  end
+  object MultiButton5: TMultiButton
+    AnchorSideLeft.Control = MultiButton4
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Owner
+    Left = 530
+    Height = 50
+    Top = 20
+    Width = 137
+    ImageIndex = 0
+    Images = ImageList1
+    ImageLeft = 89
+    ImageTop = 4
+    MessageButton.Images = ImageList1
+    MessageButton.ImageLeft = 0
+    MessageButton.ImageTop = 0
+    Caption = 'MultiButton5'
+    CaptionAlignment = taLeftJustify
+    CaptionHorMargin = 4
+    HoverImageIndex = 0
+    PressedImageIndex = 0
+    AutoSize = True
+    BorderSpacing.Left = 20
+    BorderSpacing.Top = 20
+    TabOrder = 4
+  end
+  object MultiButton6: TMultiButton
+    AnchorSideLeft.Control = MultiButton5
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Owner
+    Left = 687
+    Height = 58
+    Top = 20
+    Width = 119
+    MessageButton.Caption = 'MB'
+    MessageButton.ImageLeft = 0
+    MessageButton.ImageTop = 0
+    MessageButton.Visible = True
+    MessageButton.Width = 29
+    MessageButton.Height = 24
+    Caption = 'MultiButton6'
+    CaptionLayout = tlTop
+    CaptionVerMargin = 4
+    AutoSize = True
+    BorderSpacing.Left = 20
+    BorderSpacing.Top = 20
+    TabOrder = 5
+  end
+  object MultiButton7: TMultiButton
+    AnchorSideLeft.Control = MultiButton6
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Owner
+    Left = 826
+    Height = 58
+    Top = 20
+    Width = 119
+    MessageButton.Caption = 'MB'
+    MessageButton.ImageLeft = 0
+    MessageButton.ImageTop = 0
+    MessageButton.Visible = True
+    MessageButton.Width = 29
+    MessageButton.Height = 24
+    MessageButton.Alignment = alNE
+    Caption = 'MultiButton7'
+    CaptionLayout = tlTop
+    CaptionVerMargin = 18
+    AutoSize = True
+    BorderSpacing.Left = 20
+    BorderSpacing.Top = 20
+    TabOrder = 6
+  end
+  object MultiButton8: TMultiButton
+    AnchorSideLeft.Control = MultiButton7
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Owner
+    Left = 965
+    Height = 58
+    Top = 20
+    Width = 119
+    MessageButton.Caption = 'MB'
+    MessageButton.ImageLeft = 0
+    MessageButton.ImageTop = 0
+    MessageButton.Visible = True
+    MessageButton.Width = 29
+    MessageButton.Height = 24
+    MessageButton.Alignment = alNW
+    Caption = 'MultiButton8'
+    CaptionLayout = tlTop
+    CaptionVerMargin = 18
+    AutoSize = True
+    BorderSpacing.Left = 20
+    BorderSpacing.Top = 20
+    TabOrder = 7
+  end
+  object MultiButton9: TMultiButton
+    AnchorSideLeft.Control = MultiButton8
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Owner
+    Left = 1104
+    Height = 58
+    Top = 20
+    Width = 119
+    MessageButton.Caption = 'MB'
+    MessageButton.ImageLeft = 0
+    MessageButton.ImageTop = 0
+    MessageButton.Visible = True
+    MessageButton.Width = 29
+    MessageButton.Height = 24
+    MessageButton.Alignment = alSW
+    Caption = 'MultiButton9'
+    CaptionLayout = tlTop
+    CaptionVerMargin = 4
+    AutoSize = True
+    BorderSpacing.Left = 20
+    BorderSpacing.Top = 20
+    BorderSpacing.Right = 10
+    TabOrder = 8
+  end
+  object Button1: TButton
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 10
+    Height = 30
+    Top = 750
+    Width = 134
+    BorderSpacing.Left = 10
+    BorderSpacing.Top = 750
+    BorderSpacing.Bottom = 20
+    Caption = 'Caption MultiButton'
+    OnClick = Button1Click
+    TabOrder = 9
+  end
+  object MultiButton10: TMultiButton
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    Left = 10
+    Height = 90
+    Top = 130
+    Width = 145
+    Images = ImageList1
+    ImageLeft = 4
+    ImageTop = 4
+    MessageButton.Style = mbsRect
+    MessageButton.CaptionAlignment = taLeftJustify
+    MessageButton.CaptionLayout = tlTop
+    MessageButton.Images = ImageList1
+    MessageButton.ImageIndex = 0
+    MessageButton.ImageLeft = 4
+    MessageButton.ImageTop = 4
+    MessageButton.Visible = True
+    MessageButton.Width = 40
+    MessageButton.Height = 40
+    MessageButton.Alignment = alS
+    Caption = 'MultiButton10'
+    CaptionAlignment = taLeftJustify
+    CaptionLayout = tlTop
+    CaptionHorMargin = 36
+    CaptionVerMargin = 12
+    AutoSize = True
+    BorderSpacing.Left = 10
+    BorderSpacing.Top = 130
+    TabOrder = 10
+  end
+  object MultiButton11: TMultiButton
+    AnchorSideLeft.Control = MultiButton10
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Owner
+    Left = 175
+    Height = 90
+    Top = 130
+    Width = 145
+    Images = ImageList1
+    ImageLeft = 4
+    ImageTop = 24
+    MessageButton.Style = mbsEllipse
+    MessageButton.CaptionAlignment = taLeftJustify
+    MessageButton.CaptionLayout = tlTop
+    MessageButton.Images = ImageList1
+    MessageButton.ImageIndex = 0
+    MessageButton.ImageLeft = 4
+    MessageButton.ImageTop = 4
+    MessageButton.Visible = True
+    MessageButton.Width = 40
+    MessageButton.Height = 40
+    MessageButton.Alignment = alN
+    Caption = 'MultiButton11'
+    CaptionAlignment = taLeftJustify
+    CaptionLayout = tlTop
+    CaptionHorMargin = 40
+    CaptionVerMargin = 32
+    AutoSize = True
+    BorderSpacing.Left = 20
+    BorderSpacing.Top = 130
+    TabOrder = 11
+  end
+  object MultiButton12: TMultiButton
+    AnchorSideLeft.Control = MultiButton11
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Owner
+    Left = 343
+    Height = 50
+    Top = 133
+    Width = 185
+    Images = ImageList1
+    ImageLeft = 127
+    ImageTop = 4
+    MessageButton.Style = mbsEllipse
+    MessageButton.CaptionAlignment = taLeftJustify
+    MessageButton.CaptionLayout = tlTop
+    MessageButton.Images = ImageList1
+    MessageButton.ImageIndex = 0
+    MessageButton.ImageLeft = 4
+    MessageButton.ImageTop = 4
+    MessageButton.Visible = True
+    MessageButton.Width = 40
+    MessageButton.Height = 40
+    MessageButton.Alignment = alW
+    Caption = 'MultiButton12'
+    CaptionAlignment = taLeftJustify
+    CaptionHorMargin = 30
+    CaptionVerMargin = 32
+    AutoSize = True
+    BorderSpacing.Left = 20
+    BorderSpacing.Top = 130
+    BorderSpacing.Around = 3
+    TabOrder = 12
+  end
+  object MultiButton13: TMultiButton
+    AnchorSideLeft.Control = MultiButton12
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Owner
+    Left = 548
+    Height = 50
+    Top = 130
+    Width = 185
+    Images = ImageList1
+    ImageLeft = 4
+    ImageTop = 4
+    MessageButton.CaptionAlignment = taLeftJustify
+    MessageButton.CaptionLayout = tlTop
+    MessageButton.Images = ImageList1
+    MessageButton.ImageIndex = 0
+    MessageButton.ImageLeft = 4
+    MessageButton.ImageTop = 4
+    MessageButton.Visible = True
+    MessageButton.Width = 40
+    MessageButton.Height = 40
+    MessageButton.Alignment = alE
+    Caption = 'MultiButton13'
+    CaptionAlignment = taLeftJustify
+    CaptionHorMargin = 40
+    AutoSize = True
+    BorderSpacing.Left = 20
+    BorderSpacing.Top = 130
+    TabOrder = 13
+  end
+  object MultiButton14: TMultiButton
+    AnchorSideLeft.Control = MultiButton13
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Owner
+    Left = 753
+    Height = 62
+    Top = 130
+    Width = 129
+    Images = ImageList2
+    ImageLeft = 4
+    ImageTop = 6
+    MessageButton.Style = mbsRect
+    MessageButton.Caption = 'Message'
+    MessageButton.CaptionAlignment = taLeftJustify
+    MessageButton.CaptionHorMargin = 24
+    MessageButton.Images = ImageList2
+    MessageButton.ImageIndex = 0
+    MessageButton.ImageLeft = 4
+    MessageButton.ImageTop = 4
+    MessageButton.Visible = True
+    MessageButton.Width = 81
+    MessageButton.Height = 24
+    MessageButton.Alignment = alBottomIn
+    Caption = 'MultiButton14'
+    CaptionAlignment = taLeftJustify
+    CaptionLayout = tlTop
+    CaptionHorMargin = 20
+    CaptionVerMargin = 6
+    AutoSize = True
+    BorderSpacing.Left = 20
+    BorderSpacing.Top = 130
+    TabOrder = 14
+  end
+  object MultiButton15: TMultiButton
+    AnchorSideLeft.Control = MultiButton14
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Owner
+    Left = 902
+    Height = 58
+    Top = 130
+    Width = 129
+    Images = ImageList2
+    ImageLeft = 4
+    ImageTop = 25
+    MessageButton.Style = mbsEllipse
+    MessageButton.Caption = 'Message'
+    MessageButton.CaptionAlignment = taLeftJustify
+    MessageButton.CaptionHorMargin = 24
+    MessageButton.Images = ImageList2
+    MessageButton.ImageIndex = 0
+    MessageButton.ImageLeft = 4
+    MessageButton.ImageTop = 4
+    MessageButton.Visible = True
+    MessageButton.Width = 81
+    MessageButton.Height = 24
+    MessageButton.Alignment = alTopIn
+    Caption = 'MultiButton15'
+    CaptionAlignment = taLeftJustify
+    CaptionLayout = tlTop
+    CaptionHorMargin = 20
+    CaptionVerMargin = 25
+    AutoSize = True
+    BorderSpacing.Left = 20
+    BorderSpacing.Top = 130
+    TabOrder = 15
+  end
+  object MultiButton16: TMultiButton
+    AnchorSideLeft.Control = MultiButton15
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Owner
+    Left = 1051
+    Height = 34
+    Top = 117
+    Width = 210
+    Images = ImageList2
+    ImageLeft = 178
+    ImageTop = 4
+    Style = mbsRect
+    MessageButton.Style = mbsRect
+    MessageButton.Caption = 'Message'
+    MessageButton.CaptionAlignment = taLeftJustify
+    MessageButton.CaptionHorMargin = 24
+    MessageButton.Images = ImageList2
+    MessageButton.ImageIndex = 0
+    MessageButton.ImageLeft = 4
+    MessageButton.ImageTop = 4
+    MessageButton.Visible = True
+    MessageButton.Width = 81
+    MessageButton.Height = 24
+    MessageButton.Alignment = alLeftIn
+    Caption = 'MultiButton16'
+    CaptionAlignment = taLeftJustify
+    CaptionHorMargin = 85
+    AutoSize = True
+    BorderSpacing.Left = 20
+    BorderSpacing.Top = 117
+    TabOrder = 16
+  end
+  object MultiButton17: TMultiButton
+    AnchorSideLeft.Control = MultiButton15
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = MultiButton16
+    AnchorSideTop.Side = asrBottom
+    Left = 1051
+    Height = 34
+    Top = 156
+    Width = 214
+    Images = ImageList2
+    ImageLeft = 4
+    ImageTop = 4
+    Style = mbsRect
+    MessageButton.Style = mbsRect
+    MessageButton.Caption = 'Message'
+    MessageButton.CaptionAlignment = taLeftJustify
+    MessageButton.CaptionHorMargin = 24
+    MessageButton.Images = ImageList2
+    MessageButton.ImageIndex = 0
+    MessageButton.ImageLeft = 4
+    MessageButton.ImageTop = 4
+    MessageButton.Visible = True
+    MessageButton.Width = 81
+    MessageButton.Height = 24
+    MessageButton.Alignment = alRightIn
+    Caption = 'MultiButton17'
+    CaptionAlignment = taLeftJustify
+    CaptionHorMargin = 24
+    AutoSize = True
+    BorderSpacing.Left = 20
+    BorderSpacing.Top = 5
+    TabOrder = 17
+  end
+  object MultiButton18: TMultiButton
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    Left = 10
+    Height = 34
+    Top = 300
+    Width = 153
+    Images = ImageList2
+    ImageLeft = 4
+    ImageTop = 4
+    Style = mbsRect
+    MessageButton.Style = mbsRect
+    MessageButton.CaptionAlignment = taLeftJustify
+    MessageButton.CaptionLayout = tlTop
+    MessageButton.Images = ImageList2
+    MessageButton.ImageIndex = 0
+    MessageButton.ImageLeft = 4
+    MessageButton.ImageTop = 4
+    MessageButton.Visible = True
+    MessageButton.Width = 24
+    MessageButton.Height = 24
+    MessageButton.Alignment = alLeftOut
+    Caption = 'MultiButton18'
+    CaptionAlignment = taLeftJustify
+    CaptionHorMargin = 24
+    AutoSize = True
+    BorderSpacing.Left = 10
+    BorderSpacing.Top = 300
+    TabOrder = 18
+  end
+  object MultiButton19: TMultiButton
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = MultiButton18
+    AnchorSideTop.Side = asrBottom
+    Left = 10
+    Height = 34
+    Top = 344
+    Width = 153
+    Images = ImageList2
+    ImageLeft = 4
+    ImageTop = 4
+    Style = mbsRect
+    MessageButton.Style = mbsRect
+    MessageButton.CaptionAlignment = taLeftJustify
+    MessageButton.CaptionLayout = tlTop
+    MessageButton.Images = ImageList2
+    MessageButton.ImageIndex = 0
+    MessageButton.ImageLeft = 4
+    MessageButton.ImageTop = 4
+    MessageButton.Visible = True
+    MessageButton.Width = 24
+    MessageButton.Height = 24
+    MessageButton.Alignment = alRightOut
+    Caption = 'MultiButton19'
+    CaptionAlignment = taLeftJustify
+    CaptionHorMargin = 24
+    AutoSize = True
+    BorderSpacing.Left = 10
+    BorderSpacing.Top = 10
+    TabOrder = 19
+  end
+  object MultiButton20: TMultiButton
+    AnchorSideLeft.Control = MultiButton18
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Owner
+    Left = 183
+    Height = 62
+    Top = 300
+    Width = 129
+    Images = ImageList2
+    ImageLeft = 4
+    ImageTop = 6
+    MessageButton.CaptionAlignment = taLeftJustify
+    MessageButton.CaptionLayout = tlTop
+    MessageButton.CaptionHorMargin = 24
+    MessageButton.Images = ImageList2
+    MessageButton.ImageIndex = 0
+    MessageButton.ImageLeft = 4
+    MessageButton.ImageTop = 4
+    MessageButton.Visible = True
+    MessageButton.Width = 119
+    MessageButton.Height = 24
+    MessageButton.Alignment = alBottomOut
+    Caption = 'MultiButton20'
+    CaptionAlignment = taLeftJustify
+    CaptionLayout = tlTop
+    CaptionHorMargin = 20
+    CaptionVerMargin = 6
+    AutoSize = True
+    BorderSpacing.Left = 20
+    BorderSpacing.Top = 300
+    TabOrder = 20
+  end
+  object MultiButton21: TMultiButton
+    AnchorSideLeft.Control = MultiButton20
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Owner
+    Left = 332
+    Height = 58
+    Top = 300
+    Width = 129
+    Images = ImageList2
+    ImageLeft = 4
+    ImageTop = 4
+    MessageButton.CaptionAlignment = taLeftJustify
+    MessageButton.CaptionLayout = tlTop
+    MessageButton.Images = ImageList2
+    MessageButton.ImageIndex = 0
+    MessageButton.ImageLeft = 4
+    MessageButton.ImageTop = 4
+    MessageButton.Visible = True
+    MessageButton.Width = 119
+    MessageButton.Height = 24
+    MessageButton.Alignment = alTopOut
+    Caption = 'MultiButton21'
+    CaptionAlignment = taLeftJustify
+    CaptionLayout = tlTop
+    CaptionHorMargin = 20
+    CaptionVerMargin = 4
+    AutoSize = True
+    BorderSpacing.Left = 20
+    BorderSpacing.Top = 300
+    TabOrder = 21
+  end
+  object MultiButton22: TMultiButton
+    AnchorSideLeft.Control = MultiButton21
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Owner
+    Left = 511
+    Height = 74
+    Top = 350
+    Width = 174
+    ImageIndex = 0
+    Images = ImageList1
+    ImageLeft = 4
+    ImageTop = 16
+    MessageButton.Caption = 'MB'
+    MessageButton.Images = ImageList1
+    MessageButton.ImageLeft = 0
+    MessageButton.ImageTop = 0
+    MessageButton.Visible = True
+    MessageButton.Width = 29
+    MessageButton.Height = 24
+    Caption = 'MultiButton22'
+    CaptionAlignment = taLeftJustify
+    CaptionLayout = tlTop
+    CaptionHorMargin = 40
+    CaptionVerMargin = 24
+    HoverImageIndex = 0
+    PressedImageIndex = 0
+    AutoSize = True
+    BorderSpacing.Left = 50
+    BorderSpacing.Top = 350
+    TabOrder = 22
+  end
+  object MultiButton23: TMultiButton
+    AnchorSideLeft.Control = MultiButton22
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Owner
+    Left = 705
+    Height = 74
+    Top = 350
+    Width = 174
+    ImageIndex = 0
+    Images = ImageList1
+    ImageLeft = 97
+    ImageTop = 16
+    MessageButton.Caption = 'MB'
+    MessageButton.Images = ImageList1
+    MessageButton.ImageLeft = 0
+    MessageButton.ImageTop = 0
+    MessageButton.Visible = True
+    MessageButton.Width = 29
+    MessageButton.Height = 24
+    Caption = 'MultiButton23'
+    CaptionAlignment = taLeftJustify
+    CaptionLayout = tlTop
+    CaptionHorMargin = 4
+    CaptionVerMargin = 24
+    HoverImageIndex = 0
+    PressedImageIndex = 0
+    AutoSize = True
+    BorderSpacing.Left = 20
+    BorderSpacing.Top = 350
+    TabOrder = 23
+  end
+  object MultiButton24: TMultiButton
+    AnchorSideLeft.Control = MultiButton23
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Owner
+    Left = 899
+    Height = 89
+    Top = 350
+    Width = 142
+    ImageIndex = 0
+    Images = ImageList1
+    ImageLeft = 33
+    ImageTop = 24
+    MessageButton.Caption = 'MB'
+    MessageButton.Images = ImageList1
+    MessageButton.ImageLeft = 0
+    MessageButton.ImageTop = 0
+    MessageButton.Visible = True
+    MessageButton.Width = 29
+    MessageButton.Height = 24
+    Caption = 'MultiButton24'
+    CaptionAlignment = taLeftJustify
+    CaptionLayout = tlTop
+    CaptionHorMargin = 4
+    CaptionVerMargin = 4
+    HoverImageIndex = 0
+    PressedImageIndex = 0
+    AutoSize = True
+    BorderSpacing.Left = 20
+    BorderSpacing.Top = 350
+    TabOrder = 24
+  end
+  object MultiButton25: TMultiButton
+    AnchorSideLeft.Control = MultiButton24
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Owner
+    Left = 1061
+    Height = 93
+    Top = 350
+    Width = 142
+    ImageIndex = 0
+    Images = ImageList1
+    ImageLeft = 33
+    ImageTop = 4
+    MessageButton.Caption = 'MB'
+    MessageButton.Images = ImageList1
+    MessageButton.ImageLeft = 0
+    MessageButton.ImageTop = 0
+    MessageButton.Visible = True
+    MessageButton.Width = 29
+    MessageButton.Height = 24
+    Caption = 'MultiButton25'
+    CaptionAlignment = taLeftJustify
+    CaptionLayout = tlTop
+    CaptionHorMargin = 4
+    CaptionVerMargin = 40
+    HoverImageIndex = 0
+    PressedImageIndex = 0
+    AutoSize = True
+    BorderSpacing.Left = 20
+    BorderSpacing.Top = 350
+    TabOrder = 25
+  end
+  object Button2: TButton
+    AnchorSideLeft.Control = Button1
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Owner
+    Left = 164
+    Height = 30
+    Top = 750
+    Width = 124
+    BorderSpacing.Left = 20
+    BorderSpacing.Top = 750
+    Caption = 'Font Height Multi'
+    OnClick = Button2Click
+    TabOrder = 26
+  end
+  object Button3: TButton
+    AnchorSideLeft.Control = Button2
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Owner
+    Left = 308
+    Height = 30
+    Top = 750
+    Width = 155
+    BorderSpacing.Left = 20
+    BorderSpacing.Top = 750
+    Caption = 'Caption MessageButton'
+    OnClick = Button3Click
+    TabOrder = 27
+  end
+  object Button4: TButton
+    AnchorSideLeft.Control = Button3
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Owner
+    Left = 483
+    Height = 30
+    Top = 750
+    Width = 139
+    BorderSpacing.Left = 20
+    BorderSpacing.Top = 750
+    Caption = 'Font Height Message'
+    OnClick = Button4Click
+    TabOrder = 28
+  end
+  object Button5: TButton
+    AnchorSideLeft.Control = Button4
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Owner
+    Left = 642
+    Height = 30
+    Top = 750
+    Width = 150
+    BorderSpacing.Left = 20
+    BorderSpacing.Top = 750
+    Caption = 'FocusFrameWidth'
+    OnClick = Button5Click
+    TabOrder = 29
+  end
+  object Button6: TButton
+    AnchorSideLeft.Control = Button5
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Owner
+    Left = 812
+    Height = 30
+    Top = 750
+    Width = 281
+    BorderSpacing.Left = 20
+    BorderSpacing.Top = 750
+    Caption = 'MessageButton Alignment [alSE]'
+    OnClick = Button6Click
+    TabOrder = 30
+  end
+  object MultiButton26: TMultiButton
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = MultiButton19
+    AnchorSideTop.Side = asrBottom
+    Left = 10
+    Height = 109
+    Top = 398
+    Width = 34
+    MessageButton.ImageLeft = 0
+    MessageButton.ImageTop = 0
+    Caption = 'MultiButton26'
+    Font.Orientation = 900
+    CaptionAlignment = taLeftJustify
+    CaptionLayout = tlTop
+    CaptionWordbreak = False
+    CaptionHorMargin = 4
+    CaptionVerMargin = 95
+    AutoSize = True
+    BorderSpacing.Left = 10
+    BorderSpacing.Top = 20
+    TabOrder = 31
+  end
+  object MultiButton27: TMultiButton
+    AnchorSideLeft.Control = MultiButton26
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = MultiButton19
+    AnchorSideTop.Side = asrBottom
+    Left = 64
+    Height = 109
+    Top = 398
+    Width = 34
+    MessageButton.ImageLeft = 0
+    MessageButton.ImageTop = 0
+    Caption = 'MultiButton27'
+    Font.Orientation = 2700
+    CaptionAlignment = taLeftJustify
+    CaptionLayout = tlTop
+    CaptionWordbreak = False
+    CaptionHorMargin = 20
+    CaptionVerMargin = 4
+    AutoSize = True
+    BorderSpacing.Left = 20
+    BorderSpacing.Top = 20
+    TabOrder = 32
+  end
+  object ImageList1: TImageList
+    Height = 32
+    Width = 32
+    Left = 1088
+    Top = 552
+    Bitmap = {
+      4C7A010000002000000020000000510800000000000078DADD566754544916EE
+      26390D2248236BA29B554116476155D0258EA30292C3AA482B418EA8E4A08208
+      4AC62607051B0441902C8A6154D0C1469424E890154912548E02C278906D9BBB
+      55BD0F1719D61D1DFFECBE73BEF3DEAB57AFBE7B6F7D75EF2591FE772F595959
+      810DAA1BE5105436A86E9057545214F9566B6F33DCB62C36298E95959BDD9C9E
+      79BE222A2EC6C7C0C870ADAC9CACC06E5B6B95ED163B072DAD768F316CAC269C
+      3DDCDE1E0F0E183BE27B747CEFFE7D5714D72AED90909410FA23FCA127C3EC2F
+      5E2EE2F43C7F0ECF9E3D83DA87B59CB48CF4166D5D1DAD25D24B974AD36886CB
+      562CD755DEB8C1F2A08B7349707818E414154CA464A4714E04078EE8191BF84A
+      50A973BF965F9A2E2DE8EDE7E35C72E7F65857571760F4F6F6C2B9CC8C7A2363
+      A35533E7EB1B1A587A781DEA0B8D38D9C38C8E1C8A888BE1EEB1B5CA94A04A7C
+      BD0DD2D202E1A722026E96DE1A7B8EE2D0D9D909350F6B27A2E3633D67CEA508
+      53F875F4B6D9049E0C19727071BA1FC40C7D1B191FC33530313CF97B6CF87EF5
+      F7F3757475447F3BBE5AF2342BE9FAC0C0008FBFA3B303D2B3322B675B036950
+      C8D3FBF0074757E72BA6DBCD8BBC7C7D0622E2A227F7ECB5BEF0391BD4D4D484
+      999111455939D931FAFAFAE419FCA291713157DFBC7903D886BEFE3EC8CECF6D
+      9B955F6DE3EA63FEC727DD8F1CEA3634314E35F9BB79816FC08937CC98483030
+      350CFC4F9ADCB59BA173BFB2F2434363232736213E554F4F4F9A88BF604C7CDC
+      F15BA525C3232323F0FAF56BC4DF3F89CEC3B5DF2C222C4E91D166ECF7F4F101
+      B4FF606D67DB6D626E9A839077E8E8919EC0B0E07FB8B8B91E9C959FC1502DAF
+      B837DED7D707955555EF4E9D49BCC7B0DA73DEFBD8D1FCDB653FFFDAD5DD0D53
+      1A6C6D6BE39E4949BEE5EEEEFEC91A02BA1ECEAB8E5F79C1084903DFA0208888
+      8DE6DAEEB3EB353633CD343137CB0989600E397BB8B6A39C419EC9AFA5A52590
+      5B5830D0DFDF0F2F5EBCE0F9F9EAD52BE81FE887972F5F02B60B6BBFA7A78777
+      AFADABE3B87A7A048989898992286273F875DC6CD78795720C339F805A52036C
+      F1CF86A3C886B833A721363161FC547252E7D113BE1541CCB011EBBD36C5D636
+      D6F60B172DFAF3741B629212FD1A9B9A38C3C3C380F77A0AD8167C1F1C1C8427
+      4F9E406B6B2BCFB632F6DDD72E1E6E87F8B4DDB7CB1FBBD46F94F51434929B60
+      4D6C3DA89E69041DDFD4F1EDF64E6C9B7D76D94EEE2E9D69591943A191CCBAF0
+      D8286E581413765AEE4A90929222FFFBBCD3C49176221B1A1B7836BC7FFF1EC6
+      C7C7013F3F7DD60EA3A3A3D08DF60173E3380C0D8F4078F64F1F1403AE734CB2
+      9EF0383137F67F7362CD24BF59400449922E8CD756D754A7A31C3991999F3D8A
+      B4599278963566646A9C46A552053ECD39B4791151911ED979B94DC5D7AEBEC7
+      C829C86B8A4E883FFFA0AA8A33F2F62D6F2F703C0ACA7F814DCC1B6076E129FC
+      90D2FCD1EF4D0995DC79FB922F912465A81FCF978686CC611FEF89F8A4D31CB4
+      17832E9E6EFDCA2A2AAB3F970F2C2C2C04E8743ADFD4BB939B8B63E99DDB8343
+      281EC5F71B4039E81A9865B5811AAB1114E3EA6113B2412BAEE203BF49401889
+      2A33EF933AB5525612E5A48ED367591C7BC7838F519E51FED25C88B426E2E4EA
+      E2CABA7893B3857915CC11F7A6B32D3CEE1F535B413DB20C563826E520EE596B
+      E01A25A51F77ECB270DEB173A792B0B030F98B93B1B018994FDF5959DE2B7FD4
+      3C13F1B19A4029BE1EB6A6B58066541904E6B1E1F24F37461D1C1DD490ADE46F
+      5DEBF9B67AAC97723A576B96D93AB919F9AB14FF0874D2DB403DFC36785F6043
+      6FFF00BC44DACCCECBA9DF7FE0C0BA6F464C11E3276F71D358E155F002736BF0
+      FC46DC69CDF0B7D01B105BFC003ABBBA79BAC478DEDB3B5970E9629783A3A382
+      8484C41FA6276F7533A17BE6B49B4EF91DF72FBFD7045C1FD6F53E555E595DCD
+      C13909D7A6A9FC849E27CF9D4FBF999995B5E2AB89E90E8BE6E817F9AD0B29E1
+      E03336A573EDD4661E37BF41A81569FE32BEFCC282F0BB6CF608CECDB84FC1C0
+      B6B4B6B572519DACA6D1E94BBE985B4E535CCC3EE586664CF9AFDB90AF9AC988
+      139F31A4F775A12563DF59B27C31379E1A101030BFA0A830A6BAA686D3DEDECE
+      CB91181D1D1D80EA1937282C249D46A7FDE977C7FBAF262A0B1CD21FEAA53602
+      DEEBA9BCA67EA60154A3D81C74BE3D4812329FE42D5C8B504D3A55C6668FE2FC
+      DCD2D202CDCDCDF0F8F163A8A9ADE526A6B00A513FF5DFFBC1959A0BA41CD31F
+      69B31E4D6E4C6CF8C8BD2AEA2168B3EAB8F3EC58B928A77E37DBAF0C06439275
+      369985F2E487868606A8ACAC84D2D252B873E70EA0FACDB1B462687C967BA9A2
+      88886D52AEFEB9265039FDCB476E85E83AD04F6F9914B74B2E252F51A4CF1632
+      7C3C11F851EF22E8E77F3CFDE7BB65EFD86C36D4D4D4F06CA8AAAE82DDD67BFC
+      3FDFEC292E5FEA76A1CA3CA7E323F772663568A373F617BFE2777CCA3BB54973
+      E6E17A82FD17C4259FB8531070DF361F814AA3D156791DF32928BF778F5B5151
+      01D5D5D570F94A31C7D8D4740B319F6F06331E132189482C24FF70206273C203
+      AE2ED29C028AF956A475B9C3D983E4B5C6AE688E3C023E4F3806B83FC2BA5E8C
+      B08878A613DFE52914CA6AABBD36AC93E1CC72FFE0C0520BC62E0F342E89D338
+      612FFF347E51E29B3469AEE41A51F3138548F7EF0D339A41C1AF7882BC665B30
+      4990A28DBEAB22ACC72DE1345B9611BC34C226DC53C86125090909AD5C2A2DBD
+      6EF1E2C50A828282D84E9C8C705D9A332306B82FA5123E2C23CDA52AF3AD378F
+      1254B7CAE1A32BD9A2314D5CC2717B89B01641016139560CC2C269EBCE25FC13
+      27F6429C789F4BF82C34C3EFA98B9FD8533C7FC1B458620E59C21F39E25D86F8
+      2E45AC2D4CFC4F9EA6C399F8925A4426F42044D8442138A6743787D01D1FE9FF
+      E4FA27539064CA
+    }
+    BitmapAdv = {
+      4C69010000004C7A010000001000000010000000B50200000000000078DA6360
+      C00D38393919A56565C425A52479188800CDED2DED070F1F7A3671F2A4F916D6
+      96AAD676B67323E3620E74F475FFCCCECFDD0B344B199F7E1D3D5DD9EDBB77DC
+      7AF8F0E1FF895326CF84893BBBB964D4B7343EAC6B6E7C22232BA381AC878F8F
+      8F29232B335C484808CC8F4B4C487AF6ECD9FF43470FBF80A9919695E6292A2F
+      7D1C191BB3BDBAB1EE898C9C8C2ADC4E5D5D850B172FFEE9EDEF9F6B636B13B2
+      73F7AE1BCF9F3FFFBF77FFBE5B3232326035C2AE2985A52D5DFFD3B3336F45C6
+      446DADA8AD3E0D0C1BB01C3F3F3FE39EFDFB6FBC79F3E6FFABD7AFFEBF7AF5EA
+      FFA3478FFEDFB973E75F766E4E0DB74B4686F3AC8BFF2C271CFF9F59DFF1AEA6
+      A9FE3A303CEE9454941E555452D20599A1ABAFA7B577DFDE0B57AF5DFB73E0F0
+      A1BB8F1E3FFE0772C3CC1D67FEBBCCBCF0CF64CAC5FFC69DFB5F33C81968C9CA
+      C9F1B77577FE68EA68BDAFAAA6668C1C16B2B2B28C203A233BAB64FEEED3FFDC
+      679DFF6F36EDD27F8BCE3D2F19640D34A071CA9A989ABCC8D9D5C517573CB039
+      26FBBA4C3FF3C762FAE5FF7ED38FFEDF7FE6D29FC4E4247F62D20087636AB4D3
+      F4333F2D817A6DDBB7BE3976FEEA3F50785CB97AF57B7E618123EEC4C6CF221A
+      317782F3CC8BFF406ED6AEDF7E8341DA4862D9F265ED376EDCF877FBF6EDFFA7
+      4E9FFEA86F686082452FAB4CC68C2D76332FFF379878FEBF51C7BE1740FFCA83
+      A440713879EA94DE4B972EFD3F75EAD4FF6D3BB6BF9495971340D1EE9496EE3C
+      F7DA7FBD09E7FE5B4E3AFD9745CFDB0B28CC0CC44CA0E000A62DEE92B2D2D947
+      8F02C3E2C0FE7F5A3ADA4648DA79184495AD4D5B77BCB09C74EA1F9759502750
+      4C0F885580580EE4042056606262D2707271CEB5B5B78B01F241F6B342F57301
+      B1048380A43DA3987208906D08C4DA400C72BF30C87940CC0EA539A0FA98B084
+      20488C052A0F723B2331F10500C3011913
+    }
+  end
+  object ImageList2: TImageList
+    Left = 1152
+    Top = 552
+    Bitmap = {
+      4C7A010000001000000010000000B40200000000000078DA6360C00D38393919
+      A56565C425A52479198800CDED2DED070E1D7C3671F2A4F996D656AAD676B673
+      A2E262F677F475FFCCCECFDD0B344B199F7E5D3D5DD9EDBB77DC7AF0E0C1FF89
+      5326CF84893BBBB966D4B7343EA86B6E7822232BA381AC878F8F8F29232B335C
+      484808CC8F4B4C487AF6ECD9FF43470EBF80A901DACB5B5C5EFA382A36667B4D
+      63DD1319391955989C8E9EAEC2F98B177EF7F6F7CFB5B1B50DD9B97BD78DE7CF
+      9FFFDFBB7FDF2D191919B01A11D794C2D296AEFFE9D999B72263A2B756D4569F
+      06860D588E9F9F9F71CFFE7DD7DFBC79F3FFD5AB57FF5FBE7CF9FFD1A347FF6F
+      DFB9F32F3B37A786DB2523D379D6857F56138EFDCFACEF7857D3587F0D181E77
+      4A2A4A8F282A29E982FDADAFA7B567DFDE0B57AE5DFDB3FFD0C1BB8F1E3FFE07
+      72C3CC1DA7FFBBCC3CFFCF64CA85FFC69DFB5F31CA1968C9C9C9F1B77577FE68
+      EA68BDAFA6A666821C16B2B2B28C203A233BAB64FEAED3FFDC679DFF6F3EEDD2
+      7F8BCE3D2F18650D34A071CA9A989ABCC8D9D5C50F573CB03925FBBA4C3FF3C7
+      72FAA5FF7ED38EFCDF7FFAD29FC4E4247F62D20087635AB4F3B4333F417A6DDB
+      B7BE3976FECA3F50785CBE7AE57B41618123EEC4C6CF221A317782F3CC0BFFCC
+      A65DFCAF5DBFFD3A83B491C4D2E5CBDA6EDCB8F1EFF6EDDBFF4F9E3EF5D1C0D0
+      C0048B5E56998C195BEC665EFE6F30F1FC7FE38E7D2F18E40CE44152A0389C3C
+      754AEFC54B97FE9F3A75EAFFD6EDDB5FCACACB09206BE7724ACB70997BF5BFDE
+      8473FF2D279DFACBAAEFED0D1466066226507000D316774959E9EC2347806171
+      60FF3F2D1D6D2324ED3C0C62CAD6A6AD3B5E584D3AF58FCB2CA81328A60FC42A
+      400C72032811293031316938B938E7DA39D8C700F920FB5961D603B1048380A4
+      3DA3987208906D08C4DA50BDC220DF01313B94066136A8BBD001C8BD2C507341
+      342331F1050093901906
+    }
+  end
+end
