@@ -3,7 +3,7 @@
   <ProjectSession>
     <Version Value="12"/>
     <BuildModes Active="Release"/>
-    <Units Count="7">
+    <Units Count="8">
       <Unit0>
         <Filename Value="project1.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -21,6 +21,7 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
         <IsVisibleTab Value="True"/>
+        <TopLine Value="125"/>
         <CursorPos X="10" Y="155"/>
         <UsageCount Value="208"/>
         <Loaded Value="True"/>
@@ -73,6 +74,13 @@
         <UsageCount Value="10"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit6>
+      <Unit7>
+        <Filename Value="../../../multipanel.pas"/>
+        <UnitName Value="MultiPanel"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="23" Y="24"/>
+        <UsageCount Value="10"/>
+      </Unit7>
     </Units>
     <JumpHistory Count="16" HistoryIndex="15">
       <Position1>

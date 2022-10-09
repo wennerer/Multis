@@ -1,6 +1,6 @@
 { <A panel for the multi components>
-  <Version 1.0.0.1>
-  Copyright (C) <07.10.2022> <Bernd Hübner>
+  <Version 1.0.0.2>
+  Copyright (C) <09.10.2022> <Bernd Hübner>
   Many thanks to the members of the German Lazarus Forum!
   For some improvements see https://www.lazarusforum.de/viewtopic.php?f=29&t=14033
 
@@ -838,12 +838,18 @@ begin
      if (msg = LM_LBUTTONUp) then FTriggerNot := true;
 
      //strech
-     if ptinrect(HotspotCompressed,P) and (DropDownMenu.Stretched.Active = false) then
+     if ptinrect(HotspotCompressed,P) and (msg = LM_LBUTTONDOWN) and (FDDMenu.FStretched.FActive = false) then
+      begin
+       DropDownMenu.Stretched.Active:= true;
+       exit;
+      end;
+     if ptinrect(HotspotCompressed,P)  and (DropDownMenu.Stretched.Active = false) then
       begin
        if FTriggerNot then exit;
        DropDownMenu.Stretched.Active:= true;
        exit;
       end;
+
 
       //compress
      if ptinrect(HotspotStretched,P)  and (msg = LM_LBUTTONDOWN) then
