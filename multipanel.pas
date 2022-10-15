@@ -1,6 +1,6 @@
 { <A panel for the multi components>
-  <Version 1.0.0.2>
-  Copyright (C) <09.10.2022> <Bernd Hübner>
+  <Version 1.0.0.3>
+  Copyright (C) <14.10.2022> <Bernd Hübner>
   Many thanks to the members of the German Lazarus Forum!
   For some improvements see https://www.lazarusforum.de/viewtopic.php?f=29&t=14033
 
@@ -394,6 +394,7 @@ type
     procedure RightTopToLeftBottom;
     procedure LeftBottomToRightTop;
     procedure RightBottomToLeftTop;
+    procedure CopyParentCanvas;
     procedure ANewBackground;
     procedure ImagesChanged({%H-}Sender: TObject);
     procedure FontPropertyChanged({%H-}Sender:TObject);
@@ -428,17 +429,18 @@ type
    FMultiBkgrdBmp         : TBitmap;
    FParentBmp             : TBitmap;
    FParentStretchedBmp    : TBitmap;
+
+   procedure MouseMove({%H-}Shift: TShiftState; X, Y: Integer);override;
+   procedure MouseDown({%H-}Button: TMouseButton;{%H-}Shift: TShiftState; X, Y: Integer);override;
+   procedure MouseUp({%H-}Button: TMouseButton; {%H-}Shift: TShiftState; {%H-}X, {%H-}Y: Integer);override;
+   procedure LoadFromFile(aFileName: string);
+   procedure InvalidateBackground;
    procedure ParentInputHandler({%H-}Sender: TObject; Msg: Cardinal);
    procedure Notification(AComponent: TComponent;Operation: TOperation); override;
    constructor Create(AOwner: TComponent); override;
    destructor  Destroy; override;
    procedure MouseEnter; override;
    procedure MouseLeave; override;
-   procedure MouseMove({%H-}Shift: TShiftState; X, Y: Integer);override;
-   procedure MouseDown({%H-}Button: TMouseButton;{%H-}Shift: TShiftState; X, Y: Integer);override;
-   procedure MouseUp({%H-}Button: TMouseButton; {%H-}Shift: TShiftState; {%H-}X, {%H-}Y: Integer);override;
-   procedure LoadFromFile(aFileName: string);
-   procedure CopyParentCanvas;
    procedure Paint; override;
 
    property TextStyle: TTextStyle read FTextStyle write SetTextStyle;
@@ -540,7 +542,7 @@ type
    property HelpType;
    property Autosize;
    property DoubleBuffered;
-
+   property OnChangeBounds;
 
    property OnClick : TClickEvent read FOnClick     write FOnClick;
    property OnMouseMove : TMouseMoveEvent read FOnMouseMove write FOnMouseMove;
@@ -794,13 +796,31 @@ begin
 
 end;
 
+procedure TMultiPanel.InvalidateBackground;
+var tmpbmp : TBitmap;
+begin
+ tmpbmp  := TBitmap.Create;
+ try
+  tmpbmp.SetSize(parent.Width,parent.Height);
+  tmpbmp.Canvas.StretchDraw(rect(0,0,parent.Width,parent.Height),FParentStretchedBmp);
+
+  FParentBmp.SetSize(width,height);
+  FParentBmp.Canvas.CopyRect(rect(0,0,width,height),tmpbmp.Canvas,
+                            rect(left,top,left+width,top+height));
+ Invalidate;
+ finally
+  tmpbmp.Free;
+ end;
+
+end;
+
 procedure TMultiPanel.CopyParentCanvas; //for drawing the background
 begin
  FParentBmp.SetSize(width,height);
  FParentBmp.Canvas.CopyRect(rect(0,0,width,height),(Parent as TCustomControl).Canvas,
                             rect(left,top,left+width,top+height));
 
- //this copys the parent canvas in a bitmap,is required if the size is subsequently changed
+ //this copys the parent canvas in a bitmap,is required if the size of the MultiPanel is subsequently changed
  FParentStretchedBmp.SetSize(parent.Width,parent.Height);
  FParentStretchedBmp.Canvas.CopyRect(rect(0,0,parent.Width,parent.Height),(Parent as TCustomControl).Canvas,
                                      rect(0,0,parent.Width,parent.Height));
@@ -1649,7 +1669,6 @@ end;
 
 //VVVVVVVVVVVVVVVVVVVVVVVVVVV---Set Size At Runtime---VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
 procedure TMultiPanel.MultiPanelOnTimer(Sender: TObject);
-var c : TWinControl;
 begin
  if FDDMenu.FStretched.Active then self.BringToFront;
  FTimer.Interval            := FDDMenu.FSpeed;
