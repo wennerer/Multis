@@ -159,6 +159,10 @@ msgstr "Ermöglicht das Ein- oder Ausblenden eines Hoverereignisses"
 msgid "The startcolor of a hoverevent (for color gradient)"
 msgstr "Die Startfarbe eines Hoverereignisses (für Farbverlauf)"
 
+#: rs_mbstylemanager.rs_lang
+msgid "en"
+msgstr "de"
+
 #: rs_mbstylemanager.rs_left
 msgid "Left:"
 msgstr "von Links:"
@@ -216,6 +220,14 @@ msgstr "Die Schriftfarbe des Messagebuttons"
 msgid "The color of a hoverevent"
 msgstr "Die Farbe während eines Hoverereignisses"
 
+#: rs_mbstylemanager.rs_muhelp
+msgid "Multis-Help"
+msgstr "Multis-Hilfe"
+
+#: rs_mbstylemanager.rs_muhelperror
+msgid "Multis-helpfiles not found!"
+msgstr "Multis_Hilfedateien nicht gefunden!"
+
 #: rs_mbstylemanager.rs_new
 msgid "New"
 msgstr "Neu"
@@ -231,6 +243,10 @@ msgstr "Ok"
 #: rs_mbstylemanager.rs_okbutton
 msgid "Accepts the current properties and closes the editor"
 msgstr "Übernimmt die aktuellen Eigenschaften und schließt den Editor"
+
+#: rs_mbstylemanager.rs_packfileerror
+msgid "packagefiles.xml not found!"
+msgstr "packagefiles.xml nicht gefunden!"
 
 #: rs_mbstylemanager.rs_penerror
 msgid "Error creating the pen"

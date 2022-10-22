@@ -585,15 +585,13 @@ begin
   Result := TMultiPanel(GetComponent(0)).Images;
 end;
 
-
-
-
 procedure Register;
 begin
   {$I multipanel_icon.lrs}
   RegisterComponents('Multi',[TMultiPanel]);
   RegisterPropertyEditor(TypeInfo(TImageIndex), TMultiPanel, 'ImageIndex', TMultiPanelImageIndexPropertyEditor);
   RegisterPropertyEditor(TypeInfo(TCustomStyleValues),TMultiPanel,'DrawACustomPanel',TCustomPanelStyle);
+
 end;
 
 { TMultiPanel }

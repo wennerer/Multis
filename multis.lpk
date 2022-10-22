@@ -18,10 +18,12 @@
 -TMultiSeperator, just an optical element in the look of the multis. To be used between controls.
 -TMultiPanel, a panel with a panel with drop-down effect
 - the unit PointIn
--the unit custompen"/>
+-the unit custompen
+
+The help for the package can be called up via the menu item Help , Multis-Help."/>
     <License Value="modified LGPL-2"/>
-    <Version Major="1" Release="4"/>
-    <Files Count="19">
+    <Version Major="1" Release="4" Build="1"/>
+    <Files Count="20">
       <Item1>
         <Filename Value="multibuttonstylemanager.pas"/>
         <HasRegisterProc Value="True"/>
@@ -103,6 +105,11 @@
         <Filename Value="mp_CustomPanelStyleEditor.inc"/>
         <Type Value="Include"/>
       </Item19>
+      <Item20>
+        <Filename Value="helpmenu.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="helpmenu"/>
+      </Item20>
     </Files>
     <CompatibilityMode Value="True"/>
     <i18n>

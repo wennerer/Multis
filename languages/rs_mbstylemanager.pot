@@ -148,6 +148,10 @@ msgstr ""
 msgid "The startcolor of a hoverevent (for color gradient)"
 msgstr ""
 
+#: rs_mbstylemanager.rs_lang
+msgid "en"
+msgstr ""
+
 #: rs_mbstylemanager.rs_left
 msgid "Left:"
 msgstr ""
@@ -205,6 +209,14 @@ msgstr ""
 msgid "The color of a hoverevent"
 msgstr ""
 
+#: rs_mbstylemanager.rs_muhelp
+msgid "Multis-Help"
+msgstr ""
+
+#: rs_mbstylemanager.rs_muhelperror
+msgid "Multis-helpfiles not found!"
+msgstr ""
+
 #: rs_mbstylemanager.rs_new
 msgid "New"
 msgstr ""
@@ -219,6 +231,10 @@ msgstr ""
 
 #: rs_mbstylemanager.rs_okbutton
 msgid "Accepts the current properties and closes the editor"
+msgstr ""
+
+#: rs_mbstylemanager.rs_packfileerror
+msgid "packagefiles.xml not found!"
 msgstr ""
 
 #: rs_mbstylemanager.rs_penerror

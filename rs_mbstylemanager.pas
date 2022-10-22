@@ -97,6 +97,12 @@ resourcestring
      rs_grid                = 'Grid';
      rs_notice              = 'The artboard is 500 x 500 pixels';
 
+    //helpmenu
+     rs_lang                = 'en';
+     rs_muhelp              = 'Multis-Help';
+     rs_muhelperror         = 'Multis-helpfiles not found!';
+     rs_packfileerror       = 'packagefiles.xml not found!';
+
 implementation
 
 end.
