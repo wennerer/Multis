@@ -46,6 +46,10 @@ msgstr ""
 msgid "The vertical distance of the text in the text rectangle (only effective with tlTop)"
 msgstr ""
 
+#: rs_mbstylemanager.rs_carryon
+msgid "Carry on"
+msgstr ""
+
 #: rs_mbstylemanager.rs_checkoffsetheight
 msgid "Determines whether the height is adopted"
 msgstr ""
@@ -148,6 +152,14 @@ msgstr ""
 msgid "The startcolor of a hoverevent (for color gradient)"
 msgstr ""
 
+#: rs_mbstylemanager.rs_install1
+msgid "Do you want to install the help file for the MULTIS package?"
+msgstr ""
+
+#: rs_mbstylemanager.rs_install2
+msgid "A new entry (Multis Help) will created in the Help menu. A click on this new menu item opens the help file!"
+msgstr ""
+
 #: rs_mbstylemanager.rs_lang
 msgid "en"
 msgstr ""
@@ -219,6 +231,10 @@ msgstr ""
 
 #: rs_mbstylemanager.rs_new
 msgid "New"
+msgstr ""
+
+#: rs_mbstylemanager.rs_no1
+msgid "No thank you"
 msgstr ""
 
 #: rs_mbstylemanager.rs_notice
@@ -323,5 +339,9 @@ msgstr ""
 
 #: rs_mbstylemanager.rs_wordbreak
 msgid "Allows a line break in the caption"
+msgstr ""
+
+#: rs_mbstylemanager.rs_yes1
+msgid "Yes, please"
 msgstr ""
 

@@ -102,6 +102,12 @@ resourcestring
      rs_muhelp              = 'Multis-Help';
      rs_muhelperror         = 'Multis-helpfiles not found!';
      rs_packfileerror       = 'packagefiles.xml not found!';
+     rs_install1            = 'Do you want to install the help file for the MULTIS package?';
+     rs_install2            = 'A new entry (Multis Help) will created in the Help menu. A click on this new menu item opens the help file!';
+     rs_yes1                = 'Yes, please';
+     rs_no1                 = 'No thank you';
+     rs_carryon             = 'Carry on';
+
 
 implementation
 

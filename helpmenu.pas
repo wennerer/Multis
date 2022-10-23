@@ -1,6 +1,6 @@
 { <Adds a new item "Mutis-Help" to the Help menu>
   <Version 1.0.0.1>
-  Copyright (C) <22.10.2022> <Bernd Hübner>
+  Copyright (C) <23.10.2022> <Bernd Hübner>
   for some improvements see https://www.lazarusforum.de/viewtopic.php?f=29&t=13252
 
   This library is free software; you can redistribute it and/or modify it under the
@@ -34,14 +34,24 @@ unit helpmenu;
 interface 
 
 uses 
- Classes, SysUtils, Forms, Controls, Graphics, Dialogs, LResources, LCLIntf,
+ Classes, SysUtils, Forms, Controls, Graphics, Dialogs, LResources, LCLIntf, StdCtrls, ExtCtrls,
  LMessages, MenuIntf, Laz2_DOM, Laz_XMLRead, fileutil, rs_mbstylemanager;
+
+type
+  TInstall_Event = class(TObject)
+
+  private
+   procedure aButtonClick(Sender: TObject);
+
+end;
 
 procedure Register;
 
+
+
 implementation
-private
-var okay : boolean;
+var  Install_Event : TInstall_Event;
+
 
 procedure StartHelp({%H-}Sender : TObject);
 begin
@@ -50,7 +60,7 @@ begin
 end;
 
 
-function PathToXML : string;
+function PathToXML(var success : boolean) : string;
 var s  : string;
     lv : integer;
 begin
@@ -64,11 +74,11 @@ begin
   else
    begin
     showmessage(rs_packfileerror);
-    okay := false;
+    success := false;
    end;
 end;
 
-function PathToMultis(aXML : string) : string;
+function PathToMultis(aXML : string;var success : boolean) : string;
 var Document   : TXMLDocument;
     i,j,k,l,lv : Integer;
     s          : string;
@@ -97,15 +107,15 @@ begin
    else
     begin
      showmessage(rs_muhelperror);
-     okay := false;
+     success := false;
     end;
 
   Document.Free;
 end;
 
-procedure CopyMultisHelp( aPath : string);
+procedure CopyMultisHelp( aPath : string;success:boolean);
 begin
-  if not okay then exit;
+  if not success then exit;
   if not DirectoryExists(Application.Location+PathDelim+'docs'+PathDelim+'multis-help') then
     //CreateDir(Application.Location+PathDelim+'docs'+PathDelim+'multis-help');
     ForceDirectories(Application.Location+PathDelim+'docs'+PathDelim+'multis-help');
@@ -116,13 +126,73 @@ begin
 
 end;
 
+procedure TInstall_Event.aButtonClick(Sender: TObject);
+begin
+(((Sender as TButton).Parent) as TCustomForm).Close;
+end;
 
+procedure Query(var sucess:boolean);
+var QueryForm  : TCustomForm;
+    R          : TRect;
+    aTextStyle : TTextStyle;
+    aImage     : TImage;
+    aRadio     : TRadioGroup;
+    aButton    : TButton;
+begin
+ try
+   QueryForm                := TForm.Create(Application);
+   QueryForm.Width          := 715;
+   QueryForm.Height         := 250;
+   QueryForm.Left           := (QueryForm.Monitor.Width div 2) - (QueryForm.Width div 2);
+   QueryForm.Top            := (QueryForm.Monitor.Height div 2) -(QueryForm.Height div 2);
+   QueryForm.BorderStyle    := bsSingle;
+   QueryForm.Caption        := 'Multis Help';
+
+   R                        := rect(10,20,QueryForm.Width-20,80);
+   aTextStyle.Layout        := tlCenter;
+   aTextStyle.Alignment     := taCenter;
+   aTextStyle.SingleLine    := false;
+   aTextStyle.Wordbreak     := true;
+
+   aImage                   := TImage.Create(QueryForm);
+   aImage.Parent            := QueryForm;
+   aImage.SetBounds(0,0,QueryForm.Width,80);
+   aImage.Canvas.Brush.Color:= clForm;
+   aImage.Canvas.FillRect(Rect(0,0,aImage.Width,80));
+   aImage.canvas.Font.Color:=clBlue;
+   //aImage.Canvas.Font.Height:= 18; //this not works?
+   aImage.Canvas.TextRect(R,0,0,rs_install1+#13+rs_install2,aTextStyle);
+
+   aRadio                   := TRadioGroup.Create(QueryForm);
+   aRadio.Parent            := QueryForm;
+   aRadio.SetBounds((QueryForm.Width div 2)-100,100,200,60);
+   aRadio.Items.Add(rs_yes1);
+   aRadio.Items.Add(rs_no1);
+   aRadio.ItemIndex := 0;
+
+   aButton                  := TButton.Create(QueryForm);
+   aButton.Parent           := QueryForm;
+   aButton.SetBounds(20,200,QueryForm.Width -40,25);
+   aButton.Caption          := rs_carryon;
+   aButton.OnClick          := @Install_Event.aButtonClick;
+
+   QueryForm.ShowModal;
+
+   if aRadio.ItemIndex = 0 then sucess := true else sucess := false;
+
+ finally
+   QueryForm.Free;
+ end;
+end;
 
 procedure Register;
+var okay : boolean;
 begin
   {$I helpmenu.lrs}
   okay := true;
-  CopyMultisHelp(PathToMultis(PathToXML));
+  Query(okay);
+  if not okay then exit;
+  CopyMultisHelp(PathToMultis(PathToXML(okay),okay),okay);
   if not okay then exit;
   RegisterIDEMenuCommand(itmHelpTools, 'MultisHelp',rs_muhelp,nil,@StartHelp,nil,'help');
 
