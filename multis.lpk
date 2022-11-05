@@ -16,14 +16,14 @@
 - a i18n .po file for german (used in MB_StylManagerEditor)
 - TMultiplexSlider, a slider with many adjustable properties, up to three knobs are possible.
 -TMultiSeperator, just an optical element in the look of the multis. To be used between controls.
--TMultiPanel, a panel with a panel with drop-down effect
+-TMultiPanel, a panel with drop-down effect
 - the unit PointIn
 -the unit custompen
 
 The help for the package can be called up via the menu item Help , Multis-Help."/>
     <License Value="modified LGPL-2"/>
-    <Version Major="1" Release="4" Build="1"/>
-    <Files Count="20">
+    <Version Major="1" Release="3" Build="2"/>
+    <Files Count="21">
       <Item1>
         <Filename Value="multibuttonstylemanager.pas"/>
         <HasRegisterProc Value="True"/>
@@ -110,6 +110,10 @@ The help for the package can be called up via the menu item Help , Multis-Help."
         <HasRegisterProc Value="True"/>
         <UnitName Value="helpmenu"/>
       </Item20>
+      <Item21>
+        <Filename Value="pathto.pas"/>
+        <UnitName Value="PathTo"/>
+      </Item21>
     </Files>
     <CompatibilityMode Value="True"/>
     <i18n>

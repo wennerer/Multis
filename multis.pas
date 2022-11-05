@@ -10,7 +10,7 @@ interface
 uses
   MultiButtonStyleManager, MultiButton, ptin, rs_mbstylemanager, 
   MultiplexSlider, infmultis, MultiSeperator, CustomPen, MultiPanel, helpmenu, 
-  LazarusPackageIntf;
+  PathTo, LazarusPackageIntf;
 
 implementation
 

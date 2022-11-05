@@ -355,3 +355,4 @@ msgstr "Ermöglicht einen Zeilenumbruch in der Caption"
 #: rs_mbstylemanager.rs_yes1
 msgid "Yes, please"
 msgstr "Ja, bitte"
+
