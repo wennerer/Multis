@@ -29,7 +29,7 @@ unit PathTo;
 interface
 
 uses
-  Classes, SysUtils, Forms, StdCtrls, Controls, Dialogs, DOM, XMLWrite, XMLRead, XPath;
+  Classes, SysUtils, Forms, StdCtrls, Controls, Dialogs, DOM, XMLWrite, XMLRead, XPath, rs_mbstylemanager;
 
 
 function PathToPrimaryConfig :string;
@@ -37,7 +37,7 @@ function PathToSecondaryConfig : string;
 function PathToConfig :string;
 function PathToConfigFile(aFilename : string) : string;
 function PathViaDialog : string;
-function InstallDialog : boolean;
+function MenuDialog : boolean;
 
 function ReadPathToMultis(aFilename :string) : string;
 
@@ -215,24 +215,24 @@ begin
 end;
 
 
-function InstallDialog : boolean;
+function MenuDialog : boolean;
 var TaskDialog1: TTaskDialog;
 begin
  TaskDialog1   := TTaskDialog.Create(nil);
  try
   TaskDialog1.Caption      := 'The Multis Package';
-  TaskDialog1.Title        := 'Multis Help';
-  TaskDialog1.Text         := 'Do you want to install the package help files?';
+  TaskDialog1.Title        := rs_muhelp;
+  TaskDialog1.Text         := rs_installmenu;
   TaskDialog1.CommonButtons:= [tcbOk];
   TaskDialog1.MainIcon     := tdiQuestion;
   TaskDialog1.FooterText   := 'https://github.com/wennerer/Multis.git';
   TaskDialog1.FooterIcon   := tdiInformation;
 
   TaskDialog1.RadioButtons.Add;
-  TaskDialog1.RadioButtons.Items[0].Caption:='Yes, please';
+  TaskDialog1.RadioButtons.Items[0].Caption:=rs_yes1;
 
   TaskDialog1.RadioButtons.Add;
-  TaskDialog1.RadioButtons.Items[1].Caption:='No, thank you';
+  TaskDialog1.RadioButtons.Items[1].Caption:=rs_no1;
 
 
   //From here it is executed when a button is pressed

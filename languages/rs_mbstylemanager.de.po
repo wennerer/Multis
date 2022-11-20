@@ -57,10 +57,6 @@ msgstr "Ausrichtung des Textes in der Caption (Oben,Mitte,Unten)"
 msgid "The vertical distance of the text in the text rectangle (only effective with tlTop)"
 msgstr "Der vertikale Abstand des Textes im Textrechteck (nur wirksam mit tlTop)"
 
-#: rs_mbstylemanager.rs_carryon
-msgid "Carry on"
-msgstr "Forfahren"
-
 #: rs_mbstylemanager.rs_checkoffsetheight
 msgid "Determines whether the height is adopted"
 msgstr "Bestimmt ob die Höhe übernommen wird"
@@ -163,13 +159,9 @@ msgstr "Ermöglicht das Ein- oder Ausblenden eines Hoverereignisses"
 msgid "The startcolor of a hoverevent (for color gradient)"
 msgstr "Die Startfarbe eines Hoverereignisses (für Farbverlauf)"
 
-#: rs_mbstylemanager.rs_install1
-msgid "Do you want to install the help file for the MULTIS package?"
-msgstr "Möchten Sie die Hilfe-Datei für das Package MULTIS installieren?"
-
-#: rs_mbstylemanager.rs_install2
-msgid "A new entry (Multis Help) will created in the Help menu. A click on this new menu item opens the help file!"
-msgstr "Im Hilfemenü wird dann ein neuer Eintrag (Multis Hilfe) angelegt. Ein Klick auf diesen neuen Menüpunkt öffnet die Hilfedatei!"
+#: rs_mbstylemanager.rs_installmenu
+msgid "Would you like to create a menu item for the Multis Help?"
+msgstr "Möchtest du einen Menüpunkt für die Multis-Hilfe erstellen?"
 
 #: rs_mbstylemanager.rs_lang
 msgid "en"

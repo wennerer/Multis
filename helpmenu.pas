@@ -89,6 +89,7 @@ begin
     Nw              := 'No';
     HelpWanted      := false;
     HlW             := 'No';
+
    end;
 
 
@@ -100,8 +101,9 @@ begin
     if Nw = 'YES' then IsNew := true else IsNew := false;
    end;
 
+
   if IsNew then
-   if InstallDialog then HelpWanted:=true else HelpWanted:=false;
+   if MenuDialog then HelpWanted:=true else HelpWanted:=false;
   if HelpWanted then HlW:='Yes' else HlW:='No';
 
   Nw := 'No';
