@@ -744,6 +744,7 @@ var Str         : string;
     clfl        : boolean;
 begin
  str := colortostring(aColor); clfl := false;
+
  for lv:=0 to pred(AColorBox[aIndex].Items.Count) do
    begin
     if AColorBox[aIndex].Items.Strings[lv] = str then clfl :=true;
@@ -1298,7 +1299,7 @@ begin
  (StyleComp as TMultiButtonStyleManager).Height            := aMultiButton.Height;
 
  (StyleComp as TMultiButtonStyleManager).RndRctRadius      := aMultiButton.RndRctRadius;
- (StyleComp as TMultiButtonStyleManager).FocusFrameON    := aMultiButton.FocusFrameON;
+ (StyleComp as TMultiButtonStyleManager).FocusFrameON      := aMultiButton.FocusFrameON;
  (StyleComp as TMultiButtonStyleManager).FocusFrameWidth   := aMultiButton.FocusFrameWidth;
  (StyleComp as TMultiButtonStyleManager).ForegroundFocusOn := aMultiButton.ForegroundFocusOn;
  (StyleComp as TMultiButtonStyleManager).FocusAlphaBValue  := aMultiButton.FocusAlphaBValue;

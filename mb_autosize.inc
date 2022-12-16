@@ -1,6 +1,6 @@
 (*This is a part of the TMultiButton*)
 
-{%MultiButton ,this is a part of TMultiButton last change 08.08.2021}
+{%MultiButton ,this is a part of TMultiButton last change 11.12.2022}
 
 function TMultiButton.GetTextWidth (AText : String ; AFont : TFont ) : Integer ;
 var bmp : TBitmap ;
@@ -73,7 +73,7 @@ begin
    ImageTop  := (PreferredHeight div 2) - (FImageList.Height div 2) - FFocusFrameWidth ;
    ImageLeft := spacer;
    CaptionHorMargin  := (2*spacer)+ FImageList.Width;
-   PreferredWidth := (3*spacer)+GetTextWidth(FCaption,FFont)+(2*FFocusFrameWidth)+FImageList.Width;
+   PreferredWidth := (4*spacer)+GetTextWidth(FCaption,FFont)+(2*FFocusFrameWidth)+FImageList.Width; //3 was too short
   end;
  //Image Right
  if IR=true then

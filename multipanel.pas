@@ -1,6 +1,6 @@
 { <A panel for the multi components>
-  <Version 1.0.0.3>
-  Copyright (C) <14.10.2022> <Bernd Hübner>
+  <Version 1.0.0.4>
+  Copyright (C) <27.11.2022> <Bernd Hübner>
   Many thanks to the members of the German Lazarus Forum!
   For some improvements see https://www.lazarusforum.de/viewtopic.php?f=29&t=14033
 
@@ -66,7 +66,7 @@ type
   TTrigger = (trClick,trHover,trPinned);
 
 type
-  TDirection = (LeftTop_RightBottom,RightTop_LeftBottom,LeftBottom_RightTop,RightBottom_LeftTop);
+  TDirection = (Left_Right,LeftTop_RightBottom,RightTop_LeftBottom,LeftBottom_RightTop,RightBottom_LeftTop);
 
 type
 
@@ -364,6 +364,7 @@ type
 
     procedure DoAppear;
     procedure DoDisappear;
+    procedure LeftToRight;
     procedure SetAlignment(AValue: TAlignment);
     procedure SetAnimationSpeed(AValue: double);
     procedure SetAppear(AValue: boolean);
@@ -814,15 +815,17 @@ end;
 
 procedure TMultiPanel.CopyParentCanvas; //for drawing the background
 begin
- FParentBmp.SetSize(width,height);
- FParentBmp.Canvas.CopyRect(rect(0,0,width,height),(Parent as TCustomControl).Canvas,
-                            rect(left,top,left+width,top+height));
+ if (Parent is TCustomControl) then
+  begin
+   FParentBmp.SetSize(width,height);
+   FParentBmp.Canvas.CopyRect(rect(0,0,width,height),(Parent as TCustomControl).Canvas,
+                              rect(left,top,left+width,top+height));
 
- //this copys the parent canvas in a bitmap,is required if the size of the MultiPanel is subsequently changed
- FParentStretchedBmp.SetSize(parent.Width,parent.Height);
- FParentStretchedBmp.Canvas.CopyRect(rect(0,0,parent.Width,parent.Height),(Parent as TCustomControl).Canvas,
-                                     rect(0,0,parent.Width,parent.Height));
-
+   //this copys the parent canvas in a bitmap,is required if the size of the MultiPanel is subsequently changed
+   FParentStretchedBmp.SetSize(parent.Width,parent.Height);
+   FParentStretchedBmp.Canvas.CopyRect(rect(0,0,parent.Width,parent.Height),(Parent as TCustomControl).Canvas,
+                                       rect(0,0,parent.Width,parent.Height));
+  end;
 end;
 
 procedure TMultiPanel.ParentInputHandler(Sender: TObject; Msg: Cardinal);
@@ -1675,9 +1678,34 @@ begin
  if FDDMenu.FDirection = RightTop_LeftBottom then RightTopToLeftBottom;
  if FDDMenu.FDirection = LeftBottom_RightTop then LeftBottomToRightTop;
  if FDDMenu.FDirection = RightBottom_LeftTop then RightBottomToLeftTop;
+ if FDDMenu.FDirection = Left_Right          then LeftToRight;
+end;
 
-
-
+procedure TMultiPanel.LeftToRight;
+begin
+  //that stretches
+ if FDDMenu.FStretched.Active then
+    begin
+     if width < FDDMenu.FStretched.FWidth then width := width +FDDMenu.FStep;
+     if (width >= FDDMenu.FStretched.FWidth) then
+      begin
+       width := FDDMenu.FStretched.FWidth;
+       FTimer.Enabled:= false;
+       if Assigned(OnStreched) then OnStreched(self);
+      end;
+     ANewBackground;
+    end;
+  //that pulls together
+ if FDDMenu.FCompressed.Active then
+    begin
+     if width > FDDMenu.FCompressed.FWidth then width := width - FDDMenu.FStep;
+     if (width <= FDDMenu.FCompressed.FWidth) then
+      begin
+       width := FDDMenu.FCompressed.FWidth;
+       FTimer.Enabled:= false;
+       if Assigned(OnCompressed) then OnCompressed(self);
+      end;
+    end;
 end;
 
 procedure TMultiPanel.LeftTopToRightBottom;

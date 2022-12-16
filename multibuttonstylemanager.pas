@@ -1,6 +1,6 @@
 { <TMultiButtonStyleManager, simplifies the design of the MultiButton>
-  <Version 0.0.4.2>
-  Copyright (C) <08.08.2021> <Bernd Hübner>
+  <Version 0.0.4.3>
+  Copyright (C) <05.12.2022> <Bernd Hübner>
   Many thanks to the members of the German Lazarus Forum!
   For some improvements see https://www.lazarusforum.de/viewtopic.php?f=29&t=13252
 
@@ -527,42 +527,43 @@ procedure TMultiButtonStyleManager.SetColorStart(AValue: TColor);
 begin
   if FColorStart=AValue then Exit;
   FColorStart:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  //if (csDesigning in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetBorderWidth(AValue: integer);
 begin
   if FBorderWidth=AValue then Exit;
   FBorderWidth:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetCapLeft(AValue: integer);
 begin
   if FCapLeft=AValue then Exit;
   FCapLeft:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetCaptionWordbreak(AValue: boolean);
 begin
   if FCaptionWordbreak=AValue then Exit;
   FCaptionWordbreak:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetCapTop(AValue: integer);
 begin
   if FCapTop=AValue then Exit;
   FCapTop:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetBorderColor(AValue: TColor);
 begin
   if FBorderColor=AValue then Exit;
   FBorderColor:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetAlignment(AValue: TAlignment);
@@ -570,49 +571,49 @@ begin
   if fTextStyle.Alignment=AValue then exit;
  fTextStyle.Alignment:=AValue;
  if aValue <> taLeftJustify then FCapLeft:=0;
- if not (csLoading in ComponentState) then modified;
+ if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetColorEnd(AValue: TColor);
 begin
   if FColorEnd=AValue then Exit;
   FColorEnd:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetFocusAlBlVal(AValue: byte);
 begin
   if FFocusAlBlVal=AValue then Exit;
   FFocusAlBlVal:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetFocusColor(AValue: TColor);
 begin
   if FFocusColor=AValue then Exit;
   FFocusColor:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetFocusedOn(AValue: boolean);
 begin
   if FFocusedOn=AValue then Exit;
   FFocusedOn:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetFocusFrameWidth(AValue: integer);
 begin
   if FFocusFrameWidth=AValue then Exit;
   FFocusFrameWidth:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetFont(AValue: TFont);
 begin
   if FFont=AValue then Exit;
   FFont.Assign(AValue); //  :=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetForegroundFocusOn(AValue: boolean);
@@ -625,42 +626,42 @@ procedure TMultiButtonStyleManager.SetGradient(AValue: TGradientCourse);
 begin
   if FGradient=AValue then Exit;
   FGradient:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetHeight(AValue: integer);
 begin
   if FHeight=AValue then Exit;
   FHeight:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetHoverEndColor(AValue: TColor);
 begin
   if FHoverEndColor=AValue then Exit;
   FHoverEndColor:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetHoverFontColor(AValue: TColor);
 begin
   if FHoverFontColor=AValue then Exit;
   FHoverFontColor:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetHoverOn(AValue: boolean);
 begin
   if FHoverOn=AValue then Exit;
   FHoverOn:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetHoverStartColor(AValue: TColor);
 begin
   if FHoverStartColor=AValue then Exit;
   FHoverStartColor:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetLayout(AValue: TTextLayout);
@@ -668,28 +669,28 @@ begin
  if fTextStyle.Layout=AValue then exit;
  fTextStyle.Layout:=AValue;
  if aValue <> tlTop then FCapTop:=0;
- if not (csLoading in ComponentState) then modified;
+ if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetMBAlignment(AValue: TMBAlignment);
 begin
   if FMBAlignment=AValue then Exit;
   FMBAlignment:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetMBBorderColor(AValue: TColor);
 begin
   if FMBBorderColor=AValue then Exit;
   FMBBorderColor:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetMBBorderWidth(AValue: integer);
 begin
   if FMBBorderWidth=AValue then Exit;
   FMBBorderWidth:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetMBCalculateAlthoughInvisible(
@@ -697,133 +698,133 @@ procedure TMultiButtonStyleManager.SetMBCalculateAlthoughInvisible(
 begin
   if FMBCalculateAlthoughInvisible=AValue then Exit;
   FMBCalculateAlthoughInvisible:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetMBCapAlignment(AValue: TAlignment);
 begin
  if fMBTextStyle.Alignment=AValue then exit;
   fMBTextStyle.Alignment:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetMBCapLeft(AValue: integer);
 begin
   if FMBCapLeft=AValue then Exit;
   FMBCapLeft:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetMBCapTop(AValue: integer);
 begin
   if FMBCapTop=AValue then Exit;
   FMBCapTop:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetMBColorEnd(AValue: TColor);
 begin
   if FMBColorEnd=AValue then Exit;
   FMBColorEnd:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetMBColorStart(AValue: TColor);
 begin
   if FMBColorStart=AValue then Exit;
   FMBColorStart:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetMBFont(AValue: TFont);
 begin
   if fMBFont=AValue then Exit;
   fMBFont:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetMBGradient(AValue: TGradientCourse);
 begin
   if FMBGradient=AValue then Exit;
   FMBGradient:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetMBHeight(AValue: integer);
 begin
   if FMBHeight=AValue then Exit;
   FMBHeight:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetMBHoverColor(AValue: TColor);
 begin
   if FMBHoverColor=AValue then Exit;
   FMBHoverColor:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetMBHoverOn(AValue: boolean);
 begin
   if FMBHoverOn=AValue then Exit;
   FMBHoverOn:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetMBLayout(AValue: TTextLayout);
 begin
  if fMBTextStyle.Layout=AValue then exit;
   fMBTextStyle.Layout:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetMBPositionFactor(AValue: integer);
 begin
   if FMBPositionFactor=AValue then Exit;
   FMBPositionFactor:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetMBPressedColor(AValue: TColor);
 begin
   if FMBPressedColor=AValue then Exit;
   FMBPressedColor:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetMBPressedColorBlVl(AValue: byte);
 begin
   if FMBPressedColorBlVl=AValue then Exit;
   FMBPressedColorBlVl:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetMBShowBorder(AValue: boolean);
 begin
   if FMBShowBorder=AValue then Exit;
   FMBShowBorder:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetMBShowPressed(AValue: boolean);
 begin
   if FMBShowPressed=AValue then Exit;
   FMBShowPressed:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetMBStyle(AValue: TMButtonStyle);
 begin
   if FMBStyle=AValue then Exit;
   FMBStyle:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetMBWidth(AValue: integer);
 begin
   if FMBWidth=AValue then Exit;
   FMBWidth:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetOffSetHeight(AValue: boolean);
@@ -844,56 +845,56 @@ procedure TMultiButtonStyleManager.SetPressedEnCol(AValue: TColor);
 begin
   if FPressedEnCol=AValue then Exit;
   FPressedEnCol:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetPressedFoCol(AValue: TColor);
 begin
   if FPressedFoCol=AValue then Exit;
   FPressedFoCol:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetPressedStCol(AValue: TColor);
 begin
   if FPressedStCol=AValue then Exit;
   FPressedStCol:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetRRRadius(AValue: integer);
 begin
   if FRRRadius=AValue then Exit;
   FRRRadius:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetShowBorder(AValue: boolean);
 begin
   if FShowBorder=AValue then Exit;
   FShowBorder:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetStyle(AValue: TMButtonStyle);
 begin
   if FStyle=AValue then Exit;
   FStyle:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetMBVisible(AValue: boolean);
 begin
   if FMBVisible=AValue then Exit;
   FMBVisible:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 procedure TMultiButtonStyleManager.SetWidth(AValue: integer);
 begin
   if FWidth=AValue then Exit;
   FWidth:=AValue;
-  if not (csLoading in ComponentState) then modified;
+  if (csDesigning in ComponentState) then modified;
 end;
 
 {$Include stylemanagercomponent.inc}

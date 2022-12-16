@@ -42,6 +42,7 @@ uses
 procedure BmpToAlphaBmp(var AlphaBmp :TBitmap;BlendValue : byte);
 procedure Gradient_Bmp(var aBmp: TBitmap; aStart, aStop: TColor;aCourse: integer);
 procedure Gradient_Bmp(var aBmp: TBitmap; aWidth, aHeight: integer);
+procedure Alternate_Bmp(var Bmp: TBitmap; aStart, aStop: TColor);
 procedure Blend_Bmp(var BackBmp: TBitmap; const StartBmp,EndBmp: TBitmap; aFrac: double);
 
 implementation
@@ -279,7 +280,8 @@ begin
    aBmp.Canvas.FillRect(0, 0,aBmp.Width,aBmp.Height) ;
 
   finally
-   tmpBmp.Free;
+   //tmpBmp.Free;
+    FreeAndNil(tmpBmp);
   end;
  end;//gbAlternate
 
@@ -301,6 +303,36 @@ begin
    tmpBmp.Free;
   end;
 end;
+
+procedure Alternate_Bmp(var Bmp: TBitmap; aStart, aStop: TColor);
+var lv               : integer;
+ function System_ToRGB(clSys:TColor):TColor;
+  var FPCol :  TFPColor;
+  begin
+   FPCol:=TColorToFPColor(ColorToRGB(clSys));
+   result :=FPColorToTColor(FPCol);
+  end;
+
+begin
+ aStart:=System_ToRGB(aStart);
+ aStop:=System_ToRGB(aStop);
+
+ if aStart=clBlack then aStart:=RGB(1,0,0);
+ if aStop=clBlack then aStop:=rgb(1,0,0);
+
+ Bmp.Canvas.Brush.Color:= aStart;
+ Bmp.Canvas.FillRect(0,0,Bmp.Width,Bmp.Height);
+ Bmp.Canvas.Pen.Color:= aStop;
+ for lv := 0 to Bmp.Width do
+  begin
+   if odd(lv) then Bmp.Canvas.Line(lv,0,lv,Bmp.Height);
+  end;
+ for lv := 0 to Bmp.Height do
+  begin
+   if odd(lv) then Bmp.Canvas.Line(0,lv,Bmp.Width,lv);
+  end;
+end;
+
 
 procedure Blend_Bmp(var BackBmp: TBitmap; const StartBmp,EndBmp: TBitmap; aFrac: double);
 var

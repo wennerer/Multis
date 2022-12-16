@@ -1,6 +1,6 @@
 { <A slider with an integrated textlabel>
-  <Version 1.0.4.0>
-  Copyright (C) <23.01.2022> <Bernd Hübner>
+  <Version 1.0.4.1>
+  Copyright (C) <13.12.2022> <Bernd Hübner>
   Many thanks to the members of the German Lazarus Forum!
   Special thanks to Siro, he taught me the basics!
   For some improvements see https://www.lazarusforum.de/viewtopic.php?f=29&t=12851
@@ -38,7 +38,7 @@ interface
 uses
   Classes, SysUtils, FPImage, LResources, Forms, Controls, Graphics, Dialogs,
   infmultis, LCLIntf, LMessages, LCLType, LazUTF8, PropEdits, FpCanvas,
-  Contnrs;//, LCLProc;
+  Contnrs, LCLProc;
 
 type
   TClickEvent = procedure(Sender: TObject) of object;
@@ -806,7 +806,7 @@ begin
   FKnob[1].FGradient              := gcAlternate;
   FKnob[1].FKnobStyle             := ksCircle;
   FKnob[1].FHoverOn               := true;
-  FKnob[1].FHoverStartColor       := clWhite;
+  FKnob[1].FHoverStartColor       := clSilver;
   FKnob[1].FHoverEndColor         := $00A9B1B5;
   FKnob[1].FDesign                := kdDefault;
   FKnob[1].FDesignColor           := clSilver;
@@ -821,7 +821,7 @@ begin
   FKnob[2].FGradient              := gcAlternate;
   FKnob[2].FKnobStyle             := ksCircle;
   FKnob[2].FHoverOn               := true;
-  FKnob[2].FHoverStartColor       := clLime;
+  FKnob[2].FHoverStartColor       := clGreen;
   FKnob[2].FHoverEndColor         := $000B7F0B;
   FKnob[2].FDesign                := kdDefault;
   FKnob[2].FDesignColor           := clSilver;
@@ -925,7 +925,6 @@ begin
   FOrientation          := msoHorizontal;
   FKnobIdx              := 1;
 
-  for lv := 1 to 3 do FKnobBmp[lv] := TBitmap.Create;
 
 end;
 
@@ -952,6 +951,7 @@ begin
   FLoaded := true;
   CalculateBounds(FTextLabel.FTextLabelPosition,false) ;
   Calculate;
+
 end;
 
 procedure TMultiplexSlider.KeyPress(var Key: char);
@@ -1266,6 +1266,7 @@ begin
   inherited MouseEnter;
   if Assigned(OnMouseEnter) then OnMouseEnter(self);
   if Assigned(OnMouseInSelf) then OnMouseInSelf(self);
+
 end;
 
 procedure TMultiplexSlider.MouseLeave;
@@ -2090,166 +2091,6 @@ end;
 
 
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX---Drawing---XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-(*
-procedure GradientBmp(var aBmp: TBitmap; aStart, AStop: TColor;
-  aCourse: TGradientCourse);
-var lv:integer;
-    StartR,StartG,StartB : integer;
-    StopR,StopG,StopB    : integer;
-    delR,delG,delB       : integer;
-    fR,fG,fb : double;
-    valR,valG,valB       : integer;
-    greater,radius       : integer;
-    tmpBmp               : TBitmap;
-
- function System_ToRGB(clSys:TColor):TColor;
-  var FPCol :  TFPColor;
-  begin
-   FPCol:=TColorToFPColor(ColorToRGB(clSys));
-   result :=FPColorToTColor(FPCol);
-  end;
-
-begin
- aStart:=System_ToRGB(aStart);
- aStop:=System_ToRGB(aStop);
-
- if aStart=clBlack then aStart:=rgb(1,0,0);
- if aStop=clBlack then aStop:=RGB(1,0,0);
-
- StartR:=getRvalue(aStart);
- StartG:=getGvalue(aStart);
- StartB:=getBvalue(aStart);
-
- StopR:=getRvalue(aStop);
- StopG:=getGvalue(aStop);
- StopB:=getBvalue(aStop);
-
- delR:= StartR-StopR;
- delG:= StartG-StopG;
- delB:= StartB-StopB;
-
-  if aCourse = gcSpread then
- begin
-  if aBmp.Height >= aBmp.Width then
-   greater := round(aBmp.Height/2)
-  else
-   greater := round(aBmp.Width/2);
-
-  radius:= round(sqrt(sqr((aBmp.Width/2))+sqr((aBmp.Height/2))));
-  fR := delR /radius;
-  fG := delG /radius;
-  fB := delB /radius;
-  for Lv:=radius downto 0 do
-   begin
-    valR:= StopR+round(lv*fR);
-    valG:= StopG+round(lv*fG);
-    valB:= StopB+round(lv*fB);
-    if valR <0 then valR:=0;
-    if valG <0 then valG:=0;
-    if valB <0 then valB:=0;
-    if valR >255 then valR:=255;
-    if valG >255 then valG:=255;
-    if valB >255 then valB:=255;
-    aBmp.Canvas.Brush.Color:=rgb(valR,valG,valB);
-    aBmp.Canvas.Pen.Color:=rgb(valR,valG,valB);
-    aBmp.Canvas.Ellipse((aBmp.width div 2) -lv,(aBmp.height div 2)-lv,
-                       (aBmp.width div 2)+lv,(aBmp.height div 2)+lv);
-  end;
- end; //gcSpread
-
-
- if aCourse = gcRadiant then
- begin
-  if aBmp.Height >= aBmp.Width then
-   greater := round(aBmp.Height/2)
-   else
-   greater := round(aBmp.Width/2);
-
-   fR := delR /greater;
-   fG := delG /greater;
-   fB := delB /greater;
-   for Lv:=greater downto 0 do
-  begin
-   valR:= StartR-round(lv*fR);
-   valG:= StartG-round(lv*fG);
-   valB:= StartB-round(lv*fB);
-   if valR <0 then valR:=0;
-   if valG <0 then valG:=0;
-   if valB <0 then valB:=0;
-   if valR >255 then valR:=255;
-   if valG >255 then valG:=255;
-   if valB >255 then valB:=255;
-   aBmp.Canvas.Brush.Color:=rgb(valR,valG,valB);
-   aBmp.Canvas.FillRect((aBmp.width div 2) -lv,(aBmp.height div 2)-lv,
-                       (aBmp.width div 2)+lv,(aBmp.height div 2)+lv);
-  end;
- end; //gcRadiant
-
-
- if aCourse = gcVertical then
- begin
-  fR := delR /aBmp.Height;
-  fG := delG /aBmp.Height;
-  fB := delB /aBmp.Height;
-
- for Lv:=0 to aBmp.Height do
-  begin
-   valR:= StartR-round(lv*fR);
-   valG:= StartG-round(lv*fG);
-   valB:= StartB-round(lv*fB);
-   if valR <0 then valR:=0;
-   if valG <0 then valG:=0;
-   if valB <0 then valB:=0;
-   if valR >255 then valR:=255;
-   if valG >255 then valG:=255;
-   if valB >255 then valB:=255;
-   aBmp.Canvas.Brush.Color:=rgb(valR,valG,valB);
-   aBmp.Canvas.FillRect(0,lv,aBmp.Width,lv+1);
-  end;
- end;//gcVertical
-
- if aCourse = gcHorizontal then
- begin
-  fR := delR /aBmp.Width;
-  fG := delG /aBmp.Width;
-  fB := delB /aBmp.Width;
-
- for Lv:=0 to aBmp.Width do
-  begin
-   valR:= StartR-round(lv*fR);
-   valG:= StartG-round(lv*fG);
-   valB:= StartB-round(lv*fB);
-   if valR <0 then valR:=0;
-   if valG <0 then valG:=0;
-   if valB <0 then valB:=0;
-   if valR >255 then valR:=255;
-   if valG >255 then valG:=255;
-   if valB >255 then valB:=255;
-   aBmp.Canvas.Brush.Color:=rgb(valR,valG,valB);
-   aBmp.Canvas.FillRect(lv,0,lv+1,aBmp.Height);
-  end;
- end;//gcHorizontal
- if aCourse = gcAlternate  then
- begin
-  try
-   tmpBmp               := TBitmap.Create;
-   tmpBmp.SetSize(2, 2);
-   tmpBmp.Canvas.Pixels[0, 0] := aStart;
-   tmpBmp.Canvas.Pixels[0, 1] := aStop;
-   tmpBmp.Canvas.Pixels[1, 0] := aStop;
-   tmpBmp.Canvas.Pixels[1, 1] := aStart;
-
-   aBmp.Canvas.Brush.Bitmap := nil;
-   aBmp.Canvas.Brush.Bitmap := tmpBmp ;
-   aBmp.Canvas.FillRect(0, 0,aBmp.Width,aBmp.Height) ;
-
-  finally
-   tmpBmp.Free;
-  end;
- end;//gcAlternate
-
-end;
- *)
 
 procedure TMultiplexSlider.DrawSlider;
 var bkBmp        : TBitmap;
@@ -2259,6 +2100,8 @@ var bkBmp        : TBitmap;
 begin
  bkBmp := TBitmap.Create;
  bkBmp.SetSize(FInDoorBounds.Width,FInDoorBounds.Height);
+
+ //if FGradient = gcAlternate then Gradient_Bmp(bkBmp,clLime,clRed,ord(gcVertical)); //otherwise flickers
 
  Gradient_Bmp(bkBmp,FColorStart,FColorEnd,ord(FGradient));
 
@@ -2298,11 +2141,11 @@ begin
 
  canvas.Draw(FInDoorBounds.Left,FInDoorBounds.Top,Dest);
 
+
  bkBmp.Free;
  trBmp.Free;
  mask.Free;
- Dest.Free;
-
+ FreeAndNil(dest);
 end;
 
 procedure TMultiplexSlider.DrawTrack;
@@ -2378,18 +2221,25 @@ var bkBmp        : TBitmap;
     StartColor   : array [1..3] of TColor;
     EndColor     : array [1..3] of TColor;
 begin
-
+ for lv := 1 to 3 do FKnobBmp[lv] := TBitmap.Create;
  for lv:=1 to 3 do
   begin
-     try
+   if (FKnob[lv].FVisible) then begin
+    try
+
+
       bkBmp := TBitmap.Create;
       bkBmp.SetSize(FKnobBounds[lv].Width,FKnobBounds[lv].Height);
+
 
       if FKnob[lv].FHoverOn and FHover[lv] then
         StartColor[lv] := FKnob[lv].FHoverStartColor else StartColor[lv] := FKnob[lv].FColorStart;
       if FKnob[lv].FHoverOn and FHover[lv] then
         EndColor[lv] := FKnob[lv].FHoverEndColor else EndColor[lv] := FKnob[lv].FColorEnd;
-      Gradient_Bmp(bkBmp,StartColor[lv],EndColor[lv],ord(FKnob[lv].FGradient));
+
+      if FKnob[lv].FGradient <> gcAlternate then Gradient_Bmp(bkBmp,StartColor[lv],EndColor[lv],ord(FGradient)) else
+      Alternate_Bmp(bkBmp,StartColor[lv],EndColor[lv]);
+
 
       trBmp := TBitmap.Create;
       trBmp.SetSize(FKnobBounds[lv].Width,FKnobBounds[lv].Height);
@@ -2436,12 +2286,17 @@ begin
       trBmp.Free;
       mask.Free;
       Dest[lv].Free;
-     end;
 
+    end; end;
    end;
-   for lv:= 3 downto 1 do
-    if (self.FKnob[lv].FVisible) then canvas.Draw(FKnobBounds[lv].Left,FKnobBounds[lv].Top,FKnobBmp[lv]);
+  (* for lv:= 3 downto 1 do
+    if (self.FKnob[lv].FVisible) then
+     canvas.Draw(FKnobBounds[lv].Left,FKnobBounds[lv].Top,FKnobBmp[lv]); *)
 
+   for lv:= 3 downto 1 do
+    if (FKnob[lv].FVisible) then
+     canvas.Draw(FKnobBounds[lv].Left,FKnobBounds[lv].Top,FKnobBmp[lv]);
+   for lv := 1 to 3 do FreeAndNil(FKnobBmp[lv]);
 end;
 
 procedure TMultiplexSlider.DrawKnobBorder(aIdx:integer);

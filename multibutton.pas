@@ -1,6 +1,6 @@
 { <A button with an integrated button>
-  <Version 1.2.7.3>
-  Copyright (C) <11.09.2022> <Bernd Hübner>
+  <Version 1.2.7.5>
+  Copyright (C) <11.12.2022> <Bernd Hübner>
   Many thanks to the members of the German Lazarus Forum!
   wp_xyz helped me jump over many hurdles!
   For some improvements see https://www.lazarusforum.de/viewtopic.php?f=29&t=13252
@@ -396,7 +396,7 @@ type
    procedure SetFont(AValue: TFont);
    procedure SetAlignment(AValue: TAlignment);
    procedure SetLayout(AValue: TTextLayout);
-   procedure SetStyleManager(AValue: TMultiButtonStyleManager);
+
    procedure SetTextStyle(AValue: TTextStyle);
    procedure FontPropertyChanged({%H-}Sender:TObject);
    procedure MessageFontPropertyChanged({%H-}Sender:TObject);
@@ -432,6 +432,7 @@ type
    constructor Create(AOwner: TComponent); override;
    destructor  Destroy; override;
    procedure   Paint; override;
+   procedure SetStyleManager(AValue: TMultiButtonStyleManager);
    procedure Loaded; override;
    procedure MouseEnter; override;
    procedure MouseLeave; override;
@@ -809,9 +810,12 @@ procedure TMessageButton.SetAlignment(AValue: TMBAlignment);
 begin
   if FAlignment=AValue then Exit;
   FAlignment:=AValue;
+
+
   if (FOwner as TMultiButton).MultiButton_StyleManager <> nil then
-  FAlignment := TMBAlignment(MultiButtonStyleManager.TMBAlignment(
-                (FOwner as TMultiButton).FStyleManager.MessageButtonAlignment));
+   FAlignment := TMBAlignment(MultiButtonStyleManager.TMBAlignment(
+                 (FOwner as TMultiButton).FStyleManager.MessageButtonAlignment));
+
   (FOwner as TMultiButton).CalculateDimensions;
   if (FOwner as TMultiButton).FAutoSize then (FOwner as TMultiButton).TriggerAutoSize;
 end;
@@ -889,6 +893,7 @@ procedure TMessageButton.SetCapLeft(AValue: integer);
 begin
   if FCapLeft=AValue then Exit;
   FCapLeft:=AValue;
+
   if (FOwner as TMultiButton).MultiButton_StyleManager <> nil then
    FCapLeft:= (FOwner as TMultiButton).FStyleManager.MessageButtonCaptionHorMargin;
   //if (FOwner as TMultiButton).FAutoSize then (FOwner as TMultiButton).TriggerAutoSize;
@@ -907,6 +912,7 @@ procedure TMessageButton.SetCapTop(AValue: integer);
 begin
   if FCapTop=AValue then Exit;
   FCapTop:=AValue;
+
   if (FOwner as TMultiButton).MultiButton_StyleManager <> nil then
    FCapTop:= (FOwner as TMultiButton).FStyleManager.MessageButtonCaptionVerMargin;
   //if (FOwner as TMultiButton).FAutoSize then (FOwner as TMultiButton).TriggerAutoSize;
@@ -1762,6 +1768,7 @@ begin
     fTextStyle.Alignment:=FStyleManager.CaptionAlignment;
     if FStyleManager.CaptionAlignment <> taLeftJustify then FCapLeft:=0;
    end;
+
  if FAutoSize then TriggerAutoSize;
  Invalidate;
 end;
@@ -1797,7 +1804,7 @@ begin
    FRRRadius           := FStyleManager.RndRctRadius;
    FFocusedOn          := FStyleManager.FocusFrameON;
    FForegroundFocusOn  := FStyleManager.ForegroundFocusOn;
-   FFocusFrameWidth    := FStyleManager.FocusFrameWidth;
+   FocusFrameWidth     := FStyleManager.FocusFrameWidth; //otherwise the setter is not called ?
    FFocusAlBlVal       := FStyleManager.FocusAlphaBValue;
    FShowBorder         := FStyleManager.ShowBorder;
    FHoverOn            := FStyleManager.HoverOn;
@@ -1815,12 +1822,14 @@ begin
    FPressedEnCol       := FStyleManager.PressedEndColor;
    FPressedFoCol       := FStyleManager.PressedFontColor;
 
-   CaptionAlignment    := FStyleManager.CaptionAlignment;
-   CaptionLayout       := FStyleManager.CaptionLayout;
-   CaptionHorMargin    := FStyleManager.CaptionHorMargin;
-   CaptionVerMargin    := FStyleManager.CaptionVerMargin;
-   CaptionWordbreak    := FStyleManager.CaptionWordbreak;
-
+   if not AutoSize then
+    begin
+     CaptionAlignment    := FStyleManager.CaptionAlignment;
+     CaptionLayout       := FStyleManager.CaptionLayout;
+     CaptionHorMargin    := FStyleManager.CaptionHorMargin;
+     CaptionVerMargin    := FStyleManager.CaptionVerMargin;
+     CaptionWordbreak    := FStyleManager.CaptionWordbreak;
+    end;
 
    MessageButton.ColorStart                    := FStyleManager.MessageButtonColorStart;
    MessageButton.ColorEnd                      := FStyleManager.MessageButtonColorEnd;
@@ -1901,6 +1910,7 @@ begin
   if FAutoSize then TriggerAutoSize;
   if (csDesigning in ComponentState) and (MultiButton_StyleManager <> nil) then FFocusFrameWidth:= FStyleManager.FocusFrameWidth;
   CalculateDimensions;
+
 end;
 
 procedure TMultiButton.SetHoverImageIndex(AValue: TImageIndex);
@@ -2045,7 +2055,8 @@ begin
     end;
   if FCapLeft=AValue then Exit;
   FCapLeft:=AValue;
-  if MultiButton_StyleManager <> nil then FCapLeft:= FStyleManager.CaptionHorMargin;
+  if not FAutosize then
+   if MultiButton_StyleManager <> nil then FCapLeft:= FStyleManager.CaptionHorMargin;
   if FAutoSize then TriggerAutoSize;
   Invalidate;
 end;
@@ -2053,8 +2064,11 @@ end;
 procedure TMultiButton.SetCaptionWordbreak(AValue: boolean);
 begin
   if FCaptionWordbreak=AValue then Exit;
-  if (csDesigning in ComponentState) and (MultiButton_StyleManager <> nil) then AValue:= FStyleManager.CaptionWordbreak;
   FCaptionWordbreak:=AValue;
+
+  if not FAutosize then
+   if (csDesigning in ComponentState) and (MultiButton_StyleManager <> nil) then AValue:= FStyleManager.CaptionWordbreak;
+
   if not  FCaptionWordbreak then
     begin
      FTextStyle.SingleLine:= true;
@@ -2078,7 +2092,8 @@ begin
     end;
   if FCapTop=AValue then Exit;
   FCapTop:=AValue;
-  if MultiButton_StyleManager <> nil then FCapTop:= FStyleManager.CaptionVerMargin;
+  if not FAutosize then
+   if MultiButton_StyleManager <> nil then FCapTop:= FStyleManager.CaptionVerMargin;
   if FAutoSize then TriggerAutoSize;
   Invalidate;
 end;

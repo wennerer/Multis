@@ -116,7 +116,7 @@ type
     procedure DrawSingleLine;
     procedure DrawTheBackground;
     procedure DrawABorder;
-    procedure BorderChangingChange(Sender: TObject);
+    procedure BorderChangingChange({%H-}Sender: TObject);
     procedure CustomPenCanged;
     procedure SetBorderColor(AValue: TColor);
     procedure SetBorderWidth(AValue: integer);

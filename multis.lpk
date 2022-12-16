@@ -22,7 +22,7 @@
 
 The help for the package can be called up via the menu item Help , Multis-Help."/>
     <License Value="modified LGPL-2"/>
-    <Version Major="1" Release="4" Build="1"/>
+    <Version Major="1" Release="4" Build="2"/>
     <Files Count="21">
       <Item1>
         <Filename Value="multibuttonstylemanager.pas"/>
@@ -39,80 +39,80 @@ The help for the package can be called up via the menu item Help , Multis-Help."
         <UnitName Value="ptin"/>
       </Item3>
       <Item4>
-        <Filename Value="stylemanagercomponent.inc"/>
-        <Type Value="Include"/>
-      </Item4>
-      <Item5>
         <Filename Value="rs_mbstylemanager.pas"/>
         <UnitName Value="rs_mbstylemanager"/>
-      </Item5>
-      <Item6>
+      </Item4>
+      <Item5>
         <Filename Value="mb_autosize.inc"/>
         <Type Value="Include"/>
-      </Item6>
-      <Item7>
+      </Item5>
+      <Item6>
         <Filename Value="multiplexslider.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="MultiplexSlider"/>
+      </Item6>
+      <Item7>
+        <Filename Value="mpslider_track.inc"/>
+        <Type Value="Include"/>
       </Item7>
       <Item8>
-        <Filename Value="mpslider_track.inc"/>
+        <Filename Value="mpslider_knob.inc"/>
         <Type Value="Include"/>
       </Item8>
       <Item9>
-        <Filename Value="mpslider_knob.inc"/>
+        <Filename Value="mpslider_scale.inc"/>
         <Type Value="Include"/>
       </Item9>
       <Item10>
-        <Filename Value="mpslider_scale.inc"/>
+        <Filename Value="mpslider_textlabel.inc"/>
         <Type Value="Include"/>
       </Item10>
       <Item11>
-        <Filename Value="mpslider_textlabel.inc"/>
+        <Filename Value="mpslider_valuedisplay.inc"/>
         <Type Value="Include"/>
       </Item11>
       <Item12>
-        <Filename Value="mpslider_valuedisplay.inc"/>
-        <Type Value="Include"/>
-      </Item12>
-      <Item13>
         <Filename Value="infmultis.pas"/>
         <UnitName Value="infmultis"/>
-      </Item13>
-      <Item14>
+      </Item12>
+      <Item13>
         <Filename Value="multiseperator.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="MultiSeperator"/>
-      </Item14>
-      <Item15>
+      </Item13>
+      <Item14>
         <Filename Value="custompen.pas"/>
         <UnitName Value="CustomPen"/>
-      </Item15>
-      <Item16>
+      </Item14>
+      <Item15>
         <Filename Value="multipanel.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="MultiPanel"/>
+      </Item15>
+      <Item16>
+        <Filename Value="mp_border.inc"/>
+        <Type Value="Include"/>
       </Item16>
       <Item17>
-        <Filename Value="mp_border.inc"/>
+        <Filename Value="mp_dropdownmenu.inc"/>
         <Type Value="Include"/>
       </Item17>
       <Item18>
-        <Filename Value="mp_dropdownmenu.inc"/>
+        <Filename Value="mp_CustomPanelStyleEditor.inc"/>
         <Type Value="Include"/>
       </Item18>
       <Item19>
-        <Filename Value="mp_CustomPanelStyleEditor.inc"/>
-        <Type Value="Include"/>
-      </Item19>
-      <Item20>
         <Filename Value="helpmenu.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="helpmenu"/>
-      </Item20>
-      <Item21>
+      </Item19>
+      <Item20>
         <Filename Value="pathto.pas"/>
         <UnitName Value="PathTo"/>
+      </Item20>
+      <Item21>
+        <Filename Value="stylemanagercomponent.inc"/>
+        <Type Value="Include"/>
       </Item21>
     </Files>
     <CompatibilityMode Value="True"/>
