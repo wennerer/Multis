@@ -1,6 +1,6 @@
 { <A slider with an integrated textlabel>
-  <Version 1.0.4.1>
-  Copyright (C) <13.12.2022> <Bernd Hübner>
+  <Version 1.0.4.2>
+  Copyright (C) <17.12.2022> <Bernd Hübner>
   Many thanks to the members of the German Lazarus Forum!
   Special thanks to Siro, he taught me the basics!
   For some improvements see https://www.lazarusforum.de/viewtopic.php?f=29&t=12851
@@ -2237,7 +2237,7 @@ begin
       if FKnob[lv].FHoverOn and FHover[lv] then
         EndColor[lv] := FKnob[lv].FHoverEndColor else EndColor[lv] := FKnob[lv].FColorEnd;
 
-      if FKnob[lv].FGradient <> gcAlternate then Gradient_Bmp(bkBmp,StartColor[lv],EndColor[lv],ord(FGradient)) else
+      if FKnob[lv].FGradient <> gcAlternate then Gradient_Bmp(bkBmp,StartColor[lv],EndColor[lv],ord(FKnob[lv].FGradient)) else
       Alternate_Bmp(bkBmp,StartColor[lv],EndColor[lv]);
 
 
@@ -2731,7 +2731,7 @@ begin
    end;
  end;
 
- DrawSlider;
+ if (ColorStart <> clNone) and (ColorEnd <> clNone) then DrawSlider;
  DrawTrack;
  if FTrack.FExtraColor <> clNone then DrawExtraTrackColor;
  if FTrack.FSelRangeColor <> clNone then DrawSelRange;
