@@ -1,6 +1,6 @@
 { <A slider with an integrated textlabel>
-  <Version 1.0.4.2>
-  Copyright (C) <17.12.2022> <Bernd Hübner>
+  <Version 1.0.4.3>
+  Copyright (C) <19.12.2022> <Bernd Hübner>
   Many thanks to the members of the German Lazarus Forum!
   Special thanks to Siro, he taught me the basics!
   For some improvements see https://www.lazarusforum.de/viewtopic.php?f=29&t=12851
@@ -2394,7 +2394,7 @@ begin
      P[0].X:= FKnobBounds[lv].Left+2;
      P[0].Y:= FKnobBounds[lv].Bottom - (FKnobBounds[lv].Height div 2);
      P[1].X:= FKnobBounds[lv].left + (FKnobBounds[lv].Height div 2)+a;
-     P[1].Y:= FKnobBounds[lv].Bottom - a;
+     P[1].Y:= FKnobBounds[lv].Bottom - 2;//a;
      P[2].X:= FKnobBounds[lv].Left + (FKnobBounds[lv].Width div 2)+a;
      P[2].Y:= FKnobBounds[lv].Top +2;
      canvas.Polygon(P);
@@ -2410,7 +2410,7 @@ begin
      P[0].X:= FKnobBounds[lv].Right-2;
      P[0].Y:= FKnobBounds[lv].Bottom - (FKnobBounds[lv].Height div 2);
      P[1].X:= FKnobBounds[lv].Right - (FKnobBounds[lv].Height div 2)-a;
-     P[1].Y:= FKnobBounds[lv].Bottom - a;
+     P[1].Y:= FKnobBounds[lv].Bottom - 2;//a;
      P[2].X:= FKnobBounds[lv].Right - (FKnobBounds[lv].Width div 2)-a;
      P[2].Y:= FKnobBounds[lv].Top +2;
      canvas.Polygon(P);
