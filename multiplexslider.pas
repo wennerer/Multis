@@ -328,10 +328,10 @@ Type
    //Zeigt den Wert des Sliders im TextLabel in Prozent
    property AdInPercent : Boolean read FAdInPercent write SetAdInPercent default false;
    //The text in front of the value in the textlabel
-   //Die Text vor dem Wert im Textlabel
+   //Der Text vor dem Wert im Textlabel
    property PreCaption : TCaption read FPreCaption write SetPreCaption;
    //The text behind the value in the textlabel
-   //Die Text hinter dem Wert im Textlabel
+   //Der Text hinter dem Wert im Textlabel
    property PostCaption : TCaption read FPostCaption write SetPostCaption;
    //Alignment of the text in the caption (left, center, right)
    //Ausrichtung des Textes in der Caption (Links,Mitte,Rechts)
@@ -499,6 +499,8 @@ type
     FTextLabel         : TTextLabel;
     FTLH               : integer;
     FTLW               : integer;
+    OrgWidth1          : integer;
+    OrgHeight1         : integer;
     OrgWidth           : integer;
     OrgHeight          : integer;
     FTextRect          : TRect;
@@ -1211,22 +1213,33 @@ end;
 
 procedure TMultiplexSlider.SetAutoSize(Value: Boolean);
 begin
+  if (csLoading in ComponentState) then exit;
   inherited SetAutoSize(Value);
   if Value = FAutoSize then exit;
+
   FAutoSize := Value;
+
+
+  if not FAutoSize then
+  begin
+   width := OrgWidth1;
+   height:= OrgHeight1;
+  end;
+
 
   if Value then
    begin
-    OrgWidth := width;
-    OrgHeight:= height;
+    //OrgWidth1 := width;
+    //OrgHeight1:= height;
     case ord(FTextLabel.FTextLabelPosition) of      //calculate size without textlabel
-     1: OrgHeight:= OrgHeight -FTLH;
-     2: OrgHeight:= OrgHeight -FTLH;
-     3: OrgWidth := OrgWidth  -FTLW;
-     4: OrgWidth := OrgWidth  -FTLW;
+     1: OrgHeight:= OrgHeight1 -FTLH;
+     2: OrgHeight:= OrgHeight1 -FTLH;
+     3: OrgWidth := OrgWidth1  -FTLW;
+     4: OrgWidth := OrgWidth1  -FTLW;
     end;
     if FTextLabel.FTextLabelPosition <> poNone then TriggerAutoSize
      else CalculateBounds(FTextLabel.FTextLabelPosition,false);
+
    end
   else
    begin
@@ -1248,6 +1261,18 @@ procedure TMultiplexSlider.CalculatePreferredSize(var PreferredWidth,
   PreferredHeight: integer; WithThemeSpace: Boolean);
 var w,h : integer;
 begin
+ if (csLoading in ComponentState) then exit;
+ if not FAutoSize then
+  begin
+   OrgWidth1 := width;
+   OrgHeight1:= height;
+    case ord(FTextLabel.FTextLabelPosition) of      //calculate size without textlabel
+     1: OrgHeight:= OrgHeight1 -FTLH;
+     2: OrgHeight:= OrgHeight1 -FTLH;
+     3: OrgWidth := OrgWidth1  -FTLW;
+     4: OrgWidth := OrgWidth1  -FTLW;
+    end;
+  end;
  inherited CalculatePreferredSize(PreferredWidth, PreferredHeight,WithThemeSpace);
  CalculateBoundsWithAutosize(w,h);
  PreferredHeight := h;
@@ -1666,7 +1691,8 @@ begin
  //calculate maxLength
  if length(inttostr(FMax)) > length(inttostr(FMin)) then KnobValue := FMax else KnobValue:=FMin;
  MaxTextOutput := FTextLabel.FPreCaption+' '+FTextLabel.FPostCaption;
- if FTextLabel.FAutoAd then MaxTextOutput := FTextLabel.FPreCaption+' '+inttostr(KnobValue)+' '+FTextLabel.FPostCaption;
+ if FTextLabel.FAutoAd then MaxTextOutput := FTextLabel.FPreCaption+'  '+inttostr(KnobValue)+'  '+FTextLabel.FPostCaption;
+
 
  MaxTextOutput := trim(MaxTextOutput);
 end;
