@@ -64,7 +64,6 @@ end;
 
 procedure Register;
 var PathToConfigDir : string;
-    PathToMultis    : string;
     HelpWanted      : boolean;
     Hlw             : string;
     IsNew           : boolean;

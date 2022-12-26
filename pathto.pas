@@ -29,7 +29,7 @@ unit PathTo;
 interface
 
 uses
-  Classes, SysUtils, Forms, StdCtrls, Controls, Dialogs, DOM, XMLWrite, XMLRead, XPath, rs_mbstylemanager;
+  Classes, SysUtils, Forms, Controls, Dialogs, DOM, XMLWrite, XMLRead, XPath, rs_mbstylemanager;
 
 
 //function PathToPrimaryConfig :string;
