@@ -32,11 +32,11 @@ uses
   Classes, SysUtils, Forms, StdCtrls, Controls, Dialogs, DOM, XMLWrite, XMLRead, XPath, rs_mbstylemanager;
 
 
-function PathToPrimaryConfig :string;
-function PathToSecondaryConfig : string;
-function PathToConfig :string;
-function PathToConfigFile(aFilename : string) : string;
-function PathViaDialog : string;
+//function PathToPrimaryConfig :string;
+//function PathToSecondaryConfig : string;
+//function PathToConfig :string;
+//function PathToConfigFile(aFilename : string) : string;
+//function PathViaDialog : string;
 function MenuDialog : boolean;
 
 function ReadPathToMultis(aFilename :string) : string;
@@ -46,7 +46,7 @@ function ReadNew(Filename:string):string;
 function ReadHelp(Filename:string) : string;
 
 implementation
-
+(*
 function PathToPrimaryConfig: string;
 var  f : TextFile;
      s : string;
@@ -110,8 +110,9 @@ begin
  {$ENDIF}
 
 
-end;
+end;   *)
 
+(*
 function PathToSecondaryConfig: string;
 var s : string;
 begin
@@ -137,16 +138,18 @@ begin
 
  result:= Application.Location;
 
-end;
+end;  *)
 
+(*
 function PathToConfig: string;
 var PathToConfigDir : string;
 begin
   PathToConfigDir := PathToPrimaryConfig;
   if PathToConfigDir = '-1' then PathToConfigDir := PathToSecondaryConfig;
   Result := PathToConfigDir;
-end;
+end; *)
 
+(*
 function PathToConfigFile(aFilename: string): string;
 var s : string;
 begin
@@ -167,7 +170,7 @@ begin
    Exit;
   end;
 
-end;
+end;  *)
 
 
 function PathViaDialog: string;

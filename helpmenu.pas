@@ -1,6 +1,6 @@
 { <Adds a new item "Mutis-Help" to the Help menu>
-  <Version 1.0.0.1>
-  Copyright (C) <23.10.2022> <Bernd Hübner>
+  <Version 1.0.0.2>
+  Copyright (C) <25.12.2022> <Bernd Hübner>
   for some improvements see https://www.lazarusforum.de/viewtopic.php?f=29&t=13252
 
   This library is free software; you can redistribute it and/or modify it under the
@@ -35,7 +35,7 @@ interface
 
 uses 
  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, LResources, LCLIntf,
- {LMessages,} MenuIntf, rs_mbstylemanager, PathTo;
+ {LMessages,} MenuIntf, LazIDEIntf, rs_mbstylemanager, PathTo;
 
 
 
@@ -50,7 +50,8 @@ var PathToConfigDir : string;
     PathToMultis    : string;
 begin
   //search for ConfigDirectory
-  PathToConfigDir := PathToConfig;
+  //PathToConfigDir := PathToConfig;
+  PathToConfigDir := IncludeTrailingPathDelimiter(LazarusIDE.GetPrimaryConfigPath);
   //showmessage(PathToConfigDir);
 
  //read the path to multis
@@ -76,8 +77,8 @@ begin
   HelpWanted      := true;
 
   //search for ConfigDirectory
-  PathToConfigDir := PathToConfig;
-
+ // PathToConfigDir := PathToConfig;
+  PathToConfigDir := IncludeTrailingPathDelimiter(LazarusIDE.GetPrimaryConfigPath);
 
  //read the path to multis and the current version
   if FileExists(PathToConfigDir+'packagefiles.xml') then
