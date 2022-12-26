@@ -305,11 +305,12 @@ begin
     parentNode.Appendchild(nofilho);
     RootNode.ChildNodes.Item[0].AppendChild(parentNode);
 
-     // Create a child node
+   (*  // Create a child node
     parentNode := Doc.CreateElement('filename');
     nofilho := Doc.CreateTextNode(Unicodestring(Filename));
     parentNode.Appendchild(nofilho);
-    RootNode.ChildNodes.Item[0].AppendChild(parentNode);
+    RootNode.ChildNodes.Item[0].AppendChild(parentNode); *)
+
     writeXMLFile(Doc,Filename+'multis.xml');
   finally
     Doc.Free;

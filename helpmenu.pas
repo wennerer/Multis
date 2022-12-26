@@ -1,6 +1,6 @@
 { <Adds a new item "Mutis-Help" to the Help menu>
-  <Version 1.0.0.2>
-  Copyright (C) <25.12.2022> <Bernd Hübner>
+  <Version 1.0.0.3>
+  Copyright (C) <26.12.2022> <Bernd Hübner>
   for some improvements see https://www.lazarusforum.de/viewtopic.php?f=29&t=13252
 
   This library is free software; you can redistribute it and/or modify it under the
@@ -35,7 +35,7 @@ interface
 
 uses 
  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, LResources, LCLIntf,
- {LMessages,} MenuIntf, LazIDEIntf, rs_mbstylemanager, PathTo;
+ MenuIntf, LazIDEIntf, rs_mbstylemanager, PathTo;
 
 
 
@@ -50,9 +50,7 @@ var PathToConfigDir : string;
     PathToMultis    : string;
 begin
   //search for ConfigDirectory
-  //PathToConfigDir := PathToConfig;
-  PathToConfigDir := IncludeTrailingPathDelimiter(LazarusIDE.GetPrimaryConfigPath);
-  //showmessage(PathToConfigDir);
+    PathToConfigDir := IncludeTrailingPathDelimiter(LazarusIDE.GetPrimaryConfigPath);
 
  //read the path to multis
   if FileExists(PathToConfigDir+'packagefiles.xml') then
@@ -77,28 +75,23 @@ begin
   HelpWanted      := true;
 
   //search for ConfigDirectory
- // PathToConfigDir := PathToConfig;
   PathToConfigDir := IncludeTrailingPathDelimiter(LazarusIDE.GetPrimaryConfigPath);
 
  //read the path to multis and the current version
-  if FileExists(PathToConfigDir+'packagefiles.xml') then
-   begin
-    PathToMultis     := ReadPathToMultis(PathToConfigDir+'packagefiles.xml');
-   end else
+  if not FileExists(PathToConfigDir+'packagefiles.xml') then
    begin
     IsNew           := false;
     Nw              := 'No';
     HelpWanted      := false;
     HlW             := 'No';
-
    end;
 
 
-  if FileExists(PathToMultis+'multis.xml') then
+  if FileExists(PathToConfigDir+'multis.xml') then
    begin
-    HLW := ReadHelp(PathToMultis+'multis.xml');
+    HLW := ReadHelp(PathToConfigDir+'multis.xml');
     if HlW='Yes' then HelpWanted:=true else HelpWanted:=false;
-    Nw  := ReadNew(PathToMultis+'multis.xml');
+    Nw  := ReadNew(PathToConfigDir+'multis.xml');
     if Nw = 'YES' then IsNew := true else IsNew := false;
    end;
 
@@ -108,7 +101,7 @@ begin
   if HelpWanted then HlW:='Yes' else HlW:='No';
 
   Nw := 'No';
-  WriteMultisXMl(Nw,HlW,PathToMultis);
+  WriteMultisXMl(Nw,HlW,PathToConfigDir);
 
   if HelpWanted then
   RegisterIDEMenuCommand(itmHelpTools, 'MultisHelp',rs_muhelp,nil,@StartHelp,nil,'help');
