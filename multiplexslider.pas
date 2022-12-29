@@ -1,6 +1,6 @@
 { <A slider with an integrated textlabel>
-  <Version 1.0.4.3>
-  Copyright (C) <19.12.2022> <Bernd Hübner>
+  <Version 1.0.4.4>
+  Copyright (C) <29.12.2022> <Bernd Hübner>
   Many thanks to the members of the German Lazarus Forum!
   Special thanks to Siro, he taught me the basics!
   For some improvements see https://www.lazarusforum.de/viewtopic.php?f=29&t=12851
@@ -38,7 +38,7 @@ interface
 uses
   Classes, SysUtils, FPImage, LResources, Forms, Controls, Graphics, Dialogs,
   infmultis, LCLIntf, LMessages, LCLType, LazUTF8, PropEdits, FpCanvas,
-  Contnrs, LCLProc;
+  Contnrs, multipanel, multilayer;// LCLProc;
 
 type
   TClickEvent = procedure(Sender: TObject) of object;
@@ -775,7 +775,7 @@ type
 procedure Register;
 
 implementation
-uses multipanel;
+//uses multipanel, multilayer;
 
 procedure Register;
 begin
@@ -2734,6 +2734,11 @@ begin
   begin
    if assigned((parent as TMultiPanel).FMultiBkgrdBmp) then
    canvas.CopyRect(rect(0,0,width,height),(parent as TMultiPanel).FMultiBkgrdBmp.Canvas,rect(left,top,left+width,top+height));
+  end;
+ if Parent is TMultiLayer then
+  begin
+   if (Parent as TMultiLayer).ParentIsMultiPanel then
+    canvas.CopyRect(rect(0,0,width,height),(Parent as TMultiLayer).FMultiBkgrdBmp.Canvas,rect(left,top,left+width,top+height));
   end;
 
   //draw the Focusframe

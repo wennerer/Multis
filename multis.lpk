@@ -22,8 +22,8 @@
 
 The help for the package can be called up via the menu item Help , Multis-Help."/>
     <License Value="modified LGPL-2"/>
-    <Version Major="1" Release="4" Build="3"/>
-    <Files Count="21">
+    <Version Major="1" Release="5"/>
+    <Files Count="22">
       <Item1>
         <Filename Value="multibuttonstylemanager.pas"/>
         <HasRegisterProc Value="True"/>
@@ -114,6 +114,11 @@ The help for the package can be called up via the menu item Help , Multis-Help."
         <Filename Value="stylemanagercomponent.inc"/>
         <Type Value="Include"/>
       </Item21>
+      <Item22>
+        <Filename Value="multilayer.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="MultiLayer"/>
+      </Item22>
     </Files>
     <CompatibilityMode Value="True"/>
     <i18n>

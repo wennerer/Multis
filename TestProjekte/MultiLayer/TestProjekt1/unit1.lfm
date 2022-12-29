@@ -1,0 +1,350 @@
+object Form1: TForm1
+  Left = 457
+  Height = 405
+  Top = 250
+  Width = 751
+  Caption = 'Test the multilayer'
+  ClientHeight = 405
+  ClientWidth = 751
+  Color = clWhite
+  object MultiPanel1: TMultiPanel
+    AnchorSideLeft.Control = Owner
+    Left = 0
+    Top = 192
+    Width = 50
+    DropDownMenu.Active = True
+    DropDownMenu.Compressed.Height = 150
+    DropDownMenu.Stretched.Width = 160
+    DropDownMenu.Trigger = trClick
+    DropDownMenu.Direction = Left_Right
+    Anchors = [akLeft]
+    StrPolygon = (
+      '50'
+      '2'
+      '98'
+      '98'
+      '2'
+      '98'
+      '50'
+      '2'
+    )
+    object MultiLayer1: TMultiLayer
+      Left = 1
+      Height = 148
+      Top = 1
+      Width = 48
+      Align = alClient
+      object MultiButton1: TMultiButton
+        AnchorSideLeft.Control = MultiLayer1
+        AnchorSideTop.Control = MultiLayer1
+        Left = 50
+        Height = 50
+        Top = 0
+        Width = 110
+        MessageButton.ImageLeft = 0
+        MessageButton.ImageTop = 0
+        Caption = 'MultiButton1'
+        BorderSpacing.Left = 50
+        TabOrder = 0
+      end
+      object MultiButton2: TMultiButton
+        AnchorSideLeft.Control = MultiLayer1
+        AnchorSideTop.Control = MultiButton1
+        AnchorSideTop.Side = asrBottom
+        Left = 50
+        Height = 50
+        Top = 50
+        Width = 110
+        MessageButton.ImageLeft = 0
+        MessageButton.ImageTop = 0
+        Caption = 'MultiButton2'
+        BorderSpacing.Left = 50
+        TabOrder = 1
+      end
+      object MultiButton3: TMultiButton
+        AnchorSideLeft.Control = MultiLayer1
+        AnchorSideTop.Control = MultiButton2
+        AnchorSideTop.Side = asrBottom
+        Left = 50
+        Height = 50
+        Top = 100
+        Width = 110
+        MessageButton.ImageLeft = 0
+        MessageButton.ImageTop = 0
+        Caption = 'MultiButton3'
+        BorderSpacing.Left = 50
+        TabOrder = 2
+      end
+    end
+    object MultiLayer2: TMultiLayer
+      Left = 1
+      Height = 148
+      Top = 1
+      Width = 158
+      Visible = False
+      Align = alClient
+      object MultiButton4: TMultiButton
+        AnchorSideLeft.Control = MultiLayer2
+        AnchorSideTop.Control = MultiLayer2
+        Left = 50
+        Height = 50
+        Top = 0
+        Width = 110
+        MessageButton.ImageLeft = 0
+        MessageButton.ImageTop = 0
+        Caption = 'MultiButton4'
+        Font.Color = clWhite
+        BorderSpacing.Left = 50
+        TabOrder = 0
+      end
+      object MultiButton5: TMultiButton
+        AnchorSideLeft.Control = MultiLayer2
+        AnchorSideTop.Control = MultiButton4
+        AnchorSideTop.Side = asrBottom
+        Left = 50
+        Height = 50
+        Top = 50
+        Width = 110
+        MessageButton.ImageLeft = 0
+        MessageButton.ImageTop = 0
+        Caption = 'MultiButton5'
+        Font.Color = clWhite
+        BorderSpacing.Left = 50
+        TabOrder = 1
+      end
+      object MultiButton6: TMultiButton
+        AnchorSideLeft.Control = MultiLayer2
+        AnchorSideTop.Control = MultiButton5
+        AnchorSideTop.Side = asrBottom
+        Left = 50
+        Height = 50
+        Top = 100
+        Width = 110
+        MessageButton.ImageLeft = 0
+        MessageButton.ImageTop = 0
+        Caption = 'MultiButton6'
+        Font.Color = clWhite
+        BorderSpacing.Left = 50
+        TabOrder = 2
+      end
+    end
+  end
+  object MultiButton7: TMultiButton
+    Left = 232
+    Height = 50
+    Top = 192
+    Width = 110
+    MessageButton.ImageLeft = 0
+    MessageButton.ImageTop = 0
+    Caption = 'switches layer'
+    OnClick = MultiButton7Click
+    TabOrder = 1
+  end
+  object MultiPanel2: TMultiPanel
+    Left = 0
+    Height = 80
+    Top = 0
+    Width = 751
+    ColorStart = clMoneyGreen
+    ColorEnd = clTeal
+    ColorGradient = gcVertical
+    Align = alTop
+    StrPolygon = (
+      '50'
+      '2'
+      '98'
+      '98'
+      '2'
+      '98'
+      '50'
+      '2'
+    )
+    object MultiLayer3: TMultiLayer
+      Left = 1
+      Height = 78
+      Top = 1
+      Width = 749
+      Align = alClient
+      object MultiButton8: TMultiButton
+        AnchorSideLeft.Control = MultiLayer3
+        AnchorSideTop.Control = MultiLayer3
+        Left = 0
+        Height = 80
+        Top = 0
+        Width = 110
+        ColorStart = clMoneyGreen
+        ColorEnd = clTeal
+        MessageButton.ImageLeft = 0
+        MessageButton.ImageTop = 0
+        Caption = 'MultiButton8'
+        Font.Color = clYellow
+        FocusAlphaBValue = 90
+        FocusColor = clYellow
+        MultiButton_StyleManager = MultiButtonStyleManager1
+        TabOrder = 0
+      end
+      object MultiButton9: TMultiButton
+        AnchorSideLeft.Control = MultiButton8
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = MultiLayer3
+        Left = 110
+        Height = 80
+        Top = 0
+        Width = 110
+        ColorStart = clMoneyGreen
+        ColorEnd = clTeal
+        MessageButton.ImageLeft = 0
+        MessageButton.ImageTop = 0
+        Caption = 'MultiButton9'
+        Font.Color = clYellow
+        FocusAlphaBValue = 90
+        FocusColor = clYellow
+        MultiButton_StyleManager = MultiButtonStyleManager1
+        TabOrder = 1
+      end
+      object MultiButton10: TMultiButton
+        AnchorSideLeft.Control = MultiButton9
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = MultiLayer3
+        Left = 220
+        Height = 80
+        Top = 0
+        Width = 110
+        ColorStart = clMoneyGreen
+        ColorEnd = clTeal
+        MessageButton.ImageLeft = 0
+        MessageButton.ImageTop = 0
+        Caption = 'MultiButton10'
+        Font.Color = clYellow
+        FocusAlphaBValue = 90
+        FocusColor = clYellow
+        MultiButton_StyleManager = MultiButtonStyleManager1
+        TabOrder = 2
+      end
+      object MultiButton11: TMultiButton
+        AnchorSideLeft.Control = MultiButton10
+        AnchorSideLeft.Side = asrBottom
+        AnchorSideTop.Control = MultiLayer3
+        Left = 330
+        Height = 80
+        Top = 0
+        Width = 110
+        ColorStart = clMoneyGreen
+        ColorEnd = clTeal
+        MessageButton.ImageLeft = 0
+        MessageButton.ImageTop = 0
+        Caption = 'MultiButton11'
+        Font.Color = clYellow
+        FocusAlphaBValue = 90
+        FocusColor = clYellow
+        MultiButton_StyleManager = MultiButtonStyleManager1
+        TabOrder = 3
+      end
+    end
+    object MultiLayer4: TMultiLayer
+      Left = 1
+      Height = 78
+      Top = 1
+      Width = 749
+      Visible = False
+      Align = alClient
+      object MultiplexSlider1: TMultiplexSlider
+        Left = 24
+        Height = 40
+        Top = 16
+        Width = 210
+        Knob1Settings.KnobPosition = 0
+        Knob1Settings.Visible = True
+        Knob1Settings.KnobStyle = ksCircle
+        Knob1Settings.ColorGradient = gcAlternate
+        Knob1Settings.KnobColorStart = clWhite
+        Knob1Settings.KnobColorEnd = 14082019
+        Knob1Settings.HoverOn = True
+        Knob1Settings.HoverEndColor = 11121077
+        Knob1Settings.HoverStartColor = clSilver
+        Knob1Settings.Design = kdDefault
+        Knob1Settings.DesignColor = clSilver
+        Knob2Settings.KnobPosition = 5
+        Knob2Settings.Visible = False
+        Knob2Settings.KnobStyle = ksCircle
+        Knob2Settings.ColorGradient = gcAlternate
+        Knob2Settings.KnobColorStart = clWhite
+        Knob2Settings.KnobColorEnd = clLime
+        Knob2Settings.HoverOn = True
+        Knob2Settings.HoverEndColor = 753419
+        Knob2Settings.HoverStartColor = clGreen
+        Knob2Settings.Design = kdDefault
+        Knob2Settings.DesignColor = clSilver
+        Knob3Settings.KnobPosition = 10
+        Knob3Settings.Visible = False
+        Knob3Settings.KnobStyle = ksCircle
+        Knob3Settings.ColorGradient = gcAlternate
+        Knob3Settings.KnobColorStart = clWhite
+        Knob3Settings.KnobColorEnd = clSkyBlue
+        Knob3Settings.HoverOn = True
+        Knob3Settings.HoverEndColor = 16038531
+        Knob3Settings.HoverStartColor = clSkyBlue
+        Knob3Settings.Design = kdDefault
+        Knob3Settings.DesignColor = clSilver
+        ValueDisplaySettings.X = 0
+        ValueDisplaySettings.Y = 0
+        TabOrder = 0
+      end
+      object MultiplexSlider2: TMultiplexSlider
+        Left = 272
+        Height = 40
+        Top = 16
+        Width = 210
+        Knob1Settings.KnobPosition = 0
+        Knob1Settings.Visible = True
+        Knob1Settings.KnobStyle = ksCircle
+        Knob1Settings.ColorGradient = gcAlternate
+        Knob1Settings.KnobColorStart = clWhite
+        Knob1Settings.KnobColorEnd = 14082019
+        Knob1Settings.HoverOn = True
+        Knob1Settings.HoverEndColor = 11121077
+        Knob1Settings.HoverStartColor = clSilver
+        Knob1Settings.Design = kdDefault
+        Knob1Settings.DesignColor = clSilver
+        Knob2Settings.KnobPosition = 5
+        Knob2Settings.Visible = False
+        Knob2Settings.KnobStyle = ksCircle
+        Knob2Settings.ColorGradient = gcAlternate
+        Knob2Settings.KnobColorStart = clWhite
+        Knob2Settings.KnobColorEnd = clLime
+        Knob2Settings.HoverOn = True
+        Knob2Settings.HoverEndColor = 753419
+        Knob2Settings.HoverStartColor = clGreen
+        Knob2Settings.Design = kdDefault
+        Knob2Settings.DesignColor = clSilver
+        Knob3Settings.KnobPosition = 10
+        Knob3Settings.Visible = False
+        Knob3Settings.KnobStyle = ksCircle
+        Knob3Settings.ColorGradient = gcAlternate
+        Knob3Settings.KnobColorStart = clWhite
+        Knob3Settings.KnobColorEnd = clSkyBlue
+        Knob3Settings.HoverOn = True
+        Knob3Settings.HoverEndColor = 16038531
+        Knob3Settings.HoverStartColor = clSkyBlue
+        Knob3Settings.Design = kdDefault
+        Knob3Settings.DesignColor = clSilver
+        ValueDisplaySettings.X = 0
+        ValueDisplaySettings.Y = 0
+        TabOrder = 1
+      end
+    end
+  end
+  object MultiButtonStyleManager1: TMultiButtonStyleManager
+    Width = 110
+    Height = 80
+    FocusAlphaBValue = 90
+    ColorStart = clMoneyGreen
+    ColorEnd = clTeal
+    Font.Color = clYellow
+    FocusColor = clYellow
+    OffSetWidth = True
+    OffSetHeight = True
+    Left = 523
+    Top = 265
+  end
+end

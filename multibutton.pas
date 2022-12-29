@@ -1,6 +1,6 @@
 { <A button with an integrated button>
-  <Version 1.2.7.5>
-  Copyright (C) <11.12.2022> <Bernd Hübner>
+  <Version 1.2.7.6>
+  Copyright (C) <29.12.2022> <Bernd Hübner>
   Many thanks to the members of the German Lazarus Forum!
   wp_xyz helped me jump over many hurdles!
   For some improvements see https://www.lazarusforum.de/viewtopic.php?f=29&t=13252
@@ -41,7 +41,7 @@ uses
   Classes, SysUtils, FPImage, LResources, Controls, Graphics, Dialogs,
   GraphType, LcLIntf, PropEdits, GraphPropEdits, ComponentEditors, PtIn,
   LMessages, IntfGraphics, LCLType, Forms, ImgList, MultiButtonStyleManager,
-  LCLVersion, infmultis, multipanel;//, LCLProc;
+  LCLVersion, infmultis, multipanel, multilayer;//, LCLProc;
 
 type
   TMButtonStyle = (mbsRect,mbsRoundRect,mbsCircle,mbsEllipse);
@@ -2655,6 +2655,11 @@ begin
   begin
    if assigned((Parent as TMultiPanel).FMultiBkgrdBmp) then
     canvas.CopyRect(rect(0,0,width,height),(Parent as TMultiPanel).FMultiBkgrdBmp.Canvas,rect(left,top,left+width,top+height));
+  end;
+ if Parent is TMultiLayer then
+  begin
+   if (Parent as TMultiLayer).ParentIsMultiPanel then
+    canvas.CopyRect(rect(0,0,width,height),(Parent as TMultiLayer).FMultiBkgrdBmp.Canvas,rect(left,top,left+width,top+height));
   end;
 
 //draw the Focusframe
