@@ -50,6 +50,7 @@ type
    FMultiBkgrdBmp     : TBitmap;
    constructor Create(AOwner: TComponent); override;
    destructor Destroy; override;
+   procedure InvalidateMultiPanel;
    procedure Paint; override;
 
   published
@@ -80,7 +81,7 @@ begin
  if Value then ControlStyle := ControlStyle + [csAcceptsControls]-[csNoDesignVisible] else
    ControlStyle := ControlStyle + [csAcceptsControls,csNoDesignVisible];
  inherited SetVisible(Value);
- if Parent is TMultiPanel then (Parent as TMultiPanel).Invalidate;
+ InvalidateMultiPanel;
 end;
 
 constructor TMultiLayer.Create(AOwner: TComponent);
@@ -99,6 +100,11 @@ begin
   inherited Destroy;
 end;
 
+procedure TMultiLayer.InvalidateMultiPanel;
+begin
+ if Parent is TMultiPanel then (Parent as TMultiPanel).Invalidate;
+end;
+
 procedure TMultiLayer.Paint;
 begin
   inherited Paint;
@@ -112,7 +118,6 @@ begin
     end;
   end;
 end;
-
 
 
 end.

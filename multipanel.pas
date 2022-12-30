@@ -1,6 +1,6 @@
 { <A panel for the multi components>
-  <Version 1.0.0.5>
-  Copyright (C) <29.11.2022> <Bernd Hübner>
+  <Version 1.0.0.6>
+  Copyright (C) <30.11.2022> <Bernd Hübner>
   Many thanks to the members of the German Lazarus Forum!
   For some improvements see https://www.lazarusforum.de/viewtopic.php?f=29&t=14033
 
@@ -213,6 +213,7 @@ type
     FStretched     : TStre;
     FTrigger       : TTrigger;
     FHotspot       : TRect;
+    FHotspotCursor : TCursor;
 
    procedure SetActive(AValue: boolean);
    procedure SetDirection(AValue: TDirection);
@@ -228,6 +229,9 @@ type
    //Determines the area in which a click works, only active with DropDownMenu.Active und trPinned
    //Legt den Bereich fest in dem ein Klick wirkt, nur aktive mit DropDownMenu.Active und trPinned
    property Hotspot :TRect read FHotspot write SetHotspot;
+   //The shape of the mouse pointer, when the mouse is over the hotspot
+   //Die Form des Mauszeigers wenn die Maus über dem Hotspot ist.
+   property HotspotCursor : TCursor read FHotspotCursor write FHotspotCursor;
   published
    //activates the dropdown function
    //Aktiviert die DropDown-Funktion
@@ -356,7 +360,7 @@ type
     FPanelBmpTimer    : TTimer;
     FFormIsActive     : boolean;
     FListVisibleKinds : TStringlist;
-
+    OldCursor         : TCursor;
 
     FX_PolyFac        : double;
     FY_PolyFac        : double;
@@ -545,6 +549,7 @@ type
    property DoubleBuffered;
    property OnChangeBounds;
 
+
    property OnClick : TClickEvent read FOnClick     write FOnClick;
    property OnMouseMove : TMouseMoveEvent read FOnMouseMove write FOnMouseMove;
    property OnMouseDown : TMouseEvent read FOnMouseDown write FOnMouseDown;
@@ -708,7 +713,7 @@ begin
   FCustomValues.FHeight      := 100;
   FCustomValues.FStrPolygon := TStringList.Create;
 
-
+  FDDMenu.FHotspotCursor:= crHandPoint;
 end;
 
 destructor TMultiPanel.Destroy;
@@ -881,7 +886,8 @@ begin
 
    if FDDMenu.FTrigger = trPinned then
     begin
-     if ptinrect(HotspotCompressed,P) and (msg = LM_LBUTTONDOWN) and (FDDMenu.FStretched.FActive = false) then
+     if ptinrect(FDDMenu.FHotspot,P) then Cursor:= FDDMenu.FHotspotCursor else Cursor := OldCursor;
+     if ptinrect(FDDMenu.FHotspot,P) and (msg = LM_LBUTTONDOWN) and (FDDMenu.FStretched.FActive = false) then
       begin
        DropDownMenu.Stretched.Active:= true;
        exit;
@@ -909,6 +915,7 @@ var lv : integer;
     CurControl       : TControl;
 begin
  inherited Loaded;
+ OldCursor := Cursor;
  if not FRunThroughPaint then DrawThePanel;
 
  if csDesigning in Componentstate then exit;
