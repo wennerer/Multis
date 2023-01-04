@@ -38,7 +38,7 @@ interface
 uses
   Classes, SysUtils, FPImage, LResources, Forms, Controls, Graphics, Dialogs,
   infmultis, LCLIntf, LMessages, LCLType, LazUTF8, PropEdits, FpCanvas,
-  Contnrs, multipanel, multilayer;// LCLProc;
+  Contnrs, multipanel, multilayer, LCLProc;
 
 type
   TClickEvent = procedure(Sender: TObject) of object;
@@ -1308,6 +1308,7 @@ var P1        : TPoint;
     lv        : integer;
 begin
   inherited MouseDown(Button, Shift, X, Y);
+
   if parent.Visible then setfocus;
   if Assigned(OnMouseDown) then OnMouseDown(self,Button,Shift,x,y);
   P1.X:=x;
@@ -1344,6 +1345,7 @@ var xy, tmpPos, lv : integer;
     P1         : TPoint;
 begin
   inherited MouseMove(Shift, X, Y);
+
   if Assigned(OnMouseMove) then OnMouseMove(self,Shift,x,y);
   P1.X:=x;
   P1.Y:=y;
@@ -1400,6 +1402,7 @@ var lv : integer;
     P1 : TPoint;
 begin
   inherited MouseUp(Button, Shift, X, Y);
+
   P1.X:=x;
   P1.Y:=y;
   if Assigned(OnMouseUp) then OnMouseUp(self,Button,Shift,x,y);

@@ -41,7 +41,7 @@ uses
   Classes, SysUtils, FPImage, LResources, Controls, Graphics, Dialogs,
   GraphType, LcLIntf, PropEdits, GraphPropEdits, ComponentEditors, PtIn,
   LMessages, IntfGraphics, LCLType, Forms, ImgList, MultiButtonStyleManager,
-  LCLVersion, infmultis, multipanel, multilayer;//, LCLProc;
+  LCLVersion, infmultis, multipanel, multilayer, LCLProc;
 
 type
   TMButtonStyle = (mbsRect,mbsRoundRect,mbsCircle,mbsEllipse);
@@ -2021,6 +2021,7 @@ begin
   if not FEnabled then FHoverOn:= false else FHoverOn := true;
   Invalidate;
 end;
+
 
 procedure TMultiButton.SetAutoSize(Value: Boolean);
 begin

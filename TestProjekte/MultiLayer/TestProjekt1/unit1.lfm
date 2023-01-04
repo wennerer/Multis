@@ -164,6 +164,7 @@ object Form1: TForm1
       Height = 78
       Top = 1
       Width = 749
+      Color = clRed
       Align = alClient
       object MultiButton8: TMultiButton
         AnchorSideLeft.Control = MultiLayer3
@@ -295,6 +296,7 @@ object Form1: TForm1
         Height = 40
         Top = 16
         Width = 210
+        ColorStart = clNone
         Knob1Settings.KnobPosition = 0
         Knob1Settings.Visible = True
         Knob1Settings.KnobStyle = ksCircle
