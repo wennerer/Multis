@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, MultiPanel,
-  MultiLayer, MultiButton, MultiplexSlider;
+  MultiLayer, MultiButton, MultiplexSlider, MultiSeperator;
 
 type
 
@@ -15,6 +15,8 @@ type
   TForm1 = class(TForm)
     Memo1: TMemo;
     MultiButton1: TMultiButton;
+    MultiButton10: TMultiButton;
+    MultiButton11: TMultiButton;
     MultiButton2: TMultiButton;
     MultiButton3: TMultiButton;
     MultiButton4: TMultiButton;
@@ -24,6 +26,7 @@ type
     MultiButton8: TMultiButton;
     MultiButton9: TMultiButton;
     MultiLayer1: TMultiLayer;
+    MultiLayer10: TMultiLayer;
     MultiLayer2: TMultiLayer;
     MultiLayer3: TMultiLayer;
     MultiLayer4: TMultiLayer;
@@ -31,6 +34,7 @@ type
     MultiLayer6: TMultiLayer;
     MultiLayer7: TMultiLayer;
     MultiLayer8: TMultiLayer;
+    MultiLayer9: TMultiLayer;
     MultiPanel1: TMultiPanel;
     MultiPanel2: TMultiPanel;
     MultiPanel3: TMultiPanel;
@@ -38,6 +42,8 @@ type
     MultiplexSlider1: TMultiplexSlider;
     MultiplexSlider2: TMultiplexSlider;
     MultiplexSlider3: TMultiplexSlider;
+    MultiSeperator1: TMultiSeperator;
+    MultiSeperator2: TMultiSeperator;
     procedure FormCreate(Sender: TObject);
     procedure MultiButtonsClick(Sender: TObject);
     procedure MultiButton7Click(Sender: TObject);
@@ -59,12 +65,16 @@ implementation
 procedure TForm1.MultiButtonsClick(Sender: TObject);
 begin
  case (Sender as TMultiButton).Name of
-  'MultiButton1' : MultiLayer2.Visible:= true;
-  'MultiButton2' : MultiLayer1.Visible:= true;
-  'MultiButton3' : MultiLayer4.Visible:= true;
-  'MultiButton4' : MultiLayer3.Visible:= true;
-  'MultiButton5' : MultiLayer6.Visible:= true;
-  'MultiButton6' : MultiLayer5.Visible:= true;
+  'MultiButton1'  : MultiLayer2.Visible:= true;
+  'MultiButton2'  : MultiLayer1.Visible:= true;
+  'MultiButton3'  : MultiLayer4.Visible:= true;
+  'MultiButton4'  : MultiLayer3.Visible:= true;
+  'MultiButton5'  : MultiLayer6.Visible:= true;
+  'MultiButton6'  : MultiLayer5.Visible:= true;
+  'MultiButton8'  : MultiLayer8.Visible:= true;
+  'MultiButton9'  : MultiLayer7.Visible:= true;
+  'MultiButton10' : MultiLayer10.Visible:= true;
+  'MultiButton11' : MultiLayer9.Visible:= true;
  end;
 end;
 
@@ -84,8 +94,10 @@ var lv : integer;
 begin
  for lv := 0 to pred(ComponentCount) do
   if (Components[lv] is TMultiButton) then
-   TMultiButton(Components[lv]).Caption := 'Switch MultiLayer at runtime';
+   if (Components[lv] as TMultiButton).Name <> 'MultiButton7' then
+    TMultiButton(Components[lv]).Caption := 'Switch MultiLayer at runtime';
 end;
+
 
 end.
 

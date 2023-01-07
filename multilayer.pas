@@ -66,7 +66,7 @@ type
    //also as designtime
    property Visible;
    property Color;
-   property Align;
+   property Align default alClient;
    property Anchors;
    property BorderSpacing;
    property Constraints;
@@ -185,7 +185,7 @@ procedure TMultiLayer.CheckTheGroup;
     if (Parent.Controls[lv] <> self) then
     if (Parent.Controls[lv] is TMultiLayer) then
      if TMultiLayer(Parent.Controls[lv]).FGroupIndex = FGroupIndex then
-      //TMultiLayer(Parent.Controls[lv]).Visible:= false;
+      TMultiLayer(Parent.Controls[lv]).Visible:= false;
  end;
 
 procedure TMultiLayer.CheckParent;

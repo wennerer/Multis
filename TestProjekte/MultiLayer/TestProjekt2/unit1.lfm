@@ -27,7 +27,6 @@ object Form1: TForm1
       Height = 148
       Top = 1
       Width = 248
-      Align = alClient
       object MultiButton1: TMultiButton
         Left = 64
         Height = 70
@@ -46,7 +45,6 @@ object Form1: TForm1
       Top = 1
       Width = 248
       Visible = False
-      Align = alClient
       object MultiplexSlider1: TMultiplexSlider
         Left = 16
         Height = 40
@@ -124,7 +122,6 @@ object Form1: TForm1
       Top = 1
       Width = 248
       Visible = False
-      Align = alClient
       object MultiButton3: TMultiButton
         Left = 64
         Height = 70
@@ -142,7 +139,6 @@ object Form1: TForm1
       Height = 148
       Top = 1
       Width = 248
-      Align = alClient
       object MultiplexSlider2: TMultiplexSlider
         Left = 16
         Height = 40
@@ -219,7 +215,6 @@ object Form1: TForm1
       Height = 148
       Top = 1
       Width = 248
-      Align = alClient
       object MultiButton5: TMultiButton
         Left = 72
         Height = 70
@@ -238,7 +233,6 @@ object Form1: TForm1
       Top = 1
       Width = 248
       Visible = False
-      Align = alClient
       object MultiplexSlider3: TMultiplexSlider
         Left = 24
         Height = 40
@@ -342,57 +336,110 @@ object Form1: TForm1
       '2'
     )
     object MultiLayer7: TMultiLayer
-      AnchorSideLeft.Control = MultiPanel4
-      AnchorSideTop.Control = MultiPanel4
-      Left = 51
-      Height = 88
-      Top = 21
-      Width = 380
-      BorderSpacing.Left = 50
-      BorderSpacing.Top = 20
-      GroupIndex = 1
+      Left = 21
+      Height = 108
+      Top = 11
+      Width = 405
+      Align = alNone
+      BorderSpacing.Left = 20
+      BorderSpacing.Top = 10
       object MultiButton8: TMultiButton
-        AnchorSideLeft.Control = MultiLayer7
-        AnchorSideTop.Control = MultiLayer7
-        Left = 7
+        Left = 80
         Height = 70
-        Top = 7
+        Top = 16
         Width = 110
         MessageButton.ImageLeft = 0
         MessageButton.ImageTop = 0
         Caption = 'MultiButton8'
         OnClick = MultiButtonsClick
-        BorderSpacing.Left = 7
-        BorderSpacing.Top = 7
         TabOrder = 0
+      end
+      object MultiSeperator1: TMultiSeperator
+        Left = 32
+        Height = 10
+        Top = 88
+        Width = 200
+        Orientation = mspHorizontal
       end
     end
     object MultiLayer8: TMultiLayer
       AnchorSideLeft.Control = MultiPanel4
       AnchorSideTop.Control = MultiPanel4
-      AnchorSideRight.Control = MultiPanel4
-      AnchorSideRight.Side = asrBottom
-      AnchorSideBottom.Control = MultiPanel4
-      AnchorSideBottom.Side = asrCenter
-      Left = 436
-      Height = 86
-      Top = 21
-      Width = 380
-      BorderSpacing.Left = 435
-      BorderSpacing.Top = 20
-      BorderSpacing.Right = 50
+      Left = 21
+      Height = 108
+      Top = 11
+      Width = 405
+      Visible = False
+      Align = alNone
+      BorderSpacing.Left = 20
+      BorderSpacing.Top = 10
       object MultiButton9: TMultiButton
-        AnchorSideLeft.Control = MultiLayer8
-        AnchorSideTop.Control = MultiLayer8
-        Left = 7
+        Left = 80
         Height = 70
-        Top = 7
+        Top = 16
         Width = 110
+        ColorStart = clRed
+        ColorEnd = clYellow
         MessageButton.ImageLeft = 0
         MessageButton.ImageTop = 0
         Caption = 'MultiButton9'
-        BorderSpacing.Left = 7
-        BorderSpacing.Top = 7
+        OnClick = MultiButtonsClick
+        TabOrder = 0
+      end
+    end
+    object MultiLayer9: TMultiLayer
+      AnchorSideLeft.Control = MultiPanel4
+      AnchorSideTop.Control = MultiPanel4
+      Left = 442
+      Height = 108
+      Top = 11
+      Width = 405
+      Align = alNone
+      BorderSpacing.Left = 441
+      BorderSpacing.Top = 10
+      GroupIndex = 1
+      object MultiButton10: TMultiButton
+        Left = 80
+        Height = 70
+        Top = 16
+        Width = 110
+        MessageButton.ImageLeft = 0
+        MessageButton.ImageTop = 0
+        Caption = 'MultiButton10'
+        OnClick = MultiButtonsClick
+        TabOrder = 0
+      end
+      object MultiSeperator2: TMultiSeperator
+        Left = 40
+        Height = 10
+        Top = 88
+        Width = 200
+        Orientation = mspHorizontal
+      end
+    end
+    object MultiLayer10: TMultiLayer
+      AnchorSideLeft.Control = MultiPanel4
+      AnchorSideTop.Control = MultiPanel4
+      Left = 442
+      Height = 108
+      Top = 11
+      Width = 405
+      Visible = False
+      Align = alNone
+      BorderSpacing.Left = 441
+      BorderSpacing.Top = 10
+      GroupIndex = 1
+      object MultiButton11: TMultiButton
+        Left = 80
+        Height = 70
+        Top = 16
+        Width = 110
+        ColorStart = clRed
+        ColorEnd = clYellow
+        MessageButton.ImageLeft = 0
+        MessageButton.ImageTop = 0
+        Caption = 'MultiButton11'
+        OnClick = MultiButtonsClick
         TabOrder = 0
       end
     end
