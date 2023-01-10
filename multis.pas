@@ -10,7 +10,7 @@ interface
 uses
   MultiButtonStyleManager, MultiButton, ptin, rs_mbstylemanager, 
   MultiplexSlider, infmultis, MultiSeperator, CustomPen, MultiPanel, helpmenu, 
-  PathTo, MultiLayer, LazarusPackageIntf;
+  PathTo, MultiLayer, MultiRadioGroup, LazarusPackageIntf;
 
 implementation
 
@@ -23,6 +23,7 @@ begin
   RegisterUnit('MultiPanel', @MultiPanel.Register);
   RegisterUnit('helpmenu', @helpmenu.Register);
   RegisterUnit('MultiLayer', @MultiLayer.Register);
+  RegisterUnit('MultiRadioGroup', @MultiRadioGroup.Register);
 end;
 
 initialization
