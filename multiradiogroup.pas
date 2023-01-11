@@ -37,6 +37,7 @@ type
    property Items[Index: Integer]: TMRadioButton read GetRadioButton write SetRadioButton; default;
    property VisibleCount: Integer read GetVisibleCount;
    property Enabled: Boolean read GetEnabled;
+
   published
 
   end;
@@ -45,15 +46,25 @@ type
  type
   TMRadioButton = class(TCollectionItem)
    private
+     FCaptionWordbreak: boolean;
+     FCapLeft: integer;
      FCaption: TCaption;
+     FCapTop: integer;
      FColor: TColor;
      FHeight: integer;
+     FTextStyle: TTextStyle;
      FWidth: integer;
      function GetVisible: Boolean;
      function IsVisibleStored: Boolean;
+     procedure SetCapLeft(AValue: integer);
+     procedure SetAlignment(AValue: TAlignment);
      procedure SetCaption(AValue: TCaption);
+     procedure SetCaptionWordbreak(AValue: boolean);
+     procedure SetCapTop(AValue: integer);
      procedure SetColor(AValue: TColor);
      procedure SetHeight(AValue: integer);
+     procedure SetLayout(AValue: TTextLayout);
+     procedure SetTextStyle(AValue: TTextStyle);
      procedure SetVisible(AValue: Boolean);
      procedure SetWidth(AValue: integer);
 
@@ -61,12 +72,30 @@ type
 
    public
     constructor Create(ACollection: TCollection); override;
+
+    property TextStyle: TTextStyle read FTextStyle write SetTextStyle;
    published
     property Visible: Boolean read GetVisible write SetVisible stored IsVisibleStored;
     property Caption : TCaption read FCaption write SetCaption;
-    property Color : TColor read FColor write SetColor;
+    property Color : TColor read FColor write SetColor default clNone;
     property Width : integer read FWidth write SetWidth;
     property Height : integer read FHeight write SetHeight;
+
+    //Alignment of the text in the caption (left, center, right)
+    //Ausrichtung des Textes in der Caption (Links,Mitte,Rechts)
+    property CaptionAlignment:TAlignment read FTextStyle.Alignment write SetAlignment default taLeftJustify;
+    //Alignment of the text in the caption (top, center, bottom)
+    //Ausrichtung des Textes in der Caption (Oben,Mitte,Unten)
+    property CaptionLayout:TTextLayout read FTextStyle.Layout write SetLayout default tlCenter;
+    //Allows a line break in the caption
+    //Ermöglicht einen Zeilenumbruch in der Caption
+    property CaptionWordbreak : boolean read FCaptionWordbreak write SetCaptionWordbreak default false;
+    //The horizontal distance of the text in the text rectangle (only effective with taLeftJustify)
+    //Der horizontale Abstand des Textes im Textrechteck (nur wirksam mit taLeftJustify)
+    property CaptionHorMargin : integer read FCapLeft write SetCapLeft default 0;
+    //The vertical distance of the text in the text rectangle (only effective with tlTop)
+    //Der vertikale Abstand des Textes im Textrechteck (nur wirksam mit tlTop)
+    property CaptionVerMargin : integer read FCapTop write SetCapTop default 0;
    end;
 
 
@@ -80,21 +109,18 @@ type
 
   TMultiRadioGroup = class(TCustomControl)
   private
-
-    FRadioButtons : TMRadioButtons;
-
-    FColorEnd: TColor;
-    FColorStart: TColor;
-    FFocusAlBlVal      : byte;
-    FFocusColor        : TColor;
-    FFocusedOn         : boolean;
-    FFocusFrameWidth   : integer;
-    FForegroundFocusOn : boolean;
-    FGradient: TGradientCourse;
-    FRRRadius: integer;
-
-    FRadioGroupBounds      : TRect;
-    FStyle: TMRadioStyle;
+    FRadioButtons           : TMRadioButtons;
+    FColorEnd               : TColor;
+    FColorStart             : TColor;
+    FFocusAlBlVal           : byte;
+    FFocusColor             : TColor;
+    FFocusedOn              : boolean;
+    FFocusFrameWidth        : integer;
+    FForegroundFocusOn      : boolean;
+    FGradient               : TGradientCourse;
+    FRRRadius               : integer;
+    FStyle                  : TMRadioStyle;
+    FRadioGroupBounds       : TRect;
 
     function CreateRadioButtons: TMRadioButtons;
     function GetRadioButton: TMRadioButtons;
@@ -111,6 +137,7 @@ type
     procedure SetRRRadius(AValue: integer);
     procedure SetStyle(AValue: TMRadioStyle);
 
+
   protected
     procedure BoundsChanged;override;
   public
@@ -125,6 +152,8 @@ type
    procedure MouseMove({%H-}Shift: TShiftState; X, Y: Integer);override;
    procedure MouseDown({%H-}Button: TMouseButton;{%H-}Shift: TShiftState; X, Y: Integer);override;
    procedure MouseUp({%H-}Button: TMouseButton; {%H-}Shift: TShiftState; {%H-}X, {%H-}Y: Integer);override;
+
+
   published
    //The whidth of the focus-frame
    //Die Dicke des Fokus-Rahmens
@@ -170,113 +199,6 @@ begin
   RegisterComponents('Multi',[TMultiRadioGroup]);
 end;
 
-{ TMRadioButtons }
-
-function TMRadioButtons.GetRadioButton(Index: Integer): TMRadioButton;
-begin
- result := TMRadioButton( inherited Items[Index] );
-end;
-
-function TMRadioButtons.GetEnabled: Boolean;
-begin
- result := VisibleCount > 0;
-end;
-
-function TMRadioButtons.GetVisibleCount: Integer;
-{$ifNdef newcols}
-var
-  i: Integer;
-{$endif}
-begin
-  {$ifdef newcols}
-  result := Count;
-  {$else}
-  result := 0;
-  for i:=0 to Count-1 do
-    if Items[i].Visible then
-      inc(result);
-  {$endif}
-end;
-
-procedure TMRadioButtons.SetRadioButton(Index: Integer; AValue: TMRadioButton);
-begin
- Items[Index].Assign( aValue );
-end;
-
-constructor TMRadioButtons.Create(aCollection: TMultiRadioGroup;
-  aItemClass: TCollectionItemClass);
-begin
- inherited Create( aItemClass );
- FRadioButtonCollection   := aCollection;
-end;
-
-
-
-
-
-//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-{ TMRadioButton }
-
-function TMRadioButton.GetVisible: Boolean;
-begin
-
-end;
-
-function TMRadioButton.IsVisibleStored: Boolean;
-begin
-
-end;
-
-procedure TMRadioButton.SetCaption(AValue: TCaption);
-begin
-  if FCaption=AValue then Exit;
-  FCaption:=AValue;
-
-end;
-
-procedure TMRadioButton.SetColor(AValue: TColor);
-begin
-  if FColor=AValue then Exit;
-  FColor:=AValue;
-end;
-
-procedure TMRadioButton.SetHeight(AValue: integer);
-begin
-  if FHeight=AValue then Exit;
-  FHeight:=AValue;
-end;
-
-procedure TMRadioButton.SetVisible(AValue: Boolean);
-begin
-
-end;
-
-procedure TMRadioButton.SetWidth(AValue: integer);
-begin
-  if FWidth=AValue then Exit;
-  FWidth:=AValue;
-end;
-
-constructor TMRadioButton.Create(ACollection: TCollection);
-begin
-  inherited Create(ACollection);
-  FCaption := 'Radiobutton';
-  FColor := clWhite;
-  FWidth := 200;
-  FHeight := 20;
-end;
-
-
-
-
-
-
-
-//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-
-
 { TMultiRadioGroup }
 
 constructor TMultiRadioGroup.Create(AOwner: TComponent);
@@ -295,13 +217,11 @@ begin
   FColorStart           := clGray;
   FColorEnd             := clSilver;
 
-FRadioButtons := CreateRadioButtons;  //TCollection
 
-  (* FRadioButton.width  := 200;
-  FRadioButton.Height :=  20;
-  FRadioButton.left := 5;
-  FRadioButton.Top :=5;*)
 
+
+  FRadioButtons := CreateRadioButtons;  //TCollection
+  FRadioButtons.Add;
 end;
 
 destructor TMultiRadioGroup.Destroy;
@@ -346,6 +266,17 @@ begin
   if parent.Visible then setfocus;
 end;
 
+function TMultiRadioGroup.CreateRadioButtons: TMRadioButtons;
+begin
+   result := TMRadioButtons.Create(Self, TMRadioButton);
+end;
+
+procedure TMultiRadioGroup.BoundsChanged;
+begin
+  inherited BoundsChanged;
+  CalculateRadioGroup(FRadioGroupBounds);
+  Invalidate;
+end;
 
 //XXXXXXXXXXXXXXXXXXXXXXXXXX--- Setter MultiRadioGroup---XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 procedure TMultiRadioGroup.SetFocusAlBlVal(AValue: byte);
@@ -367,13 +298,9 @@ begin
   FRadioButtons.Assign(Avalue);
 end;
 
-function TMultiRadioGroup.CreateRadioButtons: TMRadioButtons;
-begin
-   result := TMRadioButtons.Create(Self, TMRadioButton);
-end;
-
 function TMultiRadioGroup.GetRadioButton: TMRadioButtons;
 begin
+
  result := FRadioButtons;
 end;
 
@@ -381,8 +308,6 @@ function TMultiRadioGroup.IsRadioButtonsStored: Boolean;
 begin
  result := RadioButtons.Enabled;
 end;
-
-
 
 procedure TMultiRadioGroup.SetColorStart(AValue: TColor);
 begin
@@ -427,9 +352,6 @@ begin
   Invalidate;
 end;
 
-
-
-
 procedure TMultiRadioGroup.SetRRRadius(AValue: integer);
 begin
   if FRRRadius=AValue then Exit;
@@ -444,153 +366,8 @@ begin
   Invalidate;
 end;
 
-procedure TMultiRadioGroup.BoundsChanged;
-begin
-  inherited BoundsChanged;
-  CalculateRadioGroup(FRadioGroupBounds);
-  debugln('bounds');//showmessage('bounds');
-  Invalidate;
-end;
 
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX---Drawing---XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-procedure GradientBmp(var aBmp: TBitmap; aStart, AStop: TColor;
-  aCourse: TGradientCourse);
-var lv:integer;
-    StartR,StartG,StartB : integer;
-    StopR,StopG,StopB    : integer;
-    delR,delG,delB       : integer;
-    fR,fG,fb : double;
-    valR,valG,valB       : integer;
-    greater,radius: integer;
-
- function System_ToRGB(clSys:TColor):TColor;
-  var FPCol :  TFPColor;
-  begin
-   FPCol:=TColorToFPColor(ColorToRGB(clSys));
-   result :=FPColorToTColor(FPCol);
-  end;
-
-begin
- aStart:=System_ToRGB(aStart);
- aStop:=System_ToRGB(aStop);
-
- if aStart=clBlack then aStart:=rgb(1,0,0);
- if aStop=clBlack then aStop:=RGB(1,0,0);
-
- StartR:=getRvalue(aStart);
- StartG:=getGvalue(aStart);
- StartB:=getBvalue(aStart);
-
- StopR:=getRvalue(aStop);
- StopG:=getGvalue(aStop);
- StopB:=getBvalue(aStop);
-
- delR:= StartR-StopR;
- delG:= StartG-StopG;
- delB:= StartB-StopB;
-
-  if aCourse = gcSpread then
- begin
-  if aBmp.Height >= aBmp.Width then
-   greater := round(aBmp.Height/2)
-  else
-   greater := round(aBmp.Width/2);
-
-  radius:= round(sqrt(sqr((aBmp.Width/2))+sqr((aBmp.Height/2))));
-  fR := delR /radius;
-  fG := delG /radius;
-  fB := delB /radius;
-  for Lv:=radius downto 0 do
-   begin
-    valR:= StopR+round(lv*fR);
-    valG:= StopG+round(lv*fG);
-    valB:= StopB+round(lv*fB);
-    if valR <0 then valR:=0;
-    if valG <0 then valG:=0;
-    if valB <0 then valB:=0;
-    if valR >255 then valR:=255;
-    if valG >255 then valG:=255;
-    if valB >255 then valB:=255;
-    aBmp.Canvas.Brush.Color:=rgb(valR,valG,valB);
-    aBmp.Canvas.Pen.Color:=rgb(valR,valG,valB);
-    aBmp.Canvas.Ellipse((aBmp.width div 2) -lv,(aBmp.height div 2)-lv,
-                       (aBmp.width div 2)+lv,(aBmp.height div 2)+lv);
-  end;
- end; //gcSpread
-
-
- if aCourse = gcRadiant then
- begin
-  if aBmp.Height >= aBmp.Width then
-   greater := round(aBmp.Height/2)
-   else
-   greater := round(aBmp.Width/2);
-
-   fR := delR /greater;
-   fG := delG /greater;
-   fB := delB /greater;
-   for Lv:=greater downto 0 do
-  begin
-   valR:= StartR-round(lv*fR);
-   valG:= StartG-round(lv*fG);
-   valB:= StartB-round(lv*fB);
-   if valR <0 then valR:=0;
-   if valG <0 then valG:=0;
-   if valB <0 then valB:=0;
-   if valR >255 then valR:=255;
-   if valG >255 then valG:=255;
-   if valB >255 then valB:=255;
-   aBmp.Canvas.Brush.Color:=rgb(valR,valG,valB);
-   aBmp.Canvas.FillRect((aBmp.width div 2) -lv,(aBmp.height div 2)-lv,
-                       (aBmp.width div 2)+lv,(aBmp.height div 2)+lv);
-  end;
- end; //gcRadiant
-
-
- if aCourse = gcVertical then
- begin
-  fR := delR /aBmp.Height;
-  fG := delG /aBmp.Height;
-  fB := delB /aBmp.Height;
-
- for Lv:=0 to aBmp.Height do
-  begin
-   valR:= StartR-round(lv*fR);
-   valG:= StartG-round(lv*fG);
-   valB:= StartB-round(lv*fB);
-   if valR <0 then valR:=0;
-   if valG <0 then valG:=0;
-   if valB <0 then valB:=0;
-   if valR >255 then valR:=255;
-   if valG >255 then valG:=255;
-   if valB >255 then valB:=255;
-   aBmp.Canvas.Brush.Color:=rgb(valR,valG,valB);
-   aBmp.Canvas.FillRect(0,lv,aBmp.Width,lv+1);
-  end;
- end;//gcVertical
-
- if aCourse = gcHorizontal then
- begin
-  fR := delR /aBmp.Width;
-  fG := delG /aBmp.Width;
-  fB := delB /aBmp.Width;
-
- for Lv:=0 to aBmp.Width do
-  begin
-   valR:= StartR-round(lv*fR);
-   valG:= StartG-round(lv*fG);
-   valB:= StartB-round(lv*fB);
-   if valR <0 then valR:=0;
-   if valG <0 then valG:=0;
-   if valB <0 then valB:=0;
-   if valR >255 then valR:=255;
-   if valG >255 then valG:=255;
-   if valB >255 then valB:=255;
-   aBmp.Canvas.Brush.Color:=rgb(valR,valG,valB);
-   aBmp.Canvas.FillRect(lv,0,lv+1,aBmp.Height);
-  end;
- end;//gcHorizontal
-end;
 
 procedure TMultiRadioGroup.CalculateRadioGroup(var aRect: TRect);
 begin
@@ -609,8 +386,6 @@ begin
  if FGradient = gcAlternate then Gradient_Bmp(bkBmp,clSilver,clGray,ord(gcVertical)); //otherwise flickers
  Gradient_Bmp(bkBmp,FColorStart,FColorEnd,ord(FGradient));
 
- //GradientBmp(bkBmp,FColorStart,FColorEnd,FGradient);
-
  trBmp := TBitmap.Create;
  trBmp.SetSize(FRadioGroupBounds.Width,FRadioGroupBounds.Height);
  trBmp.TransparentColor:=clblack;
@@ -621,8 +396,6 @@ begin
  case FStyle of
   mssRoundRect : trBmp.Canvas.RoundRect(0,0,FRadioGroupBounds.Width,FRadioGroupBounds.Height,FRRRadius,FRRRadius);
   mssRect      : trBmp.Canvas.Rectangle(0,0,FRadioGroupBounds.Width,FRadioGroupBounds.Height);
-  //mbsEllipse   : trBmp.Canvas.Ellipse(0,0,FRadioGroupBounds.Width,FRadioGroupBounds.Height);
-  //mbsCircle    : trBmp.Canvas.Ellipse(0,0,FRadioGroupBounds.Width,FRadioGroupBounds.Height);
  end;
 
  mask := TBitmap.Create;
@@ -633,8 +406,6 @@ begin
  case FStyle of
   mssRoundRect : mask.Canvas.RoundRect(0,0,FRadioGroupBounds.Width,FRadioGroupBounds.Height,FRRRadius,FRRRadius);
   mssRect      : mask.Canvas.Rectangle(0,0,FRadioGroupBounds.Width,FRadioGroupBounds.Height);
-  //mbsEllipse   : mask.Canvas.Ellipse(0,0,FRadioGroupBounds.Width,FRadioGroupBounds.Height);
-  //mbsCircle    : mask.Canvas.Ellipse(0,0,FRadioGroupBounds.Width,FRadioGroupBounds.Height);
  end;
 
  Dest       := TBitmap.Create;
@@ -661,7 +432,7 @@ end;
 
 procedure TMultiRadioGroup.Paint;
 var tmpBmp     : TBitmap;
-
+    TeRec      : TRect;
 begin
   inherited Paint;
   //draw the Focusframe
@@ -687,15 +458,25 @@ begin
 
  DrawRadioGroup;
 
- Canvas.Brush.Color:=RadioButtons.Items[0].Color;
- canvas.FillRect(5,5,RadioButtons.Items[0].Width+5,RadioButtons.Items[0].Height+5);
+ TeRec:= rect(50+FocusFrameWidth,10+FocusFrameWidth,
+              Width-FocusFrameWidth,30+FocusFrameWidth);
+
+ canvas.TextRect(TeRec,TeRec.Left+RadioButtons.Items[0].FCapLeft,TeRec.Top+RadioButtons.Items[0].FCapTop,
+                 RadioButtons.Items[0].FCaption,RadioButtons.Items[0].FTextStyle);
+
+
+
+ (*Canvas.Brush.Color:=RadioButtons.Items[0].Color;
+ canvas.FillRect(5,50,RadioButtons.Items[0].Width+5,60);
  Canvas.Pen.Color:=clBlack;
- canvas.Ellipse(5,2,21,18);
+ canvas.Ellipse(5,2,21,18);  *)
+
+
 
  //debugln('paint');
 end;
 
 
-
+{$Include mrg_radiobuttonitem.inc}
 
 end.

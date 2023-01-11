@@ -22,6 +22,7 @@ object Form1: TForm1
     ChildSizing.ControlsPerLine = 1
     ClientHeight = 104
     ClientWidth = 183
+    ItemIndex = 0
     Items.Strings = (
       'Eintrag 1'
       'Eintrag 2'
@@ -47,14 +48,18 @@ object Form1: TForm1
     TabOrder = 2
   end
   object MultiRadioGroup1: TMultiRadioGroup
-    Left = 469
+    Left = 542
     Height = 120
-    Top = 87
-    Width = 283
+    Top = 110
+    Width = 210
     RadioButtons = <    
       item
         Caption = 'Radiobutton'
-        Color = clWhite
+        Width = 200
+        Height = 20
+      end    
+      item
+        Caption = 'Radiobutton'
         Width = 200
         Height = 20
       end>

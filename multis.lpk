@@ -24,7 +24,7 @@
 The help for the package can be called up via the menu item Help , Multis-Help."/>
     <License Value="modified LGPL-2"/>
     <Version Major="1" Release="5" Build="1"/>
-    <Files Count="23">
+    <Files Count="24">
       <Item1>
         <Filename Value="multibuttonstylemanager.pas"/>
         <HasRegisterProc Value="True"/>
@@ -125,6 +125,10 @@ The help for the package can be called up via the menu item Help , Multis-Help."
         <HasRegisterProc Value="True"/>
         <UnitName Value="MultiRadioGroup"/>
       </Item23>
+      <Item24>
+        <Filename Value="mrg_radiobuttonitem.inc"/>
+        <Type Value="Include"/>
+      </Item24>
     </Files>
     <CompatibilityMode Value="True"/>
     <i18n>
