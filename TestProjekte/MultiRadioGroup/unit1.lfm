@@ -3,7 +3,7 @@ object Form1: TForm1
   Height = 402
   Top = 250
   Width = 971
-  Caption = 'Form1'
+  Caption = '3'
   ClientHeight = 402
   ClientWidth = 971
   object RadioGroup1: TRadioGroup
@@ -48,18 +48,28 @@ object Form1: TForm1
     TabOrder = 2
   end
   object MultiRadioGroup1: TMultiRadioGroup
-    Left = 542
+    Left = 572
     Height = 120
-    Top = 110
+    Top = 126
     Width = 210
     RadioButtons = <    
       item
-        Caption = 'Radiobutton'
+        Caption = 'Radiobutton 1'
         Width = 200
         Height = 20
       end    
       item
-        Caption = 'Radiobutton'
+        Caption = 'Radiobutton 2'
+        Width = 200
+        Height = 20
+      end    
+      item
+        Caption = 'Radiobutton 3'
+        Width = 200
+        Height = 20
+      end    
+      item
+        Caption = 'Radiobutton 4'
         Width = 200
         Height = 20
       end>

@@ -28,6 +28,7 @@ begin
   for i:=0 to Count-1 do
     if Items[i].Visible then
       inc(result);
+
   {$endif}
 end;
 
@@ -65,6 +66,7 @@ begin
   FCaptionWordbreak := false;
   FCapLeft        := 0;
   FCapTop         := 0;
+  FVisible := true;
 
   FTextStyle.Alignment := taLeftJustify;
   FTextStyle.Layout    := tlCenter;
@@ -74,6 +76,12 @@ begin
 
 end;
 
+procedure TMRadioButton.SetVisible(AValue: Boolean);
+begin
+  if FVisible=AValue then Exit;
+  FVisible:=AValue;
+end;
+(*
 function TMRadioButton.GetVisible: Boolean;
 begin
 
@@ -82,7 +90,7 @@ end;
 function TMRadioButton.IsVisibleStored: Boolean;
 begin
 
-end;
+end;      *)
 
 procedure TMRadioButton.SetCapLeft(AValue: integer);
 begin
@@ -101,7 +109,7 @@ procedure TMRadioButton.SetCaption(AValue: TCaption);
 begin
   if FCaption=AValue then Exit;
   FCaption:=AValue;
-
+  FCaptionChange:=true;
 end;
 
 procedure TMRadioButton.SetCaptionWordbreak(AValue: boolean);
@@ -147,11 +155,6 @@ end;
 procedure TMRadioButton.SetTextStyle(AValue: TTextStyle);
 begin
  FTextStyle:=AValue;
-end;
-
-procedure TMRadioButton.SetVisible(AValue: Boolean);
-begin
-
 end;
 
 procedure TMRadioButton.SetWidth(AValue: integer);

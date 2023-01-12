@@ -46,6 +46,7 @@ type
  type
   TMRadioButton = class(TCollectionItem)
    private
+     FCaptionChange     : boolean;
      FCaptionWordbreak: boolean;
      FCapLeft: integer;
      FCaption: TCaption;
@@ -53,9 +54,10 @@ type
      FColor: TColor;
      FHeight: integer;
      FTextStyle: TTextStyle;
+     FVisible: Boolean;
      FWidth: integer;
-     function GetVisible: Boolean;
-     function IsVisibleStored: Boolean;
+     //function GetVisible: Boolean;
+     //function IsVisibleStored: Boolean;
      procedure SetCapLeft(AValue: integer);
      procedure SetAlignment(AValue: TAlignment);
      procedure SetCaption(AValue: TCaption);
@@ -75,7 +77,7 @@ type
 
     property TextStyle: TTextStyle read FTextStyle write SetTextStyle;
    published
-    property Visible: Boolean read GetVisible write SetVisible stored IsVisibleStored;
+    property Visible  : Boolean read FVisible write SetVisible default true;//: Boolean read GetVisible write SetVisible stored IsVisibleStored;
     property Caption : TCaption read FCaption write SetCaption;
     property Color : TColor read FColor write SetColor default clNone;
     property Width : integer read FWidth write SetWidth;
@@ -146,6 +148,7 @@ type
    procedure Paint; override;
    procedure CalculateRadioGroup(var aRect: TRect);
    procedure DrawRadioGroup;
+   procedure DrawRadioButtons;
    procedure Loaded; override;
    procedure MouseEnter; override;
    procedure MouseLeave; override;
@@ -222,6 +225,7 @@ begin
 
   FRadioButtons := CreateRadioButtons;  //TCollection
   FRadioButtons.Add;
+  FRadioButtons.Add;
 end;
 
 destructor TMultiRadioGroup.Destroy;
@@ -295,12 +299,11 @@ end;
 
 procedure TMultiRadioGroup.SetRadioButton(AValue: TMRadioButtons);
 begin
-  FRadioButtons.Assign(Avalue);
+ FRadioButtons.Assign(Avalue);
 end;
 
 function TMultiRadioGroup.GetRadioButton: TMRadioButtons;
 begin
-
  result := FRadioButtons;
 end;
 
@@ -429,10 +432,30 @@ begin
 
 end;
 
+procedure TMultiRadioGroup.DrawRadioButtons;
+var lv         : integer;
+    TeRec      : TRect;
+begin
+ for lv := 0 to pred(RadioButtons.Count) do
+  begin
+    //ItemCaption
+    if not RadioButtons.Items[lv].FCaptionChange then
+     RadioButtons.Items[lv].FCaption := 'Radiobutton ' + inttostr(RadioButtons.Items[lv].Index+1);
+
+
+   TeRec:= rect(40+FocusFrameWidth,10+(lv*20)+FocusFrameWidth,
+                Width-FocusFrameWidth,30+(lv*20)+FocusFrameWidth);
+
+   canvas.TextRect(TeRec,TeRec.Left+RadioButtons.Items[0].FCapLeft,TeRec.Top+RadioButtons.Items[lv].FCapTop,
+                 RadioButtons.Items[lv].FCaption,RadioButtons.Items[lv].FTextStyle);
+  end;//Count
+  parent.Caption:=inttostr(lv);
+end;
+
 
 procedure TMultiRadioGroup.Paint;
 var tmpBmp     : TBitmap;
-    TeRec      : TRect;
+
 begin
   inherited Paint;
   //draw the Focusframe
@@ -458,11 +481,8 @@ begin
 
  DrawRadioGroup;
 
- TeRec:= rect(50+FocusFrameWidth,10+FocusFrameWidth,
-              Width-FocusFrameWidth,30+FocusFrameWidth);
+ DrawRadioButtons;
 
- canvas.TextRect(TeRec,TeRec.Left+RadioButtons.Items[0].FCapLeft,TeRec.Top+RadioButtons.Items[0].FCapTop,
-                 RadioButtons.Items[0].FCaption,RadioButtons.Items[0].FTextStyle);
 
 
 
