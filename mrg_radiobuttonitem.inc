@@ -81,16 +81,6 @@ begin
   if FVisible=AValue then Exit;
   FVisible:=AValue;
 end;
-(*
-function TMRadioButton.GetVisible: Boolean;
-begin
-
-end;
-
-function TMRadioButton.IsVisibleStored: Boolean;
-begin
-
-end;      *)
 
 procedure TMRadioButton.SetCapLeft(AValue: integer);
 begin

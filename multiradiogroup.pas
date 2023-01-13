@@ -56,8 +56,6 @@ type
      FTextStyle: TTextStyle;
      FVisible: Boolean;
      FWidth: integer;
-     //function GetVisible: Boolean;
-     //function IsVisibleStored: Boolean;
      procedure SetCapLeft(AValue: integer);
      procedure SetAlignment(AValue: TAlignment);
      procedure SetCaption(AValue: TCaption);
@@ -77,11 +75,12 @@ type
 
     property TextStyle: TTextStyle read FTextStyle write SetTextStyle;
    published
-    property Visible  : Boolean read FVisible write SetVisible default true;//: Boolean read GetVisible write SetVisible stored IsVisibleStored;
-    property Caption : TCaption read FCaption write SetCaption;
-    property Color : TColor read FColor write SetColor default clNone;
-    property Width : integer read FWidth write SetWidth;
-    property Height : integer read FHeight write SetHeight;
+    property Visible  : Boolean read FVisible write SetVisible default true;
+    property Caption  : TCaption read FCaption write SetCaption;
+    property Color    : TColor read FColor write SetColor default clNone;
+    property Width    : integer read FWidth write SetWidth;
+    property Height   : integer read FHeight write SetHeight;
+
 
     //Alignment of the text in the caption (left, center, right)
     //Ausrichtung des Textes in der Caption (Links,Mitte,Rechts)
@@ -111,6 +110,8 @@ type
 
   TMultiRadioGroup = class(TCustomControl)
   private
+    FCaption: TCaption;
+    FFont: TFont;
     FRadioButtons           : TMRadioButtons;
     FColorEnd               : TColor;
     FColorStart             : TColor;
@@ -126,13 +127,18 @@ type
 
     function CreateRadioButtons: TMRadioButtons;
     function GetRadioButton: TMRadioButtons;
+    function GetTextHeight(AText: String; AFont: TFont): Integer;
+    function GetTextWidth(AText: String; AFont: TFont): Integer;
+
     function IsRadioButtonsStored: Boolean;
+    procedure SetCaption(AValue: TCaption);
     procedure SetColorEnd(AValue: TColor);
     procedure SetColorStart(AValue: TColor);
     procedure SetFocusAlBlVal(AValue: byte);
     procedure SetFocusColor(AValue: TColor);
     procedure SetFocusedOn(AValue: boolean);
     procedure SetFocusFrameWidth(AValue: integer);
+    procedure SetFont(AValue: TFont);
     procedure SetForegroundFocusOn(AValue: boolean);
     procedure SetGradient(AValue: TGradientCourse);
     procedure SetRadioButton(AValue: TMRadioButtons);
@@ -158,6 +164,12 @@ type
 
 
   published
+   //The headline of the radio group
+   //Die Überschrift der Radiogroup
+   property Caption : TCaption read FCaption write SetCaption;
+   //The font to be used for text display the caption.
+   //Die Schrift die für die Textanzeige der Caption verwendet werden soll.
+   property Font: TFont read FFont write SetFont;
    //The whidth of the focus-frame
    //Die Dicke des Fokus-Rahmens
    property FocusFrameWidth : integer read FFocusFrameWidth write SetFocusFrameWidth default 5;
@@ -219,17 +231,18 @@ begin
   FRRRadius             := 10;
   FColorStart           := clGray;
   FColorEnd             := clSilver;
-
+  FFont                 := TFont.Create;
 
 
 
   FRadioButtons := CreateRadioButtons;  //TCollection
   FRadioButtons.Add;
-  FRadioButtons.Add;
+
 end;
 
 destructor TMultiRadioGroup.Destroy;
 begin
+  FFont.Free;
   FRadioButtons.Free;
   inherited Destroy;
 end;
@@ -304,12 +317,21 @@ end;
 
 function TMultiRadioGroup.GetRadioButton: TMRadioButtons;
 begin
+
  result := FRadioButtons;
 end;
 
 function TMultiRadioGroup.IsRadioButtonsStored: Boolean;
 begin
+
  result := RadioButtons.Enabled;
+end;
+
+procedure TMultiRadioGroup.SetCaption(AValue: TCaption);
+begin
+  if FCaption=AValue then Exit;
+  FCaption:=AValue;
+  Invalidate;
 end;
 
 procedure TMultiRadioGroup.SetColorStart(AValue: TColor);
@@ -341,6 +363,13 @@ begin
   Invalidate;
 end;
 
+procedure TMultiRadioGroup.SetFont(AValue: TFont);
+begin
+  if fFont=AValue then Exit;
+  fFont.Assign(aValue);
+  Invalidate;
+end;
+
 procedure TMultiRadioGroup.SetForegroundFocusOn(AValue: boolean);
 begin
   if FForegroundFocusOn=AValue then Exit;
@@ -368,6 +397,34 @@ begin
   FStyle:=AValue;
   Invalidate;
 end;
+//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx---Calculate---xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+function TMultiRadioGroup.GetTextWidth (AText : String ; AFont : TFont ) : Integer ;
+var bmp : TBitmap ;
+begin
+ Result := 0 ;
+ bmp := TBitmap.Create ;
+ try
+  bmp.Canvas.Font.Assign(AFont);
+  Result := bmp.Canvas.TextWidth(AText);
+ finally
+  bmp.Free;
+ end;
+end ;
+
+function TMultiRadioGroup.GetTextHeight (AText : String ; AFont : TFont ) : Integer ;
+var bmp : TBitmap ;
+begin
+ Result := 0 ;
+ bmp := TBitmap.Create ;
+ try
+  bmp.Canvas.Font.Assign(AFont);
+  Result := bmp.Canvas.TextHeight(AText);
+ finally
+  bmp.Free;
+ end;
+end ;
+
 
 
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX---Drawing---XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -433,18 +490,33 @@ begin
 end;
 
 procedure TMultiRadioGroup.DrawRadioButtons;
-var lv         : integer;
-    TeRec      : TRect;
+var lv                    : integer;
+    TeRec                 : TRect;
+    ButRec                : TRect;
+    CaptionHeight         : integer;
 begin
+ if not assigned(RadioButtons) then exit;
+
+ CaptionHeight := GetTextHeight(FCaption,FFont);
+
  for lv := 0 to pred(RadioButtons.Count) do
   begin
+
+   ButRec := rect(10+FocusFrameWidth,CaptionHeight+12+(lv*20)+FocusFrameWidth,
+                  26+FocusFrameWidth,CaptionHeight+28+(lv*20)+FocusFrameWidth);
+
+   TeRec:= rect(35+FocusFrameWidth,CaptionHeight+10+(lv*20)+FocusFrameWidth,
+                Width-FocusFrameWidth,CaptionHeight+30+(lv*20)+FocusFrameWidth);
+
+    canvas.Brush.Color:= clWhite;
+    canvas.Ellipse(ButRec);
+
     //ItemCaption
     if not RadioButtons.Items[lv].FCaptionChange then
      RadioButtons.Items[lv].FCaption := 'Radiobutton ' + inttostr(RadioButtons.Items[lv].Index+1);
 
 
-   TeRec:= rect(40+FocusFrameWidth,10+(lv*20)+FocusFrameWidth,
-                Width-FocusFrameWidth,30+(lv*20)+FocusFrameWidth);
+
 
    canvas.TextRect(TeRec,TeRec.Left+RadioButtons.Items[0].FCapLeft,TeRec.Top+RadioButtons.Items[lv].FCapTop,
                  RadioButtons.Items[lv].FCaption,RadioButtons.Items[lv].FTextStyle);
@@ -480,6 +552,11 @@ begin
  end;
 
  DrawRadioGroup;
+
+ canvas.Brush.Style:= bsClear;
+ canvas.Font.Assign(FFont);
+ canvas.TextOut(FocusFrameWidth+5,FocusFrameWidth,FCaption);
+ canvas.Brush.Style:= bsSolid;
 
  DrawRadioButtons;
 
