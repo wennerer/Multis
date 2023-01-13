@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
-  MultiRadioGroup, MultiPanel, MultiButton;
+  Grids, MultiRadioGroup, MultiPanel, MultiButton;
 
 type
 
@@ -17,6 +17,7 @@ type
     Button2: TButton;
     MultiRadioGroup1: TMultiRadioGroup;
     RadioGroup1: TRadioGroup;
+    StringGrid1: TStringGrid;
     procedure RadioGroup1Click(Sender: TObject);
   private
 

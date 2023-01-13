@@ -25,19 +25,18 @@ type
 
   TMRadioButtons = class(TCollection)
   private
-   FRadioButtonCollection   : TMultiRadioGroup;
+   FMultiRadioGroup : TMultiRadioGroup;
    function GetRadioButton(Index: Integer): TMRadioButton;
    function GetEnabled: Boolean;
    function GetVisibleCount: Integer;
    procedure SetRadioButton(Index: Integer; AValue: TMRadioButton);
   protected
-
+   function GetOwner: TPersistent; override;
   public
    constructor Create(aCollection: TMultiRadioGroup; aItemClass: TCollectionItemClass);
    property Items[Index: Integer]: TMRadioButton read GetRadioButton write SetRadioButton; default;
    property VisibleCount: Integer read GetVisibleCount;
    property Enabled: Boolean read GetEnabled;
-
   published
 
   end;
@@ -52,7 +51,9 @@ type
      FCaption: TCaption;
      FCapTop: integer;
      FColor: TColor;
+     FFont: TFont;
      FHeight: integer;
+     FParentFont: boolean;
      FTextStyle: TTextStyle;
      FVisible: Boolean;
      FWidth: integer;
@@ -62,8 +63,10 @@ type
      procedure SetCaptionWordbreak(AValue: boolean);
      procedure SetCapTop(AValue: integer);
      procedure SetColor(AValue: TColor);
+     procedure SetFont(AValue: TFont);
      procedure SetHeight(AValue: integer);
      procedure SetLayout(AValue: TTextLayout);
+     procedure SetParentFont(AValue: boolean);
      procedure SetTextStyle(AValue: TTextStyle);
      procedure SetVisible(AValue: Boolean);
      procedure SetWidth(AValue: integer);
@@ -72,7 +75,7 @@ type
 
    public
     constructor Create(ACollection: TCollection); override;
-
+    destructor Destroy; override;
     property TextStyle: TTextStyle read FTextStyle write SetTextStyle;
    published
     property Visible  : Boolean read FVisible write SetVisible default true;
@@ -81,7 +84,11 @@ type
     property Width    : integer read FWidth write SetWidth;
     property Height   : integer read FHeight write SetHeight;
 
+    //The font to be used for text display the caption.
+    //Die Schrift die für die Textanzeige der Caption verwendet werden soll.
+    property Font: TFont read FFont write SetFont;
 
+    property ParentFont : boolean read FParentFont write SetParentFont default true;
     //Alignment of the text in the caption (left, center, right)
     //Ausrichtung des Textes in der Caption (Links,Mitte,Rechts)
     property CaptionAlignment:TAlignment read FTextStyle.Alignment write SetAlignment default taLeftJustify;
@@ -236,6 +243,7 @@ begin
 
 
   FRadioButtons := CreateRadioButtons;  //TCollection
+
   FRadioButtons.Add;
 
 end;
@@ -365,8 +373,8 @@ end;
 
 procedure TMultiRadioGroup.SetFont(AValue: TFont);
 begin
-  if fFont=AValue then Exit;
-  fFont.Assign(aValue);
+  if FFont=AValue then Exit;
+  FFont.Assign(aValue);
   Invalidate;
 end;
 
@@ -499,14 +507,18 @@ begin
 
  CaptionHeight := GetTextHeight(FCaption,FFont);
 
+
+
  for lv := 0 to pred(RadioButtons.Count) do
   begin
+   TeRec:= rect(35+FocusFrameWidth,CaptionHeight+10+(lv*20)+FocusFrameWidth,
+                Width-FocusFrameWidth,CaptionHeight+30+(lv*20)+FocusFrameWidth);
+
 
    ButRec := rect(10+FocusFrameWidth,CaptionHeight+12+(lv*20)+FocusFrameWidth,
                   26+FocusFrameWidth,CaptionHeight+28+(lv*20)+FocusFrameWidth);
 
-   TeRec:= rect(35+FocusFrameWidth,CaptionHeight+10+(lv*20)+FocusFrameWidth,
-                Width-FocusFrameWidth,CaptionHeight+30+(lv*20)+FocusFrameWidth);
+
 
     canvas.Brush.Color:= clWhite;
     canvas.Ellipse(ButRec);
@@ -516,9 +528,13 @@ begin
      RadioButtons.Items[lv].FCaption := 'Radiobutton ' + inttostr(RadioButtons.Items[lv].Index+1);
 
 
+   if not RadioButtons.Items[lv].FParentFont then
+    Canvas.Font.Assign(RadioButtons.Items[lv].FFont)
+   else
+    Canvas.Font.Assign(FFont);
 
 
-   canvas.TextRect(TeRec,TeRec.Left+RadioButtons.Items[0].FCapLeft,TeRec.Top+RadioButtons.Items[lv].FCapTop,
+   canvas.TextRect(TeRec,TeRec.Left+RadioButtons.Items[lv].FCapLeft,TeRec.Top+RadioButtons.Items[lv].FCapTop,
                  RadioButtons.Items[lv].FCaption,RadioButtons.Items[lv].FTextStyle);
   end;//Count
   parent.Caption:=inttostr(lv);

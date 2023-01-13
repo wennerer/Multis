@@ -3,7 +3,7 @@ object Form1: TForm1
   Height = 402
   Top = 250
   Width = 971
-  Caption = '0'
+  Caption = '2'
   ClientHeight = 402
   ClientWidth = 971
   object RadioGroup1: TRadioGroup
@@ -22,6 +22,7 @@ object Form1: TForm1
     ChildSizing.ControlsPerLine = 1
     ClientHeight = 104
     ClientWidth = 183
+    Enabled = False
     ItemIndex = 0
     Items.Strings = (
       'Eintrag 1'
@@ -48,15 +49,39 @@ object Form1: TForm1
     Caption = 'Button2'
     TabOrder = 2
   end
+  object StringGrid1: TStringGrid
+    Left = 45
+    Height = 100
+    Top = 271
+    Width = 200
+    ColCount = 3
+    Columns = <    
+      item
+        Title.Caption = 'Title'
+      end    
+      item
+        Title.Caption = 'Title'
+      end>
+    TabOrder = 3
+  end
   object MultiRadioGroup1: TMultiRadioGroup
-    Left = 279
+    Left = 543
     Height = 120
-    Top = 56
+    Top = 123
     Width = 210
-    Caption = 'RadioGroup'
     RadioButtons = <    
       item
         Caption = 'Radiobutton 1'
+        Width = 200
+        Height = 20
+      end    
+      item
+        Caption = 'Radiobutton 2'
+        Width = 200
+        Height = 20
+      end    
+      item
+        Caption = 'Radiobutton 3'
         Width = 200
         Height = 20
       end>

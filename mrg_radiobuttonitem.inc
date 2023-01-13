@@ -37,11 +37,17 @@ begin
  Items[Index].Assign( aValue );
 end;
 
+function TMRadioButtons.GetOwner: TPersistent;
+begin
+ // Result:=inherited GetOwner;
+ Result := FMultiRadioGroup;
+end;
+
 constructor TMRadioButtons.Create(aCollection: TMultiRadioGroup;
   aItemClass: TCollectionItemClass);
 begin
  inherited Create( aItemClass );
- FRadioButtonCollection   := aCollection;
+ FMultiRadioGroup := aCollection;
 end;
 
 
@@ -67,6 +73,9 @@ begin
   FCapLeft        := 0;
   FCapTop         := 0;
   FVisible := true;
+  FFont     := TFont.Create;
+  FParentFont:= true;
+
 
   FTextStyle.Alignment := taLeftJustify;
   FTextStyle.Layout    := tlCenter;
@@ -74,6 +83,12 @@ begin
   FTextStyle.Wordbreak := false;
   FTextStyle.Clipping  := true;
 
+end;
+
+destructor TMRadioButton.Destroy;
+begin
+  FFont.Free;
+  inherited Destroy;
 end;
 
 procedure TMRadioButton.SetVisible(AValue: Boolean);
@@ -129,6 +144,12 @@ begin
   FColor:=AValue;
 end;
 
+procedure TMRadioButton.SetFont(AValue: TFont);
+begin
+  if FFont=AValue then Exit;
+  FFont.Assign(aValue);
+end;
+
 procedure TMRadioButton.SetHeight(AValue: integer);
 begin
   if FHeight=AValue then Exit;
@@ -140,6 +161,12 @@ begin
  if fTextStyle.Layout=AValue then exit;
  fTextStyle.Layout:=AValue;
  if aValue <> tlTop then FCapTop:=0;
+end;
+
+procedure TMRadioButton.SetParentFont(AValue: boolean);
+begin
+  if FParentFont=AValue then Exit;
+  FParentFont:=AValue;
 end;
 
 procedure TMRadioButton.SetTextStyle(AValue: TTextStyle);
