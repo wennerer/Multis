@@ -34,6 +34,7 @@ type
    function GetOwner: TPersistent; override;
   public
    constructor Create(aCollection: TMultiRadioGroup; aItemClass: TCollectionItemClass);
+   procedure FontIsChanged(aHeight : integer);
    property Items[Index: Integer]: TMRadioButton read GetRadioButton write SetRadioButton; default;
    property VisibleCount: Integer read GetVisibleCount;
    property Enabled: Boolean read GetEnabled;
@@ -45,6 +46,7 @@ type
  type
   TMRadioButton = class(TCollectionItem)
    private
+     FRadioButtons : TCollection;
      FCaptionChange     : boolean;
      FCaptionWordbreak: boolean;
      FCapLeft: integer;
@@ -72,7 +74,8 @@ type
      procedure SetWidth(AValue: integer);
 
    protected
-
+     function GetOwner: TPersistent; override;
+     procedure RadioButtonFontChanged(Sender : TObject);
    public
     constructor Create(ACollection: TCollection); override;
     destructor Destroy; override;
@@ -154,14 +157,15 @@ type
 
 
   protected
-    procedure BoundsChanged;override;
+   procedure BoundsChanged;override;
+   procedure CalculateRadioGroup(var aRect: TRect);
+   procedure DrawRadioGroup;
+   procedure DrawRadioButtons;
   public
    constructor Create(AOwner: TComponent); override;
    destructor Destroy; override;
    procedure Paint; override;
-   procedure CalculateRadioGroup(var aRect: TRect);
-   procedure DrawRadioGroup;
-   procedure DrawRadioButtons;
+   Procedure RadioButtonFontIsChanged(aHeight : integer);
    procedure Loaded; override;
    procedure MouseEnter; override;
    procedure MouseLeave; override;
@@ -301,6 +305,17 @@ begin
   inherited BoundsChanged;
   CalculateRadioGroup(FRadioGroupBounds);
   Invalidate;
+end;
+
+
+procedure TMultiRadioGroup.RadioButtonFontIsChanged(aHeight: integer);
+var lv : integer;
+begin
+ for lv := 0 to pred(RadioButtons.Count) do
+  begin
+   RadioButtons.Items[lv].Font.Height:=aHeight;
+   if RadioButtons.Items[lv].Font.Height <> 0 then RadioButtons.Items[lv].ParentFont:= false;
+  end;
 end;
 
 //XXXXXXXXXXXXXXXXXXXXXXXXXX--- Setter MultiRadioGroup---XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -502,6 +517,8 @@ var lv                    : integer;
     TeRec                 : TRect;
     ButRec                : TRect;
     CaptionHeight         : integer;
+    Space                 : integer;
+    TRH                   : integer;
 begin
  if not assigned(RadioButtons) then exit;
 
@@ -511,27 +528,33 @@ begin
 
  for lv := 0 to pred(RadioButtons.Count) do
   begin
-   TeRec:= rect(35+FocusFrameWidth,CaptionHeight+10+(lv*20)+FocusFrameWidth,
-                Width-FocusFrameWidth,CaptionHeight+30+(lv*20)+FocusFrameWidth);
+   if not RadioButtons.Items[lv].FParentFont then
+    Canvas.Font.Assign(RadioButtons.Items[lv].FFont)
+   else
+    Canvas.Font.Assign(FFont);
 
+   TRH := GetTextHeight(RadioButtons.Items[lv].FCaption,Canvas.Font);
 
+   Space := 10;
+
+   TeRec:= rect(35+FocusFrameWidth,CaptionHeight+Space+(lv*TRH)+FocusFrameWidth,
+                Width-FocusFrameWidth,CaptionHeight+Space+TRH+(lv*TRH)+FocusFrameWidth);
+
+   (*
    ButRec := rect(10+FocusFrameWidth,CaptionHeight+12+(lv*20)+FocusFrameWidth,
                   26+FocusFrameWidth,CaptionHeight+28+(lv*20)+FocusFrameWidth);
 
 
 
     canvas.Brush.Color:= clWhite;
-    canvas.Ellipse(ButRec);
+    canvas.Ellipse(ButRec);           *)
 
     //ItemCaption
     if not RadioButtons.Items[lv].FCaptionChange then
      RadioButtons.Items[lv].FCaption := 'Radiobutton ' + inttostr(RadioButtons.Items[lv].Index+1);
 
 
-   if not RadioButtons.Items[lv].FParentFont then
-    Canvas.Font.Assign(RadioButtons.Items[lv].FFont)
-   else
-    Canvas.Font.Assign(FFont);
+
 
 
    canvas.TextRect(TeRec,TeRec.Left+RadioButtons.Items[lv].FCapLeft,TeRec.Top+RadioButtons.Items[lv].FCapTop,
@@ -588,6 +611,7 @@ begin
 
  //debugln('paint');
 end;
+
 
 
 {$Include mrg_radiobuttonitem.inc}

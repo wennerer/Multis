@@ -50,6 +50,11 @@ begin
  FMultiRadioGroup := aCollection;
 end;
 
+procedure TMRadioButtons.FontIsChanged(aHeight: integer);
+begin
+ (FMultiRadioGroup as TMultiRadioGroup).RadioButtonFontIsChanged(aHeight);
+end;
+
 
 
 
@@ -65,6 +70,8 @@ end;
 constructor TMRadioButton.Create(ACollection: TCollection);
 begin
   inherited Create(ACollection);
+  FRadioButtons := ACollection;
+
   FCaption := 'Radiobutton';
   FColor := clNone;
   FWidth := 200;
@@ -74,6 +81,7 @@ begin
   FCapTop         := 0;
   FVisible := true;
   FFont     := TFont.Create;
+  FFont.OnChange:= @RadioButtonFontChanged;
   FParentFont:= true;
 
 
@@ -178,5 +186,16 @@ procedure TMRadioButton.SetWidth(AValue: integer);
 begin
   if FWidth=AValue then Exit;
   FWidth:=AValue;
+end;
+
+function TMRadioButton.GetOwner: TPersistent;
+begin
+  //Result:=inherited GetOwner;
+  Result := FRadioButtons;
+end;
+
+procedure TMRadioButton.RadioButtonFontChanged(Sender: TObject);
+begin
+  (FRadioButtons as TMRadioButtons).FontIsChanged(FFont.Height);
 end;
 
