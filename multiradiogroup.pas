@@ -46,6 +46,7 @@ type
  type
   TMRadioButton = class(TCollectionItem)
    private
+     FHoverColor: TColor;
      FRadioButtons : TCollection;
      FCaptionChange     : boolean;
      FCaptionWordbreak: boolean;
@@ -56,6 +57,7 @@ type
      FFont: TFont;
      FHeight: integer;
      FParentFont: boolean;
+     FSelected: Boolean;
      FTextStyle: TTextStyle;
      FVisible: Boolean;
      FWidth: integer;
@@ -66,27 +68,31 @@ type
      procedure SetCapTop(AValue: integer);
      procedure SetColor(AValue: TColor);
      procedure SetFont(AValue: TFont);
-     procedure SetHeight(AValue: integer);
+     procedure SetHoverColor(AValue: TColor);
      procedure SetLayout(AValue: TTextLayout);
      procedure SetParentFont(AValue: boolean);
+     procedure SetSelected(AValue: Boolean);
      procedure SetTextStyle(AValue: TTextStyle);
      procedure SetVisible(AValue: Boolean);
-     procedure SetWidth(AValue: integer);
 
    protected
      function GetOwner: TPersistent; override;
      procedure RadioButtonFontChanged(Sender : TObject);
    public
+    FHotspot: TRect;
+    FHover  : boolean;
     constructor Create(ACollection: TCollection); override;
     destructor Destroy; override;
     property TextStyle: TTextStyle read FTextStyle write SetTextStyle;
+
    published
     property Visible  : Boolean read FVisible write SetVisible default true;
     property Caption  : TCaption read FCaption write SetCaption;
     property Color    : TColor read FColor write SetColor default clNone;
-    property Width    : integer read FWidth write SetWidth;
-    property Height   : integer read FHeight write SetHeight;
 
+    property Selected : Boolean read FSelected write SetSelected;
+
+    property HoverColor : TColor read FHoverColor write SetHoverColor default clSilver;
     //The font to be used for text display the caption.
     //Die Schrift die für die Textanzeige der Caption verwendet werden soll.
     property Font: TFont read FFont write SetFont;
@@ -284,15 +290,29 @@ end;
 
 
 procedure TMultiRadioGroup.MouseMove(Shift: TShiftState; X, Y: Integer);
+var lv                    : integer;
 begin
   inherited MouseMove(Shift, X, Y);
+  for lv := 0 to pred(RadioButtons.Count) do
+   begin
+    RadioButtons.Items[lv].FHover:= false;
+    if PtInRect(RadioButtons.Items[lv].FHotspot,Point(x,y)) then
+     RadioButtons.Items[lv].FHover:= true;
+   end;
+
+  Invalidate;
 end;
 
 procedure TMultiRadioGroup.MouseUp(Button: TMouseButton; Shift: TShiftState; X,
   Y: Integer);
+var lv                    : integer;
 begin
-  inherited MouseUp(Button, Shift, X, Y);
-  if parent.Visible then setfocus;
+ inherited MouseUp(Button, Shift, X, Y);
+ if parent.Visible then setfocus;
+  for lv := 0 to pred(RadioButtons.Count) do
+    if PtInRect(RadioButtons.Items[lv].FHotspot,Point(x,y)) then
+     RadioButtons.Items[lv].Selected:= true;
+ Invalidate;
 end;
 
 function TMultiRadioGroup.CreateRadioButtons: TMRadioButtons;
@@ -514,8 +534,9 @@ end;
 
 procedure TMultiRadioGroup.DrawRadioButtons;
 var lv                    : integer;
-    TeRec                 : TRect;
-    ButRec                : TRect;
+    TeRect                : TRect;
+    ButRect               : TRect;
+    SelRect               : TRect;
     CaptionHeight         : integer;
     Space                 : integer;
     TRH                   : integer;
@@ -535,19 +556,34 @@ begin
 
    TRH := GetTextHeight(RadioButtons.Items[lv].FCaption,Canvas.Font);
 
-   Space := 10;
+   Space := (Height-((FocusFrameWidth*2)+CaptionHeight+(RadioButtons.Count*TRH))) div (RadioButtons.Count+1);
 
-   TeRec:= rect(35+FocusFrameWidth,CaptionHeight+Space+(lv*TRH)+FocusFrameWidth,
-                Width-FocusFrameWidth,CaptionHeight+Space+TRH+(lv*TRH)+FocusFrameWidth);
-
-   (*
-   ButRec := rect(10+FocusFrameWidth,CaptionHeight+12+(lv*20)+FocusFrameWidth,
-                  26+FocusFrameWidth,CaptionHeight+28+(lv*20)+FocusFrameWidth);
+   TeRect:= rect(10+FocusFrameWidth +(TRH-2)+10,CaptionHeight+(Space*(lv+1))+(lv*TRH)+FocusFrameWidth,
+                 Width-FocusFrameWidth,CaptionHeight+(Space*(lv+1))+TRH+(lv*TRH)+FocusFrameWidth);
 
 
+   ButRect := rect(10+FocusFrameWidth,TeRect.Top+2,
+                  10+FocusFrameWidth+(TRH-4),TeRect.Bottom-2);
+
+   SelRect := rect(ButRect.Left+round(TRH * 0.2),ButRect.Top+round(TRH * 0.2),
+                   ButRect.Right-round(TRH * 0.2),ButRect.Bottom-round(TRH * 0.2));
+
+   RadioButtons.Items[lv].FHotspot := rect(FocusFrameWidth,TeRect.Top,TeRect.Right,TeRect.Bottom);
+
+
+    if RadioButtons.Items[lv].FHover then
+     begin
+      canvas.Brush.Color:= RadioButtons.Items[lv].FHoverColor;
+      Canvas.FillRect(RadioButtons.Items[lv].FHotspot);
+     end;
 
     canvas.Brush.Color:= clWhite;
-    canvas.Ellipse(ButRec);           *)
+    canvas.Ellipse(ButRect);
+    if RadioButtons.Items[lv].Selected then
+     begin
+      canvas.Brush.Color:= clBlack;
+      canvas.Ellipse(SelRect);
+     end;
 
     //ItemCaption
     if not RadioButtons.Items[lv].FCaptionChange then
@@ -557,10 +593,10 @@ begin
 
 
 
-   canvas.TextRect(TeRec,TeRec.Left+RadioButtons.Items[lv].FCapLeft,TeRec.Top+RadioButtons.Items[lv].FCapTop,
+   canvas.TextRect(TeRect,TeRect.Left+RadioButtons.Items[lv].FCapLeft,TeRect.Top+RadioButtons.Items[lv].FCapTop,
                  RadioButtons.Items[lv].FCaption,RadioButtons.Items[lv].FTextStyle);
   end;//Count
-  parent.Caption:=inttostr(lv);
+
 end;
 
 

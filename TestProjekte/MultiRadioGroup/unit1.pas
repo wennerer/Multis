@@ -13,6 +13,7 @@ type
   { TForm1 }
 
   TForm1 = class(TForm)
+    MultiButton1: TMultiButton;
     MultiRadioGroup1: TMultiRadioGroup;
     RadioGroup1: TRadioGroup;
     procedure RadioGroup1Click(Sender: TObject);

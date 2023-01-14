@@ -83,6 +83,7 @@ begin
   FFont     := TFont.Create;
   FFont.OnChange:= @RadioButtonFontChanged;
   FParentFont:= true;
+  FHoverColor:= clSilver;
 
 
   FTextStyle.Alignment := taLeftJustify;
@@ -158,10 +159,10 @@ begin
   FFont.Assign(aValue);
 end;
 
-procedure TMRadioButton.SetHeight(AValue: integer);
+procedure TMRadioButton.SetHoverColor(AValue: TColor);
 begin
-  if FHeight=AValue then Exit;
-  FHeight:=AValue;
+  if FHoverColor=AValue then Exit;
+  FHoverColor:=AValue;
 end;
 
 procedure TMRadioButton.SetLayout(AValue: TTextLayout);
@@ -177,15 +178,15 @@ begin
   FParentFont:=AValue;
 end;
 
+procedure TMRadioButton.SetSelected(AValue: Boolean);
+begin
+  if FSelected=AValue then Exit;
+  FSelected:=AValue;
+end;
+
 procedure TMRadioButton.SetTextStyle(AValue: TTextStyle);
 begin
  FTextStyle:=AValue;
-end;
-
-procedure TMRadioButton.SetWidth(AValue: integer);
-begin
-  if FWidth=AValue then Exit;
-  FWidth:=AValue;
 end;
 
 function TMRadioButton.GetOwner: TPersistent;
