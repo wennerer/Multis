@@ -31,11 +31,11 @@
         <Filename Value="../../multiradiogroup.pas"/>
         <UnitName Value="MultiRadioGroup"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="592"/>
-        <CursorPos X="21" Y="599"/>
+        <TopLine Value="640"/>
+        <CursorPos X="27" Y="658"/>
         <UsageCount Value="100"/>
         <Bookmarks Count="1">
-          <Item0 X="22" Y="556"/>
+          <Item0 X="22" Y="569"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit>
@@ -43,17 +43,18 @@
         <Filename Value="../../multibutton.pas"/>
         <UnitName Value="MultiButton"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="1501"/>
-        <CursorPos X="91" Y="1517"/>
+        <TopLine Value="2769"/>
+        <CursorPos X="10" Y="2785"/>
         <UsageCount Value="117"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="../../infmultis.pas"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="31"/>
-        <CursorPos X="23" Y="43"/>
-        <UsageCount Value="8"/>
+        <EditorIndex Value="4"/>
+        <TopLine Value="51"/>
+        <CursorPos X="11" Y="42"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="../../../../../../../../Programme/Stable_01_22/fpcsrc/rtl/objpas/classes/collect.inc"/>
@@ -72,9 +73,9 @@
       <Unit>
         <Filename Value="../../mrg_radiobuttonitem.inc"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="85"/>
-        <CursorPos X="29" Y="93"/>
-        <UsageCount Value="87"/>
+        <TopLine Value="80"/>
+        <CursorPos X="41" Y="86"/>
+        <UsageCount Value="89"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -122,58 +123,6 @@
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="../../multiradiogroup.pas"/>
-        <Caret Line="289" Column="37" TopLine="279"/>
-      </Position>
-      <Position>
-        <Filename Value="../../multiradiogroup.pas"/>
-        <Caret Line="292" Column="3" TopLine="279"/>
-      </Position>
-      <Position>
-        <Filename Value="../../multiradiogroup.pas"/>
-        <Caret Line="536" Column="45" TopLine="523"/>
-      </Position>
-      <Position>
-        <Filename Value="../../multibutton.pas"/>
-        <Caret Line="2051" Column="44" TopLine="2027"/>
-      </Position>
-      <Position>
-        <Filename Value="../../mrg_radiobuttonitem.inc"/>
-        <Caret Line="161" TopLine="150"/>
-      </Position>
-      <Position>
-        <Filename Value="../../multiradiogroup.pas"/>
-        <Caret Line="293" Column="40" TopLine="281"/>
-      </Position>
-      <Position>
-        <Filename Value="../../multiradiogroup.pas"/>
-        <Caret Line="560" Column="28" TopLine="548"/>
-      </Position>
-      <Position>
-        <Filename Value="../../multiradiogroup.pas"/>
-        <Caret Line="81" Column="11" TopLine="65"/>
-      </Position>
-      <Position>
-        <Filename Value="../../multiradiogroup.pas"/>
-        <Caret Line="297" Column="4" TopLine="282"/>
-      </Position>
-      <Position>
-        <Filename Value="../../multiradiogroup.pas"/>
-        <Caret Line="298" Column="14" TopLine="280"/>
-      </Position>
-      <Position>
-        <Filename Value="../../multiradiogroup.pas"/>
-        <Caret Line="561" Column="44" TopLine="547"/>
-      </Position>
-      <Position>
-        <Filename Value="../../mrg_radiobuttonitem.inc"/>
-        <Caret Line="161" TopLine="150"/>
-      </Position>
-      <Position>
-        <Filename Value="../../multiradiogroup.pas"/>
-        <Caret Line="93" Column="42" TopLine="82"/>
-      </Position>
       <Position>
         <Filename Value="../../multiradiogroup.pas"/>
         <Caret Line="298" Column="37" TopLine="283"/>
@@ -241,6 +190,58 @@
       <Position>
         <Filename Value="../../multiradiogroup.pas"/>
         <Caret Line="102" Column="50" TopLine="88"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="25" Column="24" TopLine="13"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="24" Column="24" TopLine="13"/>
+      </Position>
+      <Position>
+        <Filename Value="../../multiradiogroup.pas"/>
+        <Caret Line="93" Column="77" TopLine="83"/>
+      </Position>
+      <Position>
+        <Filename Value="../../mrg_radiobuttonitem.inc"/>
+        <Caret Line="85" Column="23" TopLine="79"/>
+      </Position>
+      <Position>
+        <Filename Value="../../multiradiogroup.pas"/>
+        <Caret Line="195" Column="17" TopLine="182"/>
+      </Position>
+      <Position>
+        <Filename Value="../../mrg_radiobuttonitem.inc"/>
+        <Caret Line="94" Column="20" TopLine="74"/>
+      </Position>
+      <Position>
+        <Filename Value="../../multiradiogroup.pas"/>
+        <Caret Line="100" Column="46" TopLine="88"/>
+      </Position>
+      <Position>
+        <Filename Value="../../multiradiogroup.pas"/>
+        <Caret Line="577" Column="37" TopLine="565"/>
+      </Position>
+      <Position>
+        <Filename Value="../../multiradiogroup.pas"/>
+        <Caret Line="648" Column="90" TopLine="632"/>
+      </Position>
+      <Position>
+        <Filename Value="../../multiradiogroup.pas"/>
+        <Caret Line="641" Column="34" TopLine="629"/>
+      </Position>
+      <Position>
+        <Filename Value="../../multiradiogroup.pas"/>
+        <Caret Line="652" Column="50" TopLine="637"/>
+      </Position>
+      <Position>
+        <Filename Value="../../multibutton.pas"/>
+        <Caret Line="2785" Column="10" TopLine="2762"/>
+      </Position>
+      <Position>
+        <Filename Value="../../multiradiogroup.pas"/>
+        <Caret Line="655" Column="27" TopLine="640"/>
       </Position>
     </JumpHistory>
     <RunParams>

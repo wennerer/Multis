@@ -82,7 +82,7 @@ begin
   FWidth := 200;
   FHeight := 20;
   FCaptionWordbreak := false;
-  FCapLeft        := 0;
+  FCapLeft        := 5;
   FCapTop         := 0;
   FVisible := true;
   FFont     := TFont.Create;
@@ -91,6 +91,9 @@ begin
   FHoverColor:= clSilver;
   FButtonColor:= clWhite;
   FButtonSelColor:= clBlack;
+  FEnabled := true;
+  FDisabledColor  := $D2D2D2;
+  FDisabledAlpBV  := 180;
 
   FTextStyle.Alignment := taLeftJustify;
   FTextStyle.Layout    := tlCenter;
@@ -169,6 +172,24 @@ procedure TMRadioButton.SetColor(AValue: TColor);
 begin
   if FColor=AValue then Exit;
   FColor:=AValue;
+end;
+
+procedure TMRadioButton.SetDisabledAlpBV(AValue: integer);
+begin
+  if FDisabledAlpBV=AValue then Exit;
+  FDisabledAlpBV:=AValue;
+end;
+
+procedure TMRadioButton.SetDisabledColor(AValue: TColor);
+begin
+  if FDisabledColor=AValue then Exit;
+  FDisabledColor:=AValue;
+end;
+
+procedure TMRadioButton.SetEnabled(AValue: boolean);
+begin
+  if FEnabled=AValue then Exit;
+  FEnabled:=AValue;
 end;
 
 procedure TMRadioButton.SetFont(AValue: TFont);

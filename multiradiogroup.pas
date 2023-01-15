@@ -49,6 +49,9 @@ type
    private
      FButtonColor: TColor;
      FButtonSelColor: TColor;
+     FDisabledAlpBV: integer;
+     FDisabledColor: TColor;
+     FEnabled: boolean;
      FHoverColor: TColor;
      FRadioButtons : TCollection;
      FCaptionChange     : boolean;
@@ -72,6 +75,9 @@ type
      procedure SetCaptionWordbreak(AValue: boolean);
      procedure SetCapTop(AValue: integer);
      procedure SetColor(AValue: TColor);
+     procedure SetDisabledAlpBV(AValue: integer);
+     procedure SetDisabledColor(AValue: TColor);
+     procedure SetEnabled(AValue: boolean);
      procedure SetFont(AValue: TFont);
      procedure SetHoverColor(AValue: TColor);
      procedure SetLayout(AValue: TTextLayout);
@@ -90,9 +96,11 @@ type
     constructor Create(ACollection: TCollection); override;
     destructor Destroy; override;
     property TextStyle: TTextStyle read FTextStyle write SetTextStyle;
-
-   published
     property Visible  : Boolean read FVisible write SetVisible default true;
+    property DisabledColor : TColor read FDisabledColor write SetDisabledColor;
+    property DisabledAlphaBValue : integer read FDisabledAlpBV write SetDisabledAlpBV;
+   published
+
     property Caption  : TCaption read FCaption write SetCaption;
 
     property Color    : TColor read FColor write SetColor default clNone;
@@ -120,10 +128,13 @@ type
     property CaptionWordbreak : boolean read FCaptionWordbreak write SetCaptionWordbreak default false;
     //The horizontal distance of the text in the text rectangle (only effective with taLeftJustify)
     //Der horizontale Abstand des Textes im Textrechteck (nur wirksam mit taLeftJustify)
-    property CaptionHorMargin : integer read FCapLeft write SetCapLeft default 0;
+    property CaptionHorMargin : integer read FCapLeft write SetCapLeft default 5;
     //The vertical distance of the text in the text rectangle (only effective with tlTop)
     //Der vertikale Abstand des Textes im Textrechteck (nur wirksam mit tlTop)
     property CaptionVerMargin : integer read FCapTop write SetCapTop default 0;
+    //Determines whether the control reacts on mouse or keyboard input.
+    //Legt fest, ob das Steuerelement auf Maus- oder Tastatureingaben reagiert.
+    property Enabled : boolean read FEnabled write SetEnabled default true;
    end;
 
 
@@ -308,8 +319,9 @@ begin
   for lv := 0 to pred(RadioButtons.Count) do
    begin
     RadioButtons.Items[lv].FHover:= false;
-    if PtInRect(RadioButtons.Items[lv].FHotspot,Point(x,y)) then
-     RadioButtons.Items[lv].FHover:= true;
+    if RadioButtons.Items[lv].FEnabled then
+     if PtInRect(RadioButtons.Items[lv].FHotspot,Point(x,y)) then
+      RadioButtons.Items[lv].FHover:= true;
    end;
 
   Invalidate;
@@ -322,6 +334,7 @@ begin
  inherited MouseUp(Button, Shift, X, Y);
  if parent.Visible then setfocus;
   for lv := 0 to pred(RadioButtons.Count) do
+   if RadioButtons.Items[lv].FEnabled then
     if PtInRect(RadioButtons.Items[lv].FHotspot,Point(x,y)) then
      RadioButtons.Items[lv].Selected:= true;
  Invalidate;
@@ -561,6 +574,7 @@ var lv                    : integer;
     CaptionHeight         : integer;
     Space                 : integer;
     TRH                   : integer;
+    tmpBmp                : TBitmap;
 begin
  if not assigned(RadioButtons) then exit;
 
@@ -579,7 +593,7 @@ begin
 
    Space := (Height-((FocusFrameWidth*2)+CaptionHeight+(RadioButtons.Count*TRH))) div (RadioButtons.Count+1);
 
-   TeRect:= rect(10+FocusFrameWidth +(TRH-2)+10,CaptionHeight+(Space*(lv+1))+(lv*TRH)+FocusFrameWidth,
+   TeRect:= rect(10+FocusFrameWidth +(TRH-2),CaptionHeight+(Space*(lv+1))+(lv*TRH)+FocusFrameWidth,
                  Width-FocusFrameWidth,CaptionHeight+(Space*(lv+1))+TRH+(lv*TRH)+FocusFrameWidth);
 
 
@@ -622,6 +636,25 @@ begin
 
    canvas.TextRect(TeRect,TeRect.Left+RadioButtons.Items[lv].FCapLeft,TeRect.Top+RadioButtons.Items[lv].FCapTop,
                  RadioButtons.Items[lv].FCaption,RadioButtons.Items[lv].FTextStyle);
+
+   //Enable
+   if not RadioButtons.Items[lv].FEnabled then
+    begin
+     try
+      tmpBmp             := TBitmap.Create;
+      {$IFDEF WINDOWS}
+       tmpBmp.PixelFormat := pf32bit;
+      {$ENDIF}
+      tmpBmp.SetSize(RadioButtons.Items[lv].FHotspot.width,RadioButtons.Items[lv].FHotspot.height);
+      tmpBmp.Canvas.Brush.Color:= RadioButtons.Items[lv].FDisabledColor;
+      tmpBmp.Canvas.FillRect(0,0,tmpBmp.Width,tmpBmp.Height);
+
+      BmpToAlphaBmp(tmpBmp,RadioButtons.Items[lv].FDisabledAlpBV);
+      canvas.Draw(RadioButtons.Items[lv].FHotspot.Left,RadioButtons.Items[lv].FHotspot.Top,tmpBmp);
+     finally
+      tmpBmp.Free;
+     end;//not Enable
+   end;
   end;//Count
 
 end;

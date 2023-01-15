@@ -32,38 +32,6 @@ object Form1: TForm1
     ParentFont = False
     TabOrder = 0
   end
-  object MultiRadioGroup1: TMultiRadioGroup
-    Left = 288
-    Height = 121
-    Top = 55
-    Width = 328
-    Caption = 'RadioGroup:'
-    Font.Height = 22
-    RadioButtons = <    
-      item
-        Caption = 'Radiobutton 1'
-        Color = clGray
-        ButtonColor = clYellow
-        ButtonSelColor = clRed
-        Selected = True
-        Font.Height = 16
-        ParentFont = False
-      end    
-      item
-        Caption = 'Radiobutton 2'
-        Color = clMoneyGreen
-        Selected = False
-        Font.Height = 16
-        ParentFont = False
-      end    
-      item
-        Caption = 'Radiobutton 3'
-        Color = clGray
-        Selected = False
-        Font.Height = 16
-        ParentFont = False
-      end>
-  end
   object MultiButton1: TMultiButton
     Left = 747
     Height = 50
@@ -72,6 +40,27 @@ object Form1: TForm1
     MessageButton.ImageLeft = 0
     MessageButton.ImageTop = 0
     Caption = 'MultiButton1'
-    TabOrder = 2
+    TabOrder = 1
+  end
+  object MultiRadioGroup1: TMultiRadioGroup
+    Left = 392
+    Height = 120
+    Top = 88
+    Width = 210
+    Caption = 'MyRadioGroup:'
+    RadioButtons = <    
+      item
+        Caption = 'Radiobutton 1'
+        Selected = False
+      end    
+      item
+        Caption = 'Radiobutton 2'
+        Selected = False
+      end    
+      item
+        Caption = 'Radiobutton 3'
+        Selected = True
+        Enabled = False
+      end>
   end
 end
