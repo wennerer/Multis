@@ -6,16 +6,21 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
-  Grids, MultiRadioGroup, MultiPanel, MultiButton;
+  Grids, MultiRadioGroup, MultiPanel, MultiButton, TextBox;
 
 type
 
   { TForm1 }
 
   TForm1 = class(TForm)
+    Button1: TButton;
     MultiButton1: TMultiButton;
     MultiRadioGroup1: TMultiRadioGroup;
     RadioGroup1: TRadioGroup;
+    TextBox1: TTextBox;
+    procedure MultiRadioGroup1Change(const aIndex: integer);
+    procedure MultiRadioGroup1KeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
     procedure RadioGroup1Click(Sender: TObject);
   private
 
@@ -36,6 +41,18 @@ procedure TForm1.RadioGroup1Click(Sender: TObject);
 begin
   showmessage('');
 end;
+
+procedure TForm1.MultiRadioGroup1Change(const aIndex: integer);
+begin
+ Textbox1.Caption:= inttostr(aIndex);
+end;
+
+procedure TForm1.MultiRadioGroup1KeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+
+end;
+
 
 end.
 

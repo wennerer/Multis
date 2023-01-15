@@ -25,6 +25,9 @@
     </RunParams>
     <RequiredPackages>
       <Item>
+        <PackageName Value="TheOthers"/>
+      </Item>
+      <Item>
         <PackageName Value="Multis"/>
       </Item>
       <Item>

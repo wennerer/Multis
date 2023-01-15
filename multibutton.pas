@@ -609,14 +609,14 @@ type
    property OnKeyPress :TKeyPressEvent read FOnKeyPress write FOnKeyPress;
    property OnKeyDown: TKeyEvent read FOnKeyDown write FOnKeyDown;
    property OnKeyUp: TKeyEvent read FOnKeyUp write FOnKeyUp;
-
-   property DragMode;
-   property DragKind;
-   property DragCursor;
    property OnDragDrop;
    property OnDragOver;
    property OnEndDrag;
    property OnStartDrag;
+
+   property DragMode;
+   property DragKind;
+   property DragCursor;
    property Align;
    property Anchors;
    property Action;

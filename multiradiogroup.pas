@@ -6,7 +6,33 @@ interface
 
 uses
   Classes, SysUtils, FPImage, Contnrs, LResources, Forms, Controls, Graphics,
-  Dialogs, infmultis, LCLProc, LCLIntf;
+  Dialogs, infmultis, LCLProc, LCLIntf, LMessages, LCLType;
+
+type
+  TChangeEvent = procedure(const aIndex: integer) of object;
+
+type
+  TMouseMoveEvent = procedure(Sender: TObject;Shift: TShiftState;
+                              X,Y: Integer) of Object;
+
+type
+  TMouseEvent = procedure(Sender: TObject; Button: TMouseButton;
+                          Shift: TShiftState; X, Y: Integer) of Object;
+
+type
+  TMouseEnterLeave = procedure(Sender: TObject) of object;
+
+type
+  TNotifyEvent = procedure(Sender: TObject) of object;
+
+type
+  TKeyEvent = procedure(Sender: TObject; var Key: Word; Shift: TShiftState) of Object;
+
+type
+  TKeyPressEvent = procedure(Sender: TObject; var Key: char) of Object;
+
+
+
 
 type
   TMRadioStyle = (mssRect,mssRoundRect);
@@ -148,8 +174,21 @@ type
 
   TMultiRadioGroup = class(TCustomControl)
   private
-    FCaption: TCaption;
-    FFont: TFont;
+    FCaption                : TCaption;
+    FDisabledAlpBV          : integer;
+    FDisabledColor          : TColor;
+    FEnabled                : boolean;
+    FOnChange               : TChangeEvent;
+    FFont                   : TFont;
+    FOnEnter: TNotifyEvent;
+    FOnExit: TNotifyEvent;
+    FOnKeyDown: TKeyEvent;
+    FOnKeyPress: TKeyPressEvent;
+    FOnKeyUp: TKeyEvent;
+    FOnMouseDown: TMouseEvent;
+    FOnMouseEnter: TMouseEnterLeave;
+    FOnMouseLeave: TMouseEnterLeave;
+    FOnMouseUp: TMouseEvent;
     FRadioButtons           : TMRadioButtons;
     FColorEnd               : TColor;
     FColorStart             : TColor;
@@ -162,6 +201,7 @@ type
     FRRRadius               : integer;
     FStyle                  : TMRadioStyle;
     FRadioGroupBounds       : TRect;
+    FOnMouseMove            : TMouseMoveEvent;
 
     function CreateRadioButtons: TMRadioButtons;
     function GetRadioButton: TMRadioButtons;
@@ -172,6 +212,9 @@ type
     procedure SetCaption(AValue: TCaption);
     procedure SetColorEnd(AValue: TColor);
     procedure SetColorStart(AValue: TColor);
+    procedure SetDisabledAlpBV(AValue: integer);
+    procedure SetDisabledColor(AValue: TColor);
+    procedure SetEnabled(AValue: boolean);
     procedure SetFocusAlBlVal(AValue: byte);
     procedure SetFocusColor(AValue: TColor);
     procedure SetFocusedOn(AValue: boolean);
@@ -186,6 +229,12 @@ type
 
   protected
    procedure BoundsChanged;override;
+   procedure KeyPress(var Key: char);override;
+   procedure KeyDown(var Key: Word; Shift: TShiftState);  override;
+   procedure KeyUp(var Key: Word; Shift: TShiftState);  override;
+   procedure CNKeyDown    (var Message: TLMKeyDown);    message CN_KEYDOWN;
+   procedure DoExit;  override;
+   procedure DoEnter; override;
    procedure CalculateRadioGroup(var aRect: TRect);
    procedure DrawRadioGroup;
    procedure DrawRadioButtons;
@@ -202,7 +251,8 @@ type
    procedure MouseDown({%H-}Button: TMouseButton;{%H-}Shift: TShiftState; X, Y: Integer);override;
    procedure MouseUp({%H-}Button: TMouseButton; {%H-}Shift: TShiftState; {%H-}X, {%H-}Y: Integer);override;
 
-
+   property DisabledColor : TColor read FDisabledColor write SetDisabledColor;
+   property DisabledAlphaBValue : integer read FDisabledAlpBV write SetDisabledAlpBV;
   published
    //The headline of the radio group
    //Die Überschrift der Radiogroup
@@ -240,8 +290,39 @@ type
    //Corner diameter if the geometric shape is RoundRect
    //Eckendurchmesser wenn geometrische Form ist RoundRect
    property RndRctRadius : integer    read FRRRadius   write SetRRRadius default 10;
+   //Determines whether the control reacts on mouse or keyboard input.
+   //Legt fest, ob das Steuerelement auf Maus- oder Tastatureingaben reagiert.
+   property Enabled : boolean read FEnabled write SetEnabled default true;
+   //Allows the user to navigate to this control, by pressing the Tab key
+   //Ermöglicht dem Benutzer das Navigieren zu diesem Steuerelement durch Drücken der Tabulatortaste
+   property TabStop default TRUE;
 
    property RadioButtons : TMRadioButtons read GetRadioButton write SetRadioButton stored IsRadioButtonsStored;
+
+   property DragMode;
+   property DragKind;
+   property DragCursor;
+   property Align;
+   property Anchors;
+   property Action;
+   property BidiMode;
+   property BorderSpacing;
+   property Constraints;
+   property HelpType;
+   property TabOrder;
+   property Visible;
+
+   property OnChange         : TChangeEvent read FOnChange write FOnChange;
+   property OnMouseMove      : TMouseMoveEvent read FOnMouseMove write FOnMouseMove;
+   property OnMouseDown      : TMouseEvent read FOnMouseDown write FOnMouseDown;
+   property OnMouseUp        : TMouseEvent read FOnMouseUp write FOnMouseUp;
+   property OnMouseEnter     : TMouseEnterLeave read FOnMouseEnter write FOnMouseEnter;
+   property OnMouseLeave     : TMouseEnterLeave read FOnMouseLeave write FOnMouseLeave;
+   property OnEnter          : TNotifyEvent read FOnEnter write FOnEnter;
+   property OnExit           : TNotifyEvent read FOnExit write FOnExit;
+   property OnKeyPress       : TKeyPressEvent read FOnKeyPress write FOnKeyPress;
+   property OnKeyDown        : TKeyEvent read FOnKeyDown write FOnKeyDown;
+   property OnKeyUp          : TKeyEvent read FOnKeyUp write FOnKeyUp;
   end;
 
 procedure Register;
@@ -272,8 +353,10 @@ begin
   FColorStart           := clGray;
   FColorEnd             := clSilver;
   FFont                 := TFont.Create;
-
-
+  FEnabled              := true;
+  FDisabledColor        := $D2D2D2;
+  FDisabledAlpBV        := 180;
+  TabStop               := TRUE;
 
   FRadioButtons := CreateRadioButtons;  //TCollection
 
@@ -291,24 +374,31 @@ end;
 procedure TMultiRadioGroup.Loaded;
 begin
   inherited Loaded;
+  if not FEnabled then FFocusedOn := false;
   CalculateRadioGroup(FRadioGroupBounds);
 end;
 
 procedure TMultiRadioGroup.MouseEnter;
 begin
   inherited MouseEnter;
+  if not FEnabled then exit;
+  if Assigned(OnMouseEnter) then OnMouseEnter(self);
 end;
 
 procedure TMultiRadioGroup.MouseLeave;
 begin
   inherited MouseLeave;
+  if not FEnabled then exit;
+  if Assigned(OnMouseLeave) then OnMouseLeave(self);
 end;
 
 procedure TMultiRadioGroup.MouseDown(Button: TMouseButton; Shift: TShiftState;
   X, Y: Integer);
 begin
   inherited MouseDown(Button, Shift, X, Y);
-
+  if not FEnabled then exit;
+  if parent.Visible then setfocus;
+  if Assigned(OnMouseDown) then OnMouseDown(self,Button,Shift,x,y);
 end;
 
 
@@ -316,6 +406,8 @@ procedure TMultiRadioGroup.MouseMove(Shift: TShiftState; X, Y: Integer);
 var lv                    : integer;
 begin
   inherited MouseMove(Shift, X, Y);
+  if Assigned(OnMouseMove) then OnMouseMove(self,Shift,x,y);
+  if not FEnabled then exit;
   for lv := 0 to pred(RadioButtons.Count) do
    begin
     RadioButtons.Items[lv].FHover:= false;
@@ -332,11 +424,16 @@ procedure TMultiRadioGroup.MouseUp(Button: TMouseButton; Shift: TShiftState; X,
 var lv                    : integer;
 begin
  inherited MouseUp(Button, Shift, X, Y);
+ if not FEnabled then exit;
+ if Assigned(OnMouseUp) then OnMouseUp(self,Button,Shift,x,y);
  if parent.Visible then setfocus;
   for lv := 0 to pred(RadioButtons.Count) do
    if RadioButtons.Items[lv].FEnabled then
     if PtInRect(RadioButtons.Items[lv].FHotspot,Point(x,y)) then
-     RadioButtons.Items[lv].Selected:= true;
+     begin
+      RadioButtons.Items[lv].Selected:= true;
+      if Assigned(OnChange) then OnChange(RadioButtons.Items[lv].Index);
+     end;
  Invalidate;
 end;
 
@@ -350,6 +447,73 @@ begin
   inherited BoundsChanged;
   CalculateRadioGroup(FRadioGroupBounds);
   Invalidate;
+end;
+
+procedure TMultiRadioGroup.KeyPress(var Key: char);
+begin
+  inherited KeyPress(Key);
+  if Assigned(OnKeyPress) then OnKeyPress(self,Key);
+end;
+
+procedure TMultiRadioGroup.KeyDown(var Key: Word; Shift: TShiftState);
+begin
+  inherited KeyDown(Key, Shift);
+  if Assigned(OnKeyDown) then OnKeyDown(self,Key,Shift);
+end;
+
+procedure TMultiRadioGroup.KeyUp(var Key: Word; Shift: TShiftState);
+begin
+  inherited KeyUp(Key, Shift);
+  if Assigned(OnKeyUp) then OnKeyUp(self,Key,Shift);
+end;
+
+procedure TMultiRadioGroup.CNKeyDown(var Message: TLMKeyDown);
+var lv : integer;
+begin
+  if not FEnabled then exit;
+  with Message do begin
+    Result := 1;
+    case CharCode of
+        VK_UP    : begin
+                    for lv := 0 to pred(RadioButtons.Count) do
+                     if RadioButtons.Items[lv].Selected = true then
+                      if lv > 0 then
+                       begin
+                        RadioButtons.Items[lv-1].Selected := true;
+                        if Assigned(OnChange) then OnChange(RadioButtons.Items[lv-1].Index);
+                        break;
+                      end;
+                   end;
+        VK_DOWN  : begin
+                    for lv := 0 to pred(RadioButtons.Count) do
+                     if RadioButtons.Items[lv].Selected = true then
+                      if lv < pred(RadioButtons.Count) then
+                       begin
+                        RadioButtons.Items[lv+1].Selected := true;
+                        if Assigned(OnChange) then OnChange(RadioButtons.Items[lv+1].Index);
+                        break;
+                      end;
+                   end;
+
+      else begin
+        Result := 0;
+      end;
+    end;
+  end;
+
+  inherited;
+end;
+
+procedure TMultiRadioGroup.DoExit;
+begin
+  inherited DoExit;
+  if Assigned(OnExit) then OnExit(self);
+end;
+
+procedure TMultiRadioGroup.DoEnter;
+begin
+  inherited DoEnter;
+  if Assigned(OnEnter) then OnEnter(self);
 end;
 
 
@@ -377,6 +541,14 @@ procedure TMultiRadioGroup.SetFocusAlBlVal(AValue: byte);
 begin
   if FFocusAlBlVal=AValue then Exit;
   FFocusAlBlVal:=AValue;
+  Invalidate;
+end;
+
+procedure TMultiRadioGroup.SetEnabled(AValue: boolean);
+begin
+  if FEnabled=AValue then Exit;
+  FEnabled:=AValue;
+  if not FEnabled then FFocusedOn:= false else FFocusedOn := true;
   Invalidate;
 end;
 
@@ -415,6 +587,20 @@ procedure TMultiRadioGroup.SetColorStart(AValue: TColor);
 begin
   if FColorStart=AValue then Exit;
   FColorStart:=AValue;
+  Invalidate;
+end;
+
+procedure TMultiRadioGroup.SetDisabledAlpBV(AValue: integer);
+begin
+  if FDisabledAlpBV=AValue then Exit;
+  FDisabledAlpBV:=AValue;
+  Invalidate;
+end;
+
+procedure TMultiRadioGroup.SetDisabledColor(AValue: TColor);
+begin
+  if FDisabledColor=AValue then Exit;
+  FDisabledColor:=AValue;
   Invalidate;
 end;
 
@@ -695,17 +881,27 @@ begin
 
  DrawRadioButtons;
 
+ //Enable
+ if not FEnabled then
+ begin
+  try
+   tmpBmp             := TBitmap.Create;
+   {$IFDEF WINDOWS}
+    tmpBmp.PixelFormat := pf32bit;
+   {$ENDIF}
+   tmpBmp.SetSize(width,height);
+   tmpBmp.Canvas.Brush.Color:= FDisabledColor;
+   tmpBmp.Canvas.FillRect(0,0,width,height);
+
+   BmpToAlphaBmp(tmpBmp,FDisabledAlpBV);
+   canvas.Draw(0,0,tmpBmp);
+  finally
+   tmpBmp.Free;
+  end;
+ end;
 
 
 
- (*Canvas.Brush.Color:=RadioButtons.Items[0].Color;
- canvas.FillRect(5,50,RadioButtons.Items[0].Width+5,60);
- Canvas.Pen.Color:=clBlack;
- canvas.Ellipse(5,2,21,18);  *)
-
-
-
- //debugln('paint');
 end;
 
 

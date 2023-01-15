@@ -30,7 +30,7 @@ object Form1: TForm1
     )
     OnClick = RadioGroup1Click
     ParentFont = False
-    TabOrder = 0
+    TabOrder = 1
   end
   object MultiButton1: TMultiButton
     Left = 747
@@ -40,7 +40,7 @@ object Form1: TForm1
     MessageButton.ImageLeft = 0
     MessageButton.ImageTop = 0
     Caption = 'MultiButton1'
-    TabOrder = 1
+    TabOrder = 2
   end
   object MultiRadioGroup1: TMultiRadioGroup
     Left = 392
@@ -51,7 +51,7 @@ object Form1: TForm1
     RadioButtons = <    
       item
         Caption = 'Radiobutton 1'
-        Selected = False
+        Selected = True
       end    
       item
         Caption = 'Radiobutton 2'
@@ -59,8 +59,25 @@ object Form1: TForm1
       end    
       item
         Caption = 'Radiobutton 3'
-        Selected = True
-        Enabled = False
+        Selected = False
       end>
+    TabOrder = 3
+    OnChange = MultiRadioGroup1Change
+    OnKeyDown = MultiRadioGroup1KeyDown
+  end
+  object Button1: TButton
+    Left = 117
+    Height = 25
+    Top = 269
+    Width = 75
+    Caption = 'Button1'
+    TabOrder = 0
+  end
+  object TextBox1: TTextBox
+    Left = 412
+    Height = 20
+    Top = 286
+    Width = 70
+    Caption = 'TextBox1'
   end
 end
