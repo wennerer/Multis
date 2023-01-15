@@ -89,7 +89,8 @@ begin
   FFont.OnChange:= @RadioButtonFontChanged;
   FParentFont:= true;
   FHoverColor:= clSilver;
-
+  FButtonColor:= clWhite;
+  FButtonSelColor:= clBlack;
 
   FTextStyle.Alignment := taLeftJustify;
   FTextStyle.Layout    := tlCenter;
@@ -115,6 +116,18 @@ procedure TMRadioButton.SetCapLeft(AValue: integer);
 begin
   if FCapLeft=AValue then Exit;
   FCapLeft:=AValue;
+end;
+
+procedure TMRadioButton.SetButtonColor(AValue: TColor);
+begin
+  if FButtonColor=AValue then Exit;
+  FButtonColor:=AValue;
+end;
+
+procedure TMRadioButton.SetButtonSelColor(AValue: TColor);
+begin
+  if FButtonSelColor=AValue then Exit;
+  FButtonSelColor:=AValue;
 end;
 
 procedure TMRadioButton.SetAlignment(AValue: TAlignment);

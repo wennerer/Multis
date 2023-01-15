@@ -47,6 +47,8 @@ type
  type
   TMRadioButton = class(TCollectionItem)
    private
+     FButtonColor: TColor;
+     FButtonSelColor: TColor;
      FHoverColor: TColor;
      FRadioButtons : TCollection;
      FCaptionChange     : boolean;
@@ -62,6 +64,8 @@ type
      FTextStyle: TTextStyle;
      FVisible: Boolean;
      FWidth: integer;
+     procedure SetButtonColor(AValue: TColor);
+     procedure SetButtonSelColor(AValue: TColor);
      procedure SetCapLeft(AValue: integer);
      procedure SetAlignment(AValue: TAlignment);
      procedure SetCaption(AValue: TCaption);
@@ -90,7 +94,12 @@ type
    published
     property Visible  : Boolean read FVisible write SetVisible default true;
     property Caption  : TCaption read FCaption write SetCaption;
+
     property Color    : TColor read FColor write SetColor default clNone;
+
+    property ButtonColor : TColor read FButtonColor write SetButtonColor default clWhite;
+
+    property ButtonSelColor : TColor read FButtonSelColor write SetButtonSelColor default clBlack;
 
     property Selected : Boolean read FSelected write SetSelected;
 
@@ -582,6 +591,12 @@ begin
 
    RadioButtons.Items[lv].FHotspot := rect(FocusFrameWidth,TeRect.Top,TeRect.Right,TeRect.Bottom);
 
+    if RadioButtons.Items[lv].FColor <> clNone then
+     begin
+      canvas.Brush.Color:= RadioButtons.Items[lv].FColor;
+      Canvas.FillRect(RadioButtons.Items[lv].FHotspot);
+     end;
+
 
     if RadioButtons.Items[lv].FHover then
      begin
@@ -589,11 +604,11 @@ begin
       Canvas.FillRect(RadioButtons.Items[lv].FHotspot);
      end;
 
-    canvas.Brush.Color:= clWhite;
+    canvas.Brush.Color:= RadioButtons.Items[lv].FButtonColor;
     canvas.Ellipse(ButRect);
     if RadioButtons.Items[lv].Selected then
      begin
-      canvas.Brush.Color:= clBlack;
+      canvas.Brush.Color:= RadioButtons.Items[lv].FButtonSelColor;
       canvas.Ellipse(SelRect);
      end;
 

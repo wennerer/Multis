@@ -42,18 +42,23 @@ object Form1: TForm1
     RadioButtons = <    
       item
         Caption = 'Radiobutton 1'
+        Color = clGray
+        ButtonColor = clYellow
+        ButtonSelColor = clRed
         Selected = True
         Font.Height = 16
         ParentFont = False
       end    
       item
         Caption = 'Radiobutton 2'
+        Color = clMoneyGreen
         Selected = False
         Font.Height = 16
         ParentFont = False
       end    
       item
         Caption = 'Radiobutton 3'
+        Color = clGray
         Selected = False
         Font.Height = 16
         ParentFont = False
