@@ -44,7 +44,7 @@ object Form1: TForm1
   end
   object MultiRadioGroup1: TMultiRadioGroup
     Left = 392
-    Height = 120
+    Height = 112
     Top = 88
     Width = 210
     Caption = 'MyRadioGroup:'
@@ -52,14 +52,17 @@ object Form1: TForm1
       item
         Caption = 'Radiobutton 1'
         Selected = True
+        ParentFont = False
       end    
       item
         Caption = 'Radiobutton 2'
         Selected = False
+        ParentFont = False
       end    
       item
         Caption = 'Radiobutton 3'
         Selected = False
+        ParentFont = False
       end>
     TabOrder = 3
     OnChange = MultiRadioGroup1Change

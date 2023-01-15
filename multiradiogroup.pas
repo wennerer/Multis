@@ -236,6 +236,11 @@ type
    procedure DoExit;  override;
    procedure DoEnter; override;
    procedure CalculateRadioGroup(var aRect: TRect);
+   function CalculateSpace(aCaptionHeight, aTRH : integer) : integer;
+   function CalculateTextRect(aCaptionHeight, aTRH, aSpace, alv: integer): TRect;
+   function CalculateButtonRect(aTeRect : TRect; aTRH : integer):TRect;
+   function CalculateSelectedRect(aButRect : TRect; aTRH : integer): TRect;
+   function CalculateHotspot(aTeRect : TRect): TRect;
    procedure DrawRadioGroup;
    procedure DrawRadioButtons;
   public
@@ -697,6 +702,36 @@ begin
  aRect :=  rect(FFocusFrameWidth,FFocusFrameWidth,width-FFocusFrameWidth,height-FFocusFrameWidth);
 end;
 
+function TMultiRadioGroup.CalculateSpace(aCaptionHeight, aTRH: integer
+  ): integer;
+begin
+ Result := (Height-((FocusFrameWidth*2)+aCaptionHeight+(RadioButtons.Count*aTRH))) div (RadioButtons.Count+1);
+end;
+
+function TMultiRadioGroup.CalculateTextRect(aCaptionHeight, aTRH, aSpace, alv: integer): TRect;
+begin
+ Result := rect(10+FocusFrameWidth +(aTRH-2),aCaptionHeight+(aSpace*(alv+1))+(alv*aTRH)+FocusFrameWidth,
+                 Width-FocusFrameWidth,aCaptionHeight+(aSpace*(alv+1))+aTRH+(alv*aTRH)+FocusFrameWidth);
+end;
+
+function TMultiRadioGroup.CalculateButtonRect(aTeRect: TRect; aTRH: integer
+  ): TRect;
+begin
+ Result := rect(10+FocusFrameWidth,aTeRect.Top+2,10+FocusFrameWidth+(aTRH-4),aTeRect.Bottom-2);
+end;
+
+function TMultiRadioGroup.CalculateSelectedRect(aButRect: TRect; aTRH: integer
+  ): TRect;
+begin
+ Result := rect(aButRect.Left+round(aTRH * 0.2),aButRect.Top+round(aTRH * 0.2),
+                aButRect.Right-round(aTRH * 0.2),aButRect.Bottom-round(aTRH * 0.2));
+end;
+
+function TMultiRadioGroup.CalculateHotspot(aTeRect: TRect): TRect;
+begin
+  Result := rect(FocusFrameWidth,aTeRect.Top,aTeRect.Right,aTeRect.Bottom);
+end;
+
 procedure TMultiRadioGroup.DrawRadioGroup;
 var bkBmp        : TBitmap;
     trBmp        : TBitmap;
@@ -770,60 +805,53 @@ begin
 
  for lv := 0 to pred(RadioButtons.Count) do
   begin
+ //the font in the radiobutton
    if not RadioButtons.Items[lv].FParentFont then
     Canvas.Font.Assign(RadioButtons.Items[lv].FFont)
    else
     Canvas.Font.Assign(FFont);
 
-   TRH := GetTextHeight(RadioButtons.Items[lv].FCaption,Canvas.Font);
+   TRH     := GetTextHeight(RadioButtons.Items[lv].FCaption,Canvas.Font);
+   Space   := CalculateSpace(CaptionHeight,TRH);
+   TeRect  := CalculateTextRect(CaptionHeight,TRH,Space,lv);
+   ButRect := CalculateButtonRect(TeRect,TRH);
+   SelRect := CalculateSelectedRect(ButRect,TRH);
+   RadioButtons.Items[lv].FHotspot := CalculateHotspot(TeRect);
 
-   Space := (Height-((FocusFrameWidth*2)+CaptionHeight+(RadioButtons.Count*TRH))) div (RadioButtons.Count+1);
-
-   TeRect:= rect(10+FocusFrameWidth +(TRH-2),CaptionHeight+(Space*(lv+1))+(lv*TRH)+FocusFrameWidth,
-                 Width-FocusFrameWidth,CaptionHeight+(Space*(lv+1))+TRH+(lv*TRH)+FocusFrameWidth);
-
-
-   ButRect := rect(10+FocusFrameWidth,TeRect.Top+2,
-                  10+FocusFrameWidth+(TRH-4),TeRect.Bottom-2);
-
-   SelRect := rect(ButRect.Left+round(TRH * 0.2),ButRect.Top+round(TRH * 0.2),
-                   ButRect.Right-round(TRH * 0.2),ButRect.Bottom-round(TRH * 0.2));
-
-   RadioButtons.Items[lv].FHotspot := rect(FocusFrameWidth,TeRect.Top,TeRect.Right,TeRect.Bottom);
-
-    if RadioButtons.Items[lv].FColor <> clNone then
+  //the background of the Radiobuttons
+   if RadioButtons.Items[lv].FColor <> clNone then
      begin
       canvas.Brush.Color:= RadioButtons.Items[lv].FColor;
       Canvas.FillRect(RadioButtons.Items[lv].FHotspot);
      end;
 
-
+  //the hover over the radiobuttons
     if RadioButtons.Items[lv].FHover then
      begin
       canvas.Brush.Color:= RadioButtons.Items[lv].FHoverColor;
       Canvas.FillRect(RadioButtons.Items[lv].FHotspot);
      end;
 
+  //the radiobutton
     canvas.Brush.Color:= RadioButtons.Items[lv].FButtonColor;
     canvas.Ellipse(ButRect);
+  //the selection in the radiobutton
     if RadioButtons.Items[lv].Selected then
      begin
       canvas.Brush.Color:= RadioButtons.Items[lv].FButtonSelColor;
       canvas.Ellipse(SelRect);
      end;
 
-    //ItemCaption
+  //the ItemCaption of a new radiobutton
     if not RadioButtons.Items[lv].FCaptionChange then
      RadioButtons.Items[lv].FCaption := 'Radiobutton ' + inttostr(RadioButtons.Items[lv].Index+1);
 
 
+  //the ItemCaption in the radiobutton
+    canvas.TextRect(TeRect,TeRect.Left+RadioButtons.Items[lv].FCapLeft,TeRect.Top+RadioButtons.Items[lv].FCapTop,
+                    RadioButtons.Items[lv].FCaption,RadioButtons.Items[lv].FTextStyle);
 
-
-
-   canvas.TextRect(TeRect,TeRect.Left+RadioButtons.Items[lv].FCapLeft,TeRect.Top+RadioButtons.Items[lv].FCapTop,
-                 RadioButtons.Items[lv].FCaption,RadioButtons.Items[lv].FTextStyle);
-
-   //Enable
+  //not Enable
    if not RadioButtons.Items[lv].FEnabled then
     begin
      try
