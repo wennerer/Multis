@@ -35,6 +35,7 @@ type
   public
    constructor Create(aCollection: TMultiRadioGroup; aItemClass: TCollectionItemClass);
    procedure FontIsChanged(aHeight : integer);
+   procedure SetAllNotSelected(aIndex : integer);
    property Items[Index: Integer]: TMRadioButton read GetRadioButton write SetRadioButton; default;
    property VisibleCount: Integer read GetVisibleCount;
    property Enabled: Boolean read GetEnabled;
@@ -78,6 +79,7 @@ type
    protected
      function GetOwner: TPersistent; override;
      procedure RadioButtonFontChanged(Sender : TObject);
+     procedure SetAllNotSelected(aIndex : integer);
    public
     FHotspot: TRect;
     FHover  : boolean;
@@ -171,7 +173,8 @@ type
    constructor Create(AOwner: TComponent); override;
    destructor Destroy; override;
    procedure Paint; override;
-   Procedure RadioButtonFontIsChanged(aHeight : integer);
+   procedure RadioButtonFontIsChanged(aHeight : integer);
+   procedure SetAllNotSelected(aIndex : integer);
    procedure Loaded; override;
    procedure MouseEnter; override;
    procedure MouseLeave; override;
@@ -336,6 +339,15 @@ begin
    RadioButtons.Items[lv].Font.Height:=aHeight;
    if RadioButtons.Items[lv].Font.Height <> 0 then RadioButtons.Items[lv].ParentFont:= false;
   end;
+end;
+
+procedure TMultiRadioGroup.SetAllNotSelected(aIndex: integer);
+var lv : integer;
+begin
+ for lv := 0 to pred(RadioButtons.Count) do
+  if lv <> aIndex then
+   RadioButtons.Items[lv].Selected:= false;
+ Invalidate;
 end;
 
 //XXXXXXXXXXXXXXXXXXXXXXXXXX--- Setter MultiRadioGroup---XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

@@ -55,6 +55,11 @@ begin
  (FMultiRadioGroup as TMultiRadioGroup).RadioButtonFontIsChanged(aHeight);
 end;
 
+procedure TMRadioButtons.SetAllNotSelected(aIndex: integer);
+begin
+ (FMultiRadioGroup as TMultiRadioGroup).SetAllNotSelected(aIndex);
+end;
+
 
 
 
@@ -181,6 +186,8 @@ end;
 procedure TMRadioButton.SetSelected(AValue: Boolean);
 begin
   if FSelected=AValue then Exit;
+
+  SetAllNotSelected(Index);
   FSelected:=AValue;
 end;
 
@@ -198,5 +205,10 @@ end;
 procedure TMRadioButton.RadioButtonFontChanged(Sender: TObject);
 begin
   (FRadioButtons as TMRadioButtons).FontIsChanged(FFont.Height);
+end;
+
+procedure TMRadioButton.SetAllNotSelected(aIndex: integer);
+begin
+ (FRadioButtons as TMRadioButtons).SetAllNotSelected(aIndex);
 end;
 
