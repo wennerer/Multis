@@ -6,7 +6,8 @@ interface
 
 uses
   Classes, SysUtils, FPImage, Contnrs, LResources, Forms, Controls, Graphics,
-  Dialogs, infmultis, LCLProc, LCLIntf, LMessages, LCLType;
+  Dialogs, infmultis, LCLProc, LCLIntf, LMessages, LCLType, ImgList,
+  GraphPropEdits, PropEdits, LCLVersion;
 
 type
   TChangeEvent = procedure(const aIndex: integer) of object;
@@ -79,6 +80,12 @@ type
      FDisabledColor: TColor;
      FEnabled: boolean;
      FHoverColor: TColor;
+     FImageIndex: TImageIndex;
+     FImageLeft: integer;
+     FImageList: TCustomImageList;
+     FImageListChangeLink: TChangeLink;
+     FImageTop: integer;
+     FImageWidth: integer;
      FRadioButtons : TCollection;
      FCaptionChange     : boolean;
      FCaptionWordbreak: boolean;
@@ -106,6 +113,12 @@ type
      procedure SetEnabled(AValue: boolean);
      procedure SetFont(AValue: TFont);
      procedure SetHoverColor(AValue: TColor);
+     procedure ImagesChanged({%H-}Sender: TObject);
+     procedure SetImageIndex(AValue: TImageIndex);
+     procedure SetImageLeft(AValue: integer);
+     procedure SetImageList(AValue: TCustomImageList);
+     procedure SetImageTop(AValue: integer);
+     procedure SetImageWidth(AValue: integer);
      procedure SetLayout(AValue: TTextLayout);
      procedure SetParentFont(AValue: boolean);
      procedure SetSelected(AValue: Boolean);
@@ -161,6 +174,22 @@ type
     //Determines whether the control reacts on mouse or keyboard input.
     //Legt fest, ob das Steuerelement auf Maus- oder Tastatureingaben reagiert.
     property Enabled : boolean read FEnabled write SetEnabled default true;
+
+    //A list for including images
+     //Eine Liste zum Einfügen von Bildern
+     property Images  :  TCustomImageList  read FImageList write SetImageList default nil;
+     //The Index of a Image in a ImageList
+     //Der Index eines Bildes in einer ImageList
+     property ImageIndex : TImageIndex read FImageIndex write SetImageIndex default -1;
+     //The unique width of all images in the list.
+     //Die einmalige Breite aller Bilder in der Liste.
+     property ImageWidth : integer read FImageWidth write SetImageWidth default 0;
+     //The coordinate of the left edge of a Image
+     //Die Koordinate der linken Ecke des Bildes
+     property ImageLeft  : integer read FImageLeft write SetImageLeft default 0;
+     //The coordinate of the top edge of a Image
+     //Die Koordinate der oberen Ecke des Bildes
+     property ImageTop   : integer read FImageTop write SetImageTop default 0;
    end;
 
 
@@ -235,6 +264,8 @@ type
    procedure CNKeyDown    (var Message: TLMKeyDown);    message CN_KEYDOWN;
    procedure DoExit;  override;
    procedure DoEnter; override;
+   procedure DoAutoAdjustLayout(const AMode: TLayoutAdjustmentPolicy;
+                                const AXProportion, AYProportion: Double);override;
    procedure CalculateRadioGroup(var aRect: TRect);
    function CalculateSpace(aCaptionHeight, aTRH : integer) : integer;
    function CalculateTextRect(aCaptionHeight, aTRH, aSpace, alv: integer): TRect;
@@ -249,6 +280,10 @@ type
    procedure Paint; override;
    procedure RadioButtonFontIsChanged(aHeight : integer);
    procedure SetAllNotSelected(aIndex : integer);
+   procedure ScaleFontsPPI(const AToPPI: Integer; const AProportion: Double); override;
+  {$IF LCL_FullVersion >= 2010000}
+   procedure FixDesignFontsPPI(const ADesignTimePPI: Integer); override;
+  {$IFEND}
    procedure Loaded; override;
    procedure MouseEnter; override;
    procedure MouseLeave; override;
@@ -333,11 +368,24 @@ type
 procedure Register;
 
 implementation
+{xxxxxxxxxxxxxxxxx TImageIndexPropertyEditor xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx}
+type
+  TMRadioButtonImageIndexPropertyEditor = class(TImageIndexPropertyEditor)
+  protected
+    function GetImageList: TCustomImageList; override;
+  end;
+
+function TMRadioButtonImageIndexPropertyEditor.GetImageList: TCustomImagelist;
+begin
+  Result := TMRadioButton(GetComponent(0)).Images;
+end;
+
 
 procedure Register;
 begin
   {$I multiradiogroup_icon.lrs}
   RegisterComponents('Multi',[TMultiRadioGroup]);
+  RegisterPropertyEditor(TypeInfo(TImageIndex), TMRadioButton, 'ImageIndex', TMRadioButtonImageIndexPropertyEditor);
 end;
 
 { TMultiRadioGroup }
@@ -521,6 +569,30 @@ begin
   if Assigned(OnEnter) then OnEnter(self);
 end;
 
+procedure TMultiRadioGroup.DoAutoAdjustLayout(
+  const AMode: TLayoutAdjustmentPolicy; const AXProportion, AYProportion: Double);
+var lv : integer;
+begin
+  inherited DoAutoAdjustLayout(AMode, AXProportion, AYProportion);
+  if AMode in [lapAutoAdjustWithoutHorizontalScrolling, lapAutoAdjustForDPI] then
+   begin
+    FFocusFrameWidth:= round(FFocusFrameWidth*AXProportion);
+    FRRRadius       := round(FRRRadius*AXProportion);
+
+    if assigned(RadioButtons) then
+     begin
+      for lv := 0 to pred(RadioButtons.Count) do
+       begin
+        RadioButtons.Items[lv].FImageLeft      := round(RadioButtons.Items[lv].FImageLeft*AXProportion);
+        RadioButtons.Items[lv].FImageTop       := round(RadioButtons.Items[lv].FImageTop *AYProportion);
+        RadioButtons.Items[lv].FCapLeft        := round(RadioButtons.Items[lv].FCapLeft *AXProportion);
+        RadioButtons.Items[lv].FCapTop         := round(RadioButtons.Items[lv].FCapTop * AYProportion);
+       end;//count
+    end;//assigned
+   Invalidate;
+  end;//AMode
+end;
+
 
 procedure TMultiRadioGroup.RadioButtonFontIsChanged(aHeight: integer);
 var lv : integer;
@@ -540,6 +612,31 @@ begin
    RadioButtons.Items[lv].Selected:= false;
  Invalidate;
 end;
+
+procedure TMultiRadioGroup.ScaleFontsPPI(const AToPPI: Integer;
+  const AProportion: Double);
+var lv : integer;
+begin
+ inherited ScaleFontsPPI(AToPPI, AProportion);
+ DoScaleFontPPI(Font, AToPPI, AProportion);
+
+ if not assigned(RadioButtons) then exit;
+ for lv := 0 to pred(RadioButtons.Count) do
+  DoScaleFontPPI(RadioButtons.Items[lv].Font, AToPPI, AProportion);
+end;
+
+{$IF LCL_FullVersion >= 2010000}
+procedure TMultiRadioGroup.FixDesignFontsPPI(const ADesignTimePPI: Integer);
+var lv : integer;
+begin
+ inherited FixDesignFontsPPI(ADesignTimePPI);
+ DoFixDesignFontPPI(Font, ADesignTimePPI);
+
+ if not assigned(RadioButtons) then exit;
+ for lv := 0 to pred(RadioButtons.Count) do
+ DoFixDesignFontPPI(RadioButtons.Items[lv].Font, ADesignTimePPI);
+end;
+{$IFEND}
 
 //XXXXXXXXXXXXXXXXXXXXXXXXXX--- Setter MultiRadioGroup---XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 procedure TMultiRadioGroup.SetFocusAlBlVal(AValue: byte);
@@ -850,6 +947,14 @@ begin
   //the ItemCaption in the radiobutton
     canvas.TextRect(TeRect,TeRect.Left+RadioButtons.Items[lv].FCapLeft,TeRect.Top+RadioButtons.Items[lv].FCapTop,
                     RadioButtons.Items[lv].FCaption,RadioButtons.Items[lv].FTextStyle);
+
+  //Draw the Image
+     if (RadioButtons.Items[lv].FImageList <> nil) and (RadioButtons.Items[lv].FImageIndex > -1) and
+     (RadioButtons.Items[lv].FImageIndex < RadioButtons.Items[lv].FImageList.Count) then
+      RadioButtons.Items[lv].FImageList.ResolutionForPPI[RadioButtons.Items[lv].FImageWidth,
+          Font.PixelsPerInch,GetCanvasScaleFactor].Draw(Canvas,TeRect.Left+RadioButtons.Items[lv].FImageLeft,
+          TeRect.Top+RadioButtons.Items[lv].FImageTop,RadioButtons.Items[lv].FImageIndex);
+      //RadioButtons.Items[lv].FImageList.Draw(canvas,TeRect.Left,TeRect.Top,0,true);
 
   //not Enable
    if not RadioButtons.Items[lv].FEnabled then

@@ -94,6 +94,13 @@ begin
   FEnabled := true;
   FDisabledColor  := $D2D2D2;
   FDisabledAlpBV  := 180;
+  FImageIndex          := -1;
+  FImageWidth          := 0;
+  FImageLeft           := 0;
+  FImageTop            := 0;
+
+  FImageListChangeLink := TChangeLink.Create;
+  FImageListChangeLink.OnChange := @ImagesChanged;
 
   FTextStyle.Alignment := taLeftJustify;
   FTextStyle.Layout    := tlCenter;
@@ -106,6 +113,7 @@ end;
 destructor TMRadioButton.Destroy;
 begin
   FFont.Free;
+  FImageListChangeLink.Free;
   inherited Destroy;
 end;
 
@@ -202,6 +210,43 @@ procedure TMRadioButton.SetHoverColor(AValue: TColor);
 begin
   if FHoverColor=AValue then Exit;
   FHoverColor:=AValue;
+end;
+
+procedure TMRadioButton.ImagesChanged(Sender: TObject);
+begin
+
+end;
+
+procedure TMRadioButton.SetImageIndex(AValue: TImageIndex);
+begin
+  if FImageIndex=AValue then Exit;
+  FImageIndex:=AValue;
+  ImagesChanged(nil);
+end;
+
+procedure TMRadioButton.SetImageLeft(AValue: integer);
+begin
+  if FImageLeft=AValue then Exit;
+  FImageLeft:=AValue;
+end;
+
+procedure TMRadioButton.SetImageList(AValue: TCustomImageList);
+begin
+  if FImageList=AValue then Exit;
+  FImageList:=AValue;
+  ImagesChanged(Self);
+end;
+
+procedure TMRadioButton.SetImageTop(AValue: integer);
+begin
+  if FImageTop=AValue then Exit;
+  FImageTop:=AValue;
+end;
+
+procedure TMRadioButton.SetImageWidth(AValue: integer);
+begin
+  if FImageWidth=AValue then Exit;
+  FImageWidth:=AValue;
 end;
 
 procedure TMRadioButton.SetLayout(AValue: TTextLayout);
