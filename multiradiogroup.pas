@@ -801,6 +801,7 @@ begin
   inherited CalculatePreferredSize(PreferredWidth, PreferredHeight, WithThemeSpace);
   if not assigned(RadioButtons) then exit;
   FAutoWidth := GetTextWidth(FCaption,FFont)+(2*FocusFrameWidth)+10;
+  CaptionHeight := GetTextHeight(FCaption,FFont);
 
   for lv := 0 to pred(RadioButtons.Count) do
   begin
@@ -840,7 +841,8 @@ begin
    if tempW > FAutoWidth then FAutoWidth := tempW;
 
   end;
-  PreferredWidth := FAutoWidth;
+  PreferredWidth  := FAutoWidth;
+  PreferredHeight := (2* FocusFrameWidth)+CaptionHeight+(RadioButtons.Count*TeRect.Height);
 end;
 
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx---Calculate---xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
