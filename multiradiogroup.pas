@@ -63,6 +63,7 @@ type
    constructor Create(aCollection: TMultiRadioGroup; aItemClass: TCollectionItemClass);
    procedure FontIsChanged(aHeight : integer);
    procedure SetAllNotSelected(aIndex : integer);
+   procedure TriggerAutoSize;
    property Items[Index: Integer]: TMRadioButton read GetRadioButton write SetRadioButton; default;
    property VisibleCount: Integer read GetVisibleCount;
    property Enabled: Boolean read GetEnabled;
@@ -203,6 +204,7 @@ type
 
   TMultiRadioGroup = class(TCustomControl)
   private
+    FAutoSize: boolean;
     FCaption                : TCaption;
     FDisabledAlpBV          : integer;
     FDisabledColor          : TColor;
@@ -274,12 +276,15 @@ type
    function CalculateHotspot(aTeRect : TRect): TRect;
    procedure DrawRadioGroup;
    procedure DrawRadioButtons;
+   procedure SetAutoSize(Value: Boolean);override;
+   procedure CalculatePreferredSize(var PreferredWidth,PreferredHeight: integer;WithThemeSpace: Boolean); override;
   public
    constructor Create(AOwner: TComponent); override;
    destructor Destroy; override;
    procedure Paint; override;
    procedure RadioButtonFontIsChanged(aHeight : integer);
    procedure SetAllNotSelected(aIndex : integer);
+   procedure TriggerAutoSize;
    procedure ScaleFontsPPI(const AToPPI: Integer; const AProportion: Double); override;
   {$IF LCL_FullVersion >= 2010000}
    procedure FixDesignFontsPPI(const ADesignTimePPI: Integer); override;
@@ -338,6 +343,8 @@ type
    property TabStop default TRUE;
 
    property RadioButtons : TMRadioButtons read GetRadioButton write SetRadioButton stored IsRadioButtonsStored;
+
+   property AutoSize : boolean read FAutoSize write SetAutoSize default false;
 
    property DragMode;
    property DragKind;
@@ -409,6 +416,7 @@ begin
   FEnabled              := true;
   FDisabledColor        := $D2D2D2;
   FDisabledAlpBV        := 180;
+  FAutoSize             := false;
   TabStop               := TRUE;
 
   FRadioButtons := CreateRadioButtons;  //TCollection
@@ -602,6 +610,7 @@ begin
    RadioButtons.Items[lv].Font.Height:=aHeight;
    if RadioButtons.Items[lv].Font.Height <> 0 then RadioButtons.Items[lv].ParentFont:= false;
   end;
+ TriggerAutoSize;
 end;
 
 procedure TMultiRadioGroup.SetAllNotSelected(aIndex: integer);
@@ -615,26 +624,17 @@ end;
 
 procedure TMultiRadioGroup.ScaleFontsPPI(const AToPPI: Integer;
   const AProportion: Double);
-var lv : integer;
 begin
  inherited ScaleFontsPPI(AToPPI, AProportion);
  DoScaleFontPPI(Font, AToPPI, AProportion);
 
- if not assigned(RadioButtons) then exit;
- for lv := 0 to pred(RadioButtons.Count) do
-  DoScaleFontPPI(RadioButtons.Items[lv].Font, AToPPI, AProportion);
 end;
 
 {$IF LCL_FullVersion >= 2010000}
 procedure TMultiRadioGroup.FixDesignFontsPPI(const ADesignTimePPI: Integer);
-var lv : integer;
 begin
  inherited FixDesignFontsPPI(ADesignTimePPI);
  DoFixDesignFontPPI(Font, ADesignTimePPI);
-
- if not assigned(RadioButtons) then exit;
- for lv := 0 to pred(RadioButtons.Count) do
- DoFixDesignFontPPI(RadioButtons.Items[lv].Font, ADesignTimePPI);
 end;
 {$IFEND}
 
@@ -682,6 +682,7 @@ procedure TMultiRadioGroup.SetCaption(AValue: TCaption);
 begin
   if FCaption=AValue then Exit;
   FCaption:=AValue;
+  TriggerAutoSize;
   Invalidate;
 end;
 
@@ -762,6 +763,86 @@ begin
   FStyle:=AValue;
   Invalidate;
 end;
+
+
+procedure TMultiRadioGroup.SetAutoSize(Value: Boolean);
+begin
+ inherited SetAutoSize(Value);
+ FAutoSize := Value;
+ if FAutoSize then TriggerAutoSize;
+ if FAutoSize = false then InvalidatePreferredSize;
+end;
+
+procedure TMultiRadioGroup.TriggerAutoSize;
+begin
+ InvalidatePreferredSize;
+ if Assigned(Parent) and Parent.AutoSize then
+  Parent.AdjustSize;
+
+ AdjustSize;
+
+end;
+
+procedure TMultiRadioGroup.CalculatePreferredSize(var PreferredWidth,
+  PreferredHeight: integer; WithThemeSpace: Boolean);
+var lv                    : integer;
+    TeRect                : TRect;
+    ButRect               : TRect;
+    SelRect               : TRect;
+    CaptionHeight         : integer;
+    Space                 : integer;
+    TRH                   : integer;
+    tmpBmp                : TBitmap;
+    ImW                   : integer;
+    tempW                 : integer;
+    FAutoWidth            : integer;
+    FAutoHeight           : integer;
+begin
+  inherited CalculatePreferredSize(PreferredWidth, PreferredHeight, WithThemeSpace);
+  if not assigned(RadioButtons) then exit;
+  FAutoWidth := GetTextWidth(FCaption,FFont)+(2*FocusFrameWidth)+10;
+
+  for lv := 0 to pred(RadioButtons.Count) do
+  begin
+   RadioButtons.Items[lv].CaptionAlignment:= taLeftJustify;
+
+
+   if not RadioButtons.Items[lv].FParentFont then
+     Canvas.Font.Assign(RadioButtons.Items[lv].FFont)
+   else
+    Canvas.Font.Assign(FFont);
+
+   TRH     := GetTextHeight(RadioButtons.Items[lv].FCaption,Canvas.Font);
+   Space   := CalculateSpace(CaptionHeight,TRH);
+   TeRect  := CalculateTextRect(CaptionHeight,TRH,Space,lv);
+   ButRect := CalculateButtonRect(TeRect,TRH);
+   SelRect := CalculateSelectedRect(ButRect,TRH);
+   if (RadioButtons.Items[lv].FImageList <> nil) and (RadioButtons.Items[lv].FImageIndex > -1) and
+     (RadioButtons.Items[lv].FImageIndex < RadioButtons.Items[lv].FImageList.Count) then
+    begin
+      ImW := RadioButtons.Items[lv].Images.Width;
+
+      if (RadioButtons.Items[lv].ImageLeft <= 10) then
+       begin
+         RadioButtons.Items[lv].FCapLeft  := RadioButtons.Items[lv].ImageLeft+ImW+5;
+         RadioButtons.Items[lv].ImageLeft := 5;
+       end
+      else
+       begin
+        RadioButtons.Items[lv].ImageLeft := GetTextWidth(RadioButtons.Items[lv].FCaption,Canvas.Font)+10;
+        RadioButtons.Items[lv].FCapLeft:= 5;
+       end;
+    end;
+
+
+
+   tempW := (2*FocusFrameWidth)+35+ButRect.Width+GetTextWidth(RadioButtons.Items[lv].FCaption,Canvas.Font)+ImW;
+   if tempW > FAutoWidth then FAutoWidth := tempW;
+
+  end;
+  PreferredWidth := FAutoWidth;
+end;
+
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx---Calculate---xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 function TMultiRadioGroup.GetTextWidth (AText : String ; AFont : TFont ) : Integer ;
@@ -893,6 +974,7 @@ var lv                    : integer;
     Space                 : integer;
     TRH                   : integer;
     tmpBmp                : TBitmap;
+
 begin
  if not assigned(RadioButtons) then exit;
 
@@ -914,6 +996,8 @@ begin
    ButRect := CalculateButtonRect(TeRect,TRH);
    SelRect := CalculateSelectedRect(ButRect,TRH);
    RadioButtons.Items[lv].FHotspot := CalculateHotspot(TeRect);
+
+
 
   //the background of the Radiobuttons
    if RadioButtons.Items[lv].FColor <> clNone then
