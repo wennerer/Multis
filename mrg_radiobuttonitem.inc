@@ -62,7 +62,8 @@ end;
 
 procedure TMRadioButtons.TriggerAutoSize;
 begin
- (FMultiRadioGroup as TMultiRadioGroup).TriggerAutoSize;
+ if not (csLoading in (FMultiRadioGroup as TMultiRadioGroup).ComponentState) then
+  (FMultiRadioGroup as TMultiRadioGroup).TriggerAutoSize;
 end;
 
 
@@ -132,7 +133,6 @@ procedure TMRadioButton.SetCapLeft(AValue: integer);
 begin
   if FCapLeft=AValue then Exit;
   FCapLeft:=AValue;
-  (FRadioButtons as TMRadioButtons).TriggerAutoSize;
 end;
 
 procedure TMRadioButton.SetButtonColor(AValue: TColor);
@@ -152,7 +152,7 @@ begin
  if fTextStyle.Alignment=AValue then exit;
  fTextStyle.Alignment:=AValue;
  if aValue <> taLeftJustify then FCapLeft:=0;
- (FRadioButtons as TMRadioButtons).TriggerAutoSize;
+
 end;
 
 procedure TMRadioButton.SetCaption(AValue: TCaption);
@@ -160,6 +160,7 @@ begin
   if FCaption=AValue then Exit;
   FCaption:=AValue;
   FCaptionChange:=true;
+  if not (csLoading in (FRadioButtons as TMRadioButtons).FMultiRadioGroup.ComponentState) then
   (FRadioButtons as TMRadioButtons).TriggerAutoSize;
 end;
 
@@ -237,6 +238,7 @@ procedure TMRadioButton.SetImageLeft(AValue: integer);
 begin
   if FImageLeft=AValue then Exit;
   FImageLeft:=AValue;
+  if not (csLoading in (FRadioButtons as TMRadioButtons).FMultiRadioGroup.ComponentState) then
   (FRadioButtons as TMRadioButtons).TriggerAutoSize;
 end;
 

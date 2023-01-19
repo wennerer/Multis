@@ -610,7 +610,7 @@ begin
    RadioButtons.Items[lv].Font.Height:=aHeight;
    if RadioButtons.Items[lv].Font.Height <> 0 then RadioButtons.Items[lv].ParentFont:= false;
   end;
- TriggerAutoSize;
+ if not (csLoading in ComponentState) then TriggerAutoSize;
 end;
 
 procedure TMultiRadioGroup.SetAllNotSelected(aIndex: integer);
@@ -682,7 +682,7 @@ procedure TMultiRadioGroup.SetCaption(AValue: TCaption);
 begin
   if FCaption=AValue then Exit;
   FCaption:=AValue;
-  TriggerAutoSize;
+  if not (csLoading in ComponentState) then TriggerAutoSize;
   Invalidate;
 end;
 
@@ -799,7 +799,9 @@ var lv                    : integer;
     FAutoHeight           : integer;
 begin
   inherited CalculatePreferredSize(PreferredWidth, PreferredHeight, WithThemeSpace);
-  if not assigned(RadioButtons) then exit;
+
+ if not assigned(RadioButtons) then exit;
+
   FAutoWidth := GetTextWidth(FCaption,FFont)+(2*FocusFrameWidth)+10;
   CaptionHeight := GetTextHeight(FCaption,FFont);
 
@@ -813,6 +815,7 @@ begin
    else
     Canvas.Font.Assign(FFont);
 
+   Imw     := 0;
    TRH     := GetTextHeight(RadioButtons.Items[lv].FCaption,Canvas.Font);
    Space   := CalculateSpace(CaptionHeight,TRH);
    TeRect  := CalculateTextRect(CaptionHeight,TRH,Space,lv);
@@ -821,6 +824,7 @@ begin
    if (RadioButtons.Items[lv].FImageList <> nil) and (RadioButtons.Items[lv].FImageIndex > -1) and
      (RadioButtons.Items[lv].FImageIndex < RadioButtons.Items[lv].FImageList.Count) then
     begin
+
       ImW := RadioButtons.Items[lv].Images.Width;
 
       if (RadioButtons.Items[lv].ImageLeft <= 10) then

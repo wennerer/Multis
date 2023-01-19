@@ -35,52 +35,18 @@ object Form1: TForm1
   object MultiButton1: TMultiButton
     Left = 747
     Height = 50
-    Top = 189
+    Top = 264
     Width = 110
     MessageButton.ImageLeft = 0
     MessageButton.ImageTop = 0
     Caption = 'MultiButton1'
     TabOrder = 2
   end
-  object MultiRadioGroup1: TMultiRadioGroup
-    Left = 264
-    Height = 121
-    Top = 55
-    Width = 160
-    Caption = 'MyRadioGroup1:'
-    RadioButtons = <    
-      item
-        Caption = 'Radiobutton 1'
-        Selected = True
-        ParentFont = False
-        CaptionHorMargin = 26
-        Images = ImageList1
-        ImageIndex = 1
-        ImageLeft = 5
-      end    
-      item
-        Caption = 'Radiobutton 2'
-        Selected = False
-        ParentFont = False
-        Images = ImageList1
-        ImageIndex = 1
-        ImageLeft = 97
-      end    
-      item
-        Caption = 'Radiobutton 3'
-        Selected = False
-        ParentFont = False
-      end>
-    AutoSize = True
-    TabOrder = 3
-    OnChange = MultiRadioGroup1Change
-    OnKeyDown = MultiRadioGroup1KeyDown
-  end
   object Button1: TButton
     Left = 117
-    Height = 25
+    Height = 30
     Top = 269
-    Width = 75
+    Width = 65
     Caption = 'Button1'
     TabOrder = 0
   end
@@ -90,6 +56,31 @@ object Form1: TForm1
     Top = 286
     Width = 70
     Caption = 'TextBox1'
+  end
+  object MultiRadioGroup1: TMultiRadioGroup
+    Left = 349
+    Height = 80
+    Top = 106
+    Width = 187
+    RadioButtons = <    
+      item
+        Caption = 'Dash'
+        Selected = True
+        Images = ImageList2
+        ImageIndex = 0
+        ImageLeft = 40
+      end    
+      item
+        Caption = 'Radiobutton 2'
+        Selected = False
+      end    
+      item
+        Caption = 'Radiobutton 3'
+        Selected = False
+      end>
+    AutoSize = True
+    Constraints.MinHeight = 80
+    TabOrder = 3
   end
   object ImageList1: TImageList
     Scaled = True
@@ -135,6 +126,16 @@ object Form1: TForm1
       13DEEDB036136C5E116C7922D8C594801D9D87C9AB93A8891E0B4BC7B18CBD48
       AE8DBE1F9FEC59FA5D60330CC64D27FB4458BBCE3D6CEFB9A868E22CEF939693
       DCF946A6E61CB2EE4CB0D6F7F4FF32FE065977DBD6
+    }
+  end
+  object ImageList2: TImageList
+    Width = 100
+    Left = 520
+    Top = 332
+    Bitmap = {
+      4C7A0100000064000000100000002F0000000000000078DAEDD1B10D00200C04
+      31F65FFAC80A48880647727BC5A75A0100C007E63AA17FB76F2FFFD00700E0A5
+      0DD7468F60
     }
   end
 end

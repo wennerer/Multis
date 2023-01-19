@@ -15,6 +15,7 @@ type
   TForm1 = class(TForm)
     Button1: TButton;
     ImageList1: TImageList;
+    ImageList2: TImageList;
     MultiButton1: TMultiButton;
     MultiRadioGroup1: TMultiRadioGroup;
     RadioGroup1: TRadioGroup;
