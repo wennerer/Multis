@@ -1,0 +1,49 @@
+object Form1: TForm1
+  Left = 449
+  Height = 383
+  Top = 250
+  Width = 1015
+  Caption = 'Test the MultiRadioGroup'
+  ClientHeight = 383
+  ClientWidth = 1015
+  object MultiRadioGroup1: TMultiRadioGroup
+    Left = 24
+    Height = 26
+    Top = 24
+    Width = 154
+    Style = mssRect
+    RadioButtons = <    
+      item
+        Caption = 'Radiobutton 1'
+        Selected = False
+        ImageLeft = 102
+      end>
+    AutoSize = True
+    TabOrder = 0
+  end
+  object MultiRadioGroup2: TMultiRadioGroup
+    Left = 200
+    Height = 120
+    Top = 24
+    Width = 162
+    Caption = 'MultiRadioGroup:'
+    RadioButtons = <    
+      item
+        Caption = 'Radiobutton 1'
+        Selected = False
+      end    
+      item
+        Caption = 'Radiobutton 2'
+        Selected = False
+      end    
+      item
+        Caption = 'Radiobutton 3'
+        Selected = False
+      end    
+      item
+        Caption = 'Radiobutton 4'
+        Selected = False
+      end>
+    TabOrder = 1
+  end
+end
