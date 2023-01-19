@@ -18,12 +18,13 @@
 -TMultiSeperator, just an optical element in the look of the multis. To be used between controls.
 -TMultiPanel, a panel with drop-down effect
 -TMultiLayer, a component provides a page that can also be made invisible at design time
+-TMultiRadioGroup, you can set the colours and show images
 - the unit PointIn
 -the unit custompen
 
 The help for the package can be called up via the menu item Help , Multis-Help."/>
     <License Value="modified LGPL-2"/>
-    <Version Major="1" Release="5" Build="1"/>
+    <Version Major="1" Release="5" Build="2"/>
     <Files Count="24">
       <Item1>
         <Filename Value="multibuttonstylemanager.pas"/>
