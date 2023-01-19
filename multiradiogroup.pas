@@ -204,6 +204,7 @@ type
 
   TMultiRadioGroup = class(TCustomControl)
   private
+    FAligningImages: Boolean;
     FAutoSize: boolean;
     FCaption                : TCaption;
     FDisabledAlpBV          : integer;
@@ -245,7 +246,7 @@ type
     procedure SetColorStart(AValue: TColor);
     procedure SetDisabledAlpBV(AValue: integer);
     procedure SetDisabledColor(AValue: TColor);
-    procedure SetEnabled(AValue: boolean);
+    procedure SetEnabled(AValue: boolean);reintroduce;
     procedure SetFocusAlBlVal(AValue: byte);
     procedure SetFocusColor(AValue: TColor);
     procedure SetFocusedOn(AValue: boolean);
@@ -298,6 +299,8 @@ type
 
    property DisabledColor : TColor read FDisabledColor write SetDisabledColor;
    property DisabledAlphaBValue : integer read FDisabledAlpBV write SetDisabledAlpBV;
+
+   property AligningImages : Boolean read FAligningImages write FAligningImages;
   published
    //The headline of the radio group
    //Die Überschrift der Radiogroup
@@ -418,6 +421,7 @@ begin
   FDisabledAlpBV        := 180;
   FAutoSize             := false;
   TabStop               := TRUE;
+  FAligningImages       := true;
 
   FRadioButtons := CreateRadioButtons;  //TCollection
 
@@ -788,15 +792,15 @@ procedure TMultiRadioGroup.CalculatePreferredSize(var PreferredWidth,
 var lv                    : integer;
     TeRect                : TRect;
     ButRect               : TRect;
-    SelRect               : TRect;
     CaptionHeight         : integer;
+    MaxCaptionWidth       : integer;
+    MaxImageWidth         : integer;
     Space                 : integer;
     TRH                   : integer;
-    tmpBmp                : TBitmap;
-    ImW                   : integer;
     tempW                 : integer;
     FAutoWidth            : integer;
-    FAutoHeight           : integer;
+    ImW                   : integer;
+
 begin
   inherited CalculatePreferredSize(PreferredWidth, PreferredHeight, WithThemeSpace);
 
@@ -804,6 +808,8 @@ begin
 
   FAutoWidth := GetTextWidth(FCaption,FFont)+(2*FocusFrameWidth)+10;
   CaptionHeight := GetTextHeight(FCaption,FFont);
+  MaxCaptionWidth := 0;
+  MaxImageWidth   := 0;
 
   for lv := 0 to pred(RadioButtons.Count) do
   begin
@@ -815,12 +821,15 @@ begin
    else
     Canvas.Font.Assign(FFont);
 
+   if GetTextWidth(RadioButtons.Items[lv].FCaption,Canvas.Font) > MaxCaptionWidth then
+     MaxCaptionWidth := GetTextWidth(RadioButtons.Items[lv].FCaption,Canvas.Font);
+
    Imw     := 0;
    TRH     := GetTextHeight(RadioButtons.Items[lv].FCaption,Canvas.Font);
    Space   := CalculateSpace(CaptionHeight,TRH);
    TeRect  := CalculateTextRect(CaptionHeight,TRH,Space,lv);
    ButRect := CalculateButtonRect(TeRect,TRH);
-   SelRect := CalculateSelectedRect(ButRect,TRH);
+   //SelRect := CalculateSelectedRect(ButRect,TRH);
    if (RadioButtons.Items[lv].FImageList <> nil) and (RadioButtons.Items[lv].FImageIndex > -1) and
      (RadioButtons.Items[lv].FImageIndex < RadioButtons.Items[lv].FImageList.Count) then
     begin
@@ -829,22 +838,37 @@ begin
 
       if (RadioButtons.Items[lv].ImageLeft <= 10) then
        begin
+        //Image is on the leftside
          RadioButtons.Items[lv].FCapLeft  := RadioButtons.Items[lv].ImageLeft+ImW+5;
          RadioButtons.Items[lv].ImageLeft := 5;
        end
       else
        begin
-        RadioButtons.Items[lv].ImageLeft := GetTextWidth(RadioButtons.Items[lv].FCaption,Canvas.Font)+10;
-        RadioButtons.Items[lv].FCapLeft:= 5;
+        //Image is on the rightside
+         RadioButtons.Items[lv].ImageLeft := GetTextWidth(RadioButtons.Items[lv].FCaption,Canvas.Font)+10;
+         RadioButtons.Items[lv].FCapLeft:= 5;
+
+
+       //max Imagewidth
+         if FAligningImages then
+          if RadioButtons.Items[lv].Images.Width > MaxImageWidth then
+           MaxImageWidth := RadioButtons.Items[lv].Images.Width;
        end;
     end;
 
 
-
    tempW := (2*FocusFrameWidth)+35+ButRect.Width+GetTextWidth(RadioButtons.Items[lv].FCaption,Canvas.Font)+ImW;
-   if tempW > FAutoWidth then FAutoWidth := tempW;
+    if tempW > FAutoWidth then FAutoWidth := tempW;
+  end;//Count
 
-  end;
+  if FAligningImages then
+   begin
+    for lv := 0 to pred(RadioButtons.Count) do
+     RadioButtons.Items[lv].ImageLeft := MaxCaptionWidth +15;
+    FAutoWidth := (2*FocusFrameWidth)+35+ButRect.Width+MaxCaptionWidth +10+MaxImageWidth;
+
+   end;
+
   PreferredWidth  := FAutoWidth;
   PreferredHeight := (2* FocusFrameWidth)+CaptionHeight+(RadioButtons.Count*TeRect.Height);
 end;

@@ -6,6 +6,7 @@ object Form1: TForm1
   Caption = 'Test '
   ClientHeight = 402
   ClientWidth = 971
+  OnCreate = FormCreate
   object RadioGroup1: TRadioGroup
     Left = 54
     Height = 121
@@ -61,26 +62,33 @@ object Form1: TForm1
     Left = 349
     Height = 80
     Top = 106
-    Width = 187
+    Width = 223
     RadioButtons = <    
       item
         Caption = 'Dash'
         Selected = True
         Images = ImageList2
         ImageIndex = 0
-        ImageLeft = 40
+        ImageLeft = 71
       end    
       item
-        Caption = 'Radiobutton 2'
+        Caption = 'Dash Dot'
         Selected = False
+        Images = ImageList2
+        ImageIndex = 1
+        ImageLeft = 71
       end    
       item
-        Caption = 'Radiobutton 3'
+        Caption = 'Dot Dot'
         Selected = False
+        Images = ImageList2
+        ImageIndex = 2
+        ImageLeft = 71
       end>
     AutoSize = True
     Constraints.MinHeight = 80
     TabOrder = 3
+    OnChange = MultiRadioGroup1Change
   end
   object ImageList1: TImageList
     Scaled = True
@@ -133,9 +141,9 @@ object Form1: TForm1
     Left = 520
     Top = 332
     Bitmap = {
-      4C7A0100000064000000100000002F0000000000000078DAEDD1B10D00200C04
-      31F65FFAC80A48880647727BC5A75A0100C007E63AA17FB76F2FFFD00700E0A5
-      0DD7468F60
+      4C7A030000006400000010000000410000000000000078DAEDD6B10900300845
+      C1ECBFF44F1C211044C809D7BE421B93AC0000C007CEE486FEDBBE7DB9873E00
+      00ADEA2F03000000000000000000000060AC0D2C3377D7
     }
   end
 end

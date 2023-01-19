@@ -20,6 +20,7 @@ type
     MultiRadioGroup1: TMultiRadioGroup;
     RadioGroup1: TRadioGroup;
     TextBox1: TTextBox;
+    procedure FormCreate(Sender: TObject);
     procedure MultiRadioGroup1Change(const aIndex: integer);
     procedure MultiRadioGroup1KeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
@@ -47,6 +48,11 @@ end;
 procedure TForm1.MultiRadioGroup1Change(const aIndex: integer);
 begin
  Textbox1.Caption:= inttostr(aIndex);
+end;
+
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+ //MultiRadioGroup1.AligningImages:=false;
 end;
 
 procedure TForm1.MultiRadioGroup1KeyDown(Sender: TObject; var Key: Word;
