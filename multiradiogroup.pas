@@ -105,32 +105,32 @@ type
  type
   TMRadioButton = class(TCollectionItem)
    private
-     FButtonColor: TColor;
-     FButtonSelColor: TColor;
-     FDisabledAlpBV: integer;
-     FDisabledColor: TColor;
-     FEnabled: boolean;
-     FHoverColor: TColor;
-     FImageIndex: TImageIndex;
-     FImageLeft: integer;
-     FImageList: TCustomImageList;
-     FImageListChangeLink: TChangeLink;
-     FImageTop: integer;
-     FImageWidth: integer;
-     FRadioButtons : TCollection;
-     FCaptionChange     : boolean;
-     FCaptionWordbreak: boolean;
-     FCapLeft: integer;
-     FCaption: TCaption;
-     FCapTop: integer;
-     FColor: TColor;
-     FFont: TFont;
-     FHeight: integer;
-     FParentFont: boolean;
-     FSelected: Boolean;
-     FTextStyle: TTextStyle;
-     FVisible: Boolean;
-     FWidth: integer;
+     FButtonColor          : TColor;
+     FButtonSelColor       : TColor;
+     FDisabledAlpBV        : integer;
+     FDisabledColor        : TColor;
+     FEnabled              : boolean;
+     FHoverColor           : TColor;
+     FImageIndex           : TImageIndex;
+     FImageLeft            : integer;
+     FImageList            : TCustomImageList;
+     FImageListChangeLink  : TChangeLink;
+     FImageTop             : integer;
+     FImageWidth           : integer;
+     FRadioButtons         : TCollection;
+     FCaptionChange        : boolean;
+     FCaptionWordbreak     : boolean;
+     FCapLeft              : integer;
+     FCaption              : TCaption;
+     FCapTop               : integer;
+     FColor                : TColor;
+     FFont                 : TFont;
+     FHeight               : integer;
+     FParentFont           : boolean;
+     FSelected             : Boolean;
+     FTextStyle            : TTextStyle;
+     FVisible              : Boolean;
+     FWidth                : integer;
      procedure SetButtonColor(AValue: TColor);
      procedure SetButtonSelColor(AValue: TColor);
      procedure SetCapLeft(AValue: integer);
@@ -172,22 +172,29 @@ type
     property DisabledAlphaBValue : integer read FDisabledAlpBV write SetDisabledAlpBV;
     property DisplayName : string read GetDisplayName write SetDisplayName;
    published
-
+    //The text that the user writes in the radiobutton
+    //Der Text den der Benutzer in den Radiobutton schreibt
     property Caption  : TCaption read FCaption write SetCaption;
-
+    //The background colour of the RadioButton
+    //Die Hintergrundfarbe des RadioButtons
     property Color    : TColor read FColor write SetColor default clNone;
-
+    //The color of the radiobutton
+    //Die Farbe des Radiobuttons
     property ButtonColor : TColor read FButtonColor write SetButtonColor default clWhite;
-
+    //The color of the selected radiobutton
+    //Die Farbe des selektierten Radiobuttons
     property ButtonSelColor : TColor read FButtonSelColor write SetButtonSelColor default clBlack;
-
+    //Determines if a radio button is selected
+    //Bestimmt ob ein Radiobutton ausgewählt ist
     property Selected : Boolean read FSelected write SetSelected;
-
+    //The color of a hoverevent
+    //Die Farbe eines Hoverereignisses
     property HoverColor : TColor read FHoverColor write SetHoverColor default clSilver;
     //The font to be used for text display the caption.
     //Die Schrift die für die Textanzeige der Caption verwendet werden soll.
     property Font: TFont read FFont write SetFont;
-
+    // Uses the font from the Parent when enabled
+    // Verwendet die Schriftart aus dem Parent, wenn aktiviert
     property ParentFont : boolean read FParentFont write SetParentFont default true;
     //Alignment of the text in the caption (left, center, right)
     //Ausrichtung des Textes in der Caption (Links,Mitte,Rechts)
@@ -207,22 +214,21 @@ type
     //Determines whether the control reacts on mouse or keyboard input.
     //Legt fest, ob das Steuerelement auf Maus- oder Tastatureingaben reagiert.
     property Enabled : boolean read FEnabled write SetEnabled default true;
-
     //A list for including images
-     //Eine Liste zum Einfügen von Bildern
-     property Images  :  TCustomImageList  read FImageList write SetImageList default nil;
-     //The Index of a Image in a ImageList
-     //Der Index eines Bildes in einer ImageList
-     property ImageIndex : TImageIndex read FImageIndex write SetImageIndex default -1;
-     //The unique width of all images in the list.
-     //Die einmalige Breite aller Bilder in der Liste.
-     property ImageWidth : integer read FImageWidth write SetImageWidth default 0;
-     //The coordinate of the left edge of a Image
-     //Die Koordinate der linken Ecke des Bildes
-     property ImageLeft  : integer read FImageLeft write SetImageLeft default 0;
-     //The coordinate of the top edge of a Image
-     //Die Koordinate der oberen Ecke des Bildes
-     property ImageTop   : integer read FImageTop write SetImageTop default 0;
+    //Eine Liste zum Einfügen von Bildern
+    property Images  :  TCustomImageList  read FImageList write SetImageList default nil;
+    //The Index of a Image in a ImageList
+    //Der Index eines Bildes in einer ImageList
+    property ImageIndex : TImageIndex read FImageIndex write SetImageIndex default -1;
+    //The unique width of all images in the list.
+    //Die einmalige Breite aller Bilder in der Liste.
+    property ImageWidth : integer read FImageWidth write SetImageWidth default 0;
+    //The coordinate of the left edge of a Image
+    //Die Koordinate der linken Ecke des Bildes
+    property ImageLeft  : integer read FImageLeft write SetImageLeft default 0;
+    //The coordinate of the top edge of a Image
+    //Die Koordinate der oberen Ecke des Bildes
+    property ImageTop   : integer read FImageTop write SetImageTop default 0;
 
 
    end;
@@ -246,15 +252,15 @@ type
     FEnabled                : boolean;
     FOnChange               : TChangeEvent;
     FFont                   : TFont;
-    FOnEnter: TNotifyEvent;
-    FOnExit: TNotifyEvent;
-    FOnKeyDown: TKeyEvent;
-    FOnKeyPress: TKeyPressEvent;
-    FOnKeyUp: TKeyEvent;
-    FOnMouseDown: TMouseEvent;
-    FOnMouseEnter: TMouseEnterLeave;
-    FOnMouseLeave: TMouseEnterLeave;
-    FOnMouseUp: TMouseEvent;
+    FOnEnter                : TNotifyEvent;
+    FOnExit                 : TNotifyEvent;
+    FOnKeyDown              : TKeyEvent;
+    FOnKeyPress             : TKeyPressEvent;
+    FOnKeyUp                : TKeyEvent;
+    FOnMouseDown            : TMouseEvent;
+    FOnMouseEnter           : TMouseEnterLeave;
+    FOnMouseLeave           : TMouseEnterLeave;
+    FOnMouseUp              : TMouseEvent;
     FRadioButtons           : TMRadioButtons;
     FColorEnd               : TColor;
     FColorStart             : TColor;
@@ -273,7 +279,6 @@ type
     function GetRadioButton: TMRadioButtons;
     function GetTextHeight(AText: String; AFont: TFont): Integer;
     function GetTextWidth(AText: String; AFont: TFont): Integer;
-
     function IsRadioButtonsStored: Boolean;
     procedure SetCaption(AValue: TCaption);
     procedure SetColorEnd(AValue: TColor);
@@ -331,9 +336,14 @@ type
    procedure MouseDown({%H-}Button: TMouseButton;{%H-}Shift: TShiftState; X, Y: Integer);override;
    procedure MouseUp({%H-}Button: TMouseButton; {%H-}Shift: TShiftState; {%H-}X, {%H-}Y: Integer);override;
 
+   //The colour of the control when enable := false
+   //Die Farbe des Controlls wenn enable := false
    property DisabledColor : TColor read FDisabledColor write SetDisabledColor;
+   //How translucent is the DisabledColor (0=transparent, 255=opaque).
+   //Wie transparent die DisabledColor ist (0=transparent, 255=undurchsichtig).
    property DisabledAlphaBValue : integer read FDisabledAlpBV write SetDisabledAlpBV;
-
+   //Aligns the images when they are to the right of the caption
+   //Richtet die Images aus wenn sie rechts von der Caption sind
    property AligningImages : Boolean read FAligningImages write FAligningImages;
   published
    //The headline of the radio group
@@ -378,9 +388,11 @@ type
    //Allows the user to navigate to this control, by pressing the Tab key
    //Ermöglicht dem Benutzer das Navigieren zu diesem Steuerelement durch Drücken der Tabulatortaste
    property TabStop default TRUE;
-
+   //Opens the editor to add radio buttons
+   //Öffnet den Editor um Radiobuttons hinzuzufügen
    property RadioButtons : TMRadioButtons read GetRadioButton write SetRadioButton stored IsRadioButtonsStored;
-
+   //Allows automatic adjustment of the size for the control, according to its content
+   //Ermöglicht die automatische Anpassung der Größe der Kontrolle an ihren Inhalt
    property AutoSize : boolean read FAutoSize write SetAutoSize default false;
 
    property DragMode;
@@ -458,7 +470,6 @@ begin
   FAligningImages       := true;
 
   FRadioButtons := CreateRadioButtons;  //TCollection
-
   FRadioButtons.Add;
 
 end;
@@ -706,13 +717,11 @@ end;
 
 function TMultiRadioGroup.GetRadioButton: TMRadioButtons;
 begin
-
  result := FRadioButtons;
 end;
 
 function TMultiRadioGroup.IsRadioButtonsStored: Boolean;
 begin
-
  result := RadioButtons.Enabled;
 end;
 
@@ -863,7 +872,7 @@ begin
    Space   := CalculateSpace(CaptionHeight,TRH);
    TeRect  := CalculateTextRect(CaptionHeight,TRH,Space,lv);
    ButRect := CalculateButtonRect(TeRect,TRH);
-   //SelRect := CalculateSelectedRect(ButRect,TRH);
+
    if (RadioButtons.Items[lv].FImageList <> nil) and (RadioButtons.Items[lv].FImageIndex > -1) and
      (RadioButtons.Items[lv].FImageIndex < RadioButtons.Items[lv].FImageList.Count) then
     begin
@@ -935,10 +944,6 @@ begin
  end;
 end ;
 
-
-
-//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX---Drawing---XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
 procedure TMultiRadioGroup.CalculateRadioGroup(var aRect: TRect);
 begin
  aRect :=  rect(FFocusFrameWidth,FFocusFrameWidth,width-FFocusFrameWidth,height-FFocusFrameWidth);
@@ -973,6 +978,9 @@ function TMultiRadioGroup.CalculateHotspot(aTeRect: TRect): TRect;
 begin
   Result := rect(FocusFrameWidth,aTeRect.Top,aTeRect.Right,aTeRect.Bottom);
 end;
+
+
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX---Drawing---XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 procedure TMultiRadioGroup.DrawRadioGroup;
 var bkBmp        : TBitmap;
@@ -1044,8 +1052,6 @@ begin
 
  CaptionHeight := GetTextHeight(FCaption,FFont);
 
-
-
  for lv := 0 to pred(RadioButtons.Count) do
   begin
  //the font in the radiobutton
@@ -1060,8 +1066,6 @@ begin
    ButRect := CalculateButtonRect(TeRect,TRH);
    SelRect := CalculateSelectedRect(ButRect,TRH);
    RadioButtons.Items[lv].FHotspot := CalculateHotspot(TeRect);
-
-
 
   //the background of the Radiobuttons
    if RadioButtons.Items[lv].FColor <> clNone then
@@ -1080,6 +1084,7 @@ begin
   //the radiobutton
     canvas.Brush.Color:= RadioButtons.Items[lv].FButtonColor;
     canvas.Ellipse(ButRect);
+
   //the selection in the radiobutton
     if RadioButtons.Items[lv].Selected then
      begin
@@ -1091,7 +1096,6 @@ begin
     if not RadioButtons.Items[lv].FCaptionChange then
      RadioButtons.Items[lv].FCaption := 'Radiobutton ' + inttostr(RadioButtons.Items[lv].Index+1);
 
-
   //the ItemCaption in the radiobutton
     canvas.TextRect(TeRect,TeRect.Left+RadioButtons.Items[lv].FCapLeft,TeRect.Top+RadioButtons.Items[lv].FCapTop,
                     RadioButtons.Items[lv].FCaption,RadioButtons.Items[lv].FTextStyle);
@@ -1102,7 +1106,6 @@ begin
       RadioButtons.Items[lv].FImageList.ResolutionForPPI[RadioButtons.Items[lv].FImageWidth,
           Font.PixelsPerInch,GetCanvasScaleFactor].Draw(Canvas,TeRect.Left+RadioButtons.Items[lv].FImageLeft,
           TeRect.Top+RadioButtons.Items[lv].FImageTop,RadioButtons.Items[lv].FImageIndex);
-      //RadioButtons.Items[lv].FImageList.Draw(canvas,TeRect.Left,TeRect.Top,0,true);
 
   //not Enable
    if not RadioButtons.Items[lv].FEnabled then

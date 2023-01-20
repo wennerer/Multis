@@ -447,7 +447,11 @@ type
 
 
    property TextStyle: TTextStyle read FTextStyle write SetTextStyle;
+   //The colour of the control when enable := false
+   //Die Farbe des Controlls wenn enable := false
    property DisabledColor : TColor read FDisabledColor write SetDisabledColor;
+   //How translucent is the DisabledColor (0=transparent, 255=opaque).
+   //Wie transparent die DisabledColor ist (0=transparent, 255=undurchsichtig).
    property DisabledAlphaBValue : integer read FDisabledAlpBV write SetDisabledAlpBV;
 
   published

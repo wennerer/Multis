@@ -1,6 +1,6 @@
 (*This is a part of the TMultiRadioGroup*)
 
-{%MultiRadioGroup ,this is a part of TMultiRadioGroup last change 11.01.2023}
+{%MultiRadioGroup ,this is a part of TMultiRadioGroup last change 20.01.2023}
 
 //xxxxxxxxxxxxxxxxxxxxxxx-- This is the Collection --xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 { TMRadioButtons }
@@ -39,7 +39,6 @@ end;
 
 function TMRadioButtons.GetOwner: TPersistent;
 begin
- // Result:=inherited GetOwner;
  Result := FMultiRadioGroup;
 end;
 
@@ -84,23 +83,23 @@ begin
   inherited Create(ACollection);
   FRadioButtons := ACollection;
 
-  FCaption := 'Radiobutton';
-  FColor := clNone;
-  FWidth := 200;
-  FHeight := 20;
-  FCaptionWordbreak := false;
-  FCapLeft        := 5;
-  FCapTop         := 0;
-  FVisible := true;
-  FFont     := TFont.Create;
-  FFont.OnChange:= @RadioButtonFontChanged;
-  FParentFont:= true;
-  FHoverColor:= clSilver;
-  FButtonColor:= clWhite;
-  FButtonSelColor:= clBlack;
-  FEnabled := true;
-  FDisabledColor  := $D2D2D2;
-  FDisabledAlpBV  := 180;
+  FCaption             := 'Radiobutton';
+  FColor               := clNone;
+  FWidth               := 200;
+  FHeight              := 20;
+  FCaptionWordbreak    := false;
+  FCapLeft             := 5;
+  FCapTop              := 0;
+  FVisible             := true;
+  FFont                := TFont.Create;
+  FFont.OnChange       := @RadioButtonFontChanged;
+  FParentFont          := true;
+  FHoverColor          := clSilver;
+  FButtonColor         := clWhite;
+  FButtonSelColor      := clBlack;
+  FEnabled             := true;
+  FDisabledColor       := $D2D2D2;
+  FDisabledAlpBV       := 180;
   FImageIndex          := -1;
   FImageWidth          := 0;
   FImageLeft           := 0;
@@ -133,8 +132,7 @@ end;
 
 function TMRadioButton.GetDisplayName: string;
 begin
-  //Result:=inherited GetDisplayName;
-  Result := 'MultiRadioButton';
+ Result := 'MultiRadioButton';
 end;
 
 procedure TMRadioButton.SetDisplayName(const Value: string);
@@ -226,7 +224,6 @@ procedure TMRadioButton.SetFont(AValue: TFont);
 begin
   if FFont=AValue then Exit;
   FFont.Assign(aValue);
- // (FRadioButtons as TMRadioButtons).TriggerAutoSize;
 end;
 
 procedure TMRadioButton.SetHoverColor(AValue: TColor);
@@ -302,14 +299,12 @@ end;
 
 function TMRadioButton.GetOwner: TPersistent;
 begin
-  //Result:=inherited GetOwner;
-  Result := FRadioButtons;
+ Result := FRadioButtons;
 end;
 
 procedure TMRadioButton.RadioButtonFontChanged(Sender: TObject);
 begin
   (FRadioButtons as TMRadioButtons).FontIsChanged(FFont.Height);
-
 end;
 
 procedure TMRadioButton.SetAllNotSelected(aIndex: integer);
