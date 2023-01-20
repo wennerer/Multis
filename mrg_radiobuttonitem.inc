@@ -48,6 +48,7 @@ constructor TMRadioButtons.Create(aCollection: TMultiRadioGroup;
 begin
  inherited Create( aItemClass );
  FMultiRadioGroup := aCollection;
+
 end;
 
 procedure TMRadioButtons.FontIsChanged(aHeight: integer);
@@ -105,6 +106,7 @@ begin
   FImageLeft           := 0;
   FImageTop            := 0;
 
+
   FImageListChangeLink := TChangeLink.Create;
   FImageListChangeLink.OnChange := @ImagesChanged;
 
@@ -127,6 +129,17 @@ procedure TMRadioButton.SetVisible(AValue: Boolean);
 begin
   if FVisible=AValue then Exit;
   FVisible:=AValue;
+end;
+
+function TMRadioButton.GetDisplayName: string;
+begin
+  //Result:=inherited GetDisplayName;
+  Result := 'MultiRadioButton';
+end;
+
+procedure TMRadioButton.SetDisplayName(const Value: string);
+begin
+  inherited SetDisplayName(Value);
 end;
 
 procedure TMRadioButton.SetCapLeft(AValue: integer);

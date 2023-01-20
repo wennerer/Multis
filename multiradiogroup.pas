@@ -155,7 +155,8 @@ type
      procedure SetSelected(AValue: Boolean);
      procedure SetTextStyle(AValue: TTextStyle);
      procedure SetVisible(AValue: Boolean);
-
+     function GetDisplayName: string; override;
+     procedure SetDisplayName(const Value: string); override;
    protected
      function GetOwner: TPersistent; override;
      procedure RadioButtonFontChanged({%H-}Sender : TObject);
@@ -169,6 +170,7 @@ type
     property Visible  : Boolean read FVisible write SetVisible default true;
     property DisabledColor : TColor read FDisabledColor write SetDisabledColor;
     property DisabledAlphaBValue : integer read FDisabledAlpBV write SetDisabledAlpBV;
+    property DisplayName : string read GetDisplayName write SetDisplayName;
    published
 
     property Caption  : TCaption read FCaption write SetCaption;
@@ -221,6 +223,8 @@ type
      //The coordinate of the top edge of a Image
      //Die Koordinate der oberen Ecke des Bildes
      property ImageTop   : integer read FImageTop write SetImageTop default 0;
+
+
    end;
 
 
