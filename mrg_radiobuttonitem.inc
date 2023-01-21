@@ -168,6 +168,7 @@ end;
 
 procedure TMRadioButton.SetCaption(AValue: TCaption);
 begin
+  if aValue = '' then aValue:=' ';
   if FCaption=AValue then Exit;
   FCaption:=AValue;
   FCaptionChange:=true;

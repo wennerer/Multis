@@ -13,11 +13,14 @@ type
 
   TForm1 = class(TForm)
     ImageList1: TImageList;
+    ImageList2: TImageList;
     MultiRadioGroup1: TMultiRadioGroup;
     MultiRadioGroup2: TMultiRadioGroup;
     MultiRadioGroup3: TMultiRadioGroup;
     MultiRadioGroup4: TMultiRadioGroup;
     MultiRadioGroup5: TMultiRadioGroup;
+    MultiRadioGroup6: TMultiRadioGroup;
+    MultiRadioGroup7: TMultiRadioGroup;
   private
 
   public

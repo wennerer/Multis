@@ -731,6 +731,7 @@ end;
 procedure TMultiRadioGroup.SetRadioButton(AValue: TMRadioButtons);
 begin
  FRadioButtons.Assign(Avalue);
+ if not (csLoading in ComponentState) then TriggerAutoSize;
 end;
 
 function TMultiRadioGroup.GetRadioButton: TMRadioButtons;
@@ -878,7 +879,7 @@ var lv                    : integer;
     tempW                 : integer;
     FAutoWidth            : integer;
     ImW                   : integer;
-
+    leftside              : boolean;
 begin
   inherited CalculatePreferredSize(PreferredWidth, PreferredHeight, WithThemeSpace);
 
@@ -888,6 +889,7 @@ begin
   CaptionHeight := GetTextHeight(FCaption,FFont);
   MaxCaptionWidth := 0;
   MaxImageWidth   := 0;
+  leftside        := false;
 
   for lv := 0 to pred(RadioButtons.Count) do
   begin
@@ -919,6 +921,7 @@ begin
         //Image is on the leftside
          RadioButtons.Items[lv].FCapLeft  := RadioButtons.Items[lv].ImageLeft+ImW+5;
          RadioButtons.Items[lv].ImageLeft := 5;
+         leftside := true;
        end
       else
        begin
@@ -939,12 +942,12 @@ begin
     if tempW > FAutoWidth then FAutoWidth := tempW;
   end;//Count
 
-  if FAligningImages then
-   begin
-    for lv := 0 to pred(RadioButtons.Count) do
-     RadioButtons.Items[lv].ImageLeft := MaxCaptionWidth +15;
-    FAutoWidth := (2*FocusFrameWidth)+35+ButRect.Width+MaxCaptionWidth +10+MaxImageWidth;
-
+  if not leftside then
+   if FAligningImages then
+    begin
+     for lv := 0 to pred(RadioButtons.Count) do
+      RadioButtons.Items[lv].ImageLeft := MaxCaptionWidth +15;
+     FAutoWidth := (2*FocusFrameWidth)+35+ButRect.Width+MaxCaptionWidth +10+MaxImageWidth;
    end;
 
   PreferredWidth  := FAutoWidth;
@@ -1110,11 +1113,12 @@ begin
      end;
 
   //the hover over the radiobuttons
-    if RadioButtons.Items[lv].FHover then
-     begin
-      canvas.Brush.Color:= RadioButtons.Items[lv].FHoverColor;
-      Canvas.FillRect(RadioButtons.Items[lv].FHotspot);
-     end;
+    if RadioButtons.Items[lv].FHoverColor <> clNone then
+     if RadioButtons.Items[lv].FHover then
+      begin
+       canvas.Brush.Color:= RadioButtons.Items[lv].FHoverColor;
+       Canvas.FillRect(RadioButtons.Items[lv].FHotspot);
+      end;
 
   //the radiobutton
     canvas.Brush.Color:= RadioButtons.Items[lv].FButtonColor;
