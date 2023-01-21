@@ -125,4 +125,41 @@ object Form1: TForm1
       end>
     TabOrder = 3
   end
+  object MultiRadioGroup5: TMultiRadioGroup
+    Left = 24
+    Height = 74
+    Top = 168
+    Width = 167
+    RadioButtons = <    
+      item
+        Selected = False
+        Images = ImageList1
+        ImageIndex = 0
+        ImageLeft = 15
+      end    
+      item
+        Selected = False
+        ImageLeft = 15
+      end    
+      item
+        Selected = False
+        ImageLeft = 15
+      end    
+      item
+        Selected = False
+        ImageLeft = 15
+      end>
+    AutoSize = True
+    TabOrder = 4
+  end
+  object ImageList1: TImageList
+    Width = 100
+    Left = 69
+    Top = 86
+    Bitmap = {
+      4C7A0100000064000000100000002F0000000000000078DAEDD1B10D00200C04
+      31F65FFAC80A48880647727BC5A75A0100C007E63AA17FB76F2FFFD00700E0A5
+      0DD7468F60
+    }
+  end
 end

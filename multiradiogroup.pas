@@ -903,7 +903,7 @@ begin
      MaxCaptionWidth := GetTextWidth(RadioButtons.Items[lv].FCaption,Canvas.Font);
 
    Imw     := 0;
-   TRH     := GetTextHeight(RadioButtons.Items[lv].FCaption,Canvas.Font);
+   TRH     := GetTextHeight('Xp',Canvas.Font);
    Space   := CalculateSpace(CaptionHeight,TRH);
    TeRect  := CalculateTextRect(CaptionHeight,TRH,Space,lv);
    ButRect := CalculateButtonRect(TeRect,TRH);
@@ -1095,7 +1095,7 @@ begin
    else
     Canvas.Font.Assign(FFont);
 
-   TRH     := GetTextHeight(RadioButtons.Items[lv].FCaption,Canvas.Font);
+   TRH     := GetTextHeight('Xp',Canvas.Font);
    Space   := CalculateSpace(CaptionHeight,TRH);
    TeRect  := CalculateTextRect(CaptionHeight,TRH,Space,lv);
    ButRect := CalculateButtonRect(TeRect,TRH);
