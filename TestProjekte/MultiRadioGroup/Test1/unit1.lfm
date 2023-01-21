@@ -30,7 +30,7 @@ object Form1: TForm1
     RadioButtons = <    
       item
         Caption = 'Radiobutton 1'
-        Selected = False
+        Selected = True
       end    
       item
         Caption = 'Radiobutton 2'
@@ -45,5 +45,84 @@ object Form1: TForm1
         Selected = False
       end>
     TabOrder = 1
+  end
+  object MultiRadioGroup3: TMultiRadioGroup
+    Left = 392
+    Height = 120
+    Top = 24
+    Width = 210
+    Caption = 'MultiRadioGroup:'
+    RadioButtons = <    
+      item
+        Caption = 'Radiobutton 1'
+        Color = clYellow
+        Selected = True
+        Font.Color = clRed
+        ParentFont = False
+      end    
+      item
+        Caption = 'Radiobutton 2'
+        Color = clSkyBlue
+        Selected = False
+        Font.Color = clPurple
+        ParentFont = False
+      end    
+      item
+        Caption = 'Radiobutton 3'
+        Color = clGreen
+        Selected = False
+        Font.Color = clWhite
+        ParentFont = False
+      end    
+      item
+        Caption = 'Radiobutton 4'
+        Color = clFuchsia
+        Selected = False
+        Font.Color = clAqua
+        ParentFont = False
+      end>
+    TabOrder = 2
+  end
+  object MultiRadioGroup4: TMultiRadioGroup
+    Left = 632
+    Height = 120
+    Top = 24
+    Width = 210
+    Caption = 'MultiRadioGroup:'
+    Font.Color = clWhite
+    Font.Style = [fsBold]
+    FocusColor = clMaroon
+    ColorStart = clPurple
+    ColorEnd = clFuchsia
+    RadioButtons = <    
+      item
+        Caption = 'Radiobutton 1'
+        ButtonColor = clLime
+        ButtonSelColor = clFuchsia
+        Selected = False
+        HoverColor = clLime
+      end    
+      item
+        Caption = 'Radiobutton 2'
+        ButtonColor = clAqua
+        ButtonSelColor = clRed
+        Selected = False
+        HoverColor = clAqua
+      end    
+      item
+        Caption = 'Radiobutton 3'
+        ButtonColor = clYellow
+        ButtonSelColor = clMaroon
+        Selected = False
+        HoverColor = clYellow
+      end    
+      item
+        Caption = 'Radiobutton 4'
+        ButtonColor = clMoneyGreen
+        ButtonSelColor = clNavy
+        Selected = True
+        HoverColor = clSkyBlue
+      end>
+    TabOrder = 3
   end
 end

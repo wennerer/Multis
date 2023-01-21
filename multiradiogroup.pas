@@ -40,7 +40,7 @@ uses
   GraphPropEdits, PropEdits, LCLVersion;
 
 type
-  TChangeEvent = procedure(const aIndex: integer) of object;
+  TChangeEvent = procedure(Sender: TObject;const aIndex: integer) of object;
 
 type
   TMouseMoveEvent = procedure(Sender: TObject;Shift: TShiftState;
@@ -62,6 +62,8 @@ type
 type
   TKeyPressEvent = procedure(Sender: TObject; var Key: char) of Object;
 
+type
+  TGroupChangeEvent = procedure(Sender: TObject) of object;
 
 
 
@@ -155,9 +157,10 @@ type
      procedure SetSelected(AValue: Boolean);
      procedure SetTextStyle(AValue: TTextStyle);
      procedure SetVisible(AValue: Boolean);
+
+   protected
      function GetDisplayName: string; override;
      procedure SetDisplayName(const Value: string); override;
-   protected
      function GetOwner: TPersistent; override;
      procedure RadioButtonFontChanged({%H-}Sender : TObject);
      procedure SetAllNotSelected(aIndex : integer);
@@ -244,13 +247,15 @@ type
 
   TMultiRadioGroup = class(TCustomControl)
   private
-    FAligningImages: Boolean;
-    FAutoSize: boolean;
+    FAligningImages         : Boolean;
+    FAutoSize               : boolean;
     FCaption                : TCaption;
     FDisabledAlpBV          : integer;
     FDisabledColor          : TColor;
     FEnabled                : boolean;
+    FGRoupIndex             : integer;
     FOnChange               : TChangeEvent;
+    FOnGroupChange          : TGroupChangeEvent;
     FFont                   : TFont;
     FOnEnter                : TNotifyEvent;
     FOnExit                 : TNotifyEvent;
@@ -293,12 +298,14 @@ type
     procedure SetFont(AValue: TFont);
     procedure SetForegroundFocusOn(AValue: boolean);
     procedure SetGradient(AValue: TGradientCourse);
+    procedure SetGroupIndex(AValue: integer);
     procedure SetRadioButton(AValue: TMRadioButtons);
     procedure SetRRRadius(AValue: integer);
     procedure SetStyle(AValue: TMRadioStyle);
 
 
   protected
+   procedure GroupIsChanged({%H-}Sender: TObject);
    procedure BoundsChanged;override;
    procedure KeyPress(var Key: char);override;
    procedure KeyDown(var Key: Word; Shift: TShiftState);  override;
@@ -345,6 +352,9 @@ type
    //Aligns the images when they are to the right of the caption
    //Richtet die Images aus wenn sie rechts von der Caption sind
    property AligningImages : Boolean read FAligningImages write FAligningImages;
+   //An internal event to group MultiRadioGroups together.
+   //Ein internes Event um MultiRadioGroups zu Gruppen zusammen zufassen
+   property OnGroupChange   : TGroupChangeEvent read FOnGroupChange write FOnGroupChange;
   published
    //The headline of the radio group
    //Die Überschrift der Radiogroup
@@ -394,6 +404,9 @@ type
    //Allows automatic adjustment of the size for the control, according to its content
    //Ermöglicht die automatische Anpassung der Größe der Kontrolle an ihren Inhalt
    property AutoSize : boolean read FAutoSize write SetAutoSize default false;
+   //The Index within the group of MultiRadioGroups
+   //Der Index der Gruppe zu der die MultiRadioGroup gehört
+   property GroupIndex : integer read FGRoupIndex write SetGroupIndex default 0;
 
    property DragMode;
    property DragKind;
@@ -419,6 +432,7 @@ type
    property OnKeyPress       : TKeyPressEvent read FOnKeyPress write FOnKeyPress;
    property OnKeyDown        : TKeyEvent read FOnKeyDown write FOnKeyDown;
    property OnKeyUp          : TKeyEvent read FOnKeyUp write FOnKeyUp;
+
   end;
 
 procedure Register;
@@ -468,6 +482,8 @@ begin
   FAutoSize             := false;
   TabStop               := TRUE;
   FAligningImages       := true;
+  FGRoupIndex           := 0;
+  OnGroupChange        := @GroupIsChanged;
 
   FRadioButtons := CreateRadioButtons;  //TCollection
   FRadioButtons.Add;
@@ -542,7 +558,9 @@ begin
     if PtInRect(RadioButtons.Items[lv].FHotspot,Point(x,y)) then
      begin
       RadioButtons.Items[lv].Selected:= true;
-      if Assigned(OnChange) then OnChange(RadioButtons.Items[lv].Index);
+      if Assigned(OnChange) then OnChange(self,RadioButtons.Items[lv].Index);
+      if FGRoupIndex <> 0 then
+       if Assigned(OnGroupChange) then OnGroupChange(self);
      end;
  Invalidate;
 end;
@@ -590,7 +608,7 @@ begin
                       if lv > 0 then
                        begin
                         RadioButtons.Items[lv-1].Selected := true;
-                        if Assigned(OnChange) then OnChange(RadioButtons.Items[lv-1].Index);
+                        if Assigned(OnChange) then OnChange(self,RadioButtons.Items[lv-1].Index);
                         break;
                       end;
                    end;
@@ -600,7 +618,7 @@ begin
                       if lv < pred(RadioButtons.Count) then
                        begin
                         RadioButtons.Items[lv+1].Selected := true;
-                        if Assigned(OnChange) then OnChange(RadioButtons.Items[lv+1].Index);
+                        if Assigned(OnChange) then OnChange(self,RadioButtons.Items[lv+1].Index);
                         break;
                       end;
                    end;
@@ -797,6 +815,12 @@ begin
   Invalidate;
 end;
 
+procedure TMultiRadioGroup.SetGroupIndex(AValue: integer);
+begin
+  if FGRoupIndex=AValue then Exit;
+  FGRoupIndex:=AValue;
+end;
+
 procedure TMultiRadioGroup.SetRRRadius(AValue: integer);
 begin
   if FRRRadius=AValue then Exit;
@@ -809,6 +833,17 @@ begin
   if FStyle=AValue then Exit;
   FStyle:=AValue;
   Invalidate;
+end;
+
+procedure TMultiRadioGroup.GroupIsChanged(Sender: TObject);
+var lv,i : integer;
+begin
+ for lv :=  0 to pred(Parent.ControlCount) do
+    if (Parent.Controls[lv] <> self) then
+     if (Parent.Controls[lv] is TMultiRadioGroup) then
+      if TMultiRadioGroup(Parent.Controls[lv]).FGroupIndex = FGroupIndex then
+       for i := 0 to pred(TMultiRadioGroup(Parent.Controls[lv]).RadioButtons.Count) do
+        TMultiRadioGroup(Parent.Controls[lv]).RadioButtons.Items[i].Selected:= false;
 end;
 
 

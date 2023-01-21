@@ -14,6 +14,8 @@ type
   TForm1 = class(TForm)
     MultiRadioGroup1: TMultiRadioGroup;
     MultiRadioGroup2: TMultiRadioGroup;
+    MultiRadioGroup3: TMultiRadioGroup;
+    MultiRadioGroup4: TMultiRadioGroup;
   private
 
   public
