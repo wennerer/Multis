@@ -133,6 +133,7 @@ type
      FTextStyle            : TTextStyle;
      FVisible              : Boolean;
      FWidth                : integer;
+     FDisplayName          : string;
      procedure SetButtonColor(AValue: TColor);
      procedure SetButtonSelColor(AValue: TColor);
      procedure SetCapLeft(AValue: integer);
@@ -173,7 +174,7 @@ type
     property Visible  : Boolean read FVisible write SetVisible default true;
     property DisabledColor : TColor read FDisabledColor write SetDisabledColor;
     property DisabledAlphaBValue : integer read FDisabledAlpBV write SetDisabledAlpBV;
-    property DisplayName : string read GetDisplayName write SetDisplayName;
+
    published
     //The text that the user writes in the radiobutton
     //Der Text den der Benutzer in den Radiobutton schreibt
@@ -232,8 +233,9 @@ type
     //The coordinate of the top edge of a Image
     //Die Koordinate der oberen Ecke des Bildes
     property ImageTop   : integer read FImageTop write SetImageTop default 0;
-
-
+    //The name that is displayed in the TreeView of the Object Inspector.
+    //Der Name der im TreeView des Objektinspektors angezeigt wird
+    property DisplayName : string read GetDisplayName write SetDisplayName;
    end;
 
 

@@ -104,7 +104,7 @@ begin
   FImageWidth          := 0;
   FImageLeft           := 0;
   FImageTop            := 0;
-
+  FDisplayName         := 'MultiRadioButton';
 
   FImageListChangeLink := TChangeLink.Create;
   FImageListChangeLink.OnChange := @ImagesChanged;
@@ -132,12 +132,14 @@ end;
 
 function TMRadioButton.GetDisplayName: string;
 begin
- Result := 'MultiRadioButton';
+ Result := FDisplayName;
 end;
 
 procedure TMRadioButton.SetDisplayName(const Value: string);
 begin
-  inherited SetDisplayName(Value);
+ FDisplayName := Value;
+ //inherited SetDisplayName(Value);
+
 end;
 
 procedure TMRadioButton.SetCapLeft(AValue: integer);

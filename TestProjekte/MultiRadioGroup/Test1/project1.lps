@@ -31,11 +31,11 @@
         <Filename Value="../../../multiradiogroup.pas"/>
         <UnitName Value="MultiRadioGroup"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="1204"/>
-        <CursorPos X="43" Y="1220"/>
+        <TopLine Value="226"/>
+        <CursorPos X="29" Y="243"/>
         <UsageCount Value="24"/>
         <Bookmarks Count="1">
-          <Item0 X="48" Y="912"/>
+          <Item0 X="22" Y="136"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit>
@@ -58,9 +58,13 @@
       <Unit>
         <Filename Value="../../../mrg_radiobuttonitem.inc"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="291"/>
-        <CursorPos X="2" Y="65"/>
+        <TopLine Value="98"/>
+        <CursorPos X="43" Y="113"/>
         <UsageCount Value="22"/>
+        <Bookmarks Count="2">
+          <Item0 X="27" Y="107" ID="1"/>
+          <Item1 X="29" Y="133" ID="2"/>
+        </Bookmarks>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -82,7 +86,7 @@
         <Loaded Value="True"/>
       </Unit>
     </Units>
-    <JumpHistory HistoryIndex="19">
+    <JumpHistory HistoryIndex="26">
       <Position>
         <Filename Value="unit1.pas"/>
       </Position>
@@ -159,6 +163,34 @@
       </Position>
       <Position>
         <Filename Value="../../../multiplexslider.pas"/>
+      </Position>
+      <Position>
+        <Filename Value="../../../multiradiogroup.pas"/>
+        <Caret Line="236" Column="76" TopLine="219"/>
+      </Position>
+      <Position>
+        <Filename Value="../../../multiradiogroup.pas"/>
+        <Caret Line="163" Column="22" TopLine="151"/>
+      </Position>
+      <Position>
+        <Filename Value="../../../mrg_radiobuttonitem.inc"/>
+        <Caret Line="133" Column="29" TopLine="132"/>
+      </Position>
+      <Position>
+        <Filename Value="../../../mrg_radiobuttonitem.inc"/>
+        <Caret Line="141" Column="4" TopLine="123"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="30" Column="16" TopLine="9"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="31" Column="16" TopLine="9"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="30" Column="16" TopLine="9"/>
       </Position>
     </JumpHistory>
     <RunParams>

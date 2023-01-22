@@ -17,6 +17,7 @@ object Form1: TForm1
         Caption = 'Radiobutton 1'
         Selected = False
         ImageLeft = 102
+        DisplayName = 'MultiRadioButton'
       end>
     AutoSize = True
     TabOrder = 0
@@ -31,18 +32,22 @@ object Form1: TForm1
       item
         Caption = 'Radiobutton 1'
         Selected = True
+        DisplayName = 'MultiRadioButton'
       end    
       item
         Caption = 'Radiobutton 2'
         Selected = False
+        DisplayName = 'MultiRadioButton'
       end    
       item
         Caption = 'Radiobutton 3'
         Selected = False
+        DisplayName = 'MultiRadioButton'
       end    
       item
         Caption = 'Radiobutton 4'
         Selected = False
+        DisplayName = 'MultiRadioButton'
       end>
     TabOrder = 1
   end
@@ -66,6 +71,7 @@ object Form1: TForm1
         HoverColor = 52991
         Font.Color = clRed
         ParentFont = False
+        DisplayName = 'MultiRadioButton'
       end    
       item
         Caption = 'SkyBlue'
@@ -74,6 +80,7 @@ object Form1: TForm1
         HoverColor = 15775398
         Font.Color = clPurple
         ParentFont = False
+        DisplayName = 'MultiRadioButton'
       end    
       item
         Caption = 'Green'
@@ -82,6 +89,7 @@ object Form1: TForm1
         HoverColor = 1421077
         Font.Color = clWhite
         ParentFont = False
+        DisplayName = 'MultiRadioButton'
       end    
       item
         Caption = 'Fuchsia'
@@ -90,6 +98,7 @@ object Form1: TForm1
         HoverColor = 15109094
         Font.Color = clAqua
         ParentFont = False
+        DisplayName = 'MultiRadioButton'
       end>
     TabOrder = 2
   end
@@ -111,6 +120,7 @@ object Form1: TForm1
         ButtonSelColor = clFuchsia
         Selected = False
         HoverColor = clLime
+        DisplayName = 'MultiRadioButton'
       end    
       item
         Caption = 'John'
@@ -118,6 +128,7 @@ object Form1: TForm1
         ButtonSelColor = clRed
         Selected = False
         HoverColor = clAqua
+        DisplayName = 'MultiRadioButton'
       end    
       item
         Caption = 'William'
@@ -125,6 +136,7 @@ object Form1: TForm1
         ButtonSelColor = clMaroon
         Selected = False
         HoverColor = clYellow
+        DisplayName = 'MultiRadioButton'
       end    
       item
         Caption = 'Mike'
@@ -132,6 +144,7 @@ object Form1: TForm1
         ButtonSelColor = clNavy
         Selected = True
         HoverColor = clSkyBlue
+        DisplayName = 'MultiRadioButton'
       end>
     TabOrder = 3
   end
@@ -140,41 +153,55 @@ object Form1: TForm1
     Height = 110
     Top = 168
     Width = 249
+    FocusAlphaBValue = 200
+    FocusColor = clMaroon
+    ColorStart = clRed
+    ColorEnd = 34047
     RadioButtons = <    
       item
         Caption = 'Solid'
         Selected = True
+        HoverColor = 36607
         Images = ImageList1
         ImageIndex = 0
         ImageLeft = 97
+        DisplayName = 'MultiRadioButton'
       end    
       item
         Caption = 'Dash'
         Selected = False
+        HoverColor = 36607
         Images = ImageList1
         ImageIndex = 1
         ImageLeft = 97
+        DisplayName = 'MultiRadioButton'
       end    
       item
         Caption = 'Dot'
         Selected = False
+        HoverColor = 36607
         Images = ImageList1
         ImageIndex = 2
         ImageLeft = 97
+        DisplayName = 'MultiRadioButton'
       end    
       item
         Caption = 'Dash Dot'
         Selected = False
+        HoverColor = 36607
         Images = ImageList1
         ImageIndex = 3
         ImageLeft = 97
+        DisplayName = 'MultiRadioButton'
       end    
       item
         Caption = 'Dash Dot Dot'
         Selected = False
+        HoverColor = 36607
         Images = ImageList1
         ImageIndex = 4
         ImageLeft = 97
+        DisplayName = 'MultiRadioButton'
       end>
     Constraints.MinHeight = 110
     TabOrder = 4
@@ -200,6 +227,7 @@ object Form1: TForm1
         ImageIndex = 5
         ImageLeft = 19
         ImageTop = 2
+        DisplayName = 'MultiRadioButton'
       end    
       item
         Caption = ' '
@@ -210,6 +238,7 @@ object Form1: TForm1
         ImageIndex = 6
         ImageLeft = 19
         ImageTop = 2
+        DisplayName = 'MultiRadioButton'
       end    
       item
         Caption = ' '
@@ -220,6 +249,7 @@ object Form1: TForm1
         ImageIndex = 7
         ImageLeft = 19
         ImageTop = 2
+        DisplayName = 'MultiRadioButton'
       end    
       item
         Caption = ' '
@@ -230,6 +260,7 @@ object Form1: TForm1
         ImageIndex = 8
         ImageLeft = 19
         ImageTop = 2
+        DisplayName = 'MultiRadioButton'
       end    
       item
         Caption = ' '
@@ -240,6 +271,7 @@ object Form1: TForm1
         ImageIndex = 9
         ImageLeft = 19
         ImageTop = 2
+        DisplayName = 'MultiRadioButton'
       end>
     AutoSize = True
     Constraints.MinHeight = 150
@@ -267,6 +299,7 @@ object Form1: TForm1
         Images = ImageList2
         ImageIndex = 0
         ImageLeft = 5
+        DisplayName = 'MultiRadioButton'
       end    
       item
         Caption = 'Cloudy'
@@ -277,6 +310,7 @@ object Form1: TForm1
         Images = ImageList2
         ImageIndex = 1
         ImageLeft = 5
+        DisplayName = 'MultiRadioButton'
       end    
       item
         Caption = 'Rain'
@@ -287,6 +321,7 @@ object Form1: TForm1
         Images = ImageList2
         ImageIndex = 2
         ImageLeft = 5
+        DisplayName = 'MultiRadioButton'
       end    
       item
         Caption = 'Thunderstorm'
@@ -297,6 +332,7 @@ object Form1: TForm1
         Images = ImageList2
         ImageIndex = 3
         ImageLeft = 5
+        DisplayName = 'MultiRadioButton'
       end>
     AutoSize = True
     Constraints.MinHeight = 120
@@ -343,24 +379,28 @@ object Form1: TForm1
           ButtonSelColor = clRed
           Selected = False
           HoverColor = 51967
+          DisplayName = 'GroupItem_0'
         end      
         item
           Caption = 'Giraffe'
           ButtonSelColor = clRed
           Selected = False
           HoverColor = 51967
+          DisplayName = 'GroupItem_1'
         end      
         item
           Caption = 'Lion'
           ButtonSelColor = clRed
           Selected = True
           HoverColor = 51967
+          DisplayName = 'GroupItem_2'
         end      
         item
           Caption = 'Zebra'
           ButtonSelColor = clRed
           Selected = False
           HoverColor = 51967
+          DisplayName = 'GroupItem_3'
         end>
       GroupIndex = 1
       TabOrder = 0
@@ -384,24 +424,28 @@ object Form1: TForm1
           ButtonSelColor = clRed
           Selected = False
           HoverColor = 51967
+          DisplayName = 'GroupItem_4'
         end      
         item
           Caption = 'Cat'
           ButtonSelColor = clRed
           Selected = False
           HoverColor = 51967
+          DisplayName = 'GroupItem_5'
         end      
         item
           Caption = 'Hamster'
           ButtonSelColor = clRed
           Selected = False
           HoverColor = 51967
+          DisplayName = 'GroupItem_6'
         end      
         item
           Caption = 'Rabbit'
           ButtonSelColor = clRed
           Selected = False
           HoverColor = 51967
+          DisplayName = 'GroupItem_7'
         end>
       GroupIndex = 1
       TabOrder = 1
@@ -425,12 +469,14 @@ object Form1: TForm1
           ButtonSelColor = clRed
           Selected = False
           HoverColor = 51967
+          DisplayName = 'GroupItem_8'
         end      
         item
           Caption = 'Whale'
           ButtonSelColor = clRed
           Selected = False
           HoverColor = 51967
+          DisplayName = 'GroupItem_9'
         end>
       GroupIndex = 1
       TabOrder = 2
