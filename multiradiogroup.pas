@@ -602,7 +602,7 @@ begin
 end;
 
 procedure TMultiRadioGroup.CNKeyDown(var Message: TLMKeyDown);
-var lv : integer;
+var lv,i : integer;
 begin
   if not FEnabled then exit;
   with Message do begin
@@ -628,7 +628,32 @@ begin
                         break;
                       end;
                    end;
-
+        VK_Right  : begin
+                     for lv :=  0 to pred(Parent.ControlCount) do
+                      if (Parent.Controls[lv] <> self) then
+                       if (Parent.Controls[lv] is TMultiRadioGroup) then
+                        if TMultiRadioGroup(Parent.Controls[lv]).FGroupIndex = FGroupIndex then
+                         if TMultiRadioGroup(Parent.Controls[lv]).TabOrder = TabOrder+1 then
+                          begin
+                           TMultiRadioGroup(Parent.Controls[lv]).RadioButtons.Items[0].Selected:= true;
+                           TMultiRadioGroup(Parent.Controls[lv]).SetFocus;
+                           for i := 0 to pred(RadioButtons.Count) do
+                             RadioButtons.Items[i].Selected:= false;
+                          end;
+                     end;
+        VK_Left   : begin
+                     for lv :=  0 to pred(Parent.ControlCount) do
+                      if (Parent.Controls[lv] <> self) then
+                       if (Parent.Controls[lv] is TMultiRadioGroup) then
+                        if TMultiRadioGroup(Parent.Controls[lv]).FGroupIndex = FGroupIndex then
+                         if TMultiRadioGroup(Parent.Controls[lv]).TabOrder = TabOrder-1 then
+                          begin
+                           TMultiRadioGroup(Parent.Controls[lv]).RadioButtons.Items[0].Selected:= true;
+                           TMultiRadioGroup(Parent.Controls[lv]).SetFocus;
+                           for i := 0 to pred(RadioButtons.Count) do
+                             RadioButtons.Items[i].Selected:= false;
+                          end;
+                     end
       else begin
         Result := 0;
       end;
