@@ -37,7 +37,7 @@ interface
 uses
   Classes, SysUtils, FPImage, Contnrs, LResources, Forms, Controls, Graphics,
   Dialogs, infmultis, LCLProc, LCLIntf, LMessages, LCLType, ImgList,
-  GraphPropEdits, PropEdits, LCLVersion;
+  GraphPropEdits, PropEdits, LCLVersion, multipanel, multilayer;
 
 type
   TChangeEvent = procedure(Sender: TObject;const aIndex: integer) of object;
@@ -512,10 +512,14 @@ begin
 end;
 
 procedure TMultiRadioGroup.MouseLeave;
+var lv : integer;
 begin
   inherited MouseLeave;
   if not FEnabled then exit;
   if Assigned(OnMouseLeave) then OnMouseLeave(self);
+  for lv := 0 to pred(RadioButtons.Count) do
+   RadioButtons.Items[lv].FHover:= false;
+  Invalidate;
 end;
 
 procedure TMultiRadioGroup.MouseDown(Button: TMouseButton; Shift: TShiftState;
@@ -1174,6 +1178,19 @@ var tmpBmp     : TBitmap;
 
 begin
   inherited Paint;
+  if Parent is TMultiPanel then
+  begin
+   if assigned((Parent as TMultiPanel).FMultiBkgrdBmp) then
+    canvas.CopyRect(rect(0,0,width,height),(Parent as TMultiPanel).FMultiBkgrdBmp.Canvas,rect(left,top,left+width,top+height));
+  end;
+ if Parent is TMultiLayer then
+  begin
+   if (Parent as TMultiLayer).ParentIsMultiPanel then
+    canvas.CopyRect(rect(0,0,width,height),(Parent as TMultiLayer).FMultiBkgrdBmp.Canvas,rect(left,top,left+width,top+height));
+  end;
+
+
+
   //draw the Focusframe
  if (Focused=true) and (FFocusedOn = true) then
   begin
@@ -1194,8 +1211,7 @@ begin
     tmpBmp.Free;
    end;
  end;
-
- DrawRadioGroup;
+ if (ColorStart <> clNone) and (ColorEnd <> clNone) then DrawRadioGroup;
 
  canvas.Brush.Style:= bsClear;
  canvas.Font.Assign(FFont);

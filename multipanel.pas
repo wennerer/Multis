@@ -577,7 +577,7 @@ type
 procedure Register;
 
 implementation
-uses multibutton, multiplexslider, multilayer;
+uses multibutton, multiplexslider, multilayer,MultiRadioGroup;
 
 type
   TMultiPanelImageIndexPropertyEditor = class(TImageIndexPropertyEditor)
@@ -2042,6 +2042,7 @@ begin
       if Controls[lv] is TMultiButton then (Controls[lv] as TMultiButton).Invalidate;
       if Controls[lv] is TMultiplexSlider then (Controls[lv] as TMultiplexSlider).Invalidate;
       if Controls[lv] is TMultiLayer then (Controls[lv] as TMultiLayer).Invalidate;
+      if Controls[lv] is TMultiRadioGroup then (Controls[lv] as TMultiRadioGroup).Invalidate;
      end;
 
   if not FRunThroughPaint  and not (csDesigning in Componentstate) then  //copys the canvas of the panel for appear/disappear

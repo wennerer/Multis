@@ -51,33 +51,43 @@ object Form1: TForm1
     Height = 120
     Top = 24
     Width = 210
-    Caption = 'MultiRadioGroup:'
+    Caption = 'Colors:'
+    Font.Style = [fsBold]
+    FocusColor = clWhite
+    Style = mssRect
+    ColorGradient = gcHorizontal
+    ColorStart = clCream
+    ColorEnd = 13885926
     RadioButtons = <    
       item
-        Caption = 'Radiobutton 1'
+        Caption = 'Yellow'
         Color = clYellow
         Selected = True
+        HoverColor = 52991
         Font.Color = clRed
         ParentFont = False
       end    
       item
-        Caption = 'Radiobutton 2'
+        Caption = 'SkyBlue'
         Color = clSkyBlue
         Selected = False
+        HoverColor = 15775398
         Font.Color = clPurple
         ParentFont = False
       end    
       item
-        Caption = 'Radiobutton 3'
+        Caption = 'Green'
         Color = clGreen
         Selected = False
+        HoverColor = 1421077
         Font.Color = clWhite
         ParentFont = False
       end    
       item
-        Caption = 'Radiobutton 4'
+        Caption = 'Fuchsia'
         Color = clFuchsia
         Selected = False
+        HoverColor = 15109094
         Font.Color = clAqua
         ParentFont = False
       end>
@@ -88,7 +98,7 @@ object Form1: TForm1
     Height = 120
     Top = 24
     Width = 210
-    Caption = 'MultiRadioGroup:'
+    Caption = 'Agent:'
     Font.Color = clWhite
     Font.Style = [fsBold]
     FocusColor = clMaroon
@@ -96,28 +106,28 @@ object Form1: TForm1
     ColorEnd = clFuchsia
     RadioButtons = <    
       item
-        Caption = 'Radiobutton 1'
+        Caption = 'Bob'
         ButtonColor = clLime
         ButtonSelColor = clFuchsia
         Selected = False
         HoverColor = clLime
       end    
       item
-        Caption = 'Radiobutton 2'
+        Caption = 'John'
         ButtonColor = clAqua
         ButtonSelColor = clRed
         Selected = False
         HoverColor = clAqua
       end    
       item
-        Caption = 'Radiobutton 3'
+        Caption = 'William'
         ButtonColor = clYellow
         ButtonSelColor = clMaroon
         Selected = False
         HoverColor = clYellow
       end    
       item
-        Caption = 'Radiobutton 4'
+        Caption = 'Mike'
         ButtonColor = clMoneyGreen
         ButtonSelColor = clNavy
         Selected = True
@@ -291,6 +301,140 @@ object Form1: TForm1
     AutoSize = True
     Constraints.MinHeight = 120
     TabOrder = 6
+  end
+  object MultiPanel1: TMultiPanel
+    Left = 160
+    Top = 336
+    Width = 672
+    Style = mpsRoundRect
+    ColorStart = clLime
+    ColorEnd = clYellow
+    ColorGradient = gcVertical
+    BorderSettings.OuterColor = clFuchsia
+    Caption = 'Animals'
+    Font.Color = clFuchsia
+    Font.Height = 16
+    CaptionLayout = tlTop
+    CaptionVerMargin = 3
+    StrPolygon = (
+      '50'
+      '2'
+      '98'
+      '98'
+      '2'
+      '98'
+      '50'
+      '2'
+    )
+    object MultiRadioGroup8: TMultiRadioGroup
+      Left = 24
+      Height = 104
+      Top = 32
+      Width = 210
+      Font.Color = clFuchsia
+      FocusFrameWidth = 1
+      FocusFrameOn = False
+      Style = mssRect
+      ColorGradient = gcAlternate
+      ColorStart = clNone
+      RadioButtons = <      
+        item
+          Caption = 'Elephant'
+          ButtonSelColor = clRed
+          Selected = False
+          HoverColor = 51967
+        end      
+        item
+          Caption = 'Giraffe'
+          ButtonSelColor = clRed
+          Selected = False
+          HoverColor = 51967
+        end      
+        item
+          Caption = 'Lion'
+          ButtonSelColor = clRed
+          Selected = True
+          HoverColor = 51967
+        end      
+        item
+          Caption = 'Zebra'
+          ButtonSelColor = clRed
+          Selected = False
+          HoverColor = 51967
+        end>
+      GroupIndex = 1
+      TabOrder = 0
+    end
+    object MultiRadioGroup9: TMultiRadioGroup
+      AnchorSideLeft.Control = MultiRadioGroup8
+      AnchorSideLeft.Side = asrBottom
+      Left = 234
+      Height = 104
+      Top = 32
+      Width = 210
+      Font.Color = clFuchsia
+      FocusFrameWidth = 1
+      FocusFrameOn = False
+      Style = mssRect
+      ColorGradient = gcAlternate
+      ColorStart = clNone
+      RadioButtons = <      
+        item
+          Caption = 'Dog'
+          ButtonSelColor = clRed
+          Selected = False
+          HoverColor = 51967
+        end      
+        item
+          Caption = 'Cat'
+          ButtonSelColor = clRed
+          Selected = False
+          HoverColor = 51967
+        end      
+        item
+          Caption = 'Hamster'
+          ButtonSelColor = clRed
+          Selected = False
+          HoverColor = 51967
+        end      
+        item
+          Caption = 'Rabbit'
+          ButtonSelColor = clRed
+          Selected = False
+          HoverColor = 51967
+        end>
+      GroupIndex = 1
+      TabOrder = 1
+    end
+    object MultiRadioGroup10: TMultiRadioGroup
+      AnchorSideLeft.Control = MultiRadioGroup9
+      AnchorSideLeft.Side = asrBottom
+      Left = 444
+      Height = 52
+      Top = 32
+      Width = 210
+      Font.Color = clFuchsia
+      FocusFrameWidth = 1
+      FocusFrameOn = False
+      Style = mssRect
+      ColorGradient = gcAlternate
+      ColorStart = clNone
+      RadioButtons = <      
+        item
+          Caption = 'Dolphin'
+          ButtonSelColor = clRed
+          Selected = False
+          HoverColor = 51967
+        end      
+        item
+          Caption = 'Whale'
+          ButtonSelColor = clRed
+          Selected = False
+          HoverColor = 51967
+        end>
+      GroupIndex = 1
+      TabOrder = 2
+    end
   end
   object ImageList1: TImageList
     Width = 100
