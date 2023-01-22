@@ -1,6 +1,6 @@
 { <A RadioGroup in the multi design>
   <Version 1.0.0.2>
-  Copyright (C) <21.01.2023> <Bernd Hübner>
+  Copyright (C) <22.01.2023> <Bernd Hübner>
 
   This library is free software; you can redistribute it and/or modify it under the
   terms of the GNU Library General Public License as published by the Free Software
@@ -279,7 +279,6 @@ type
     FFocusColor             : TColor;
     FFocusedOn              : boolean;
     FFocusFrameWidth        : integer;
-    FForegroundFocusOn      : boolean;
     FGradient               : TGradientCourse;
     FRRRadius               : integer;
     FStyle                  : TMRadioStyle;
@@ -303,7 +302,6 @@ type
     procedure SetFocusedOn(AValue: boolean);
     procedure SetFocusFrameWidth(AValue: integer);
     procedure SetFont(AValue: TFont);
-    procedure SetForegroundFocusOn(AValue: boolean);
     procedure SetGradient(AValue: TGradientCourse);
     procedure SetGroupIndex(AValue: integer);
     procedure SetRadioButton(AValue: TMRadioButtons);
@@ -378,23 +376,20 @@ type
    //The color of the Fokusframe/Foregroundfocus when the Control has the focus
    //Die Farbe des Fokusrahmens/Foregroundfocus wenn das Control den Fokus hat
    property FocusColor : TColor read FFocusColor write SetFocusColor default clOlive;
-   //Indicates when the RadioGroup has focus
-   //Zeigt an wenn die RadioGroup den Fokus besitzt
+   //Switches the focus frame on and off
+   //Schaltet den Fokusrahmen ein und aus
    property FocusFrameOn : boolean read FFocusedOn write SetFocusedOn default true;
-   //Indicates when the RadioGroup has focus
-   //Zeigt an wenn die RadioGroup den Fokus besitzt
-   property ForegroundFocusOn : boolean read FForegroundFocusOn write SetForegroundFocusOn default false;
    //The geometric shape of the RadioGroup
-   //Die geometrische Form des RadioGroups
+   //Die geometrische Form der RadioGroup
    property Style      : TMRadioStyle read FStyle write SetStyle default mssRoundRect;
    //The direction of the gradient
    //Die Richtung des Farbverlaufs
    property ColorGradient : TGradientCourse read FGradient write SetGradient default gcSpread;
    //The start color of the RadioGroup ( for color gradient)
-   //Die Startfarbe des RadioGroups (für Farbverlauf)
+   //Die Startfarbe der RadioGroup (für Farbverlauf)
    property ColorStart : TColor  read FColorStart      write SetColorStart default clGray;
    //The end color of the RadioGroup ( for color gradient)
-   //Die Endfarbe des RadioGroups (für Farbverlauf)
+   //Die Endfarbe der RadioGroup (für Farbverlauf)
    property ColorEnd   : TColor  read FColorEnd   write SetColorEnd default clSilver;
    //Corner diameter if the geometric shape is RoundRect
    //Eckendurchmesser wenn geometrische Form ist RoundRect
@@ -478,7 +473,6 @@ begin
   FFocusFrameWidth      :=   5;
   FFocusedOn            := true;
   FFocusColor           := clOlive;
-  FForegroundFocusOn    := false;
   FStyle                := mssRoundRect;
   FGradient             := gcSpread;
   FRRRadius             := 10;
@@ -846,13 +840,6 @@ procedure TMultiRadioGroup.SetFont(AValue: TFont);
 begin
   if FFont=AValue then Exit;
   FFont.Assign(aValue);
-  Invalidate;
-end;
-
-procedure TMultiRadioGroup.SetForegroundFocusOn(AValue: boolean);
-begin
-  if FForegroundFocusOn=AValue then Exit;
-  FForegroundFocusOn:=AValue;
   Invalidate;
 end;
 

@@ -560,8 +560,8 @@ type
    //The color of the Fokusframe/Foregroundfocus when the Control has the focus
    //Die Farbe des Fokusrahmens/Foregroundfocus wenn das Control den Fokus hat
    property FocusColor : TColor read FFocusColor write SetFocusColor default clOlive;
-   //Indicates when the button has focus
-   //Zeigt an wenn der Button den Fokus besitzt
+   //Switches the focus frame on and off
+   //Schaltet den Fokusrahmen ein und aus
    property FocusFrameOn : boolean read FFocusedOn write SetFocusedOn default true;
    //Indicates when the button has focus
    //Zeigt an wenn der Button den Fokus besitzt
