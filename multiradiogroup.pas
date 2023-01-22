@@ -570,10 +570,13 @@ begin
    if RadioButtons.Items[lv].FEnabled then
     if PtInRect(RadioButtons.Items[lv].FHotspot,Point(x,y)) then
      begin
+      if not RadioButtons.Items[lv].Selected then
+       begin
+        if Assigned(OnChange) then OnChange(self,RadioButtons.Items[lv].Index);
+        if FGRoupIndex <> 0 then
+         if Assigned(OnGroupChange) then OnGroupChange(self);
+       end;
       RadioButtons.Items[lv].Selected:= true;
-      if Assigned(OnChange) then OnChange(self,RadioButtons.Items[lv].Index);
-      if FGRoupIndex <> 0 then
-       if Assigned(OnGroupChange) then OnGroupChange(self);
      end;
  Invalidate;
 end;
