@@ -105,6 +105,7 @@ begin
   FImageLeft           := 0;
   FImageTop            := 0;
   FDisplayName         := 'MultiRadioButton';
+  FTag                 := 0;
 
   FImageListChangeLink := TChangeLink.Create;
   FImageListChangeLink.OnChange := @ImagesChanged;

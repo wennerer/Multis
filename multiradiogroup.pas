@@ -130,6 +130,7 @@ type
      FHeight               : integer;
      FParentFont           : boolean;
      FSelected             : Boolean;
+     FTag                  : integer;
      FTextStyle            : TTextStyle;
      FVisible              : Boolean;
      FWidth                : integer;
@@ -236,6 +237,8 @@ type
     //The name that is displayed in the TreeView of the Object Inspector.
     //Der Name der im TreeView des Objektinspektors angezeigt wird
     property DisplayName : string read GetDisplayName write SetDisplayName;
+
+    property Tag : integer read FTag write FTag default 0;
    end;
 
 
@@ -281,6 +284,7 @@ type
     FStyle                  : TMRadioStyle;
     FRadioGroupBounds       : TRect;
     FOnMouseMove            : TMouseMoveEvent;
+
 
     function CreateRadioButtons: TMRadioButtons;
     function GetRadioButton: TMRadioButtons;
@@ -409,6 +413,8 @@ type
    //The Index within the group of MultiRadioGroups
    //Der Index der Gruppe zu der die MultiRadioGroup gehört
    property GroupIndex : integer read FGRoupIndex write SetGroupIndex default 0;
+
+
 
    property DragMode;
    property DragKind;
@@ -637,6 +643,9 @@ begin
                           begin
                            TMultiRadioGroup(Parent.Controls[lv]).RadioButtons.Items[0].Selected:= true;
                            TMultiRadioGroup(Parent.Controls[lv]).SetFocus;
+                           if Assigned(OnChange) then
+                            OnChange(TMultiRadioGroup(Parent.Controls[lv]),
+                                     TMultiRadioGroup(Parent.Controls[lv]).RadioButtons.Items[0].Index);
                            for i := 0 to pred(RadioButtons.Count) do
                              RadioButtons.Items[i].Selected:= false;
                           end;
@@ -650,6 +659,9 @@ begin
                           begin
                            TMultiRadioGroup(Parent.Controls[lv]).RadioButtons.Items[0].Selected:= true;
                            TMultiRadioGroup(Parent.Controls[lv]).SetFocus;
+                           if Assigned(OnChange) then
+                            OnChange(TMultiRadioGroup(Parent.Controls[lv]),
+                                     TMultiRadioGroup(Parent.Controls[lv]).RadioButtons.Items[0].Index);
                            for i := 0 to pred(RadioButtons.Count) do
                              RadioButtons.Items[i].Selected:= false;
                           end;
