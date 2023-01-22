@@ -130,7 +130,7 @@ type
      FHeight               : integer;
      FParentFont           : boolean;
      FSelected             : Boolean;
-     FTag                  : integer;
+     FTag                  : PtrInt;
      FTextStyle            : TTextStyle;
      FVisible              : Boolean;
      FWidth                : integer;
@@ -237,8 +237,9 @@ type
     //The name that is displayed in the TreeView of the Object Inspector.
     //Der Name der im TreeView des Objektinspektors angezeigt wird
     property DisplayName : string read GetDisplayName write SetDisplayName;
-
-    property Tag : integer read FTag write FTag default 0;
+    //Can be used to store an integer value in the component
+    //Kann verwendet werden, um einen ganzzahligen Wert in der Komponente zu speichern
+    property Tag : PtrInt read FTag write FTag default 0;
    end;
 
 

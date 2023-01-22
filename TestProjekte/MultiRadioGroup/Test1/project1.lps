@@ -20,7 +20,6 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
-        <IsVisibleTab Value="True"/>
         <TopLine Value="36"/>
         <CursorPos X="82" Y="57"/>
         <UsageCount Value="51"/>
@@ -30,12 +29,13 @@
       <Unit>
         <Filename Value="../../../multiradiogroup.pas"/>
         <UnitName Value="MultiRadioGroup"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="645"/>
-        <CursorPos X="38" Y="664"/>
+        <TopLine Value="223"/>
+        <CursorPos X="8" Y="240"/>
         <UsageCount Value="24"/>
         <Bookmarks Count="1">
-          <Item0 X="4" Y="417"/>
+          <Item0 X="4" Y="418"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit>
