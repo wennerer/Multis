@@ -40,6 +40,9 @@ uses
   GraphPropEdits, PropEdits, LCLVersion, multipanel, multilayer;
 
 type
+  TClickEvent = procedure(Sender: TObject) of object;
+
+type
   TChangeEvent = procedure(Sender: TObject;const aIndex: integer) of object;
 
 type
@@ -259,8 +262,10 @@ type
     FDisabledAlpBV          : integer;
     FDisabledColor          : TColor;
     FEnabled                : boolean;
+    FForegroundFocusOn      : boolean;
     FGRoupIndex             : integer;
     FOnChange               : TChangeEvent;
+    FOnClick: TClickEvent;
     FOnGroupChange          : TGroupChangeEvent;
     FFont                   : TFont;
     FOnEnter                : TNotifyEvent;
@@ -302,6 +307,7 @@ type
     procedure SetFocusedOn(AValue: boolean);
     procedure SetFocusFrameWidth(AValue: integer);
     procedure SetFont(AValue: TFont);
+    procedure SetForegroundFocusOn(AValue: boolean);
     procedure SetGradient(AValue: TGradientCourse);
     procedure SetGroupIndex(AValue: integer);
     procedure SetRadioButton(AValue: TMRadioButtons);
@@ -328,6 +334,7 @@ type
    function CalculateHotspot(aTeRect : TRect): TRect;
    procedure DrawRadioGroup;
    procedure DrawRadioButtons;
+   procedure DrawForegroundFocus;
    procedure SetAutoSize(Value: Boolean);override;
    procedure CalculatePreferredSize(var PreferredWidth,PreferredHeight: integer;WithThemeSpace: Boolean); override;
   public
@@ -379,6 +386,9 @@ type
    //Switches the focus frame on and off
    //Schaltet den Fokusrahmen ein und aus
    property FocusFrameOn : boolean read FFocusedOn write SetFocusedOn default true;
+   //Indicates when the slider has focus
+   //Zeigt an wenn der Slider den Fokus besitzt
+   property ForegroundFocusOn : boolean read FForegroundFocusOn write SetForegroundFocusOn default false;
    //The geometric shape of the RadioGroup
    //Die geometrische Form der RadioGroup
    property Style      : TMRadioStyle read FStyle write SetStyle default mssRoundRect;
@@ -426,6 +436,7 @@ type
    property Visible;
 
    property OnChange         : TChangeEvent read FOnChange write FOnChange;
+   property OnClick          : TClickEvent read FOnClick     write FOnClick;
    property OnMouseMove      : TMouseMoveEvent read FOnMouseMove write FOnMouseMove;
    property OnMouseDown      : TMouseEvent read FOnMouseDown write FOnMouseDown;
    property OnMouseUp        : TMouseEvent read FOnMouseUp write FOnMouseUp;
@@ -436,7 +447,10 @@ type
    property OnKeyPress       : TKeyPressEvent read FOnKeyPress write FOnKeyPress;
    property OnKeyDown        : TKeyEvent read FOnKeyDown write FOnKeyDown;
    property OnKeyUp          : TKeyEvent read FOnKeyUp write FOnKeyUp;
-
+   property OnDragDrop;
+   property OnDragOver;
+   property OnEndDrag;
+   property OnStartDrag;
   end;
 
 procedure Register;
@@ -486,6 +500,7 @@ begin
   TabStop               := TRUE;
   FAligningImages       := true;
   FGRoupIndex           := 0;
+  FForegroundFocusOn    := false;
   OnGroupChange        := @GroupIsChanged;
 
   FRadioButtons := CreateRadioButtons;  //TCollection
@@ -559,6 +574,7 @@ begin
  inherited MouseUp(Button, Shift, X, Y);
  if not FEnabled then exit;
  if Assigned(OnMouseUp) then OnMouseUp(self,Button,Shift,x,y);
+ if Assigned(OnClick) then OnClick(self);
  if parent.Visible then setfocus;
   for lv := 0 to pred(RadioButtons.Count) do
    if RadioButtons.Items[lv].FEnabled then
@@ -840,6 +856,13 @@ procedure TMultiRadioGroup.SetFont(AValue: TFont);
 begin
   if FFont=AValue then Exit;
   FFont.Assign(aValue);
+  Invalidate;
+end;
+
+procedure TMultiRadioGroup.SetForegroundFocusOn(AValue: boolean);
+begin
+  if FForegroundFocusOn=AValue then Exit;
+  FForegroundFocusOn:=AValue;
   Invalidate;
 end;
 
@@ -1142,6 +1165,7 @@ begin
   //the background of the Radiobuttons
    if RadioButtons.Items[lv].FColor <> clNone then
      begin
+      canvas.Brush.Style:= bsSolid;
       canvas.Brush.Color:= RadioButtons.Items[lv].FColor;
       Canvas.FillRect(RadioButtons.Items[lv].FHotspot);
      end;
@@ -1155,6 +1179,7 @@ begin
       end;
 
   //the radiobutton
+    canvas.Pen.Color  := RadioButtons.Items[lv].FButtonSelColor;
     canvas.Brush.Color:= RadioButtons.Items[lv].FButtonColor;
     canvas.Ellipse(ButRect);
 
@@ -1200,6 +1225,19 @@ begin
    end;
   end;//Count
 
+end;
+
+procedure TMultiRadioGroup.DrawForegroundFocus;
+var aRect : TRect;
+begin
+ Canvas.Brush.Style := bsClear;
+ Canvas.Pen.Color   := FFocusColor;
+ Canvas.Pen.Width   := 1;
+ aRect := rect(0,0,width,height);
+ case FStyle of
+  mssRoundRect : Canvas.RoundRect(aRect,FRRRadius,FRRRadius);
+  mssRect      : Canvas.Rectangle(aRect);
+ end;
 end;
 
 
@@ -1249,6 +1287,8 @@ begin
  canvas.Brush.Style:= bsSolid;
 
  DrawRadioButtons;
+
+ if FForegroundFocusOn and Focused then DrawForegroundFocus;
 
  //Enable
  if not FEnabled then
