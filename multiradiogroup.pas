@@ -1,6 +1,6 @@
 { <A RadioGroup in the multi design>
-  <Version 1.0.0.2>
-  Copyright (C) <22.01.2023> <Bernd Hübner>
+  <Version 1.0.0.3>
+  Copyright (C) <29.01.2023> <Bernd Hübner>
 
   This library is free software; you can redistribute it and/or modify it under the
   terms of the GNU Library General Public License as published by the Free Software
@@ -283,6 +283,7 @@ type
     FFocusAlBlVal           : byte;
     FFocusColor             : TColor;
     FFocusedOn              : boolean;
+    FFocusedOnTrue          : boolean;
     FFocusFrameWidth        : integer;
     FGradient               : TGradientCourse;
     FRRRadius               : integer;
@@ -518,6 +519,7 @@ end;
 procedure TMultiRadioGroup.Loaded;
 begin
   inherited Loaded;
+  if FFocusedOn then FFocusedOnTrue := true else FFocusedOnTrue := false;
   if not FEnabled then FFocusedOn := false;
   CalculateRadioGroup(FRadioGroupBounds);
 end;
@@ -774,7 +776,8 @@ procedure TMultiRadioGroup.SetEnabled(AValue: boolean);
 begin
   if FEnabled=AValue then Exit;
   FEnabled:=AValue;
-  if not FEnabled then FFocusedOn:= false else FFocusedOn := true;
+  if not FEnabled then FFocusedOn:= false else
+   if FFocusedOnTrue then FFocusedOn := true;
   Invalidate;
 end;
 
@@ -841,6 +844,7 @@ procedure TMultiRadioGroup.SetFocusedOn(AValue: boolean);
 begin
   if FFocusedOn=AValue then Exit;
   FFocusedOn:=AValue;
+  FFocusedOnTrue :=AValue;
   Invalidate;
 end;
 
