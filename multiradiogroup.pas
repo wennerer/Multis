@@ -1,6 +1,6 @@
 { <A RadioGroup in the multi design>
-  <Version 1.0.0.3>
-  Copyright (C) <29.01.2023> <Bernd Hübner>
+  <Version 1.0.0.4>
+  Copyright (C) <05.01.2023> <Bernd Hübner>
 
   This library is free software; you can redistribute it and/or modify it under the
   terms of the GNU Library General Public License as published by the Free Software
@@ -265,7 +265,7 @@ type
     FForegroundFocusOn      : boolean;
     FGRoupIndex             : integer;
     FOnChange               : TChangeEvent;
-    FOnClick: TClickEvent;
+    FOnClick                : TClickEvent;
     FOnGroupChange          : TGroupChangeEvent;
     FFont                   : TFont;
     FOnEnter                : TNotifyEvent;
@@ -286,12 +286,15 @@ type
     FFocusedOnTrue          : boolean;
     FFocusFrameWidth        : integer;
     FGradient               : TGradientCourse;
+    FRows                   : integer;
     FRRRadius               : integer;
     FStyle                  : TMRadioStyle;
     FRadioGroupBounds       : TRect;
     FOnMouseMove            : TMouseMoveEvent;
 
 
+    function CalculateTextRectWithWordbreak(aCaptionHeight, aTRH, aSpace, alv,
+      aRow: integer): TRect;
     function CreateRadioButtons: TMRadioButtons;
     function GetRadioButton: TMRadioButtons;
     function GetTextHeight(AText: String; AFont: TFont): Integer;
@@ -368,6 +371,7 @@ type
    //An internal event to group MultiRadioGroups together.
    //Ein internes Event um MultiRadioGroups zu Gruppen zusammen zufassen
    property OnGroupChange   : TGroupChangeEvent read FOnGroupChange write FOnGroupChange;
+
   published
    //The headline of the radio group
    //Die Überschrift der Radiogroup
@@ -420,8 +424,9 @@ type
    //The Index within the group of MultiRadioGroups
    //Der Index der Gruppe zu der die MultiRadioGroup gehört
    property GroupIndex : integer read FGRoupIndex write SetGroupIndex default 0;
-
-
+   //Number of lines when Wordbreak is active
+   //Anzahl der Zeilen wenn Wordbreak aktive
+   property Rows  : integer read FRows write FRows;
 
    property DragMode;
    property DragKind;
@@ -502,6 +507,7 @@ begin
   FAligningImages       := true;
   FGRoupIndex           := 0;
   FForegroundFocusOn    := false;
+  FRows                  := 1;
   OnGroupChange        := @GroupIsChanged;
 
   FRadioButtons := CreateRadioButtons;  //TCollection
@@ -575,7 +581,7 @@ var lv                    : integer;
 begin
  inherited MouseUp(Button, Shift, X, Y);
  if not FEnabled then exit;
- if Assigned(OnMouseUp) then OnMouseUp(self,Button,Shift,x,y);
+
  if Assigned(OnClick) then OnClick(self);
  if parent.Visible then setfocus;
   for lv := 0 to pred(RadioButtons.Count) do
@@ -590,6 +596,7 @@ begin
        end;
       RadioButtons.Items[lv].Selected:= true;
      end;
+ if Assigned(OnMouseUp) then OnMouseUp(self,Button,Shift,x,y);
  Invalidate;
 end;
 
@@ -1060,6 +1067,12 @@ begin
                  Width-FocusFrameWidth,aCaptionHeight+(aSpace*(alv+1))+aTRH+(alv*aTRH)+FocusFrameWidth);
 end;
 
+function TMultiRadioGroup.CalculateTextRectWithWordbreak(aCaptionHeight, aTRH, aSpace, alv,aRow: integer): TRect;
+begin
+ Result := rect(10+FocusFrameWidth +((aTRH div aRow)-2),aCaptionHeight+(aSpace*(alv+1))+(alv*aTRH)+FocusFrameWidth,
+                 Width-FocusFrameWidth,aCaptionHeight+(aSpace*(alv+1))+aTRH+(alv*aTRH)+FocusFrameWidth);
+end;
+
 function TMultiRadioGroup.CalculateButtonRect(aTeRect: TRect; aTRH: integer
   ): TRect;
 begin
@@ -1165,6 +1178,12 @@ begin
    ButRect := CalculateButtonRect(TeRect,TRH);
    SelRect := CalculateSelectedRect(ButRect,TRH);
    RadioButtons.Items[lv].FHotspot := CalculateHotspot(TeRect);
+
+   if RadioButtons.Items[lv].FCaptionWordbreak then
+    begin
+     TRH := TRH * FRows;
+     TeRect  := CalculateTextRectWithWordbreak(CaptionHeight,TRH,Space,lv,FRows);
+    end;
 
   //the background of the Radiobuttons
    if RadioButtons.Items[lv].FColor <> clNone then

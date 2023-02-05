@@ -1,6 +1,6 @@
 { <A seperator between Controls>
-  <Version 1.0.1.0>
-  Copyright (C) <11.01.2022> <Bernd Hübner>
+  <Version 1.0.1.1>
+  Copyright (C) <05.02.2023> <Bernd Hübner>
   Many thanks to the members of the German Lazarus Forum!
   for more information see https://www.lazarusforum.de/viewtopic.php?p=125633#p125633
 
@@ -37,6 +37,9 @@ interface
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs,InfMultis, CustomPen,
   LCLType, LCLIntf, ExtCtrls, rs_mbstylemanager, LCLProc;
+
+type
+  TClickEvent = procedure(Sender: TObject) of object;
 
 type
   TMSeperatorStyle = (mspRect,mspRoundRect);
@@ -86,6 +89,7 @@ type
    //Der Abstand der Linie zur Border
    property Margin default 4;
 
+
   end;
 
 
@@ -102,7 +106,8 @@ type
     FCustomPen          : TMSCustomPen;
     FGradient           : TGradientCourse;
     FBackgrdVisible     : boolean;   //this is not a published property clNone
-    FImage: TPicture;
+    FImage              : TPicture;
+    FOnClick            : TClickEvent;
     FOrientation        : TOrientation;
     FRRRadius           : integer;
     FSeperatorBounds    : TRect;
@@ -137,6 +142,7 @@ type
    constructor Create(AOwner: TComponent); override;
    destructor  Destroy; override;
    procedure   Paint; override;
+   procedure MouseUp({%H-}Button: TMouseButton; {%H-}Shift: TShiftState; {%H-}X, {%H-}Y: Integer);override;
   published
    //The geometric shape of the seperator
    //Die geometrische Form des Seperators
@@ -179,6 +185,7 @@ type
    property Visible;
    property Enabled;
 
+   property OnClick          : TClickEvent read FOnClick     write FOnClick;
   end;
 
 procedure Register;
@@ -501,6 +508,13 @@ begin
  if FBorderColor <> clNone then DrawABorder;
 
  ////debugln('paint');
+end;
+
+procedure TMultiSeperator.MouseUp(Button: TMouseButton; Shift: TShiftState; X,
+  Y: Integer);
+begin
+  inherited MouseUp(Button, Shift, X, Y);
+  if Assigned(OnClick) then OnClick(self);
 end;
 
 end.
