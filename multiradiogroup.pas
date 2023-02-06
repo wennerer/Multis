@@ -1,6 +1,6 @@
 { <A RadioGroup in the multi design>
-  <Version 1.0.0.4>
-  Copyright (C) <05.01.2023> <Bernd Hübner>
+  <Version 1.0.0.5>
+  Copyright (C) <06.02.2023> <Bernd Hübner>
 
   This library is free software; you can redistribute it and/or modify it under the
   terms of the GNU Library General Public License as published by the Free Software
@@ -535,6 +535,7 @@ begin
   inherited MouseEnter;
   if not FEnabled then exit;
   if Assigned(OnMouseEnter) then OnMouseEnter(self);
+  invalidate;
 end;
 
 procedure TMultiRadioGroup.MouseLeave;
@@ -701,12 +702,14 @@ end;
 procedure TMultiRadioGroup.DoExit;
 begin
   inherited DoExit;
+  invalidate;
   if Assigned(OnExit) then OnExit(self);
 end;
 
 procedure TMultiRadioGroup.DoEnter;
 begin
   inherited DoEnter;
+  invalidate;
   if Assigned(OnEnter) then OnEnter(self);
 end;
 
