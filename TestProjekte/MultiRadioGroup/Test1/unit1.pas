@@ -34,6 +34,7 @@ type
     MultiRadioGroup7: TMultiRadioGroup;
     MultiRadioGroup8: TMultiRadioGroup;
     MultiRadioGroup9: TMultiRadioGroup;
+    procedure MultiRadioGroup1Click(Sender: TObject; const aIndex: integer);
     procedure MultiRadioGroupsChange(Sender: TObject; const aIndex: integer);
   private
 
@@ -51,6 +52,13 @@ implementation
 { TForm1 }
 
 procedure TForm1.MultiRadioGroupsChange(Sender: TObject; const aIndex: integer);
+begin
+ Label2.Caption:= (Sender as TMultiRadioGroup).Name;
+ Label4.Caption:= inttostr(aIndex);
+ Label6.Caption:= inttostr((Sender as TMultiRadioGroup).RadioButtons[aIndex].Tag);
+end;
+
+procedure TForm1.MultiRadioGroup1Click(Sender: TObject; const aIndex: integer);
 begin
  Label2.Caption:= (Sender as TMultiRadioGroup).Name;
  Label4.Caption:= inttostr(aIndex);
