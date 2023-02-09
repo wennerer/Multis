@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, LCLIntf,
-  MultiPanel, MultiRadioGroup;
+  MultiPanel, MultiRadioGroup, MultiButton;
 
 type
 
@@ -21,6 +21,8 @@ type
     MultiRadioGroup1: TMultiRadioGroup;
     MultiRadioGroup2: TMultiRadioGroup;
     MultiRadioGroup3: TMultiRadioGroup;
+    MultiRadioGroup4: TMultiRadioGroup;
+    procedure FormShow(Sender: TObject);
     procedure MultiRadioGroup1Change(Sender: TObject; const aIndex: integer);
     procedure MultiRadioGroup1Click(Sender: TObject; const aIndex: integer);
   private
@@ -48,6 +50,11 @@ procedure TForm1.MultiRadioGroup1Change(Sender: TObject; const aIndex: integer);
 begin
  Label4.Font.Color:= RGB(random(255),random(255),random(255));
  Label4.Caption:= inttostr(aIndex);
+end;
+
+procedure TForm1.FormShow(Sender: TObject);
+begin
+
 end;
 
 

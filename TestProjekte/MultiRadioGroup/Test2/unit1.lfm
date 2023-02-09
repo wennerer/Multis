@@ -2,15 +2,16 @@ object Form1: TForm1
   Left = 457
   Height = 352
   Top = 250
-  Width = 532
+  Width = 892
   Caption = 'Test the MultiRadioGroup'
   ClientHeight = 352
-  ClientWidth = 532
+  ClientWidth = 892
+  OnShow = FormShow
   object MultiPanel1: TMultiPanel
     Left = 15
     Height = 174
     Top = 43
-    Width = 490
+    Width = 673
     Style = mpsRoundRect
     ColorStart = 3289664
     ColorEnd = 6974072
@@ -26,12 +27,14 @@ object Form1: TForm1
       '2'
     )
     object MultiRadioGroup1: TMultiRadioGroup
+      AnchorSideTop.Control = MultiPanel1
       Left = 24
       Height = 144
-      Top = 16
+      Top = 11
       Width = 154
       Font.Color = clWhite
       FocusFrameOn = False
+      ForegroundFocusOn = True
       ColorStart = clNone
       RadioButtons = <      
         item
@@ -72,18 +75,23 @@ object Form1: TForm1
         end>
       GroupIndex = 1
       Rows = 1
+      BorderSpacing.Top = 10
       TabOrder = 0
       OnChange = MultiRadioGroup1Change
       OnClick = MultiRadioGroup1Click
     end
     object MultiRadioGroup2: TMultiRadioGroup
-      Left = 168
-      Height = 144
-      Top = 16
+      AnchorSideLeft.Control = MultiRadioGroup1
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = MultiPanel1
+      Left = 178
+      Height = 96
+      Top = 11
       Width = 154
       Font.Color = clWhite
       FocusFrameOn = False
       ColorStart = clNone
+      TabStop = False
       RadioButtons = <      
         item
           Caption = 'Radiobutton 6'
@@ -106,7 +114,27 @@ object Form1: TForm1
           HoverColor = clGray
           DisplayName = 'MultiRadioButton'
           Tag = 8
-        end      
+        end>
+      GroupIndex = 1
+      Rows = 1
+      BorderSpacing.Top = 10
+      TabOrder = 1
+      OnChange = MultiRadioGroup1Change
+      OnClick = MultiRadioGroup1Click
+    end
+    object MultiRadioGroup3: TMultiRadioGroup
+      AnchorSideLeft.Control = MultiRadioGroup2
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = MultiPanel1
+      Left = 332
+      Height = 144
+      Top = 11
+      Width = 154
+      Font.Color = clWhite
+      FocusFrameOn = False
+      ColorStart = clNone
+      TabStop = False
+      RadioButtons = <      
         item
           Caption = 'Radiobutton 9'
           Selected = False
@@ -118,24 +146,10 @@ object Form1: TForm1
           Caption = 'Radiobutton 10'
           Selected = False
           HoverColor = clGray
+          ImageWidth = 2
           DisplayName = 'MultiRadioButton'
           Tag = 10
-        end>
-      GroupIndex = 1
-      Rows = 1
-      TabOrder = 1
-      OnChange = MultiRadioGroup1Change
-      OnClick = MultiRadioGroup1Click
-    end
-    object MultiRadioGroup3: TMultiRadioGroup
-      Left = 312
-      Height = 144
-      Top = 16
-      Width = 154
-      Font.Color = clWhite
-      FocusFrameOn = False
-      ColorStart = clNone
-      RadioButtons = <      
+        end      
         item
           Caption = 'Radiobutton 11'
           Selected = False
@@ -147,7 +161,6 @@ object Form1: TForm1
           Caption = 'Radiobutton 12'
           Selected = False
           HoverColor = clGray
-          ImageWidth = 2
           DisplayName = 'MultiRadioButton'
           Tag = 12
         end      
@@ -157,7 +170,27 @@ object Form1: TForm1
           HoverColor = clGray
           DisplayName = 'MultiRadioButton'
           Tag = 13
-        end      
+        end>
+      GroupIndex = 1
+      Rows = 1
+      BorderSpacing.Top = 10
+      TabOrder = 2
+      OnChange = MultiRadioGroup1Change
+      OnClick = MultiRadioGroup1Click
+    end
+    object MultiRadioGroup4: TMultiRadioGroup
+      AnchorSideLeft.Control = MultiRadioGroup3
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = MultiPanel1
+      Left = 486
+      Height = 120
+      Top = 11
+      Width = 154
+      Font.Color = clWhite
+      FocusFrameOn = False
+      ColorStart = clNone
+      TabStop = False
+      RadioButtons = <      
         item
           Caption = 'Radiobutton 14'
           Selected = False
@@ -169,12 +202,27 @@ object Form1: TForm1
           Caption = 'Radiobutton 15'
           Selected = False
           HoverColor = clGray
+          ImageWidth = 2
           DisplayName = 'MultiRadioButton'
           Tag = 15
+        end      
+        item
+          Caption = 'Radiobutton 16'
+          Selected = False
+          HoverColor = clGray
+          DisplayName = 'MultiRadioButton'
+          Tag = 16
+        end      
+        item
+          Caption = 'Radiobutton 17'
+          Selected = False
+          DisplayName = 'MultiRadioButton'
+          Tag = 17
         end>
       GroupIndex = 1
       Rows = 1
-      TabOrder = 2
+      BorderSpacing.Top = 10
+      TabOrder = 3
       OnChange = MultiRadioGroup1Change
       OnClick = MultiRadioGroup1Click
     end

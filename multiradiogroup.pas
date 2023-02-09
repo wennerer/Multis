@@ -291,8 +291,9 @@ type
     FStyle                  : TMRadioStyle;
     FRadioGroupBounds       : TRect;
     FOnMouseMove            : TMouseMoveEvent;
+    FLastIndex              : integer;
     FLRFlag                 : boolean;
-
+    TabFlag                 : boolean;
 
     function CalculateTextRectWithWordbreak(aCaptionHeight, aTRH, aSpace, alv,
       aRow: integer): TRect;
@@ -343,6 +344,7 @@ type
    procedure SetAutoSize(Value: Boolean);override;
    procedure CalculatePreferredSize(var PreferredWidth,PreferredHeight: integer;WithThemeSpace: Boolean); override;
   public
+
    constructor Create(AOwner: TComponent); override;
    destructor Destroy; override;
    procedure Paint; override;
@@ -633,6 +635,7 @@ procedure TMultiRadioGroup.KeyDown(var Key: Word; Shift: TShiftState);
 begin
   inherited KeyDown(Key, Shift);
   if Assigned(OnKeyDown) then OnKeyDown(self,Key,Shift);
+  if key = vk_TAB then TabFlag := true;
 end;
 
 procedure TMultiRadioGroup.KeyUp(var Key: Word; Shift: TShiftState);
@@ -673,12 +676,14 @@ begin
                     end;
                     if FGRoupIndex <> 0 then
                      begin
+                      FLRFlag := true;
                       for lv := 0 to pred(RadioButtons.Count) do
                        if RadioButtons.Items[lv].FHover = true then
                         if lv > 0 then
                          begin
                           RadioButtons.Items[lv-1].FHover := true;
                           RadioButtons.Items[lv].FHover := false;
+                          FLastIndex := RadioButtons.Items[lv-1].Index;
                           break;
                         end;
                      end;
@@ -707,12 +712,14 @@ begin
                     end;
                     if FGRoupIndex <> 0 then
                      begin
+                      FLRFlag := true;
                       for lv := 0 to pred(RadioButtons.Count) do
                        if RadioButtons.Items[lv].FHover = true then
                         if lv < pred(RadioButtons.Count) then
                          begin
                           RadioButtons.Items[lv+1].FHover := true;
                           RadioButtons.Items[lv].FHover := false;
+                          FLastIndex := RadioButtons.Items[lv+1].Index;
                           break;
                         end;
                      end;
@@ -732,14 +739,11 @@ begin
                         if TMultiRadioGroup(Parent.Controls[lv]).FGroupIndex = FGroupIndex then
                          if TMultiRadioGroup(Parent.Controls[lv]).TabOrder = TabOrder+1 then
                           begin
-                           //TMultiRadioGroup(Parent.Controls[lv]).RadioButtons.Items[0].Selected:= true;
-                           TMultiRadioGroup(Parent.Controls[lv]).RadioButtons.Items[0].FHover:= true;
+                           if FLastIndex > pred(TMultiRadioGroup(Parent.Controls[lv]).RadioButtons.Count) then
+                            FLastIndex := pred(TMultiRadioGroup(Parent.Controls[lv]).RadioButtons.Count);
+                           TMultiRadioGroup(Parent.Controls[lv]).FLastIndex  := FLastIndex;
+                           TMultiRadioGroup(Parent.Controls[lv]).RadioButtons.Items[FLastIndex].FHover:= true;
                            TMultiRadioGroup(Parent.Controls[lv]).SetFocus;
-                           (*if Assigned(OnChange) then
-                            OnChange(TMultiRadioGroup(Parent.Controls[lv]),
-                                     TMultiRadioGroup(Parent.Controls[lv]).RadioButtons.Items[0].Index);
-                           for i := 0 to pred(RadioButtons.Count) do
-                             RadioButtons.Items[i].Selected:= false; *)
                           end;
                      end;
         VK_Left   : begin
@@ -747,25 +751,19 @@ begin
                      FLRFlag := false;
                      for lv :=  0 to pred(ControlCount) do
                       if (Parent.Controls[lv] is TMultiRadioGroup) then
-                       (*for i := 0 to pred(TMultiRadioGroup(Parent.Controls[lv]).RadioButtons.Count) do
-                        RadioButtons.Items[i].FHover:= false;*)
-                         for i := 0 to pred(RadioButtons.Count) do
+                       for i := 0 to pred(TMultiRadioGroup(Parent.Controls[lv]).RadioButtons.Count) do
                         RadioButtons.Items[i].FHover:= false;
-
                      for lv :=  0 to pred(Parent.ControlCount) do
                       if (Parent.Controls[lv] <> self) then
                        if (Parent.Controls[lv] is TMultiRadioGroup) then
                         if TMultiRadioGroup(Parent.Controls[lv]).FGroupIndex = FGroupIndex then
                          if TMultiRadioGroup(Parent.Controls[lv]).TabOrder = TabOrder-1 then
                           begin
-                           //TMultiRadioGroup(Parent.Controls[lv]).RadioButtons.Items[0].Selected:= true;
-                           TMultiRadioGroup(Parent.Controls[lv]).RadioButtons.Items[0].FHover:= true;
+                           if FLastIndex > pred(TMultiRadioGroup(Parent.Controls[lv]).RadioButtons.Count) then
+                            FLastIndex := pred(TMultiRadioGroup(Parent.Controls[lv]).RadioButtons.Count);
+                           TMultiRadioGroup(Parent.Controls[lv]).FLastIndex  := FLastIndex;
+                           TMultiRadioGroup(Parent.Controls[lv]).RadioButtons.Items[FLastIndex].FHover:= true;
                            TMultiRadioGroup(Parent.Controls[lv]).SetFocus;
-                           (*if Assigned(OnChange) then
-                            OnChange(TMultiRadioGroup(Parent.Controls[lv]),
-                                     TMultiRadioGroup(Parent.Controls[lv]).RadioButtons.Items[0].Index);
-                           for i := 0 to pred(RadioButtons.Count) do
-                             RadioButtons.Items[i].Selected:= false;*)
                           end;
                      end;
         VK_SPACE  : begin
@@ -783,6 +781,7 @@ begin
                       begin
                        RadioButtons.Items[lv].Selected := true;
                        if Assigned(OnClick) then OnClick(self,RadioButtons.Items[lv].Index);
+                       if Assigned(OnChange) then OnChange(self,RadioButtons.Items[lv].Index);
                        break;
                       end;
                     end
@@ -798,11 +797,15 @@ end;
 procedure TMultiRadioGroup.DoExit;
 var lv : integer;
 begin
-  inherited DoExit;
   for lv := 0 to pred(RadioButtons.Count) do RadioButtons.Items[lv].FHover:= false;
-  //FLRFlag := true;
   invalidate;
+  if TabFlag then
+   for lv :=  0 to pred(Parent.ControlCount) do
+    if (Parent.Controls[lv] is TMultiRadioGroup) then
+     TMultiRadioGroup(Parent.Controls[lv]).FLRFlag:= true;
+
   if Assigned(OnExit) then OnExit(self);
+  inherited DoExit;
 end;
 
 procedure TMultiRadioGroup.DoEnter;
@@ -817,10 +820,14 @@ begin
       begin
        if RadioButtons.Items[lv].Selected = true then RadioButtons.Items[lv].FHover:= true;
        if RadioButtons.Items[lv].Selected = true then i := 1;
+       if RadioButtons.Items[lv].Selected = true then FLastIndex := lv;
       end;
   if FGRoupIndex <> 0 then
-   if i = 0 then RadioButtons.Items[0].FHover:= true;
+   if TabStop then
+    if FLRFlag then
+     if i = 0 then RadioButtons.Items[0].FHover:= true;
   FLRFlag := true;
+  TabFlag := false;
   invalidate;
   if Assigned(OnEnter) then OnEnter(self);
 end;

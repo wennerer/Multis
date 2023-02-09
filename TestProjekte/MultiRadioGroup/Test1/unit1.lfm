@@ -6,6 +6,7 @@ object Form1: TForm1
   Caption = 'Test the MultiRadioGroup'
   ClientHeight = 632
   ClientWidth = 1015
+  LCLVersion = '2.2.0.4'
   object MultiRadioGroup1: TMultiRadioGroup
     Left = 24
     Height = 26
@@ -395,7 +396,6 @@ object Form1: TForm1
       Font.Color = clFuchsia
       FocusFrameWidth = 1
       FocusFrameOn = False
-      ForegroundFocusOn = True
       Style = mssRect
       ColorGradient = gcAlternate
       ColorStart = clNone
@@ -418,7 +418,7 @@ object Form1: TForm1
         item
           Caption = 'Lion'
           ButtonSelColor = clRed
-          Selected = True
+          Selected = False
           HoverColor = 51967
           DisplayName = 'GroupItem_2'
           Tag = 2
@@ -447,7 +447,6 @@ object Form1: TForm1
       Font.Color = clFuchsia
       FocusFrameWidth = 1
       FocusFrameOn = False
-      ForegroundFocusOn = True
       Style = mssRect
       ColorGradient = gcAlternate
       ColorStart = clNone
@@ -464,7 +463,7 @@ object Form1: TForm1
         item
           Caption = 'Cat'
           ButtonSelColor = clRed
-          Selected = False
+          Selected = True
           HoverColor = 51967
           DisplayName = 'GroupItem_5'
           Tag = 5
@@ -501,7 +500,6 @@ object Form1: TForm1
       Font.Color = clFuchsia
       FocusFrameWidth = 1
       FocusFrameOn = False
-      ForegroundFocusOn = True
       Style = mssRect
       ColorGradient = gcAlternate
       ColorStart = clNone
