@@ -6,7 +6,7 @@ object Form1: TForm1
   Caption = 'Test the MultiRadioGroup'
   ClientHeight = 583
   ClientWidth = 709
-  OnShow = FormShow
+  OnActivate = FormActivate
   object MultiPanel1: TMultiPanel
     Left = 15
     Height = 174
@@ -504,7 +504,7 @@ object Form1: TForm1
   end
   object Timer1: TTimer
     Enabled = False
-    Interval = 500
+    Interval = 50
     OnTimer = Timer1Timer
     Left = 631
     Top = 515

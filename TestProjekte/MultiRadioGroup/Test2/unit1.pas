@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, LCLIntf,
-  ExtCtrls, MultiPanel, MultiRadioGroup, MultiButton;
+  ExtCtrls, LCLProc, MultiPanel, MultiRadioGroup, MultiButton;
 
 type
 
@@ -29,7 +29,7 @@ type
     MultiRadioGroup7: TMultiRadioGroup;
     MultiRadioGroup8: TMultiRadioGroup;
     Timer1: TTimer;
-    procedure FormShow(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
     procedure MultiRadioGroup1Change(Sender: TObject; const aIndex: integer);
     procedure MultiRadioGroup1Click(Sender: TObject; const aIndex: integer);
     procedure Timer1Timer(Sender: TObject);
@@ -57,8 +57,11 @@ end;
 
 procedure TForm1.Timer1Timer(Sender: TObject);
 begin
- MultiRadioGroup1.SetFocus;
- Timer1.Enabled:=false;
+ if MultiRadioGroup1.Visible then
+  begin
+   MultiRadioGroup1.SetFocus;
+   FreeAndNil(Timer1);
+  end;
 end;
 
 procedure TForm1.MultiRadioGroup1Change(Sender: TObject; const aIndex: integer);
@@ -68,9 +71,10 @@ begin
  Label5.Caption:= (Sender as TMultiRadioGroup).Name;
 end;
 
-procedure TForm1.FormShow(Sender: TObject);
+
+procedure TForm1.FormActivate(Sender: TObject);
 begin
- Timer1.Enabled:=true;
+ if assigned(Timer1) then Timer1.Enabled:=true;
 end;
 
 
