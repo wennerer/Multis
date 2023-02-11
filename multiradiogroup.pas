@@ -544,13 +544,30 @@ begin
 end;
 
 procedure TMultiRadioGroup.MouseLeave;
-var lv : integer;
+var lv,i : integer;
 begin
   inherited MouseLeave;
   if not FEnabled then exit;
   if Assigned(OnMouseLeave) then OnMouseLeave(self);
   for lv := 0 to pred(RadioButtons.Count) do
    RadioButtons.Items[lv].FHover:= false;
+  if FGroupIndex <> 0 then
+  for lv :=  0 to pred(Parent.ControlCount) do
+     if (Parent.Controls[lv] is TMultiRadioGroup) then
+      if TMultiRadioGroup(Parent.Controls[lv]).FGroupIndex = FGroupIndex then
+       begin
+        for i :=0 to pred((Parent.Controls[lv] as TMultiRadioGroup).RadioButtons.Count) do
+         if TMultiRadioGroup(Parent.Controls[lv]).RadioButtons.Items[i].Selected then
+          TMultiRadioGroup(Parent.Controls[lv]).RadioButtons.Items[i].FHover:= true;
+        TMultiRadioGroup(Parent.Controls[lv]).Invalidate;
+       end;
+  if FGroupIndex <> 0 then
+  for lv :=  0 to pred(Parent.ControlCount) do
+    if (Parent.Controls[lv] is TMultiRadioGroup) then
+    begin
+     TMultiRadioGroup(Parent.Controls[lv]).FLRFlag:= true;
+     TMultiRadioGroup(Parent.Controls[lv]).FJumpEnter:=false;
+    end;
   Invalidate;
 end;
 
@@ -573,11 +590,20 @@ end;
 
 
 procedure TMultiRadioGroup.MouseMove(Shift: TShiftState; X, Y: Integer);
-var lv                    : integer;
+var lv,i  : integer;
 begin
   inherited MouseMove(Shift, X, Y);
   if Assigned(OnMouseMove) then OnMouseMove(self,Shift,x,y);
   if not FEnabled then exit;
+  if FGroupIndex <> 0 then
+  for lv :=  0 to pred(Parent.ControlCount) do
+     if (Parent.Controls[lv] is TMultiRadioGroup) then
+      if TMultiRadioGroup(Parent.Controls[lv]).FGroupIndex = FGroupIndex then
+       begin
+        for i :=0 to pred((Parent.Controls[lv] as TMultiRadioGroup).RadioButtons.Count) do
+         TMultiRadioGroup(Parent.Controls[lv]).RadioButtons.Items[i].FHover:= false;
+        TMultiRadioGroup(Parent.Controls[lv]).Invalidate;
+       end;
   for lv := 0 to pred(RadioButtons.Count) do
    begin
     RadioButtons.Items[lv].FHover:= false;
@@ -646,7 +672,7 @@ begin
 end;
 
 procedure TMultiRadioGroup.CNKeyDown(var Message: TLMKeyDown);
-var lv,i : integer;
+var lv,i,j : integer;
 begin
   if not FEnabled then exit;
   with Message do begin
@@ -674,6 +700,14 @@ begin
                     if FGRoupIndex <> 0 then
                      begin
                       FLRFlag := true;
+                      j := 0;
+                      for lv :=  0 to pred(Parent.ControlCount) do
+                       if (Parent.Controls[lv] is TMultiRadioGroup) then
+                        if TMultiRadioGroup(Parent.Controls[lv]).FGroupIndex = FGroupIndex then
+                         for i := 0 to pred(TMultiRadioGroup(Parent.Controls[lv]).RadioButtons.Count) do
+                          if TMultiRadioGroup(Parent.Controls[lv]).RadioButtons.Items[i].FHover then j:= 1;
+                      if j = 0 then RadioButtons.Items[FLastIndex].FHover := true;
+
                       for lv := 0 to pred(RadioButtons.Count) do
                        if RadioButtons.Items[lv].FHover = true then
                         if lv > 0 then
@@ -707,6 +741,14 @@ begin
                     if FGRoupIndex <> 0 then
                      begin
                       FLRFlag := true;
+                      j := 0;
+                      for lv :=  0 to pred(Parent.ControlCount) do
+                       if (Parent.Controls[lv] is TMultiRadioGroup) then
+                        if TMultiRadioGroup(Parent.Controls[lv]).FGroupIndex = FGroupIndex then
+                         for i := 0 to pred(TMultiRadioGroup(Parent.Controls[lv]).RadioButtons.Count) do
+                          if TMultiRadioGroup(Parent.Controls[lv]).RadioButtons.Items[i].FHover then j:= 1;
+                      if j = 0 then RadioButtons.Items[FLastIndex].FHover := true;
+
                       for lv := 0 to pred(RadioButtons.Count) do
                        if RadioButtons.Items[lv].FHover = true then
                         if lv < pred(RadioButtons.Count) then
@@ -763,6 +805,16 @@ begin
                     end;
         VK_SPACE  : begin
                      if FGroupIndex = 0 then exit;
+                     j := 0;
+                     for lv :=  0 to pred(Parent.ControlCount) do
+                      if (Parent.Controls[lv] is TMultiRadioGroup) then
+                       if TMultiRadioGroup(Parent.Controls[lv]).FGroupIndex = FGroupIndex then
+                        for i := 0 to pred(TMultiRadioGroup(Parent.Controls[lv]).RadioButtons.Count) do
+                         if TMultiRadioGroup(Parent.Controls[lv]).RadioButtons.Items[i].FHover then j:= 1;
+                     if j = 0 then exit;
+
+
+
                      for lv := 0 to pred(RadioButtons.Count) do
                      if RadioButtons.Items[lv].FHover = true then
                       begin

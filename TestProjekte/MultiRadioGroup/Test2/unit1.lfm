@@ -373,6 +373,7 @@ object Form1: TForm1
         item
           Caption = 'Radiobutton 6'
           Selected = False
+          HoverColor = clGray
           DisplayName = 'MultiRadioButton'
           Tag = 6
         end>
@@ -479,6 +480,7 @@ object Form1: TForm1
         item
           Caption = 'Radiobutton 15'
           Selected = False
+          HoverColor = clGray
           DisplayName = 'MultiRadioButton'
           Tag = 15
         end>
