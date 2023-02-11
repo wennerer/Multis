@@ -1,11 +1,11 @@
 object Form1: TForm1
   Left = 457
-  Height = 352
+  Height = 583
   Top = 250
-  Width = 892
+  Width = 709
   Caption = 'Test the MultiRadioGroup'
-  ClientHeight = 352
-  ClientWidth = 892
+  ClientHeight = 583
+  ClientWidth = 709
   OnShow = FormShow
   object MultiPanel1: TMultiPanel
     Left = 15
@@ -39,7 +39,7 @@ object Form1: TForm1
       RadioButtons = <      
         item
           Caption = 'Radiobutton 1'
-          Selected = True
+          Selected = False
           HoverColor = clGray
           DisplayName = 'MultiRadioButton'
           Tag = 1
@@ -90,6 +90,7 @@ object Form1: TForm1
       Width = 154
       Font.Color = clWhite
       FocusFrameOn = False
+      ForegroundFocusOn = True
       ColorStart = clNone
       TabStop = False
       RadioButtons = <      
@@ -102,7 +103,7 @@ object Form1: TForm1
         end      
         item
           Caption = 'Radiobutton 7'
-          Selected = False
+          Selected = True
           HoverColor = clGray
           ImageWidth = 2
           DisplayName = 'MultiRadioButton'
@@ -132,6 +133,7 @@ object Form1: TForm1
       Width = 154
       Font.Color = clWhite
       FocusFrameOn = False
+      ForegroundFocusOn = True
       ColorStart = clNone
       TabStop = False
       RadioButtons = <      
@@ -188,6 +190,7 @@ object Form1: TForm1
       Width = 154
       Font.Color = clWhite
       FocusFrameOn = False
+      ForegroundFocusOn = True
       ColorStart = clNone
       TabStop = False
       RadioButtons = <      
@@ -228,12 +231,12 @@ object Form1: TForm1
     end
   end
   object Label1: TLabel
-    Left = 55
+    Left = 32
     Height = 24
-    Top = 248
-    Width = 177
+    Top = 504
+    Width = 209
     AutoSize = False
-    Caption = 'ONClick, Show TAG:'
+    Caption = 'Show TAG:'
     Color = clWhite
     Font.Color = clBlue
     Font.Height = 18
@@ -243,7 +246,7 @@ object Form1: TForm1
   object Label2: TLabel
     Left = 272
     Height = 24
-    Top = 248
+    Top = 504
     Width = 73
     Alignment = taRightJustify
     AutoSize = False
@@ -254,12 +257,12 @@ object Form1: TForm1
     Transparent = False
   end
   object Label3: TLabel
-    Left = 23
+    Left = 32
     Height = 24
-    Top = 296
+    Top = 544
     Width = 209
     AutoSize = False
-    Caption = 'ONChance, Show Index:'
+    Caption = 'Show Index:'
     Color = clWhite
     Font.Color = clBlue
     Font.Height = 18
@@ -269,7 +272,7 @@ object Form1: TForm1
   object Label4: TLabel
     Left = 272
     Height = 24
-    Top = 296
+    Top = 544
     Width = 73
     Alignment = taRightJustify
     AutoSize = False
@@ -278,5 +281,232 @@ object Form1: TForm1
     Font.Height = 18
     ParentFont = False
     Transparent = False
+  end
+  object MultiPanel2: TMultiPanel
+    Left = 15
+    Height = 174
+    Top = 256
+    Width = 673
+    Style = mpsRoundRect
+    ColorStart = clSkyBlue
+    ColorEnd = clGray
+    ColorGradient = gcVertical
+    StrPolygon = (
+      '50'
+      '2'
+      '98'
+      '98'
+      '2'
+      '98'
+      '50'
+      '2'
+    )
+    object MultiRadioGroup5: TMultiRadioGroup
+      AnchorSideTop.Control = MultiPanel2
+      Left = 24
+      Height = 56
+      Top = 11
+      Width = 154
+      Font.Color = clBlue
+      FocusFrameOn = False
+      ForegroundFocusOn = True
+      ColorStart = clNone
+      RadioButtons = <      
+        item
+          Caption = 'Radiobutton 1'
+          Selected = False
+          HoverColor = clGray
+          DisplayName = 'MultiRadioButton'
+          Tag = 1
+        end      
+        item
+          Caption = 'Radiobutton 2'
+          Selected = False
+          HoverColor = clGray
+          ImageWidth = 2
+          DisplayName = 'MultiRadioButton'
+          Tag = 2
+        end>
+      GroupIndex = 2
+      Rows = 1
+      BorderSpacing.Top = 10
+      TabOrder = 0
+      OnChange = MultiRadioGroup1Change
+      OnClick = MultiRadioGroup1Click
+    end
+    object MultiRadioGroup6: TMultiRadioGroup
+      AnchorSideLeft.Control = MultiRadioGroup5
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = MultiPanel2
+      Left = 178
+      Height = 96
+      Top = 11
+      Width = 154
+      Font.Color = clBlue
+      FocusFrameOn = False
+      ForegroundFocusOn = True
+      ColorStart = clNone
+      TabStop = False
+      RadioButtons = <      
+        item
+          Caption = 'Radiobutton 3'
+          Selected = False
+          HoverColor = clGray
+          DisplayName = 'MultiRadioButton'
+          Tag = 3
+        end      
+        item
+          Caption = 'Radiobutton 4'
+          Selected = False
+          HoverColor = clGray
+          ImageWidth = 2
+          DisplayName = 'MultiRadioButton'
+          Tag = 4
+        end      
+        item
+          Caption = 'Radiobutton 5'
+          Selected = False
+          HoverColor = clGray
+          DisplayName = 'MultiRadioButton'
+          Tag = 5
+        end      
+        item
+          Caption = 'Radiobutton 6'
+          Selected = False
+          DisplayName = 'MultiRadioButton'
+          Tag = 6
+        end>
+      GroupIndex = 2
+      Rows = 1
+      BorderSpacing.Top = 10
+      TabOrder = 1
+      OnChange = MultiRadioGroup1Change
+      OnClick = MultiRadioGroup1Click
+    end
+    object MultiRadioGroup7: TMultiRadioGroup
+      AnchorSideLeft.Control = MultiRadioGroup6
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = MultiPanel2
+      Left = 332
+      Height = 144
+      Top = 11
+      Width = 154
+      Font.Color = clBlue
+      FocusFrameOn = False
+      ForegroundFocusOn = True
+      ColorStart = clNone
+      TabStop = False
+      RadioButtons = <      
+        item
+          Caption = 'Radiobutton 7'
+          Selected = False
+          HoverColor = clGray
+          DisplayName = 'MultiRadioButton'
+          Tag = 7
+        end      
+        item
+          Caption = 'Radiobutton 8'
+          Selected = False
+          HoverColor = clGray
+          ImageWidth = 2
+          DisplayName = 'MultiRadioButton'
+          Tag = 8
+        end      
+        item
+          Caption = 'Radiobutton 9'
+          Selected = False
+          HoverColor = clGray
+          DisplayName = 'MultiRadioButton'
+          Tag = 9
+        end      
+        item
+          Caption = 'Radiobutton 10'
+          Selected = False
+          HoverColor = clGray
+          DisplayName = 'MultiRadioButton'
+          Tag = 10
+        end      
+        item
+          Caption = 'Radiobutton 11'
+          Selected = False
+          HoverColor = clGray
+          DisplayName = 'MultiRadioButton'
+          Tag = 11
+        end>
+      GroupIndex = 2
+      Rows = 1
+      BorderSpacing.Top = 10
+      TabOrder = 2
+      OnChange = MultiRadioGroup1Change
+      OnClick = MultiRadioGroup1Click
+    end
+    object MultiRadioGroup8: TMultiRadioGroup
+      AnchorSideLeft.Control = MultiRadioGroup7
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = MultiPanel2
+      Left = 486
+      Height = 120
+      Top = 11
+      Width = 154
+      Font.Color = clBlue
+      FocusFrameOn = False
+      ForegroundFocusOn = True
+      ColorStart = clNone
+      TabStop = False
+      RadioButtons = <      
+        item
+          Caption = 'Radiobutton 12'
+          Selected = False
+          HoverColor = clGray
+          DisplayName = 'MultiRadioButton'
+          Tag = 12
+        end      
+        item
+          Caption = 'Radiobutton 13'
+          Selected = False
+          HoverColor = clGray
+          ImageWidth = 2
+          DisplayName = 'MultiRadioButton'
+          Tag = 13
+        end      
+        item
+          Caption = 'Radiobutton 14'
+          Selected = True
+          HoverColor = clGray
+          DisplayName = 'MultiRadioButton'
+          Tag = 14
+        end      
+        item
+          Caption = 'Radiobutton 15'
+          Selected = False
+          DisplayName = 'MultiRadioButton'
+          Tag = 15
+        end>
+      GroupIndex = 2
+      Rows = 1
+      BorderSpacing.Top = 10
+      TabOrder = 3
+      OnChange = MultiRadioGroup1Change
+      OnClick = MultiRadioGroup1Click
+    end
+  end
+  object Label5: TLabel
+    Left = 32
+    Height = 24
+    Top = 448
+    Width = 313
+    AutoSize = False
+    Color = clWhite
+    Font.Color = clBlue
+    Font.Height = 18
+    ParentFont = False
+    Transparent = False
+  end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 500
+    OnTimer = Timer1Timer
+    Left = 631
+    Top = 515
   end
 end

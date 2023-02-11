@@ -1,6 +1,6 @@
 { <A RadioGroup in the multi design>
-  <Version 1.0.0.5>
-  Copyright (C) <06.02.2023> <Bernd Hübner>
+  <Version 1.0.0.6>
+  Copyright (C) <10.02.2023> <Bernd Hübner>
 
   This library is free software; you can redistribute it and/or modify it under the
   terms of the GNU Library General Public License as published by the Free Software
@@ -294,6 +294,7 @@ type
     FLastIndex              : integer;
     FLRFlag                 : boolean;
     TabFlag                 : boolean;
+    FJumpEnter              : boolean;
 
     function CalculateTextRectWithWordbreak(aCaptionHeight, aTRH, aSpace, alv,
       aRow: integer): TRect;
@@ -636,6 +637,7 @@ begin
   inherited KeyDown(Key, Shift);
   if Assigned(OnKeyDown) then OnKeyDown(self,Key,Shift);
   if key = vk_TAB then TabFlag := true;
+  //if key = vk_TAB then FJumpEnter := false;
 end;
 
 procedure TMultiRadioGroup.KeyUp(var Key: Word; Shift: TShiftState);
@@ -649,7 +651,6 @@ var lv,i : integer;
 begin
   if not FEnabled then exit;
   with Message do begin
-    //if Message.CharCode = VK_Tab then FLRFlag := true;
    FLRFlag := true;
     Result := 1;
     case CharCode of
@@ -669,10 +670,7 @@ begin
                       for lv := 0 to pred(RadioButtons.Count) do
                        if RadioButtons.Items[lv].FEnabled then
                         if RadioButtons.Items[lv].Selected then
-                         begin
-                          RadioButtons.Items[lv].FHover:= true;
-                          //FLastIndex := RadioButtons.Items[lv].Index;
-                         end;
+                         RadioButtons.Items[lv].FHover:= true;
                     end;
                     if FGRoupIndex <> 0 then
                      begin
@@ -705,10 +703,7 @@ begin
                       for lv := 0 to pred(RadioButtons.Count) do
                        if RadioButtons.Items[lv].FEnabled then
                         if RadioButtons.Items[lv].Selected then
-                         begin
-                          RadioButtons.Items[lv].FHover:= true;
-                          //FLastIndex := RadioButtons.Items[lv].Index;
-                         end;
+                         RadioButtons.Items[lv].FHover:= true;
                     end;
                     if FGRoupIndex <> 0 then
                      begin
@@ -732,7 +727,6 @@ begin
                       if (Parent.Controls[lv] is TMultiRadioGroup) then
                        for i := 0 to pred(TMultiRadioGroup(Parent.Controls[lv]).RadioButtons.Count) do
                         RadioButtons.Items[i].FHover:= false;
-
                      for lv :=  0 to pred(Parent.ControlCount) do
                       if (Parent.Controls[lv] <> self) then
                        if (Parent.Controls[lv] is TMultiRadioGroup) then
@@ -745,10 +739,11 @@ begin
                            TMultiRadioGroup(Parent.Controls[lv]).RadioButtons.Items[FLastIndex].FHover:= true;
                            TMultiRadioGroup(Parent.Controls[lv]).SetFocus;
                           end;
-                     end;
+                    end;
         VK_Left   : begin
                      if FGroupIndex = 0 then exit;
                      FLRFlag := false;
+
                      for lv :=  0 to pred(ControlCount) do
                       if (Parent.Controls[lv] is TMultiRadioGroup) then
                        for i := 0 to pred(TMultiRadioGroup(Parent.Controls[lv]).RadioButtons.Count) do
@@ -764,8 +759,9 @@ begin
                            TMultiRadioGroup(Parent.Controls[lv]).FLastIndex  := FLastIndex;
                            TMultiRadioGroup(Parent.Controls[lv]).RadioButtons.Items[FLastIndex].FHover:= true;
                            TMultiRadioGroup(Parent.Controls[lv]).SetFocus;
+
                           end;
-                     end;
+                    end;
         VK_SPACE  : begin
                      if FGroupIndex = 0 then exit;
                      for lv :=  0 to pred(Parent.ControlCount) do
@@ -779,9 +775,9 @@ begin
                      for lv := 0 to pred(RadioButtons.Count) do
                      if RadioButtons.Items[lv].FHover = true then
                       begin
-                       RadioButtons.Items[lv].Selected := true;
                        if Assigned(OnClick) then OnClick(self,RadioButtons.Items[lv].Index);
                        if Assigned(OnChange) then OnChange(self,RadioButtons.Items[lv].Index);
+                       RadioButtons.Items[lv].Selected := true;
                        break;
                       end;
                     end
@@ -802,31 +798,50 @@ begin
   if TabFlag then
    for lv :=  0 to pred(Parent.ControlCount) do
     if (Parent.Controls[lv] is TMultiRadioGroup) then
+    begin
      TMultiRadioGroup(Parent.Controls[lv]).FLRFlag:= true;
-
+     TMultiRadioGroup(Parent.Controls[lv]).FJumpEnter:=false;
+    end;
   if Assigned(OnExit) then OnExit(self);
   inherited DoExit;
 end;
 
 procedure TMultiRadioGroup.DoEnter;
-var lv,i : integer;
+var lv,i,j : integer;
 begin
- inherited DoEnter;
+ inherited DoEnter; debugln([self.Name]);
  i := 0;
-  if FGRoupIndex <> 0 then
-   for lv := 0 to pred(RadioButtons.Count) do
-    if TabStop then
-     if FLRFlag then
-      begin
-       if RadioButtons.Items[lv].Selected = true then RadioButtons.Items[lv].FHover:= true;
-       if RadioButtons.Items[lv].Selected = true then i := 1;
-       if RadioButtons.Items[lv].Selected = true then FLastIndex := lv;
-      end;
+ if FJumpEnter then i:=1;
+ if FGRoupIndex <> 0 then
+  if TabStop then
+   if FLRFlag then
+    if not FJumpEnter then
+    for lv :=  0 to pred(Parent.ControlCount) do
+     if (Parent.Controls[lv] is TMultiRadioGroup) then
+      if TMultiRadioGroup(Parent.Controls[lv]).FGroupIndex = FGroupIndex then
+       begin
+        for j := 0 to pred(TMultiRadioGroup(Parent.Controls[lv]).RadioButtons.Count) do
+         begin
+          if TMultiRadioGroup(Parent.Controls[lv]).RadioButtons.Items[j].Selected = true then
+           begin
+            TMultiRadioGroup(Parent.Controls[lv]).RadioButtons.Items[j].FHover:= true;
+            TMultiRadioGroup(Parent.Controls[lv]).SetFocus;
+            i := 1;
+            TMultiRadioGroup(Parent.Controls[lv]).FLastIndex:=j;
+            TMultiRadioGroup(Parent.Controls[lv]).Invalidate;
+            FJumpEnter := true;
+            exit;
+           end;
+         end;
+       end;
+
+
   if FGRoupIndex <> 0 then
    if TabStop then
     if FLRFlag then
      if i = 0 then RadioButtons.Items[0].FHover:= true;
   FLRFlag := true;
+  FJumpEnter := false;
   TabFlag := false;
   invalidate;
   if Assigned(OnEnter) then OnEnter(self);

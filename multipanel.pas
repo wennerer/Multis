@@ -613,6 +613,7 @@ begin
   FRRRadius      := 40;
   FStyle         := mpsRect;
   FVisible       := true;
+  TabStop        := false;
 
   FBorder                := TBorder.create(self);
   FBorder.FOuterColor    := clNone;
