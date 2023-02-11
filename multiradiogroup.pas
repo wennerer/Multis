@@ -1,6 +1,6 @@
 { <A RadioGroup in the multi design>
   <Version 1.0.0.6>
-  Copyright (C) <10.02.2023> <Bernd Hübner>
+  Copyright (C) <11.02.2023> <Bernd Hübner>
 
   This library is free software; you can redistribute it and/or modify it under the
   terms of the GNU Library General Public License as published by the Free Software
@@ -637,7 +637,6 @@ begin
   inherited KeyDown(Key, Shift);
   if Assigned(OnKeyDown) then OnKeyDown(self,Key,Shift);
   if key = vk_TAB then TabFlag := true;
-  //if key = vk_TAB then FJumpEnter := false;
 end;
 
 procedure TMultiRadioGroup.KeyUp(var Key: Word; Shift: TShiftState);
@@ -764,6 +763,13 @@ begin
                     end;
         VK_SPACE  : begin
                      if FGroupIndex = 0 then exit;
+                     for lv := 0 to pred(RadioButtons.Count) do
+                     if RadioButtons.Items[lv].FHover = true then
+                      begin
+                       if RadioButtons.Items[lv].Selected then exit;
+                       if Assigned(OnClick) then OnClick(self,RadioButtons.Items[lv].Index);
+                       if Assigned(OnChange) then OnChange(self,RadioButtons.Items[lv].Index);
+                      end;
                      for lv :=  0 to pred(Parent.ControlCount) do
                       if (Parent.Controls[lv] is TMultiRadioGroup) then
                        for i := 0 to pred(TMultiRadioGroup(Parent.Controls[lv]).RadioButtons.Count) do
@@ -775,8 +781,6 @@ begin
                      for lv := 0 to pred(RadioButtons.Count) do
                      if RadioButtons.Items[lv].FHover = true then
                       begin
-                       if Assigned(OnClick) then OnClick(self,RadioButtons.Items[lv].Index);
-                       if Assigned(OnChange) then OnChange(self,RadioButtons.Items[lv].Index);
                        RadioButtons.Items[lv].Selected := true;
                        break;
                       end;
@@ -809,7 +813,7 @@ end;
 procedure TMultiRadioGroup.DoEnter;
 var lv,i,j : integer;
 begin
- inherited DoEnter; debugln([self.Name]);
+ inherited DoEnter;
  i := 0;
  if FJumpEnter then i:=1;
  if FGRoupIndex <> 0 then
