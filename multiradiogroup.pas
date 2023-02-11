@@ -76,6 +76,8 @@ type
 type
   TGradientCourse = (gcHorizontal,gcVertical,gcSpread,gcRadiant,gcAlternate); //for background color
 
+type
+  THoverStyle = (hsSolid,hsFrame);
 
 type
   TMultiRadioGroup = class; //TCustomControl
@@ -116,6 +118,7 @@ type
      FDisabledColor        : TColor;
      FEnabled              : boolean;
      FHoverColor           : TColor;
+     FHoverStyle           : THoverStyle;
      FImageIndex           : TImageIndex;
      FImageLeft            : integer;
      FImageList            : TCustomImageList;
@@ -198,6 +201,9 @@ type
     //The color of a hoverevent
     //Die Farbe eines Hoverereignisses
     property HoverColor : TColor read FHoverColor write SetHoverColor default clSilver;
+
+
+    property HoverStyle : THoverStyle read FHoverStyle write FHoverStyle default hsSolid;
     //The font to be used for text display the caption.
     //Die Schrift die für die Textanzeige der Caption verwendet werden soll.
     property Font: TFont read FFont write SetFont;
@@ -1394,8 +1400,12 @@ begin
      if RadioButtons.Items[lv].FHover then
       begin
        canvas.Brush.Color:= RadioButtons.Items[lv].FHoverColor;
-       Canvas.FillRect(RadioButtons.Items[lv].FHotspot);
+       if RadioButtons.Items[lv].FHoverStyle = hsSolid then
+        canvas.Brush.Style:= bsSolid else canvas.Brush.Style:= bsClear;
+       canvas.Pen.Color  := RadioButtons.Items[lv].FHoverColor;
+       Canvas.Rectangle(RadioButtons.Items[lv].FHotspot);
       end;
+    canvas.Brush.Style:= bsSolid;
 
   //the radiobutton
     canvas.Pen.Color  := RadioButtons.Items[lv].FButtonSelColor;

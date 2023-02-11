@@ -11,7 +11,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="91"/>
+        <UsageCount Value="92"/>
       </Unit>
       <Unit>
         <Filename Value="unit1.pas"/>
@@ -20,9 +20,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
-        <TopLine Value="46"/>
-        <CursorPos X="23" Y="63"/>
-        <UsageCount Value="91"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="70"/>
+        <CursorPos X="2" Y="83"/>
+        <UsageCount Value="92"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -41,8 +42,8 @@
         <Filename Value="../../../multiradiogroup.pas"/>
         <UnitName Value="MultiRadioGroup"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="751"/>
-        <CursorPos X="23" Y="751"/>
+        <TopLine Value="560"/>
+        <CursorPos X="23" Y="570"/>
         <UsageCount Value="45"/>
         <Bookmarks Count="3">
           <Item0 X="23" Y="570"/>
@@ -69,27 +70,14 @@
       <Unit>
         <Filename Value="../../../multipanel.pas"/>
         <UnitName Value="MultiPanel"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="1214"/>
-        <CursorPos Y="1230"/>
+        <TopLine Value="1233"/>
+        <CursorPos X="39" Y="1247"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="../../../multiradiogroup.pas"/>
-        <Caret Line="813" TopLine="806"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multiradiogroup.pas"/>
-        <Caret Line="814" TopLine="806"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multiradiogroup.pas"/>
-        <Caret Line="815" TopLine="806"/>
-      </Position>
       <Position>
         <Filename Value="../../../multiradiogroup.pas"/>
         <Caret Line="818" Column="9" TopLine="814"/>
@@ -192,11 +180,23 @@
       </Position>
       <Position>
         <Filename Value="../../../multipanel.pas"/>
-        <Caret Line="1167" Column="2" TopLine="1187"/>
+        <Caret Line="409" Column="21" TopLine="400"/>
       </Position>
       <Position>
         <Filename Value="../../../multipanel.pas"/>
-        <Caret Line="409" Column="21" TopLine="400"/>
+        <Caret Line="1230" TopLine="1217"/>
+      </Position>
+      <Position>
+        <Filename Value="../../../multipanel.pas"/>
+        <Caret Line="786" Column="35" TopLine="776"/>
+      </Position>
+      <Position>
+        <Filename Value="../../../multiradiogroup.pas"/>
+        <Caret Line="540" Column="26" TopLine="529"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="64" Column="23" TopLine="47"/>
       </Position>
     </JumpHistory>
     <RunParams>
@@ -204,15 +204,4 @@
       <Modes ActiveMode=""/>
     </RunParams>
   </ProjectSession>
-  <Debugging>
-    <BreakPoints>
-      <Item>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="../../../multipanel.pas"/>
-        <Line Value="1230"/>
-      </Item>
-    </BreakPoints>
-  </Debugging>
 </CONFIG>

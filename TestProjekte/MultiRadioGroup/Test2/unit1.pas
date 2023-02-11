@@ -30,6 +30,7 @@ type
     MultiRadioGroup8: TMultiRadioGroup;
     Timer1: TTimer;
     procedure FormActivate(Sender: TObject);
+    procedure MultiPanel1Visible(Sender: TObject);
     procedure MultiRadioGroup1Change(Sender: TObject; const aIndex: integer);
     procedure MultiRadioGroup1Click(Sender: TObject; const aIndex: integer);
     procedure Timer1Timer(Sender: TObject);
@@ -59,7 +60,7 @@ procedure TForm1.Timer1Timer(Sender: TObject);
 begin
  if MultiRadioGroup1.Visible then
   begin
-   MultiRadioGroup1.SetFocus;
+   //MultiRadioGroup1.SetFocus;
    FreeAndNil(Timer1);
   end;
 end;
@@ -74,7 +75,12 @@ end;
 
 procedure TForm1.FormActivate(Sender: TObject);
 begin
- if assigned(Timer1) then Timer1.Enabled:=true;
+ //if assigned(Timer1) then Timer1.Enabled:=true;
+end;
+
+procedure TForm1.MultiPanel1Visible(Sender: TObject);
+begin
+ MultiRadioGroup1.SetFocus;
 end;
 
 

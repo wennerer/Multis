@@ -95,6 +95,7 @@ begin
   FFont.OnChange       := @RadioButtonFontChanged;
   FParentFont          := true;
   FHoverColor          := clSilver;
+  FHoverStyle          := hsSolid;
   FButtonColor         := clWhite;
   FButtonSelColor      := clBlack;
   FEnabled             := true;

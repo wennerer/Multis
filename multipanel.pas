@@ -1,6 +1,6 @@
 { <A panel for the multi components>
-  <Version 1.0.0.6>
-  Copyright (C) <30.11.2022> <Bernd Hübner>
+  <Version 1.0.0.7>
+  Copyright (C) <11.02.2023> <Bernd Hübner>
   Many thanks to the members of the German Lazarus Forum!
   For some improvements see https://www.lazarusforum.de/viewtopic.php?f=29&t=14033
 
@@ -39,6 +39,8 @@ uses
   infmultis, LMessages, LCLIntf, LCLType, ImgList, LCLProc, GraphPropEdits,
   PropEdits, StdCtrls, rs_mbstylemanager, ptin;// dbugintf;
 
+type
+  TVisibleEvent = procedure(Sender: TObject) of object;
 type
   TClickEvent = procedure(Sender: TObject) of object;
 type
@@ -326,6 +328,7 @@ type
     FImageTop         : integer;
     FImageWidth       : integer;
     FOnClick          : TClickEvent;
+    FOnVisible        : TVisibleEvent;
     FOnCompressed     : TNotifyEvent;
     FOnEnter          : TNotifyEvent;
     FOnExit           : TNotifyEvent;
@@ -549,7 +552,7 @@ type
    property DoubleBuffered;
    property OnChangeBounds;
 
-
+   property OnVisible : TVisibleEvent read FOnVisible write FOnVisible;
    property OnClick : TClickEvent read FOnClick     write FOnClick;
    property OnMouseMove : TMouseMoveEvent read FOnMouseMove write FOnMouseMove;
    property OnMouseDown : TMouseEvent read FOnMouseDown write FOnMouseDown;
@@ -1241,6 +1244,7 @@ begin
      (comp as TMultiplexSlider).OnMouseNotInSelf := @MouseNotInComponent;
     end;
   end;
+ if Assigned(OnVisible) then OnVisible(self);
 end;
 
 
