@@ -552,6 +552,8 @@ type
    property DoubleBuffered;
    property OnChangeBounds;
 
+   //is triggered when the panel becomes visible for the first time
+   //wird ausgelöst wenn das Panel das esrste Mal sichtbar wird
    property OnVisible : TVisibleEvent read FOnVisible write FOnVisible;
    property OnClick : TClickEvent read FOnClick     write FOnClick;
    property OnMouseMove : TMouseMoveEvent read FOnMouseMove write FOnMouseMove;

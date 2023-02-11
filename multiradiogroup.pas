@@ -201,8 +201,8 @@ type
     //The color of a hoverevent
     //Die Farbe eines Hoverereignisses
     property HoverColor : TColor read FHoverColor write SetHoverColor default clSilver;
-
-
+    //Whether a hover event is drawn as a frame only or full-surface
+    //Ob ein Hoverereignis nur als Rahmen oder vollflächig gezeichnet wird
     property HoverStyle : THoverStyle read FHoverStyle write FHoverStyle default hsSolid;
     //The font to be used for text display the caption.
     //Die Schrift die für die Textanzeige der Caption verwendet werden soll.
