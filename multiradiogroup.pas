@@ -662,7 +662,7 @@ begin
                          begin
                           RadioButtons.Items[lv-1].Selected := true;
                           if Assigned(OnChange) then OnChange(self,RadioButtons.Items[lv-1].Index);
-                          if Assigned(OnClick) then OnClick(self,RadioButtons.Items[lv].Index);
+                          if Assigned(OnClick) then OnClick(self,RadioButtons.Items[lv-1].Index);
                           break;
                         end;
                       for lv := 0 to pred(RadioButtons.Count) do RadioButtons.Items[lv].FHover:= false;
@@ -695,7 +695,7 @@ begin
                          begin
                           RadioButtons.Items[lv+1].Selected := true;
                           if Assigned(OnChange) then OnChange(self,RadioButtons.Items[lv+1].Index);
-                          if Assigned(OnClick) then OnClick(self,RadioButtons.Items[lv].Index);
+                          if Assigned(OnClick) then OnClick(self,RadioButtons.Items[lv+1].Index);
                           break;
                         end;
                       for lv := 0 to pred(RadioButtons.Count) do RadioButtons.Items[lv].FHover:= false;

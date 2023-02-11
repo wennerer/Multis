@@ -22,7 +22,7 @@
         <UnitName Value="Unit1"/>
         <IsVisibleTab Value="True"/>
         <TopLine Value="47"/>
-        <CursorPos X="83" Y="65"/>
+        <CursorPos X="4" Y="58"/>
         <UsageCount Value="147"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -31,7 +31,8 @@
         <Filename Value="../../../multiradiogroup.pas"/>
         <UnitName Value="MultiRadioGroup"/>
         <EditorIndex Value="1"/>
-        <CursorPos X="20" Y="3"/>
+        <TopLine Value="683"/>
+        <CursorPos X="89" Y="698"/>
         <UsageCount Value="73"/>
         <Bookmarks Count="3">
           <Item0 X="4" Y="421"/>
@@ -136,10 +137,6 @@
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="../../../multiradiogroup.pas"/>
-        <Caret Line="852" TopLine="839"/>
-      </Position>
       <Position>
         <Filename Value="../../../multiradiogroup.pas"/>
         <Caret Line="850" TopLine="839"/>
@@ -255,6 +252,10 @@
       <Position>
         <Filename Value="../../../multiradiogroup.pas"/>
         <Caret Line="819" TopLine="809"/>
+      </Position>
+      <Position>
+        <Filename Value="../../../multiradiogroup.pas"/>
+        <Caret Line="331" Column="20" TopLine="330"/>
       </Position>
     </JumpHistory>
     <RunParams>

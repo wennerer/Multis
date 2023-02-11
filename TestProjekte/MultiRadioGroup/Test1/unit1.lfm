@@ -524,6 +524,7 @@ object Form1: TForm1
       Rows = 1
       TabOrder = 2
       OnChange = MultiRadioGroupsChange
+      OnClick = MultiRadioGroup1Click
     end
   end
   object MultiPanel2: TMultiPanel
