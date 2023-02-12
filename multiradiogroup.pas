@@ -1,6 +1,6 @@
 { <A RadioGroup in the multi design>
-  <Version 1.0.0.6>
-  Copyright (C) <11.02.2023> <Bernd Hübner>
+  <Version 1.0.0.7>
+  Copyright (C) <12.02.2023> <Bernd Hübner>
 
   This library is free software; you can redistribute it and/or modify it under the
   terms of the GNU Library General Public License as published by the Free Software
@@ -1257,22 +1257,45 @@ begin
  aRect :=  rect(FFocusFrameWidth,FFocusFrameWidth,width-FFocusFrameWidth,height-FFocusFrameWidth);
 end;
 
-function TMultiRadioGroup.CalculateSpace(aCaptionHeight, aTRH: integer
-  ): integer;
+function TMultiRadioGroup.CalculateSpace(aCaptionHeight, aTRH: integer): integer;
+var lv,i,j : integer;
 begin
- Result := (Height-((FocusFrameWidth*2)+aCaptionHeight+(RadioButtons.Count*aTRH))) div (RadioButtons.Count+1);
+ i:=0;
+ for lv := 0 to pred(RadioButtons.Count) do
+  if RadioButtons.Items[lv].FCaptionWordbreak then inc(i);
+ j := ((RadioButtons.Count -i)*aTRH) + (i*aTRH*FRows);
+ Result := (Height-((FocusFrameWidth*2)+aCaptionHeight+j)) div (RadioButtons.Count+1);
 end;
 
 function TMultiRadioGroup.CalculateTextRect(aCaptionHeight, aTRH, aSpace, alv: integer): TRect;
 begin
- Result := rect(10+FocusFrameWidth +(aTRH-2),aCaptionHeight+(aSpace*(alv+1))+(alv*aTRH)+FocusFrameWidth,
-                 Width-FocusFrameWidth,aCaptionHeight+(aSpace*(alv+1))+aTRH+(alv*aTRH)+FocusFrameWidth);
+ if alv = 0 then
+  Result := rect(10+FocusFrameWidth +(aTRH-2),
+                 aCaptionHeight+(aSpace*(alv+1))+(alv*aTRH)+FocusFrameWidth,
+                 Width-FocusFrameWidth,
+                 aCaptionHeight+(aSpace*(alv+1))+aTRH+(alv*aTRH)+FocusFrameWidth)
+ else
+  Result := rect(10+FocusFrameWidth +(aTRH-2),
+                 RadioButtons.Items[alv-1].FHotspot.Bottom+aSpace,
+                 Width-FocusFrameWidth,
+                 RadioButtons.Items[alv-1].FHotspot.Bottom+aSpace+aTRH);
+
+
 end;
 
 function TMultiRadioGroup.CalculateTextRectWithWordbreak(aCaptionHeight, aTRH, aSpace, alv,aRow: integer): TRect;
 begin
- Result := rect(10+FocusFrameWidth +((aTRH div aRow)-2),aCaptionHeight+(aSpace*(alv+1))+(alv*aTRH)+FocusFrameWidth,
-                 Width-FocusFrameWidth,aCaptionHeight+(aSpace*(alv+1))+aTRH+(alv*aTRH)+FocusFrameWidth);
+ if alv = 0 then
+  Result := rect(10+FocusFrameWidth +((aTRH div aRow)-2),
+                 aCaptionHeight+(aSpace*(alv+1))+(alv*aTRH)+FocusFrameWidth,
+                 Width-FocusFrameWidth,
+                 aCaptionHeight+(aSpace*(alv+1))+aTRH+(alv*aTRH)+FocusFrameWidth)
+ else
+  Result := rect(10+FocusFrameWidth +((aTRH div aRow)-2),
+                 RadioButtons.Items[alv-1].FHotspot.Bottom+aSpace,
+                 Width-FocusFrameWidth,
+                 RadioButtons.Items[alv-1].FHotspot.Bottom+aSpace+aTRH);
+
 end;
 
 function TMultiRadioGroup.CalculateButtonRect(aTeRect: TRect; aTRH: integer
@@ -1352,7 +1375,7 @@ begin
 end;
 
 procedure TMultiRadioGroup.DrawRadioButtons;
-var lv                    : integer;
+var lv,i                  : integer;
     TeRect                : TRect;
     ButRect               : TRect;
     SelRect               : TRect;
@@ -1385,7 +1408,16 @@ begin
     begin
      TRH := TRH * FRows;
      TeRect  := CalculateTextRectWithWordbreak(CaptionHeight,TRH,Space,lv,FRows);
+     i := ButRect.Height;
+     ButRect.Top    := TeRect.Top+ (TeRect.Height div 2) - (i div 2) ;
+     ButRect.Bottom := TeRect.Top+ (TeRect.Height div 2) - (i div 2)+i;
+     i := SelRect.Height;
+     SelRect.Top    := ButRect.Top +(ButRect.Height div 2) -(i div 2);
+     SelRect.Bottom := ButRect.Top +(ButRect.Height div 2) -(i div 2)+i;
+     RadioButtons.Items[lv].FHotspot := CalculateHotspot(TeRect);
     end;
+
+
 
   //the background of the Radiobuttons
    if RadioButtons.Items[lv].FColor <> clNone then

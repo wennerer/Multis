@@ -24,7 +24,7 @@
 
 The help for the package can be called up via the menu item Help , Multis-Help."/>
     <License Value="modified LGPL-2"/>
-    <Version Major="1" Release="5" Build="5"/>
+    <Version Major="1" Release="5" Build="6"/>
     <Files Count="24">
       <Item1>
         <Filename Value="multibuttonstylemanager.pas"/>
