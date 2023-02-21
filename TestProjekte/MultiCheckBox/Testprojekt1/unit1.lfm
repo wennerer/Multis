@@ -1,0 +1,561 @@
+object Form1: TForm1
+  Left = 457
+  Height = 534
+  Top = 250
+  Width = 916
+  Caption = 'Test the MultiCheckbox'
+  ClientHeight = 534
+  ClientWidth = 916
+  object MultiCheckGroup1: TMultiCheckGroup
+    Left = 8
+    Height = 120
+    Top = 8
+    Width = 210
+    Caption = 'MultiCheckGroup:'
+    Checkboxes = <    
+      item
+        Caption = 'Checkbox 1'
+        Selected = True
+        DisplayName = 'TMultiCheckbox'
+      end    
+      item
+        Caption = 'Checkbox 2'
+        Selected = False
+        DisplayName = 'TMultiCheckbox'
+      end    
+      item
+        Caption = 'Checkbox 3'
+        Selected = False
+        DisplayName = 'TMultiCheckbox'
+      end    
+      item
+        Caption = 'Checkbox 4'
+        Selected = False
+        DisplayName = 'TMultiCheckbox'
+      end>
+    Rows = 1
+    TabOrder = 0
+    OnChange = MultiCheckGroupChange
+    OnClick = MultiCheckGroupClick
+  end
+  object MultiCheckGroup2: TMultiCheckGroup
+    Left = 232
+    Height = 120
+    Top = 8
+    Width = 210
+    Checkboxes = <    
+      item
+        Caption = 'Checkbox 1'
+        Selected = True
+        SelctedStyle = ssTick
+        DisplayName = 'TMultiCheckbox'
+      end    
+      item
+        Caption = 'Checkbox 2'
+        Selected = True
+        SelctedStyle = ssMinus
+        DisplayName = 'TMultiCheckbox'
+      end    
+      item
+        Caption = 'Checkbox 3'
+        Selected = True
+        SelctedStyle = ssPlus
+        DisplayName = 'TMultiCheckbox'
+      end>
+    Rows = 1
+    TabOrder = 1
+    OnChange = MultiCheckGroupChange
+    OnClick = MultiCheckGroupClick
+  end
+  object MultiCheckGroup3: TMultiCheckGroup
+    Left = 456
+    Height = 120
+    Top = 8
+    Width = 210
+    Caption = 'MultiCheckGroup:'
+    Font.Color = 428537
+    FocusColor = 428537
+    ColorGradient = gcHorizontal
+    ColorStart = 4342350
+    ColorEnd = clBlack
+    Checkboxes = <    
+      item
+        Caption = 'Checkbox 1'
+        ButtonSelBackColor = 428537
+        Selected = True
+        SelctedStyle = ssTick
+        HoverStyle = hsFrame
+        DisplayName = 'TMultiCheckbox'
+      end    
+      item
+        Caption = 'Checkbox 2'
+        ButtonSelBackColor = 428537
+        Selected = False
+        SelctedStyle = ssTick
+        HoverStyle = hsFrame
+        DisplayName = 'TMultiCheckbox'
+      end    
+      item
+        Caption = 'Checkbox 3'
+        ButtonSelBackColor = 428537
+        Selected = False
+        SelctedStyle = ssTick
+        HoverStyle = hsFrame
+        DisplayName = 'TMultiCheckbox'
+      end    
+      item
+        Caption = 'Checkbox 4'
+        ButtonSelBackColor = 428537
+        Selected = False
+        SelctedStyle = ssTick
+        HoverStyle = hsFrame
+        DisplayName = 'TMultiCheckbox'
+      end>
+    Rows = 1
+    TabOrder = 2
+    OnChange = MultiCheckGroupChange
+    OnClick = MultiCheckGroupClick
+  end
+  object MultiCheckGroup4: TMultiCheckGroup
+    Left = 688
+    Height = 120
+    Top = 8
+    Width = 210
+    Style = mssRect
+    ColorGradient = gcRadiant
+    ColorStart = 10868926
+    ColorEnd = clMoneyGreen
+    Checkboxes = <    
+      item
+        Caption = 'This is  Checkbox 1 and has a wordbreak'
+        ButtonColor = clYellow
+        ButtonSelColor = clWhite
+        ButtonSelBackColor = clNavy
+        Selected = True
+        SelctedStyle = ssPlus
+        CaptionWordbreak = True
+        DisplayName = 'TMultiCheckbox'
+      end    
+      item
+        Caption = 'This is Checkbox 2'
+        ButtonColor = clYellow
+        ButtonSelColor = clWhite
+        ButtonSelBackColor = clNavy
+        Selected = False
+        SelctedStyle = ssPlus
+        DisplayName = 'TMultiCheckbox'
+      end    
+      item
+        Caption = 'This is  Checkbox 3 and has also a worbreak'
+        ButtonColor = clYellow
+        ButtonSelColor = clWhite
+        ButtonSelBackColor = clNavy
+        Selected = False
+        SelctedStyle = ssPlus
+        CaptionWordbreak = True
+        DisplayName = 'TMultiCheckbox'
+      end>
+    Rows = 2
+    TabOrder = 3
+    OnChange = MultiCheckGroupChange
+    OnClick = MultiCheckGroupClick
+  end
+  object MultiPanel1: TMultiPanel
+    Left = 8
+    Top = 168
+    Width = 890
+    Style = mpsRoundRect
+    ColorStart = clSkyBlue
+    ColorEnd = clTeal
+    ColorGradient = gcAlternate
+    Caption = 'In this multipanel are connected multicheckboxes, test arrow keys and space'
+    Font.Height = 20
+    CaptionLayout = tlTop
+    StrPolygon = (
+      '50'
+      '2'
+      '98'
+      '98'
+      '2'
+      '98'
+      '50'
+      '2'
+    )
+    object MultiCheckGroup5: TMultiCheckGroup
+      Left = 40
+      Height = 112
+      Top = 32
+      Width = 150
+      FocusFrameWidth = 0
+      FocusFrameOn = False
+      ColorStart = clNone
+      Checkboxes = <      
+        item
+          Caption = 'Checkbox 1'
+          Selected = False
+          HoverColor = 12368901
+          DisplayName = 'TMultiCheckbox'
+          Tag = 1
+        end      
+        item
+          Caption = 'Checkbox 2'
+          Selected = False
+          HoverColor = 12368901
+          DisplayName = 'TMultiCheckbox'
+          Tag = 2
+        end      
+        item
+          Caption = 'Checkbox 3'
+          Selected = False
+          HoverColor = 12368901
+          DisplayName = 'TMultiCheckbox'
+          Tag = 3
+        end      
+        item
+          Caption = 'Checkbox 4'
+          Selected = True
+          HoverColor = 12368901
+          DisplayName = 'TMultiCheckbox'
+          Tag = 4
+        end      
+        item
+          Caption = 'Checkbox 5'
+          Selected = False
+          HoverColor = 12368901
+          DisplayName = 'TMultiCheckbox'
+          Tag = 5
+        end>
+      GroupIndex = 1
+      Rows = 1
+      TabOrder = 0
+      OnChange = MultiCheckGroupChange
+      OnClick = MultiCheckGroupClick
+    end
+    object MultiCheckGroup6: TMultiCheckGroup
+      Left = 248
+      Height = 64
+      Top = 32
+      Width = 150
+      FocusFrameWidth = 0
+      FocusFrameOn = False
+      ColorStart = clNone
+      TabStop = False
+      Checkboxes = <      
+        item
+          Caption = 'Checkbox 6'
+          Selected = False
+          HoverColor = 12368901
+          DisplayName = 'TMultiCheckbox'
+          Tag = 6
+        end      
+        item
+          Caption = 'Checkbox 7'
+          Selected = True
+          HoverColor = 12368901
+          DisplayName = 'TMultiCheckbox'
+          Tag = 7
+        end      
+        item
+          Caption = 'Checkbox 8'
+          Selected = False
+          HoverColor = 12368901
+          DisplayName = 'TMultiCheckbox'
+          Tag = 8
+        end>
+      GroupIndex = 1
+      Rows = 1
+      TabOrder = 1
+      OnChange = MultiCheckGroupChange
+      OnClick = MultiCheckGroupClick
+    end
+    object MultiCheckGroup7: TMultiCheckGroup
+      Left = 472
+      Height = 112
+      Top = 32
+      Width = 150
+      FocusFrameWidth = 0
+      FocusFrameOn = False
+      ColorStart = clNone
+      TabStop = False
+      Checkboxes = <      
+        item
+          Caption = 'Checkbox 9'
+          Selected = False
+          HoverColor = 12368901
+          DisplayName = 'TMultiCheckbox'
+          Tag = 9
+        end      
+        item
+          Caption = 'Checkbox 10'
+          Selected = True
+          HoverColor = 12368901
+          DisplayName = 'TMultiCheckbox'
+          Tag = 10
+        end      
+        item
+          Caption = 'Checkbox 11'
+          Selected = True
+          HoverColor = 12368901
+          DisplayName = 'TMultiCheckbox'
+          Tag = 11
+        end      
+        item
+          Caption = 'Checkbox 12'
+          Selected = False
+          HoverColor = 12368901
+          DisplayName = 'TMultiCheckbox'
+          Tag = 12
+        end      
+        item
+          Caption = 'Checkbox 13'
+          Selected = False
+          HoverColor = 12368901
+          DisplayName = 'TMultiCheckbox'
+          Tag = 13
+        end>
+      GroupIndex = 1
+      Rows = 1
+      TabOrder = 2
+      OnChange = MultiCheckGroupChange
+      OnClick = MultiCheckGroupClick
+    end
+    object MultiCheckGroup8: TMultiCheckGroup
+      Left = 688
+      Height = 48
+      Top = 32
+      Width = 150
+      FocusFrameWidth = 0
+      FocusFrameOn = False
+      ColorStart = clNone
+      TabStop = False
+      Checkboxes = <      
+        item
+          Caption = 'Checkbox 14'
+          Selected = False
+          HoverColor = 12368901
+          DisplayName = 'TMultiCheckbox'
+          Tag = 14
+        end      
+        item
+          Caption = 'Checkbox 15'
+          Selected = False
+          HoverColor = 12368901
+          DisplayName = 'TMultiCheckbox'
+          Tag = 15
+        end>
+      GroupIndex = 1
+      Rows = 1
+      TabOrder = 3
+      OnChange = MultiCheckGroupChange
+      OnClick = MultiCheckGroupClick
+    end
+  end
+  object MultiCheckGroup9: TMultiCheckGroup
+    Left = 8
+    Height = 176
+    Top = 344
+    Width = 210
+    Caption = 'Weather'
+    FocusFrameWidth = 2
+    FocusColor = 36863
+    ColorStart = 1095864
+    ColorEnd = clYellow
+    Checkboxes = <    
+      item
+        Caption = 'Rain'
+        Selected = True
+        HoverColor = 36863
+        CaptionHorMargin = 25
+        Images = ImageList1
+        ImageIndex = 0
+        ImageLeft = 5
+        DisplayName = 'TMultiCheckbox'
+      end    
+      item
+        Caption = 'Cloudy'
+        Selected = False
+        HoverColor = 36863
+        CaptionHorMargin = 25
+        Images = ImageList1
+        ImageIndex = 1
+        ImageLeft = 5
+        DisplayName = 'TMultiCheckbox'
+      end    
+      item
+        Caption = 'Thunderstorm'
+        Selected = False
+        HoverColor = 36863
+        CaptionHorMargin = 25
+        Images = ImageList1
+        ImageIndex = 2
+        ImageLeft = 5
+        DisplayName = 'TMultiCheckbox'
+      end    
+      item
+        Caption = 'Clear'
+        Selected = False
+        HoverColor = 36863
+        CaptionHorMargin = 25
+        Images = ImageList1
+        ImageIndex = 3
+        ImageLeft = 5
+        DisplayName = 'TMultiCheckbox'
+      end    
+      item
+        Caption = 'Sunny'
+        Selected = False
+        HoverColor = 36863
+        CaptionHorMargin = 25
+        Images = ImageList1
+        ImageIndex = 4
+        ImageLeft = 5
+        DisplayName = 'TMultiCheckbox'
+      end>
+    Rows = 1
+    TabOrder = 5
+    OnChange = MultiCheckGroupChange
+    OnClick = MultiCheckGroupClick
+  end
+  object Label1: TLabel
+    Left = 308
+    Height = 20
+    Top = 357
+    Width = 68
+    AutoSize = False
+    Caption = 'OnClick'
+    Color = clWhite
+    Font.Height = 14
+    ParentFont = False
+    Transparent = False
+  end
+  object Label2: TLabel
+    Left = 308
+    Height = 20
+    Top = 419
+    Width = 76
+    AutoSize = False
+    Caption = 'OnChange'
+    Color = clWhite
+    Font.Height = 14
+    ParentFont = False
+    Transparent = False
+  end
+  object Label3: TLabel
+    Left = 408
+    Height = 20
+    Top = 357
+    Width = 489
+    AutoSize = False
+    Color = clWhite
+    Font.Height = 14
+    ParentFont = False
+    Transparent = False
+  end
+  object Label4: TLabel
+    Left = 408
+    Height = 20
+    Top = 419
+    Width = 489
+    AutoSize = False
+    Color = clWhite
+    Font.Height = 14
+    ParentFont = False
+    Transparent = False
+  end
+  object ImageList1: TImageList
+    Left = 760
+    Top = 464
+    Bitmap = {
+      4C7A050000001000000010000000290B00000000000078DADD5709509359120E
+      A85CA3E000AEA344C7DA59451D01C12B2A28C8A0282A97A2E3BD8A8A7880AE08
+      8A2237C88DDC01E510722188C82184C3832BC020102401392278214A38041202
+      7FEFFBE3E0328EA338555B53BB7FD557E974FA7BDDFDDEEBFABF1008FFDF4FC4
+      E93D25A1FFDA5B3C9E58B5199397CDFE567A0611D92749F38EC6FB9D6F4D66DC
+      004A4C20A6F30F451DB5999337CBCB4C90F9237E62886BEF55679B270EFB36A6
+      6664DD86ACFC5C3172EF17401A231E6E65DE86C39B57057CCC9B2A3311CFAD7F
+      F9A051C52887F9A010B20B981FD6C0919A990E8911DE5D7B562EDC3ACA75FBE7
+      0672F425CB472969C99096710B329877C5C0E333F372202D3B03926FDF82E4F4
+      54A0DCA4C3F5C478888D0A82884B560DB3BF95991676D1AA2D212A0062293720
+      9141856B37E2200ED93812E81448A0512036290162903F2C3A12FC820321282C
+      04A262AF41A8CDB6B2E953264DB3375D7A96EA7DB229D6E9E09B6BB164888C8D
+      81EBE46008254780DFD54088888982EBDE6787C8DEF622F215FBE144D7A3FC28
+      9B2DE5A64BE71CC67B78106A7BB92EE54A4C35CDEDEE6D2FCBC6142FABB63BDE
+      073914F7A31D541F1BFE4DCF23CF8BA3CFD5205497C4D85757C65FA872B5582E
+      E66ACD9DA15095E4E25B7FCB27B42ED92B994D772BA8A1B91457539D4B1E512E
+      9755253AB11E255E2AAFC271E3520542F92F098E0F37A97FA781F30FEA2E58CA
+      490FB2A94FF373AF4BF10E67333C286CBA7B7A2DCD955943752944EB1456539C
+      0B107211EED4505DA92591B661EADF4C9A88F35383CF2EE5A65F35AEBFE57BF0
+      718AF76976B287139BE6E6856AF0AFA5BA04A235026AA9AE3E35343757B4AE3D
+      3BD9DB2AFE94C1BAD1F32BC8BEAADC5410F7434366B0D6E35B3E6B510F1BEB18
+      1E5BEBE86EA66C869B692DDD6D0B9BE169C04EF55EDD9CE0A5F630257C8EB5E1
+      CC6F46F901010113190CC6C4F8C840E9F4685FB9B44837F9E4ABE7A7A6855D9A
+      CA08B9201F13E429171FE127EDEBEB3B118FC531DED999A24A92C5F167674FF3
+      A4FF3AADE3FEEBC6132BA54494935A4C921AEBB3B8FBD4D5E22ECF75AC4F5A49
+      65121EFB315F5A8938E95825166C105CBC0DD932A86EA585F6B4E30BEDE927A6
+      CC2329E1BE95E46233EB8A9160E98FF28C3E2BA38ACDF616BEF6324D6EF573E6
+      81C0ED35806307C09916106E62F0BCCC4A31BB95F1C5E69FE22E5257D7D437FD
+      D9C229BBEEA5EB2B80F38867873EF7B701983E0538D28A8121FDA9175EC7C75C
+      730B8BED6DEDED5843DB4B70447196ED00AE6F005C3A416C9B23FE662E0607D8
+      98608AEA0AC5B15CF9F92439BB086A36A5B50F289C01388372EE46F1C79F039C
+      44D887F25B573D85A0A21AB02BE6C18FF6746B7C4F358FFBEBA37D915D64B863
+      6EF6E3F6416A4B0F50EAFBE1F8330033C4DFD52202AFB27A082DAB85C69666E8
+      EDED055665255C88A4555E61B238BA8E3146385F4D437D7367672754D7D64049
+      CD63B0E20EC39646543B8B03FCEE6EE878DD0142A1506C731B1BE0E5AB57C07E
+      5C07878E1C76C7EB57505090898C26DFCDCDCFC33298F97099C9813D1C0CA250
+      BDAD3C1EBCEBEF87376FDF420BB21B9B9AA016714B586570EEBC43D6EFCE8F5C
+      6266CEC2CE1A934BC92F3B3AA0ED593B3C7FF102EAB95CE03434406D1D1B8A4A
+      4BE0DEC30790957B175353575B39F65E59576041A484E26D4BD76DD26B6A69C6
+      5895158003E7E039F1CF07C54562E4E431115F7DD598FB272BAD4C9C34FA7DFB
+      0E0BCBAB8CF4AA206ADAA33376671936674E334EDADABC87CD29BAB199E9E12F
+      CDC462343F9AE39C9FFFC6FCAACC222E45D8288B9EF1C4A3304914AF87A06D7D
+      FC3839232B13526FA781938B73A3A2B2E2B4CF72E564252F5C74CC7B88F6363D
+      33037298B9626ED4B518080A0D019F00BF01B44EE71A5DDDA39FE2136711D7B1
+      2ACAE17A7C2C8445454078542464DECD060A8306B189099044A34228F23BB93A
+      632876DE4775CBEC3DB03F8142A7417AC61DC8C8CE82C81832F8F8FB82AB9707
+      CAED0F2E9EEEE0EEED09EE57BC407B8DB6C358FE8E9D3B3C1F143D84B43BE950
+      70FF1E7A0FA7C3F58438A0A7DC14D7E286D6C8BF57087E81FE60EF781E6CCF9E
+      19467BF4C328DFCEFE5C66129D0A5939D9E29EE3931221262E565CEF95003FB8
+      E87C59BCF6B5F83848A024C2157F3FD05CA265F56BDFAB1E14156129E81DCF2C
+      C887DC3C26CA55807AC814C7FBA09C8E2E4E10121E86D6BC2E4660483018186E
+      A0BEE7CFD2CE2B2CC0F03DC7EF7A734B8B78463968660A512F785D78CFD7D15A
+      8CD41408234782878F379C3C6DD3A5A8A4844B25C29AB56B8F581E394C3F6275
+      94119856D8939A7F1FC8497474061162D092E9E2D9AFAA7E84CF0DEA2109F5E0
+      0BC4D9B3368FDD47D513BE3AA77883232E4F84C24B193583B1F81E263320139D
+      4701DA3FBCC6B81BF110101C04072C0FE6E0E73696AFA4BD4D7DD6211F539B26
+      41BFEA311F33DCA7AC4192DB5A35D814F45288EDB8CDCB51D6DE46FCDC3D54B4
+      F559B6286B20454699383A437F9BAA6D6E68C2123CD899DD4CF9D20C4CF62AD8
+      3F79CB2995DFBC9B3448126ABFBC2B57D2B19DFEC5213AE7F1BBFA64F54EA928
+      8414ECFFD322789F1591F01DF1CB7144146360FE5E5B68922425D61B4B4DA6E6
+      1813162C92186FAA39D5EDC60ACDBDF39438FCC5739F74EBAEE7F51E53E4F235
+      64F239B3250F9C5026F8446B7D9238832821955BA5426AEEDB6AD830F02F52D9
+      60C8AE1AD1BD436C118BC41286FC58DBB757A7B5F79C2C83B9405CE7E8337DA6
+      24C1C47C82541E47E5FB86EED5A45241B84B23F4503A014B46EF4F1CB8EDF204
+      7A7F620D51551AF92B26FA5F531ADBF3DFE94C6D235EDF2E1D96203AE01908E3
+      D0BBFBD65B0C98DDEF81DBB8CFFF190C69160BC355B8FC5592173D17123698CA
+      E34BC83DE9FA8154FFEED0692E7407BF40B19D18DCECC220A3FB3D701BF705BF
+      C4C0B601FA0C38FDDEF2F76B8DC47D6C329154E6766B6A9509825D5F6098DFCB
+      11887A330209FC11A0F60C8B11F176181C5E0CC381D6613888F4018A0D97E7BC
+      5D80E796D86022ADFAA467EDC647A27C6BDE08B8BF1A862B6F44E0FC76086CDE
+      0861C72B016C782680B5AD4258DE30046A7522D0A914E52BA2F321186F972032
+      F2E6AF6DED3543FCFBCBB922D06B1182E1F341307D3D003BBAFA61278259E700
+      6C44BE35E8B7251C11ACAF1A2E577DD2BD97B0EF943C4163B9A41297BF58AD54
+      10ACDF22C2F49F0AC0B863007677F783E5C03B3170DB04F9F4DB501DCD226C71
+      A9307A3AB75B8FB0C1587C90B205B573E6D5F65AE8B147F8062806CFB7BFEF1D
+      9C10F5C1498403C836473E83760168B347BAE754F75A4C4CC9FB304B12E7BDE4
+      B4797DC63AE5C204FD96E1213CD79E9E7E383CD0078707FBC4B609EA47B75524
+      5A5E3A4451E4746B48682CFBA08365B69AC9CE4CAF9B4F6CE4AF542D125C5D55
+      37CCDFF25A80EDE4A3FE11707BC5E361FEDC2261F892E61EB3A92CEECA4FCDCE
+      0446EEB4690DFC25AB1EBF3BBAB84C18A35A3EC49C5F3E94BFBA5C48FBFE51DF
+      76C5FA2E8D0921F10A04F56593FE7080761F915E5054BF5A91D3B508CD90A612
+      B74B7369738F895412F33B8291C9B8B4BBA4FAF2096263CB7649C2661309E9F5
+      46727F857EF85FD4FFA6C5989D49729BD7D7EAFF5F6B9031A2F13CBE56FF7FD0
+      F2AA2445FB66107EADFED73AE1F79345CE53B7850E34EB4FE97F5CCF1B214DBD
+      A716FB9DFE9FB28024B3F8849FAE45F653E7850EF463A3FA7F27FE1F00613B82
+      712BC026C4DD5589F80EBFE5FFF6BEAC503CC4C10671FD6FCCC3C00471B7A2BE
+      8DEA313028C6E067162644E7F2EDE7F66F5D12CF1DD7FF9B6A10EA30D8588DC1
+      FAE211D85E82816E12CFE373FB37AAFFF512796EBBAB30C1AE2A94B302A10C1B
+      D443E7625A84D9198694987F3AF77FF43F9E437E1E692ADACF633FDAD38EE135
+      4B29A9486B514B8C8F558C04497DE2FE7CACFFBFF6FEFE55FAFFDF5D878274
+    }
+  end
+end

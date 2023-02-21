@@ -19,13 +19,14 @@
 -TMultiPanel, a panel with drop-down effect
 -TMultiLayer, a component provides a page that can also be made invisible at design time
 -TMultiRadioGroup, you can set the colours and show images
+-TMultiCheckGroup, you can set the colours and show images
 - the unit PointIn
 -the unit custompen
 
 The help for the package can be called up via the menu item Help , Multis-Help."/>
     <License Value="modified LGPL-2"/>
-    <Version Major="1" Release="5" Build="6"/>
-    <Files Count="24">
+    <Version Major="1" Release="6" Build="1"/>
+    <Files Count="27">
       <Item1>
         <Filename Value="multibuttonstylemanager.pas"/>
         <HasRegisterProc Value="True"/>
@@ -130,6 +131,19 @@ The help for the package can be called up via the menu item Help , Multis-Help."
         <Filename Value="mrg_radiobuttonitem.inc"/>
         <Type Value="Include"/>
       </Item24>
+      <Item25>
+        <Filename Value="multicheckgroup.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="MultiCheckGroup"/>
+      </Item25>
+      <Item26>
+        <Filename Value="checkboxcollection.inc"/>
+        <Type Value="Include"/>
+      </Item26>
+      <Item27>
+        <Filename Value="checkboxitem.inc"/>
+        <Type Value="Include"/>
+      </Item27>
     </Files>
     <CompatibilityMode Value="True"/>
     <i18n>
