@@ -209,7 +209,7 @@ type
     property Selected : Boolean read FSelected write SetSelected;
     //The character that is displayed in a selected box
     //Das Zeichen das in einer selektierten Box dargestellt wird
-    property SelctedStyle : TSelStyle read FSelStyle write SetSelStyle default ssCross;
+    property SelectedStyle : TSelStyle read FSelStyle write SetSelStyle default ssCross;
     //The color of a hoverevent
     //Die Farbe eines Hoverereignisses
     property HoverColor : TColor read FHoverColor write SetHoverColor default clSilver;

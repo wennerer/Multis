@@ -47,19 +47,19 @@ object Form1: TForm1
       item
         Caption = 'Checkbox 1'
         Selected = True
-        SelctedStyle = ssTick
+        SelectedStyle = ssTick
         DisplayName = 'TMultiCheckbox'
       end    
       item
         Caption = 'Checkbox 2'
         Selected = True
-        SelctedStyle = ssMinus
+        SelectedStyle = ssMinus
         DisplayName = 'TMultiCheckbox'
       end    
       item
         Caption = 'Checkbox 3'
         Selected = True
-        SelctedStyle = ssPlus
+        SelectedStyle = ssPlus
         DisplayName = 'TMultiCheckbox'
       end>
     Rows = 1
@@ -83,7 +83,7 @@ object Form1: TForm1
         Caption = 'Checkbox 1'
         ButtonSelBackColor = 428537
         Selected = True
-        SelctedStyle = ssTick
+        SelectedStyle = ssTick
         HoverStyle = hsFrame
         DisplayName = 'TMultiCheckbox'
       end    
@@ -91,7 +91,7 @@ object Form1: TForm1
         Caption = 'Checkbox 2'
         ButtonSelBackColor = 428537
         Selected = False
-        SelctedStyle = ssTick
+        SelectedStyle = ssTick
         HoverStyle = hsFrame
         DisplayName = 'TMultiCheckbox'
       end    
@@ -99,7 +99,7 @@ object Form1: TForm1
         Caption = 'Checkbox 3'
         ButtonSelBackColor = 428537
         Selected = False
-        SelctedStyle = ssTick
+        SelectedStyle = ssTick
         HoverStyle = hsFrame
         DisplayName = 'TMultiCheckbox'
       end    
@@ -107,7 +107,7 @@ object Form1: TForm1
         Caption = 'Checkbox 4'
         ButtonSelBackColor = 428537
         Selected = False
-        SelctedStyle = ssTick
+        SelectedStyle = ssTick
         HoverStyle = hsFrame
         DisplayName = 'TMultiCheckbox'
       end>
@@ -132,7 +132,7 @@ object Form1: TForm1
         ButtonSelColor = clWhite
         ButtonSelBackColor = clNavy
         Selected = True
-        SelctedStyle = ssPlus
+        SelectedStyle = ssPlus
         CaptionWordbreak = True
         DisplayName = 'TMultiCheckbox'
       end    
@@ -142,7 +142,7 @@ object Form1: TForm1
         ButtonSelColor = clWhite
         ButtonSelBackColor = clNavy
         Selected = False
-        SelctedStyle = ssPlus
+        SelectedStyle = ssPlus
         DisplayName = 'TMultiCheckbox'
       end    
       item
@@ -151,7 +151,7 @@ object Form1: TForm1
         ButtonSelColor = clWhite
         ButtonSelBackColor = clNavy
         Selected = False
-        SelctedStyle = ssPlus
+        SelectedStyle = ssPlus
         CaptionWordbreak = True
         DisplayName = 'TMultiCheckbox'
       end>

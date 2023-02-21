@@ -39,8 +39,8 @@
         <Filename Value="../../../multicheckgroup.pas"/>
         <UnitName Value="MultiCheckGroup"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="1435"/>
-        <CursorPos X="9" Y="1435"/>
+        <TopLine Value="204"/>
+        <CursorPos X="18" Y="212"/>
         <UsageCount Value="60"/>
       </Unit>
       <Unit>
@@ -67,6 +67,14 @@
         <EditorIndex Value="-1"/>
         <CursorPos X="43"/>
         <UsageCount Value="10"/>
+      </Unit>
+      <Unit>
+        <Filename Value="unit1.lfm"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="178"/>
+        <CursorPos X="22" Y="154"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="20">
