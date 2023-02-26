@@ -1,6 +1,6 @@
 { <A CheckGroup in the multi design>
   <Version 1.0.0.1>
-  Copyright (C) <21.02.2023> <Bernd Hübner>
+  Copyright (C) <26.02.2023> <Bernd Hübner>
 
   This library is free software; you can redistribute it and/or modify it under the
   terms of the GNU Library General Public License as published by the Free Software
@@ -313,6 +313,7 @@ type
     FLRFlag                 : boolean;
     TabFlag                 : boolean;
     FJumpEnter              : boolean;
+
 
     function CalculateTextRectWithWordbreak(aCaptionHeight, aTRH, aSpace, alv,
       aRow: integer): TRect;
@@ -1417,7 +1418,7 @@ begin
        end;
       if Checkboxes.Items[lv].FSelStyle = ssTick then
        begin
-        Canvas.Pen.Width:= 1;
+        Canvas.Pen.Width:= 2;
         Canvas.Brush.Color:= Checkboxes.Items[lv].FButtonSelColor;
 
         TickPoints[0].X:= ButRect.Left+1;
@@ -1445,12 +1446,19 @@ begin
        end;
       if Checkboxes.Items[lv].FSelStyle = ssPlus then
        begin
-        i := Canvas.Pen.Width;
+        (*i := Canvas.Pen.Width;
         Canvas.Pen.Width:= 2;
         canvas.Line(ButRect.Left+(ButRect.Width div 2),ButRect.Top+3,
                     ButRect.Left+(ButRect.Width div 2),ButRect.Bottom-3);
         Canvas.Line(ButRect.Right-3,ButRect.Top+(ButRect.Height div 2),
                     ButRect.Left+2,ButRect.Top+(ButRect.Height div 2));
+        Canvas.Pen.Width:= i; *)
+        i := Canvas.Pen.Width;
+        Canvas.Pen.Width:= 3;
+        canvas.Line(ButRect.Left+2,ButRect.Top+(ButRect.Height div 2),
+                    ButRect.Right-3,ButRect.Top+(ButRect.Height div 2));
+        Canvas.Line(ButRect.Left+(ButRect.Width div 2),ButRect.Top+2,
+                    ButRect.Left+(ButRect.Width div 2),ButRect.Bottom-3);
         Canvas.Pen.Width:= i;
        end;
      end;//Checkboxes selected
