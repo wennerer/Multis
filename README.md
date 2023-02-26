@@ -16,4 +16,4 @@ When installing the package you get the possibility to create a new menu entry i
 This can be used to call up the help file.    
 See also the demo projects in the package.
 
-![screenshots](screenshots/screenshot.png)![screenshots](screenshots/screenshot2.png)    
+![screenshots](screenshots/screenshot.png)![screenshots](screenshots/Screenshot2.png)    
