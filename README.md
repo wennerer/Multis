@@ -12,9 +12,8 @@ The components are characterized by the fact that they have many user-defined pr
 I developed and tested it under Linux Mint 64bit. I compiled it under Windows 64 and 32 bit, Linux 32 bit, Linux with qt and FreeBSD.   
 For more Information see: https://www.lazarusforum.de/viewtopic.php?p=125633#p125633  
 In the help directory there is a small description of the components contained in the package (in English and German).    
-See also the demo projects in the package.     
 When installing the package you get the possibility to create a new menu entry in the help menu of the Lazarus IDE.    
-This can be used to call up the help file.   
+This can be used to call up the help file.    
+See also the demo projects in the package.
 
-![screenshots](screenshots/screenshot.png)    
-![screenshots](screenshots/screenshot2.png)
+![screenshots](screenshots/screenshot.png)(screenshots/screenshot2.png)    
