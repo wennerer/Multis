@@ -1,6 +1,6 @@
 { <A button with an integrated button>
-  <Version 1.2.7.6>
-  Copyright (C) <29.12.2022> <Bernd Hübner>
+  <Version 1.2.7.7>
+  Copyright (C) <12.03.2023> <Bernd Hübner>
   Many thanks to the members of the German Lazarus Forum!
   wp_xyz helped me jump over many hurdles!
   For some improvements see https://www.lazarusforum.de/viewtopic.php?f=29&t=13252
@@ -429,6 +429,7 @@ type
    procedure OnlyMultiButtonWithoutImage900(var PreferredWidth,PreferredHeight:integer;spacer:integer);
 
   public
+   MouseButton: TMouseButton;
    constructor Create(AOwner: TComponent); override;
    destructor  Destroy; override;
    procedure   Paint; override;
@@ -1465,6 +1466,7 @@ procedure TMultiButton.MouseDown(Button: TMouseButton; Shift: TShiftState; X,
 var MulBIn, MesBIn : boolean;
 begin
  inherited MouseDown(Button, Shift, X, Y);
+ MouseButton := Button;
  if not FEnabled then exit;
  if FMessageButton.FVisible then
   begin
@@ -1546,8 +1548,7 @@ begin
 end;
 
 
-procedure TMultiButton.MouseUp(Button: TMouseButton; Shift: TShiftState; X,
-  Y: Integer);
+procedure TMultiButton.MouseUp(Button: TMouseButton; Shift: TShiftState; X,Y: Integer);
 var MulBIn,MesBIn : boolean;
 begin
   inherited MouseUp(Button, Shift, X, Y);
