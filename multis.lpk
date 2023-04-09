@@ -26,7 +26,7 @@
 The help for the package can be called up via the menu item Help , Multis-Help."/>
     <License Value="modified LGPL-2"/>
     <Version Major="1" Release="6" Build="1"/>
-    <Files Count="27">
+    <Files Count="30">
       <Item1>
         <Filename Value="multibuttonstylemanager.pas"/>
         <HasRegisterProc Value="True"/>
@@ -144,6 +144,19 @@ The help for the package can be called up via the menu item Help , Multis-Help."
         <Filename Value="checkboxitem.inc"/>
         <Type Value="Include"/>
       </Item27>
+      <Item28>
+        <Filename Value="multieventline.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="MultiEventLine"/>
+      </Item28>
+      <Item29>
+        <Filename Value="eventcollection.inc"/>
+        <Type Value="Include"/>
+      </Item29>
+      <Item30>
+        <Filename Value="eventitem.inc"/>
+        <Type Value="Include"/>
+      </Item30>
     </Files>
     <CompatibilityMode Value="True"/>
     <i18n>
