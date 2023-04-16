@@ -727,10 +727,6 @@ type
    property DragMode;
    property DragKind;
    property DragCursor;
-   property OnDragDrop;
-   property OnDragOver;
-   property OnEndDrag;
-   property OnStartDrag;
    property Align;
    property Anchors;
    property Action;
@@ -757,6 +753,10 @@ type
    property OnKeyPress       : TKeyPressEvent read FOnKeyPress write FOnKeyPress;
    property OnKeyDown        : TKeyEvent read FOnKeyDown write FOnKeyDown;
    property OnKeyUp          : TKeyEvent read FOnKeyUp write FOnKeyUp;
+   property OnDragDrop;
+   property OnDragOver;
+   property OnEndDrag;
+   property OnStartDrag;
    //Returns the value of Knob1 (as integer)
    //Liefert den Wert von Knob1 (als integer)
    property OnChange     : TChangeEvent read FOnChange write FOnChange;

@@ -5,14 +5,26 @@
 constructor TMultiEvent.Create(ACollection: TCollection);
 begin
  inherited Create(ACollection);
- FEvents             := ACollection;
+ FEvents              := ACollection;
  FDisplayName         := 'Event';
  FEnabled             := true;
  FVisible             := true;
- FColor               := RGB(random(255),random(255),random(255));
- FDiameter            := random(15)+10;
- FLeft                := random(75);
- FTop                 := random(75);
+ FLeft                := 0;
+ FTop                 := 0;
+ FSize                := 15;
+ FNumbers             := true;
+ FBorderColor         := clBlack;
+ FBorderWidth         := 1;
+ FColorStart          := clWhite;
+ FColorEnd            := clCream;
+ FGradient            := gcSpread;
+ FStyle               := mesCircle;
+ FRRRadius            := 5;
+ FDisabledColor       := $D2D2D2;
+ FBlendValue          := 180;
+ FHover               := false;
+ FHoverColor          := clOlive;
+ FHoverBlendValue     := 120;
 end;
 
 
@@ -28,6 +40,36 @@ procedure TMultiEvent.SetEnabled(AValue: boolean);
 begin
   if FEnabled=AValue then Exit;
   FEnabled:=AValue;
+end;
+
+procedure TMultiEvent.SetColorEnd(AValue: TColor);
+begin
+  if FColorEnd=AValue then Exit;
+  FColorEnd:=AValue;
+end;
+
+procedure TMultiEvent.SetColorStart(AValue: TColor);
+begin
+  if FColorStart=AValue then Exit;
+  FColorStart:=AValue;
+end;
+
+procedure TMultiEvent.SetGradient(AValue: TGradientCourse);
+begin
+  if FGradient=AValue then Exit;
+  FGradient:=AValue;
+end;
+
+procedure TMultiEvent.SetRRRadius(AValue: integer);
+begin
+  if FRRRadius=AValue then Exit;
+  FRRRadius:=AValue;
+end;
+
+procedure TMultiEvent.SetSize(AValue: integer);
+begin
+  if FSize=AValue then Exit;
+  FSize:=AValue;
 end;
 
 function TMultiEvent.GetDisplayName: string;

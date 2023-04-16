@@ -2,6 +2,74 @@ object Form1: TForm1
   Left = 457
   Height = 355
   Top = 250
-  Width = 513
+  Width = 871
   Caption = 'Form1'
+  ClientHeight = 355
+  ClientWidth = 871
+  OnCreate = FormCreate
+  ShowHint = True
+  object MultiPanel1: TMultiPanel
+    Left = 24
+    Height = 264
+    Top = 16
+    Width = 832
+    StrPolygon = (
+      '50'
+      '2'
+      '98'
+      '98'
+      '2'
+      '98'
+      '50'
+      '2'
+    )
+    object MultiEventLine1: TMultiEventLine
+      Left = 173
+      Height = 30
+      Top = 99
+      Width = 515
+      Events = <      
+        item
+          ColorStart = clGray
+          Size = 15
+          DisabledColor = clMoneyGreen
+          Left = 3
+          Top = 8
+          Tag = 0
+          BorderColor = clRed
+          Style = mesRect
+        end      
+        item
+          Size = 15
+          Left = 126
+          Top = 8
+          Tag = 1
+        end      
+        item
+          Size = 15
+          Left = 249
+          Top = 8
+          Tag = 2
+        end      
+        item
+          Size = 15
+          Left = 372
+          Top = 8
+          Tag = 3
+          Style = mesRoundRect
+        end      
+        item
+          Size = 15
+          Left = 495
+          Top = 8
+          Tag = 4
+        end>
+      SetSizeAllEvents = 15
+      LineSettings.Width = 495
+      LineSettings.Height = 3
+      LineSettings.HorizMargin = 10
+      LineSettings.VertMargin = 14
+      Color = clForm
+    end
+  end
 end
