@@ -44,6 +44,7 @@ procedure Gradient_Bmp(var aBmp: TBitmap; aStart, aStop: TColor;aCourse: integer
 procedure Gradient_Bmp(var aBmp: TBitmap; aWidth, aHeight: integer);
 procedure Alternate_Bmp(var Bmp: TBitmap; aStart, aStop: TColor);
 procedure Blend_Bmp(var BackBmp: TBitmap; const StartBmp,EndBmp: TBitmap; aFrac: double);
+procedure Mask_Bmp(var aBmp : TBitmap; aOrd : integer;aRadius : integer);
 
 implementation
 
@@ -363,6 +364,71 @@ begin
     StartImg.Free;
     EndImg.Free;
   end;
+end;
+
+procedure Mask_Bmp(var aBmp: TBitmap; aOrd: integer;aRadius : integer);
+var bmp1,bmp2,bmp3,bmp4 : TBitmap;
+    aRect  : TRect;
+begin
+ try
+  aRect := rect(0,0,aBmp.Width,aBmp.Height);
+
+  bmp1 := TBitmap.Create;
+  bmp1.SetSize(aBmp.Width,aBmp.Height);
+  bmp1.Canvas.Draw(0,0,aBmp);
+
+
+  bmp2 := TBitmap.Create;
+  bmp2.SetSize(aBmp.Width,aBmp.Height);
+  bmp2.TransparentColor:=clblack;
+  bmp2.Transparent:= true;
+  bmp2.Canvas.Brush.Color:=clwhite;
+  bmp2.Canvas.FillRect(0,0,aBmp.Width,aBmp.Height);
+  bmp2.Canvas.Brush.Color:=clBlack;
+  case aOrd of
+   0      : bmp2.Canvas.Rectangle(aRect);
+   1      : bmp2.Canvas.RoundRect(aRect,aRadius,aRadius);
+   2      : bmp2.Canvas.Ellipse(aRect);
+   3      : bmp2.Canvas.Ellipse(aRect);
+  end;
+
+  bmp3 := TBitmap.Create;
+  bmp3.SetSize(aBmp.Width,aBmp.Height);
+  bmp3.Canvas.Brush.Color:=clwhite;
+  bmp3.Canvas.FillRect(0,0,aBmp.Width,aBmp.Height);
+  bmp3.Canvas.Brush.Color:=clBlack;
+  case aOrd of
+   0      : bmp3.Canvas.Rectangle(aRect);
+   1      : bmp3.Canvas.RoundRect(aRect,aRadius,aRadius);
+   2      : bmp3.Canvas.Ellipse(aRect);
+   3      : bmp3.Canvas.Ellipse(aRect);
+  end;
+
+  bmp4 := TBitmap.Create;
+  bmp4.SetSize(aBmp.Width,aBmp.Height);
+  bmp4.Transparent:= true;
+  bmp4.TransparentColor:= clBlack;
+  bmp4.Canvas.Brush.Color:=clBlack;
+  bmp4.Canvas.FillRect(0,0,aBmp.Width,aBmp.Height);
+  bmp4.Canvas.copymode:=cmSrcCopy;
+  bmp4.Canvas.Draw(0,0,bmp1);
+  bmp4.Canvas.Draw(0,0,bmp2);
+  bmp4.Canvas.copymode:=cmSrcInvert;
+  bmp4.Canvas.Draw(0,0,bmp3);
+
+  aBmp.Transparent:= true;
+  aBmp.TransparentColor:= clBlack;
+  aBmp.Assign(bmp4);
+  //aBmp.Canvas.Draw(0,0,bmp4);
+
+
+ finally
+  bmp1.Free;
+  bmp2.Free;
+  bmp3.Free;
+  bmp4.Free;
+
+ end;
 end;
 
 end.

@@ -25,6 +25,8 @@ begin
  FHover               := false;
  FHoverColor          := clOlive;
  FHoverBlendValue     := 120;
+ FImageList           := nil;
+ FImageIndex          := -1;
 end;
 
 
@@ -58,6 +60,18 @@ procedure TMultiEvent.SetGradient(AValue: TGradientCourse);
 begin
   if FGradient=AValue then Exit;
   FGradient:=AValue;
+end;
+
+procedure TMultiEvent.SetImageIndex(AValue: TImageIndex);
+begin
+  if FImageIndex=AValue then Exit;
+  FImageIndex:=AValue;
+end;
+
+procedure TMultiEvent.SetImageList(AValue: TCustomImageList);
+begin
+  if FImageList=AValue then Exit;
+  FImageList:=AValue;
 end;
 
 procedure TMultiEvent.SetRRRadius(AValue: integer);

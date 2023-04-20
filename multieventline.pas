@@ -6,7 +6,8 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, LCLIntf,
-  IntfGraphics, LCLType, GraphType, multipanel, multilayer, infmultis, ptin;
+  IntfGraphics, LCLType, ImgList, LCLProc, GraphType, GraphPropEdits, PropEdits,
+  multipanel, multilayer, infmultis, ptin;
 
 type
   TGradientCourse = (gcHorizontal,gcVertical,gcSpread,gcRadiant,gcAlternate); //for background color
@@ -120,6 +121,8 @@ type
     FHover: boolean;
     FHoverBlendValue: integer;
     FHoverColor: TColor;
+    FImageIndex: TImageIndex;
+    FImageList: TCustomImageList;
     FNumbers            : boolean;
     FRRRadius: integer;
     FSize               : integer;
@@ -135,6 +138,8 @@ type
     procedure SetColorStart(AValue: TColor);
     procedure SetEnabled(AValue: boolean);
     procedure SetGradient(AValue: TGradientCourse);
+    procedure SetImageIndex(AValue: TImageIndex);
+    procedure SetImageList(AValue: TCustomImageList);
     procedure SetRRRadius(AValue: integer);
     procedure SetSize(AValue: integer);
     procedure SetVisible(AValue: Boolean);
@@ -172,6 +177,12 @@ type
     //Corner diameter if the geometric shape is RoundRect
     //Eckendurchmesser wenn geometrische Form ist RoundRect
     property RndRctRadius     : integer    read FRRRadius   write SetRRRadius default 5;
+    //A list for including images
+    //Eine Liste zum Einfügen von Bildern
+    property Images  :  TCustomImageList  read FImageList write SetImageList default nil;
+    //The Index of a Image in a ImageList
+    //Der Index eines Bildes in einer ImageList
+    property ImageIndex : TImageIndex read FImageIndex write SetImageIndex default -1;
   end;
 
 
@@ -204,6 +215,7 @@ type
    function IsEventStored: Boolean;
    procedure SetEvent(AEventCollection: TMultiEventCollection);
    function  GetTextWidth (AText : String ; AFont : TFont ) : Integer ;
+   function  GetTextHeight (AText : String ; AFont : TFont ) : Integer ;
   public
    constructor Create(AOwner: TComponent); override;
    destructor Destroy; override;
@@ -236,11 +248,24 @@ type
 procedure Register;
 
 implementation
+{xxxxxxxxxxxxxxxxx TImageIndexPropertyEditor xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx}
+type
+  TMEventLineImageIndexPropertyEditor = class(TImageIndexPropertyEditor)
+  protected
+    function GetImageList: TCustomImageList; override;
+  end;
+
+function TMEventLineImageIndexPropertyEditor.GetImageList: TCustomImagelist;
+begin
+  Result := TMultiEvent(GetComponent(0)).Images;
+end;
+
 
 procedure Register;
 begin
   {$I multieventline_icon.lrs}
   RegisterComponents('Multi',[TMultiEventLine]);
+  RegisterPropertyEditor(TypeInfo(TImageIndex), TMultiEvent, 'ImageIndex', TMEventLineImageIndexPropertyEditor);
 end;
 
 
@@ -473,6 +498,19 @@ begin
  end;
 end ;
 
+function TMultiEventLine.GetTextHeight(AText: String; AFont: TFont): Integer;
+var bmp : TBitmap ;
+begin
+ Result := 0 ;
+ bmp := TBitmap.Create ;
+ try
+  bmp.Canvas.Font.Assign(AFont);
+  Result := bmp.Canvas.TextHeight(AText);
+ finally
+  bmp.Free;
+ end;
+end ;
+
 procedure TMultiEventLine.CalculateTheLine;
 begin
  FLine.FWidth := Width - (2 * FLine.FHorizontalMargin);
@@ -498,8 +536,6 @@ end;
 
 
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX--drawing---xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-
 
 procedure TMultiEventLine.DrawTheLine;
 var bkBmp        : TBitmap;
@@ -595,67 +631,79 @@ var bkBmp        : TBitmap;
     Dest         : TBitmap;
 
 begin
+ if FEventCollection.Items[lv].FImageIndex <> -1 then
+  begin
+    FEventCollection.Items[lv].FNumbers:= false;
 
- bkBmp := TBitmap.Create;
- bkBmp.SetSize(FEventCollection.Items[lv].FSize,FEventCollection.Items[lv].FSize);
+    FEventCollection.Items[lv].FImageList.StretchDraw(Canvas,FEventCollection.Items[lv].FImageIndex,
+                                           rect(FEventCollection.Items[lv].FLeft,
+                                           FEventCollection.Items[lv].FTop,
+                                           FEventCollection.Items[lv].FLeft+FEventCollection.Items[lv].FSize,
+                                           FEventCollection.Items[lv].FTop+FEventCollection.Items[lv].FSize),
+                                           true);
+  end
+ else
+ begin
+  bkBmp := TBitmap.Create;
+  bkBmp.SetSize(FEventCollection.Items[lv].FSize,FEventCollection.Items[lv].FSize);
 
- if FGradient = gcAlternate then Gradient_Bmp(bkBmp,clLime,clRed,ord(gcVertical)); //otherwise flickers
- Gradient_Bmp(bkBmp,FEventCollection.Items[lv].FColorStart,FEventCollection.Items[lv].FColorEnd,
-              ord(FEventCollection.Items[lv].FGradient));
+  if FGradient = gcAlternate then Gradient_Bmp(bkBmp,clLime,clRed,ord(gcVertical)); //otherwise flickers
+  Gradient_Bmp(bkBmp,FEventCollection.Items[lv].FColorStart,FEventCollection.Items[lv].FColorEnd,
+               ord(FEventCollection.Items[lv].FGradient));
 
- trBmp := TBitmap.Create;
- trBmp.SetSize(FEventCollection.Items[lv].FSize,FEventCollection.Items[lv].FSize);
- trBmp.TransparentColor:=clblack;
- trBmp.Transparent:= true;
- trBmp.Canvas.Brush.Color:=clwhite;
- trBmp.Canvas.FillRect(0,0,FEventCollection.Items[lv].FSize,FEventCollection.Items[lv].FSize);
- trBmp.Canvas.Brush.Color:=clBlack;
- case FEventCollection.Items[lv].FStyle of
-  mesRoundRect : trBmp.Canvas.RoundRect(0,0,FEventCollection.Items[lv].FSize,FEventCollection.Items[lv].FSize,
+  trBmp := TBitmap.Create;
+  trBmp.SetSize(FEventCollection.Items[lv].FSize,FEventCollection.Items[lv].FSize);
+  trBmp.TransparentColor:=clblack;
+  trBmp.Transparent:= true;
+  trBmp.Canvas.Brush.Color:=clwhite;
+  trBmp.Canvas.FillRect(0,0,FEventCollection.Items[lv].FSize,FEventCollection.Items[lv].FSize);
+  trBmp.Canvas.Brush.Color:=clBlack;
+  case FEventCollection.Items[lv].FStyle of
+   mesRoundRect : trBmp.Canvas.RoundRect(0,0,FEventCollection.Items[lv].FSize,FEventCollection.Items[lv].FSize,
+                                         FEventCollection.Items[lv].FRRRadius,FEventCollection.Items[lv].FRRRadius);
+   mesRect      : trBmp.Canvas.Rectangle(0,0,FEventCollection.Items[lv].FSize,FEventCollection.Items[lv].FSize);
+   mesCircle    : trBmp.Canvas.Ellipse(0,0,FEventCollection.Items[lv].FSize,FEventCollection.Items[lv].FSize);
+  end;
+
+  mask := TBitmap.Create;
+  mask.SetSize(FEventCollection.Items[lv].FSize,FEventCollection.Items[lv].FSize);
+  mask.Canvas.Brush.Color:=clwhite;
+  mask.Canvas.FillRect(0,0,FEventCollection.Items[lv].FSize,FEventCollection.Items[lv].FSize);
+  mask.Canvas.Brush.Color:=clBlack;
+  case FEventCollection.Items[lv].FStyle of
+   mesRoundRect : mask.Canvas.RoundRect(0,0,FEventCollection.Items[lv].FSize,FEventCollection.Items[lv].FSize,
                                         FEventCollection.Items[lv].FRRRadius,FEventCollection.Items[lv].FRRRadius);
-  mesRect      : trBmp.Canvas.Rectangle(0,0,FEventCollection.Items[lv].FSize,FEventCollection.Items[lv].FSize);
-  mesCircle    : trBmp.Canvas.Ellipse(0,0,FEventCollection.Items[lv].FSize,FEventCollection.Items[lv].FSize);
+   mesRect      : mask.Canvas.Rectangle(0,0,FEventCollection.Items[lv].FSize,FEventCollection.Items[lv].FSize);
+   mesCircle    : mask.Canvas.Ellipse(0,0,FEventCollection.Items[lv].FSize,FEventCollection.Items[lv].FSize);
+  end;
+
+  Dest       := TBitmap.Create;
+  Dest.SetSize(FEventCollection.Items[lv].FSize,FEventCollection.Items[lv].FSize);
+  Dest.Transparent:= true;
+  Dest.TransparentColor:= clBlack;
+  Dest.Canvas.Brush.Color:=clBlack;
+  Dest.Canvas.FillRect(0,0,100,100);
+  Dest.Canvas.copymode:=cmSrcCopy;
+  Dest.Canvas.Draw(0,0,bkBmp);
+  Dest.Canvas.Draw(0,0,trBmp);
+  Dest.Canvas.copymode:=cmSrcInvert;
+  Dest.Canvas.Draw(0,0,mask);
+
+  canvas.Draw(FEventCollection.Items[lv].FLeft,FEventCollection.Items[lv].FTop,Dest);
+
+
+  bkBmp.Free;
+  trBmp.Free;
+  mask.Free;
+  Dest.Free;
  end;
-
- mask := TBitmap.Create;
- mask.SetSize(FEventCollection.Items[lv].FSize,FEventCollection.Items[lv].FSize);
- mask.Canvas.Brush.Color:=clwhite;
- mask.Canvas.FillRect(0,0,FEventCollection.Items[lv].FSize,FEventCollection.Items[lv].FSize);
- mask.Canvas.Brush.Color:=clBlack;
- case FEventCollection.Items[lv].FStyle of
-  mesRoundRect : mask.Canvas.RoundRect(0,0,FEventCollection.Items[lv].FSize,FEventCollection.Items[lv].FSize,
-                                       FEventCollection.Items[lv].FRRRadius,FEventCollection.Items[lv].FRRRadius);
-  mesRect      : mask.Canvas.Rectangle(0,0,FEventCollection.Items[lv].FSize,FEventCollection.Items[lv].FSize);
-  mesCircle    : mask.Canvas.Ellipse(0,0,FEventCollection.Items[lv].FSize,FEventCollection.Items[lv].FSize);
- end;
-
- Dest       := TBitmap.Create;
- Dest.SetSize(FEventCollection.Items[lv].FSize,FEventCollection.Items[lv].FSize);
- Dest.Transparent:= true;
- Dest.TransparentColor:= clBlack;
- Dest.Canvas.Brush.Color:=clBlack;
- Dest.Canvas.FillRect(0,0,100,100);
- Dest.Canvas.copymode:=cmSrcCopy;
- Dest.Canvas.Draw(0,0,bkBmp);
- Dest.Canvas.Draw(0,0,trBmp);
- Dest.Canvas.copymode:=cmSrcInvert;
- Dest.Canvas.Draw(0,0,mask);
-
- canvas.Draw(FEventCollection.Items[lv].FLeft,FEventCollection.Items[lv].FTop,Dest);
-
-
- bkBmp.Free;
- trBmp.Free;
- mask.Free;
- Dest.Free;
-
 end;
 
 
 procedure TMultiEventLine.DrawTheEvent;
-var lv,w  : integer;
-    aBmp  : TBitmap;
-    aBlSp : TBlendShape;
+var lv,w,h  : integer;
+    aBmp    : TBitmap;
+    aBlSp   : TBlendShape;
 begin
  CalculateTheEvent;
  for lv:= 0 to pred(FEventCollection.Count) do
@@ -692,8 +740,10 @@ begin
       begin
        Canvas.Brush.Style:= bsClear;
        w := GetTextWidth(inttostr(FEventCollection.Items[lv].FTag+1),Canvas.Font);
-       Canvas.TextOut(FEventCollection.Items[lv].FLeft+(w div 2),FEventCollection.Items[lv].FTop-1,inttostr(
-                      lv+1));
+       h := GetTextHeight(inttostr(FEventCollection.Items[lv].FTag+1),Canvas.Font);
+       Canvas.TextOut((FEventCollection.Items[lv].FLeft+(FEventCollection.Items[lv].FSize div 2))-(w div 2),
+                      (FEventCollection.Items[lv].FTop+(FEventCollection.Items[lv].FSize div 2))-(h div 2),
+                      inttostr(lv+1));
        Canvas.Brush.Style:= bsSolid;
       end;//Numbers
 
