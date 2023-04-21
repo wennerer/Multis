@@ -1,6 +1,6 @@
 { <A slider with an integrated textlabel>
-  <Version 1.0.4.4>
-  Copyright (C) <29.12.2022> <Bernd Hübner>
+  <Version 1.0.4.5>
+  Copyright (C) <21.04.2023> <Bernd Hübner>
   Many thanks to the members of the German Lazarus Forum!
   Special thanks to Siro, he taught me the basics!
   For some improvements see https://www.lazarusforum.de/viewtopic.php?f=29&t=12851
@@ -466,6 +466,8 @@ type
     FFocusFrameWidth   : integer;
     FForegroundFocusOn : boolean;
     FGradient          : TGradientCourse;
+    FJumpToPosition    : boolean;
+    FSetPosition       : boolean;
 
     FMax               : integer;
     FMin               : integer;
@@ -556,6 +558,7 @@ type
     procedure DrawTextLabel;
     procedure DrawValueDisplay;
     procedure DrawValueDisplayBorder;
+    procedure Pixelsteps(x, y: integer; var pos: integer);
     procedure PosMinus;
     procedure PosPlus;
 
@@ -688,6 +691,9 @@ type
    //Only active in conjunction with textlabel
    //Nur aktive in Verbindung mit TextLabel
    property AutoSize : boolean read FAutoSize write SetAutoSize default false;
+   //If active, the button jumps to position when clicked in the track
+   //Wenn aktive springt der Knopf bei Klick in den Track auf Position
+   property JumpToPosition : boolean read FJumpToPosition write FJumpToPosition default false;
 
 
    //The properties of the track
@@ -926,8 +932,8 @@ begin
   FMin                  := 0;
   FOrientation          := msoHorizontal;
   FKnobIdx              := 1;
-
-
+  FJumpToPosition       := false;
+  FSetPosition          := false;
 end;
 
 destructor TMultiplexSlider.Destroy;
@@ -1229,8 +1235,6 @@ begin
 
   if Value then
    begin
-    //OrgWidth1 := width;
-    //OrgHeight1:= height;
     case ord(FTextLabel.FTextLabelPosition) of      //calculate size without textlabel
      1: OrgHeight:= OrgHeight1 -FTLH;
      2: OrgHeight:= OrgHeight1 -FTLH;
@@ -1340,27 +1344,10 @@ begin
 
 end;
 
-procedure TMultiplexSlider.MouseMove(Shift: TShiftState; X, Y: Integer);
+procedure TMultiplexSlider.Pixelsteps(x,y:integer;var pos:integer);
 var xy, tmpPos, lv : integer;
-    P1         : TPoint;
 begin
-  inherited MouseMove(Shift, X, Y);
-
-  if Assigned(OnMouseMove) then OnMouseMove(self,Shift,x,y);
-  P1.X:=x;
-  P1.Y:=y;
-  if not FSlide then
-   begin
-    for lv := 1 to 3 do FHover[lv] := false;
-    if FKnob[1].FVisible and ptinrect(FKnobBounds[1],P1) then FHover[1] :=true;
-    if FKnob[2].FVisible and ptinrect(FKnobBounds[2],P1) then FHover[2] :=true;
-    if FKnob[3].FVisible and ptinrect(FKnobBounds[3],P1) then FHover[3] :=true;
-   end;
-
-  if FSlide then
-   begin
-    if not ptinrect(FIndoorBounds,P1) then exit;
-    if FOrientation = msoHorizontal then xy:=x else xy:=y;
+ if FOrientation = msoHorizontal then xy:=x else xy:=y;
 
     if FOrientation = msoHorizontal then
      tmpPos  := round((xy - FTrackBounds.Left) / Pixelsteps)
@@ -1386,6 +1373,29 @@ begin
 
     CalculateKnobCenter;
     CalculateKnob;
+end;
+
+procedure TMultiplexSlider.MouseMove(Shift: TShiftState; X, Y: Integer);
+var xy, tmpPos, lv : integer;
+    P1         : TPoint;
+begin
+  inherited MouseMove(Shift, X, Y);
+  if Assigned(OnMouseMove) then OnMouseMove(self,Shift,x,y);
+  P1.X:=x;
+  P1.Y:=y;
+
+  if not FSlide then
+   begin
+    for lv := 1 to 3 do FHover[lv] := false;
+    if FKnob[1].FVisible and ptinrect(FKnobBounds[1],P1) then FHover[1] :=true;
+    if FKnob[2].FVisible and ptinrect(FKnobBounds[2],P1) then FHover[2] :=true;
+    if FKnob[3].FVisible and ptinrect(FKnobBounds[3],P1) then FHover[3] :=true;
+   end;
+
+  if FSlide then
+   begin
+    if not ptinrect(FIndoorBounds,P1) then exit;
+    Pixelsteps(x,y,tmpPos);
 
     if (tmpPos < FMax) and (tmpPos > FMin) then FAutoRangeFlag:=true;
     if (FAutoRangePositive or FAutoRangeNegative) and FAutoRangeFlag then CalcAutoRange(tmpPos,0);
@@ -1398,8 +1408,8 @@ end;
 
 procedure TMultiplexSlider.MouseUp(Button: TMouseButton; Shift: TShiftState; X,
   Y: Integer);
-var lv : integer;
-    P1 : TPoint;
+var lv,tmpPos : integer;
+    P1        : TPoint;
 begin
   inherited MouseUp(Button, Shift, X, Y);
 
@@ -1412,6 +1422,13 @@ begin
   if FKnob[1].FVisible and ptinrect(FKnobBounds[1],P1) then FHover[1] :=true;
   if FKnob[2].FVisible and ptinrect(FKnobBounds[2],P1) then FHover[2] :=true;
   if FKnob[3].FVisible and ptinrect(FKnobBounds[3],P1) then FHover[3] :=true;
+
+  FSetPosition := false;
+  if FJumpToPosition then
+   if ptinrect(FTrackBounds,P1) then FSetPosition := true;
+  for lv := 1 to 3 do if FHover[lv] then FSetPosition := false;
+  if FSetPosition then Pixelsteps(x,y,tmpPos);
+
   invalidate;
 end;
 
