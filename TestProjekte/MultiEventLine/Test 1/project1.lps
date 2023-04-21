@@ -20,6 +20,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
+        <IsVisibleTab Value="True"/>
         <TopLine Value="26"/>
         <CursorPos X="18" Y="34"/>
         <UsageCount Value="231"/>
@@ -29,10 +30,9 @@
       <Unit>
         <Filename Value="../../../multieventline.pas"/>
         <UnitName Value="MultiEventLine"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="732"/>
-        <CursorPos X="24" Y="745"/>
+        <CursorPos X="48" Y="746"/>
         <UsageCount Value="115"/>
         <Bookmarks Count="1">
           <Item0 X="19" Y="742"/>
@@ -84,7 +84,7 @@
         <EditorIndex Value="2"/>
         <TopLine Value="368"/>
         <CursorPos X="33" Y="419"/>
-        <UsageCount Value="88"/>
+        <UsageCount Value="109"/>
         <Loaded Value="True"/>
       </Unit>
     </Units>
