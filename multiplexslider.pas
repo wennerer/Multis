@@ -1,6 +1,6 @@
 { <A slider with an integrated textlabel>
-  <Version 1.0.4.5>
-  Copyright (C) <21.04.2023> <Bernd Hübner>
+  <Version 1.0.4.6>
+  Copyright (C) <22.04.2023> <Bernd Hübner>
   Many thanks to the members of the German Lazarus Forum!
   Special thanks to Siro, he taught me the basics!
   For some improvements see https://www.lazarusforum.de/viewtopic.php?f=29&t=12851
@@ -558,7 +558,7 @@ type
     procedure DrawTextLabel;
     procedure DrawValueDisplay;
     procedure DrawValueDisplayBorder;
-    procedure Pixelsteps(x, y: integer; var pos: integer);
+    procedure Pixelsteps(x, y: integer; var {%H-}pos: integer);
     procedure PosMinus;
     procedure PosPlus;
 
@@ -1299,8 +1299,11 @@ begin
 end;
 
 procedure TMultiplexSlider.MouseLeave;
+var lv : integer;
 begin
   inherited MouseLeave;
+  for lv:=1 to 3 do FHover[lv] := false;
+  Invalidate;
   if Assigned(OnMouseLeave) then OnMouseLeave(self);
   if Assigned(OnMouseNotInSelf) then OnMouseNotInSelf(self);
 end;
@@ -1345,7 +1348,7 @@ begin
 end;
 
 procedure TMultiplexSlider.Pixelsteps(x,y:integer;var pos:integer);
-var xy, tmpPos, lv : integer;
+var xy, tmpPos : integer;
 begin
  if FOrientation = msoHorizontal then xy:=x else xy:=y;
 
@@ -1376,13 +1379,16 @@ begin
 end;
 
 procedure TMultiplexSlider.MouseMove(Shift: TShiftState; X, Y: Integer);
-var xy, tmpPos, lv : integer;
+var tmpPos, lv : integer;
     P1         : TPoint;
 begin
   inherited MouseMove(Shift, X, Y);
   if Assigned(OnMouseMove) then OnMouseMove(self,Shift,x,y);
   P1.X:=x;
   P1.Y:=y;
+
+  if not (ssLeft in Shift) and not (ssRight in Shift) then
+   for lv := 1 to 3 do FHover[lv] := false;
 
   if not FSlide then
    begin
