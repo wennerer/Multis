@@ -1,6 +1,6 @@
 { <A CheckGroup in the multi design>
-  <Version 1.0.0.1>
-  Copyright (C) <26.02.2023> <Bernd Hübner>
+  <Version 1.0.0.2>
+  Copyright (C) <23.04.2023> <Bernd Hübner>
 
   This library is free software; you can redistribute it and/or modify it under the
   terms of the GNU Library General Public License as published by the Free Software
@@ -363,6 +363,7 @@ type
    procedure DrawForegroundFocus;
    procedure SetAutoSize(Value: Boolean);override;
    procedure CalculatePreferredSize(var PreferredWidth,PreferredHeight: integer;WithThemeSpace: Boolean); override;
+   procedure Notification(AComponent: TComponent; Operation: TOperation); override;
   public
 
    constructor Create(AOwner: TComponent); override;
@@ -1179,6 +1180,18 @@ begin
   PreferredWidth  := FAutoWidth;
   PreferredHeight := (2* FocusFrameWidth)+CaptionHeight+(Checkboxes.Count*TeRect.Height);
 end;
+
+procedure TMultiCheckGroup.Notification(AComponent: TComponent;
+  Operation: TOperation);
+var lv : integer;
+begin
+  inherited Notification(AComponent, Operation);
+  if (Operation = opRemove)  then
+   for lv := 0 to pred(Checkboxes.Count) do
+    if AComponent = Checkboxes.Items[lv].FImageList then
+     Checkboxes.Items[lv].Images := nil;
+end;
+
 
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx---Calculate---xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
