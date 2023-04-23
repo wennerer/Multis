@@ -25,8 +25,15 @@ begin
  FHover               := false;
  FHoverColor          := clOlive;
  FHoverBlendValue     := 120;
- FImageList           := nil;
  FImageIndex          := -1;
+ FFont                := TFont.Create;
+ //FFont.OnChange       := @CheckBoxFontChanged;
+end;
+
+destructor TMultiEvent.Destroy;
+begin
+  FFont.Free;
+  inherited Destroy;
 end;
 
 
@@ -42,6 +49,12 @@ procedure TMultiEvent.SetEnabled(AValue: boolean);
 begin
   if FEnabled=AValue then Exit;
   FEnabled:=AValue;
+end;
+
+procedure TMultiEvent.SetFont(AValue: TFont);
+begin
+ if FFont=AValue then Exit;
+ FFont.Assign(aValue);
 end;
 
 procedure TMultiEvent.SetColorEnd(AValue: TColor);
@@ -102,4 +115,7 @@ begin
   //Result:=inherited GetOwner;
  Result := FEvents;
 end;
+
+
+
 

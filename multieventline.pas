@@ -31,14 +31,14 @@ type
 
   TLine = class(TPersistent)
    private
-    FColorEnd: TColor;
-    FColorStart: TColor;
-    FGradient: TGradientCourse;
-    FHeight: integer;
-    FHorizontalMargin: integer;
-    FOwner                : TCustomControl;
-    FVertMargin: integer;
-    FWidth: integer;
+    FColorEnd          : TColor;
+    FColorStart        : TColor;
+    FGradient          : TGradientCourse;
+    FHeight            : integer;
+    FHorizontalMargin  : integer;
+    FOwner             : TCustomControl;
+    FVertMargin        : integer;
+    FWidth             : integer;
 
     procedure SetColorEnd(AValue: TColor);
     procedure SetColorStart(AValue: TColor);
@@ -109,22 +109,23 @@ type
 type
   TMultiEvent = class(TCollectionItem)
    private
-     FBlendValue: integer;
+    FBlendValue         : integer;
     FBorderColor        : TColor;
     FBorderWidth        : integer;
     FColorEnd           : TColor;
     FColorStart         : TColor;
-    FDisabledColor: TColor;
+    FDisabledColor      : TColor;
     FEvents             : TCollection;
     FEnabled            : boolean;
+    FFont               : TFont;
     FGradient           : TGradientCourse;
-    FHover: boolean;
-    FHoverBlendValue: integer;
-    FHoverColor: TColor;
-    FImageIndex: TImageIndex;
-    FImageList: TCustomImageList;
+    FHover              : boolean;
+    FHoverBlendValue    : integer;
+    FHoverColor         : TColor;
+    FImageIndex         : TImageIndex;
+    FImageList          : TCustomImageList;
     FNumbers            : boolean;
-    FRRRadius: integer;
+    FRRRadius           : integer;
     FSize               : integer;
     FTag                : PtrInt;
     FVisible            : Boolean;
@@ -137,6 +138,7 @@ type
     procedure SetColorEnd(AValue: TColor);
     procedure SetColorStart(AValue: TColor);
     procedure SetEnabled(AValue: boolean);
+    procedure SetFont(AValue: TFont);
     procedure SetGradient(AValue: TGradientCourse);
     procedure SetImageIndex(AValue: TImageIndex);
     procedure SetImageList(AValue: TCustomImageList);
@@ -149,6 +151,8 @@ type
     function GetOwner: TPersistent; override;
    public
     constructor Create(ACollection: TCollection); override;
+    destructor Destroy; override;
+
    published
     //The direction of the gradient
     //Die Richtung des Farbverlaufs
@@ -183,6 +187,9 @@ type
     //The Index of a Image in a ImageList
     //Der Index eines Bildes in einer ImageList
     property ImageIndex : TImageIndex read FImageIndex write SetImageIndex default -1;
+    //The font to be used for text display the caption.
+    //Die Schrift die für die Textanzeige der Caption verwendet werden soll.
+    property Font: TFont read FFont write SetFont;
   end;
 
 
@@ -196,9 +203,9 @@ type
   TMultiEventLine= class(TCustomControl)
   private
    FEventCollection     : TMultiEventCollection;
-   FGradient: TGradientCourse;
-   FLine: TLine;
-   FSetAllSize: integer;
+   FGradient            : TGradientCourse;
+   FLine                : TLine;
+   FSetAllSize          : integer;
 
    procedure CalculateTheLine;
    procedure DrawEventBgrd(lv: integer);
@@ -216,6 +223,7 @@ type
    procedure SetEvent(AEventCollection: TMultiEventCollection);
    function  GetTextWidth (AText : String ; AFont : TFont ) : Integer ;
    function  GetTextHeight (AText : String ; AFont : TFont ) : Integer ;
+   procedure Notification(AComponent: TComponent; Operation: TOperation); override;
   public
    constructor Create(AOwner: TComponent); override;
    destructor Destroy; override;
@@ -511,6 +519,17 @@ begin
  end;
 end ;
 
+procedure TMultiEventLine.Notification(AComponent: TComponent;
+  Operation: TOperation);
+var lv : integer;
+begin
+  inherited Notification(AComponent, Operation);
+  if (Operation = opRemove)  then
+   for lv:= 0 to pred(FEventCollection.Count) do
+    if AComponent = FEventCollection.Items[lv].FImageList then
+     FEventCollection.Items[lv].Images := nil;
+end;
+
 procedure TMultiEventLine.CalculateTheLine;
 begin
  FLine.FWidth := Width - (2 * FLine.FHorizontalMargin);
@@ -631,7 +650,9 @@ var bkBmp        : TBitmap;
     Dest         : TBitmap;
 
 begin
- if FEventCollection.Items[lv].FImageIndex <> -1 then
+ if (FEventCollection.Items[lv].FImageList <> nil) and
+    (FEventCollection.Items[lv].FImageIndex > -1) and
+    (FEventCollection.Items[lv].FImageIndex < FEventCollection.Items[lv].FImageList.Count) then
   begin
     FEventCollection.Items[lv].FNumbers:= false;
 
@@ -739,6 +760,7 @@ begin
      if FEventCollection.Items[lv].FNumbers then
       begin
        Canvas.Brush.Style:= bsClear;
+       Canvas.Font.Assign(FEventCollection.Items[lv].FFont);
        w := GetTextWidth(inttostr(FEventCollection.Items[lv].FTag+1),Canvas.Font);
        h := GetTextHeight(inttostr(FEventCollection.Items[lv].FTag+1),Canvas.Font);
        Canvas.TextOut((FEventCollection.Items[lv].FLeft+(FEventCollection.Items[lv].FSize div 2))-(w div 2),

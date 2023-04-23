@@ -47,8 +47,8 @@ end;
 
 procedure TForm1.Button1Click(Sender: TObject);
 begin
- MultiEventLine1.Events.Items[0].Style:= mesRect;
- MultiEventLine1.Invalidate;
+ //MultiEventLine1.Events.Items[0].Style:= mesRect;
+ //MultiEventLine1.Invalidate;
 end;
 
 end.
