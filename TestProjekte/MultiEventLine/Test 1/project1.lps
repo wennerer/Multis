@@ -29,9 +29,10 @@
       <Unit>
         <Filename Value="../../../multieventline.pas"/>
         <UnitName Value="MultiEventLine"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="28"/>
-        <CursorPos X="21" Y="43"/>
+        <TopLine Value="551"/>
+        <CursorPos X="42" Y="568"/>
         <UsageCount Value="115"/>
         <Bookmarks Count="2">
           <Item0 X="59" Y="793"/>
@@ -60,7 +61,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="411"/>
         <CursorPos X="24" Y="423"/>
-        <UsageCount Value="97"/>
+        <UsageCount Value="96"/>
       </Unit>
       <Unit>
         <Filename Value="../../../ml_line.inc"/>
@@ -74,14 +75,14 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="9"/>
         <CursorPos X="10" Y="29"/>
-        <UsageCount Value="154"/>
+        <UsageCount Value="153"/>
       </Unit>
       <Unit>
         <Filename Value="../../../infmultis.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="368"/>
         <CursorPos X="33" Y="419"/>
-        <UsageCount Value="106"/>
+        <UsageCount Value="105"/>
       </Unit>
       <Unit>
         <Filename Value="../../../multicheckgroup.pas"/>
@@ -89,29 +90,24 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="176"/>
         <CursorPos X="26" Y="239"/>
-        <UsageCount Value="19"/>
+        <UsageCount Value="18"/>
       </Unit>
       <Unit>
         <Filename Value="../../../checkboxitem.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="86"/>
         <CursorPos X="34" Y="44"/>
-        <UsageCount Value="19"/>
+        <UsageCount Value="18"/>
       </Unit>
       <Unit>
         <Filename Value="../../../ml_infobox.inc"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="5"/>
-        <CursorPos X="17" Y="9"/>
-        <UsageCount Value="11"/>
+        <CursorPos X="23" Y="9"/>
+        <UsageCount Value="16"/>
         <Loaded Value="True"/>
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="../../../multieventline.pas"/>
-        <Caret Line="226" Column="21" TopLine="202"/>
-      </Position>
       <Position>
         <Filename Value="../../../multieventline.pas"/>
         <Caret Line="528" Column="77" TopLine="519"/>
@@ -227,6 +223,10 @@
       <Position>
         <Filename Value="../../../ml_infobox.inc"/>
         <Caret Line="6" Column="55"/>
+      </Position>
+      <Position>
+        <Filename Value="../../../multieventline.pas"/>
+        <Caret Line="255" Column="20" TopLine="245"/>
       </Position>
     </JumpHistory>
     <RunParams>
