@@ -26,6 +26,29 @@ type
  end;
 
 type
+  TMultiEventLine      = class; //TCustomControl , die eigentliche Komponente
+  TMultiEvent          = class; //TCollectionItem, der einzelne Kreis
+
+
+type
+
+  { TInfoBox }
+
+  TInfoBox = class(TPersistent)
+   private
+    FOwner             : TMultiEvent;
+    FCaption           : TCaption;
+
+   public
+    constructor create(AOwner: TMultiEvent);
+   published
+    property Caption : TCaption read FCaption write FCaption;
+
+
+ end;
+
+
+type
 
   { TLine }
 
@@ -77,9 +100,7 @@ type
 
 
 
-type
-  TMultiEventLine      = class; //TCustomControl , die eigentliche Komponente
-  TMultiEvent           = class; //TCollectionItem, der einzelne Kreis
+
 
 
 //xxxxxxxxxxxxxxxxxxxxxxxxxx---The Collection of Events---xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -104,6 +125,10 @@ type
   published
 
   end;
+
+
+
+
 
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxx---The Event---xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 type
@@ -134,6 +159,7 @@ type
     FTop                : integer;
     FStyle              : TMEventStyle;
     FHotspot            : TRect;
+    FInfoBox : TInfoBox;
 
     procedure SetColorEnd(AValue: TColor);
     procedure SetColorStart(AValue: TColor);
@@ -190,6 +216,9 @@ type
     //The font to be used for text display the caption.
     //Die Schrift die für die Textanzeige der Caption verwendet werden soll.
     property Font: TFont read FFont write SetFont;
+    //
+    //
+    property InfoBox : TInfoBox read FInfoBox write FInfoBox;
   end;
 
 
@@ -262,6 +291,7 @@ type
   protected
     function GetImageList: TCustomImageList; override;
   end;
+
 
 function TMEventLineImageIndexPropertyEditor.GetImageList: TCustomImagelist;
 begin
@@ -834,4 +864,5 @@ end;
 {$Include Eventcollection.inc}
 {$Include Eventitem.inc}
 {$Include ml_line.inc}
+{$Include ml_infobox.inc}
 end.

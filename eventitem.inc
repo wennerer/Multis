@@ -28,11 +28,13 @@ begin
  FImageIndex          := -1;
  FFont                := TFont.Create;
  //FFont.OnChange       := @CheckBoxFontChanged;
+ FInfoBox := TInfoBox.create(nil);
 end;
 
 destructor TMultiEvent.Destroy;
 begin
   FFont.Free;
+  FInfoBox.Free;
   inherited Destroy;
 end;
 

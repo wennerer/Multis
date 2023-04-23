@@ -34,14 +34,14 @@ object Form1: TForm1
     end
     object MultiEventLine1: TMultiEventLine
       Left = 106
-      Height = 30
+      Height = 54
       Top = 49
       Width = 654
       Events = <      
         item
-          Size = 15
-          Left = 3
-          Top = 8
+          Size = 25
+          Left = -2
+          Top = 3
           Tag = 0
           ShowNumber = False
           BorderColor = clNone
