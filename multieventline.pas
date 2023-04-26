@@ -1,3 +1,32 @@
+{ <A line on which events (steps) are displayed>
+  <Version 1.0.0.1>
+  Copyright (C) <26.04.2023> <Bernd Hübner>
+  You can find more information here: https://www.lazarusforum.de/viewtopic.php?f=29&t=14033
+
+  This library is free software; you can redistribute it and/or modify it under the
+  terms of the GNU Library General Public License as published by the Free Software
+  Foundation; either version 2 of the License, or (at your option) any later
+  version with the following modification:
+
+  As a special exception, the copyright holders of this library give you permission
+  to link this library with independent modules to produce an executable,
+  regardless of the license terms of these independent modules,and to copy and
+  distribute the resulting executable under terms of your choice, provided that you
+  also meet, for each linked independent module, the terms and conditions of the
+  license of that module. An independent module is a module which is not derived
+  from or based on this library. If you modify this library, you may extend this
+  exception to your version of the library, but you are not obligated to do so. If
+  you do not wish to do so, delete this exception statement from your version.
+
+  This program is distributed in the hope that it will be useful, but WITHOUT ANY
+  WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+  PARTICULAR PURPOSE. See the GNU Library General Public License for more details.
+
+  You should have received a copy of the GNU Library General Public License along
+  with this library; if not, write to the Free Software Foundation, Inc., 51
+  Franklin Street - Fifth Floor, Boston, MA 02110-1335, USA.
+}
+
 unit MultiEventLine;
 
 {$mode ObjFPC}{$H+}
@@ -26,6 +55,12 @@ type
  end;
 
 type
+ TInfoBoxPosition = (ibTop,ibBottom,ibNone);
+
+type
+ TInfoBoxStyle = (ibsRectangle,ibsRoundRect,ibsEllipse);
+
+type
   TMultiEventLine      = class; //TCustomControl , die eigentliche Komponente
   TMultiEvent          = class; //TCollectionItem, der einzelne Kreis
 
@@ -36,15 +71,101 @@ type
 
   TInfoBox = class(TPersistent)
    private
-    FOwner             : TMultiEvent;
-    FCaption           : TCaption;
+     FBorderColor: TColor;
+     FBorderWidth: integer;
+     FCapLeft            : integer;
+     FCaptionWordbreak   : boolean;
+     FCapTop             : integer;
+     FColor: TColor;
+     FFont: TFont;
+     FHeight             : integer;
+     FHorizCorrection    : integer;
+     FInfoBoxPosition    : TInfoBoxPosition;
+     FOwner              : TMultiEvent;
+     FCaption            : TCaption;
+     FRRRadius: integer;
+     FStyle: TInfoBoxStyle;
+     FTextStyle          : TTextStyle;
+     FVertCorrection     : integer;
+     FWidth              : integer;
+     FLeft               : integer;
+     FTop                : integer;
+     FCenter             : TPoint;
+    procedure SetAlignment(AValue: TAlignment);
+    procedure SetBorderColor(AValue: TColor);
+    procedure SetBorderWidth(AValue: integer);
+    procedure SetCapLeft(AValue: integer);
+    procedure SetCaption(AValue: TCaption);
+    procedure SetCaptionWordbreak(AValue: boolean);
+    procedure SetCapTop(AValue: integer);
+    procedure SetColor(AValue: TColor);
+    procedure SetFont(AValue: TFont);
+    procedure SetHeight(AValue: integer);
+    procedure SetHorizCorrection(AValue: integer);
+    procedure SetInfoBoxPosition(AValue: TInfoBoxPosition);
+    procedure SetLayout(AValue: TTextLayout);
+    procedure SetRRRadius(AValue: integer);
+    procedure SetStyle(AValue: TInfoBoxStyle);
+    procedure SetTextStyle(AValue: TTextStyle);
+    procedure SetVertCorrection(AValue: integer);
+    procedure SetWidth(AValue: integer);
 
    public
     constructor create(AOwner: TMultiEvent);
+    destructor Destroy; override;
+    property TextStyle: TTextStyle read FTextStyle write SetTextStyle;
    published
-    property Caption : TCaption read FCaption write FCaption;
-
-
+    //
+    //
+    property Caption : TCaption read FCaption write SetCaption;
+    //
+    //
+    property Position : TInfoBoxPosition read FInfoBoxPosition write SetInfoBoxPosition default ibNone;
+    //Alignment of the text in the caption (left, center, right)
+    //Ausrichtung des Textes in der Caption (Links,Mitte,Rechts)
+    property CaptionAlignment:TAlignment read FTextStyle.Alignment write SetAlignment default taLeftJustify;
+    //Alignment of the text in the caption (top, center, bottom)
+    //Ausrichtung des Textes in der Caption (Oben,Mitte,Unten)
+    property CaptionLayout:TTextLayout read FTextStyle.Layout write SetLayout default tlCenter;
+    //Allows a line break in the caption
+    //Ermöglicht einen Zeilenumbruch in der Caption
+    property CaptionWordbreak : boolean read FCaptionWordbreak write SetCaptionWordbreak default false;
+    //The horizontal distance of the text in the text rectangle (only effective with taLeftJustify)
+    //Der horizontale Abstand des Textes im Textrechteck (nur wirksam mit taLeftJustify)
+    property CaptionHorMargin : integer read FCapLeft write SetCapLeft default 2;
+    //The vertical distance of the text in the text rectangle (only effective with tlTop)
+    //Der vertikale Abstand des Textes im Textrechteck (nur wirksam mit tlTop)
+    property CaptionVerMargin : integer read FCapTop write SetCapTop default 0;
+    //
+    //
+    property Width : integer read FWidth write SetWidth default 80;
+    //
+    //
+    property Height : integer read FHeight write SetHeight default 20;
+    //
+    //
+    property HorizCorrection : integer read FHorizCorrection write SetHorizCorrection default 0;
+    //
+    //
+    property VertCorrection : integer read FVertCorrection write SetVertCorrection default 5;
+    //
+    //
+    property Color : TColor read FColor write SetColor default clWhite;
+    //
+    //
+    property BorderColor : TColor read FBorderColor write SetBorderColor default clNone;
+    //
+    //
+    property BorderWidth : integer read FBorderWidth write SetBorderWidth default 1;
+    //
+    //
+    property Style : TInfoBoxStyle read FStyle write SetStyle default ibsRectangle;
+    //Corner diameter if the geometric shape is RoundRect
+    //Eckendurchmesser wenn geometrische Form ist RoundRect
+    property RndRctRadius : integer    read FRRRadius   write SetRRRadius default 5;
+    //The font to be used for text display in the caption
+    //Die Schrift die für die Textanzeige in der Caption verwendet werden soll.
+    property Font: TFont read FFont write SetFont;
  end;
 
 
@@ -231,6 +352,8 @@ type
 
   TMultiEventLine= class(TCustomControl)
   private
+    FBorderColor: TColor;
+    FBorderWidth: integer;
    FEventCollection     : TMultiEventCollection;
    FGradient            : TGradientCourse;
    FLine                : TLine;
@@ -242,7 +365,11 @@ type
    procedure DrawNotEnabled;
    procedure CalculateTheEvent;
    procedure DrawTheEvent;
+   procedure CalculateTheInfoBox;
+   procedure DrawInfoBox;
    procedure SetAllSize(AValue: integer);
+   procedure SetBorderColor(AValue: TColor);
+   procedure SetBorderWidth(AValue: integer);
 
    procedure SetLine(AValue: TLine);
   protected
@@ -273,6 +400,12 @@ type
    //
    //
    property LineSettings      : TLine      read FLine  write SetLine;
+   //The color of the border
+   //Die Farbe des Rahmens
+   property BorderColor : TColor read FBorderColor write SetBorderColor default clBlack;
+   //The whidth of the border
+   //Die Dicke des Rahmens
+   property BorderWidth : integer read FBorderWidth write SetBorderWidth default 1;
 
    property Color;
    property Align;
@@ -522,6 +655,20 @@ begin
    FEventCollection.Items[lv].Size := aValue;
 end;
 
+procedure TMultiEventLine.SetBorderColor(AValue: TColor);
+begin
+  if FBorderColor=AValue then Exit;
+  FBorderColor:=AValue;
+  Invalidate;
+end;
+
+procedure TMultiEventLine.SetBorderWidth(AValue: integer);
+begin
+  if FBorderWidth=AValue then Exit;
+  FBorderWidth:=AValue;
+  Invalidate;
+end;
+
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX--Calculate---XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 function TMultiEventLine.GetTextWidth(AText: String; AFont: TFont): Integer;
 var bmp : TBitmap ;
@@ -582,6 +729,39 @@ begin
 
 end;
 
+
+procedure TMultiEventLine.CalculateTheInfoBox;
+var lv,i : integer;
+begin
+  i := FLine.FWidth div pred(FEventCollection.Count);
+ for lv:= 0 to pred(FEventCollection.Count) do
+  begin
+   FEventCollection.Items[lv].FInfoBox.FCenter.X := FLine.FHorizontalMargin + (lv*i);
+   FEventCollection.Items[lv].FInfoBox.FCenter.Y := FLine.FVertMargin + (FLine.FHeight div 2);
+
+   if lv = 0 then FEventCollection.Items[lv].FInfoBox.FLeft := FEventCollection.Items[lv].FInfoBox.FCenter.X +
+                                                               FEventCollection.Items[lv].FInfoBox.FHorizCorrection;
+   if (lv <> 0) and (lv<> pred(FEventCollection.Count)) then
+    FEventCollection.Items[lv].FInfoBox.FLeft :=
+      FEventCollection.Items[lv].FInfoBox.FCenter.X - (FEventCollection.Items[lv].FInfoBox.FWidth div 2) +
+      FEventCollection.Items[lv].FInfoBox.FHorizCorrection;
+   if Lv = pred(FEventCollection.Count) then
+    FEventCollection.Items[lv].FInfoBox.FLeft :=
+      FEventCollection.Items[lv].FInfoBox.FCenter.X - FEventCollection.Items[lv].FInfoBox.FWidth +
+      FEventCollection.Items[lv].FInfoBox.FHorizCorrection;
+
+   if FEventCollection.Items[lv].FInfoBox.FInfoBoxPosition = ibTop then
+    FEventCollection.Items[lv].FInfoBox.FTop  :=
+      FEventCollection.Items[lv].FInfoBox.FCenter.Y -
+      ((FEventCollection.Items[lv].FSize div 2)+FEventCollection.Items[lv].FInfoBox.FHeight +
+        FEventCollection.Items[lv].FInfoBox.FVertCorrection) ;
+
+   if FEventCollection.Items[lv].FInfoBox.FInfoBoxPosition = ibBottom then
+    FEventCollection.Items[lv].FInfoBox.FTop  :=
+      FEventCollection.Items[lv].FInfoBox.FCenter.Y + (FEventCollection.Items[lv].FSize div 2) +
+      FEventCollection.Items[lv].FInfoBox.FVertCorrection
+  end;//Count
+end;
 
 
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX--drawing---xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -830,6 +1010,51 @@ begin
   end;//count
 end;
 
+procedure TMultiEventLine.DrawInfoBox;
+var lv : integer;
+begin
+ CalculateTheInfoBox;
+
+ for lv:= 0 to pred(FEventCollection.Count) do
+  begin
+   if FEventCollection.Items[lv].FInfoBox.FInfoBoxPosition <> ibNone then
+    begin
+     Canvas.Brush.Style := bsSolid;
+     Canvas.Brush.Color := FEventCollection.Items[lv].FInfoBox.FColor;
+     Canvas.Pen.Width   := FEventCollection.Items[lv].FInfoBox.FBorderWidth;
+     if FEventCollection.Items[lv].FInfoBox.FBorderColor <> clNone then
+      Canvas.Pen.Color   := FEventCollection.Items[lv].FInfoBox.FBorderColor
+     else
+      Canvas.Pen.Color   := FEventCollection.Items[lv].FInfoBox.FColor;
+
+     if FEventCollection.Items[lv].FInfoBox.FColor <> clNone then
+      begin
+       if FEventCollection.Items[lv].FInfoBox.FStyle = ibsRectangle then
+        Canvas.Rectangle(rect(FEventCollection.Items[lv].FInfoBox.FLeft,FEventCollection.Items[lv].FInfoBox.FTop,
+                            FEventCollection.Items[lv].FInfoBox.FLeft + FEventCollection.Items[lv].FInfoBox.FWidth,
+                            FEventCollection.Items[lv].FInfoBox.FTop + FEventCollection.Items[lv].FInfoBox.FHeight));
+       if FEventCollection.Items[lv].FInfoBox.FStyle = ibsRoundRect then
+        Canvas.RoundRect(rect(FEventCollection.Items[lv].FInfoBox.FLeft,FEventCollection.Items[lv].FInfoBox.FTop,
+                            FEventCollection.Items[lv].FInfoBox.FLeft + FEventCollection.Items[lv].FInfoBox.FWidth,
+                            FEventCollection.Items[lv].FInfoBox.FTop + FEventCollection.Items[lv].FInfoBox.FHeight),
+                            FEventCollection.Items[lv].FInfoBox.FRRRadius,FEventCollection.Items[lv].FInfoBox.FRRRadius);
+       if FEventCollection.Items[lv].FInfoBox.FStyle = ibsEllipse then
+        Canvas.Ellipse(rect(FEventCollection.Items[lv].FInfoBox.FLeft,FEventCollection.Items[lv].FInfoBox.FTop,
+                            FEventCollection.Items[lv].FInfoBox.FLeft + FEventCollection.Items[lv].FInfoBox.FWidth,
+                            FEventCollection.Items[lv].FInfoBox.FTop + FEventCollection.Items[lv].FInfoBox.FHeight));
+      end;
+     Canvas.Font.Assign(FEventCollection.Items[lv].FInfoBox.FFont);
+     Canvas.TextRect(rect(FEventCollection.Items[lv].FInfoBox.FLeft,FEventCollection.Items[lv].FInfoBox.FTop,
+                          FEventCollection.Items[lv].FInfoBox.FLeft + FEventCollection.Items[lv].FInfoBox.FWidth,
+                          FEventCollection.Items[lv].FInfoBox.FTop + FEventCollection.Items[lv].FInfoBox.FHeight),
+                          FEventCollection.Items[lv].FInfoBox.FLeft + FEventCollection.Items[lv].FInfoBox.FCapLeft,
+                          FEventCollection.Items[lv].FInfoBox.FTop + FEventCollection.Items[lv].FInfoBox.FCapTop,
+                          FEventCollection.Items[lv].FInfoBox.FCaption,
+                          FEventCollection.Items[lv].FInfoBox.FTextStyle);
+   end;
+  end;
+end;
+
 procedure TMultiEventLine.Paint;
 //var lv : integer;
 begin
@@ -858,6 +1083,16 @@ begin
  DrawTheLine;
  DrawTheEvent;
  DrawNotEnabled;
+ DrawInfoBox;
+
+ if FBorderColor <> clNone then
+  begin
+   Canvas.Brush.Style  := bsClear;
+   Canvas.Pen.Width    := FBorderWidth;
+   Canvas.Pen.Color    := FBorderColor;
+   Canvas.Rectangle(0,0,width,height);
+   Canvas.Brush.Style  := bsSolid;
+  end;
 end;
 
 

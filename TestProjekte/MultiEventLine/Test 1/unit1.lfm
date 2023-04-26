@@ -33,51 +33,70 @@ object Form1: TForm1
       TabOrder = 0
     end
     object MultiEventLine1: TMultiEventLine
-      Left = 106
-      Height = 54
-      Top = 49
-      Width = 654
+      Left = 16
+      Height = 80
+      Top = 24
+      Width = 800
       Events = <      
         item
-          Size = 25
-          Left = -2
-          Top = 3
+          Size = 15
+          Left = 13
+          Top = 32
           Tag = 0
-          ShowNumber = False
           BorderColor = clNone
           Images = ImageList1
-          ImageIndex = 0
+          InfoBox.Caption = 'Start'
+          InfoBox.Position = ibBottom
+          InfoBox.CaptionHorMargin = 4
+          InfoBox.Color = clInfoBk
+          InfoBox.BorderColor = clRed
+          InfoBox.BorderWidth = 3
+          InfoBox.Font.Color = clMaroon
+          InfoBox.Font.Height = -16
+          InfoBox.Font.Name = 'Ubuntu Mono'
+          InfoBox.Font.Style = [fsBold]
         end      
         item
           Size = 15
-          Left = 161
-          Top = 8
+          Left = 203
+          Top = 32
           Tag = 1
+          InfoBox.Caption = 'zweite Event'
+          InfoBox.Position = ibTop
+          InfoBox.Style = ibsRoundRect
         end      
         item
           Size = 15
-          Left = 319
-          Top = 8
+          Left = 393
+          Top = 32
           Tag = 2
+          InfoBox.Position = ibBottom
+          InfoBox.CaptionLayout = tlTop
         end      
         item
           Size = 15
-          Left = 477
-          Top = 8
+          Left = 583
+          Top = 32
           Tag = 3
+          InfoBox.Position = ibBottom
+          InfoBox.CaptionLayout = tlTop
         end      
         item
           Size = 15
-          Left = 635
-          Top = 8
+          Left = 773
+          Top = 32
           Tag = 4
+          InfoBox.Position = ibBottom
+          InfoBox.CaptionLayout = tlTop
         end>
       SetSizeAllEvents = 15
-      LineSettings.Width = 634
+      LineSettings.Width = 760
       LineSettings.Height = 3
-      LineSettings.HorizMargin = 10
-      LineSettings.VertMargin = 14
-      Color = clForm
+      LineSettings.HorizMargin = 20
+      LineSettings.VertMargin = 38
+      BorderColor = clMaroon
+      BorderWidth = 3
+      Color = clNone
     end
   end
   object ImageList1: TImageList
