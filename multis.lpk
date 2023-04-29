@@ -27,7 +27,7 @@
 The help for the package can be called up via the menu item Help , Multis-Help."/>
     <License Value="modified LGPL-2"/>
     <Version Major="1" Release="7" Build="1"/>
-    <Files Count="31">
+    <Files Count="32">
       <Item1>
         <Filename Value="multibuttonstylemanager.pas"/>
         <HasRegisterProc Value="True"/>
@@ -162,6 +162,10 @@ The help for the package can be called up via the menu item Help , Multis-Help."
         <Filename Value="ml_infobox.inc"/>
         <Type Value="Include"/>
       </Item31>
+      <Item32>
+        <Filename Value="ml_SetAllEvents.inc"/>
+        <Type Value="Include"/>
+      </Item32>
     </Files>
     <CompatibilityMode Value="True"/>
     <i18n>

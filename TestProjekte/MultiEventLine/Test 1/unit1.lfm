@@ -1,18 +1,18 @@
 object Form1: TForm1
-  Left = 457
-  Height = 355
+  Left = 449
+  Height = 322
   Top = 250
-  Width = 871
+  Width = 915
   Caption = 'Form1'
-  ClientHeight = 355
-  ClientWidth = 871
-  OnCreate = FormCreate
-  ShowHint = True
+  ClientHeight = 322
+  ClientWidth = 915
+  LCLVersion = '2.2.0.4'
   object MultiPanel1: TMultiPanel
-    Left = 24
-    Height = 264
-    Top = 16
-    Width = 832
+    Left = 0
+    Height = 120
+    Top = 0
+    Width = 915
+    Align = alTop
     StrPolygon = (
       '50'
       '2'
@@ -23,106 +23,69 @@ object Form1: TForm1
       '50'
       '2'
     )
-    object Button1: TButton
-      Left = 29
-      Height = 25
-      Top = 147
-      Width = 75
-      Caption = 'Button1'
-      OnClick = Button1Click
-      TabOrder = 0
-    end
     object MultiEventLine1: TMultiEventLine
-      Left = 16
-      Height = 80
-      Top = 24
-      Width = 800
+      Left = 96
+      Height = 30
+      Top = 37
+      Width = 300
       Events = <      
         item
           Size = 15
-          Left = 13
-          Top = 32
+          Left = 3
+          Top = 8
           Tag = 0
-          BorderColor = clNone
-          Images = ImageList1
-          InfoBox.Caption = 'Start'
           InfoBox.Position = ibBottom
-          InfoBox.CaptionHorMargin = 4
-          InfoBox.Color = clInfoBk
-          InfoBox.BorderColor = clRed
-          InfoBox.BorderWidth = 3
-          InfoBox.Font.Color = clMaroon
-          InfoBox.Font.Height = -16
-          InfoBox.Font.Name = 'Ubuntu Mono'
-          InfoBox.Font.Style = [fsBold]
         end      
         item
           Size = 15
-          Left = 203
-          Top = 32
+          Left = 73
+          Top = 8
           Tag = 1
-          InfoBox.Caption = 'zweite Event'
-          InfoBox.Position = ibTop
-          InfoBox.Style = ibsRoundRect
+          InfoBox.Position = ibBottom
         end      
         item
           Size = 15
-          Left = 393
-          Top = 32
+          Left = 143
+          Top = 8
           Tag = 2
           InfoBox.Position = ibBottom
-          InfoBox.CaptionLayout = tlTop
         end      
         item
           Size = 15
-          Left = 583
-          Top = 32
+          Left = 213
+          Top = 8
           Tag = 3
           InfoBox.Position = ibBottom
-          InfoBox.CaptionLayout = tlTop
         end      
         item
           Size = 15
-          Left = 773
-          Top = 32
+          Left = 283
+          Top = 8
           Tag = 4
           InfoBox.Position = ibBottom
-          InfoBox.CaptionLayout = tlTop
         end>
       SetSizeAllEvents = 15
-      LineSettings.Width = 760
+      LineSettings.Width = 280
       LineSettings.Height = 3
-      LineSettings.HorizMargin = 20
-      LineSettings.VertMargin = 38
-      BorderColor = clMaroon
-      BorderWidth = 3
-      Color = clNone
+      LineSettings.HorizMargin = 10
+      LineSettings.VertMargin = 14
+      BorderWidth = 0
+      Color = clForm
     end
   end
-  object ImageList1: TImageList
-    Left = 608
-    Top = 179
-    Bitmap = {
-      4C7A010000001000000010000000600200000000000078DA6360A03210D46143
-      E6326A461872BBF75512AB9DD1BE2B5EABE4D85A06512F290609633EE3AE67B7
-      4D3A9F9C27DA7EAD98E0B08DBFFE3BCF7AFB5EB7F9FE29B3053FFFDBCCFAF48F
-      C1A8C890513BC64BC877621B83B4B3314EFB15DCDC7DD7FEFCAFBFE8D77F8BA5
-      BFFEABCDFEF9DF60CECFFFA693DFFD359AF1EDBF59EFAB37407771A06812D155
-      51ADBCB9C562C2F39B0E33DFFCF258FFFBBFD98ADFFFBD97FFFABFEAF29FFF8A
-      D37EFE979EF8E3BF22108B46AEECC2662FBF577F91DBD26FFF0C1603ED5DF5FB
-      BFD59ADFFFD3B7FEFE0F029A737FFD9799F4E3BFD6D4EFFF45A356AF6110D153
-      C0668650C4F21E97953FFF1B2FFBFDDF65C9AFFF534EFE01EB4FDFF6FBBFE6F4
-      1FFF85BBBEFF17EBFCFE5FADFDED2F0EFFA55350340BBB0969353FB9640CF4B7
-      EE0260F8ADF8F5FF0BC4FAFFA75FFEFB2F0BB45FBCFBFB7FF9D6B73FF9C3574D
-      01BA411AAE974B9C57A5F0F851FBC53FFFEB00C34A6D1608FFFADF70E2EFFF4F
-      BFFEFFB75FF6EBBF0850AF6CCFB7FF2C8E3D79180EE712176650F10FE5706CC9
-      11895CBEC270E6D7FF72537E80C32D68E3EFFF623D3FFE8B01DDCEDDF4EDBF70
-      FEF5730C0CCCCC682630013127100B30C83BFB6B4CFAFA5F7E22D09FBD1FFF8B
-      02ED95EEFEF69F2F6CE57EC1EC7327844A1F7F67500B7585EA41D6CF054ABD0C
-      F22ED15A7D1FFEF1872D5DCFA81D972FD5F2FEAF48EDABDF0C7C0ABA40790906
-      4E317106011509201BDD0DAC40CC0D4C0B6E8C9A91D14036287CE458EC1ADB78
-      12F61F01B2C5415104C43C50B5D800C81DEC60731818F840C98281995D8041D1
-      CB192AC68EC55E9C49196A1E13948D15000008AA0FAF
-    }
+  object SpinEdit1: TSpinEdit
+    Left = 84
+    Height = 27
+    Top = 156
+    Width = 114
+    TabOrder = 1
+  end
+  object Button1: TButton
+    Left = 84
+    Height = 25
+    Top = 200
+    Width = 75
+    Caption = 'Button1'
+    TabOrder = 2
   end
 end

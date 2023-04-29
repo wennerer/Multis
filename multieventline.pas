@@ -36,7 +36,7 @@ interface
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, LCLIntf,
   IntfGraphics, LCLType, ImgList, LCLProc, GraphType, GraphPropEdits, PropEdits,
-  multipanel, multilayer, infmultis, ptin;
+  multipanel, multilayer, infmultis, ptin, StdCtrls, ColorBox, Spin;
 
 type
   TGradientCourse = (gcHorizontal,gcVertical,gcSpread,gcRadiant,gcAlternate); //for background color
@@ -63,6 +63,41 @@ type
 type
   TMultiEventLine      = class; //TCustomControl , die eigentliche Komponente
   TMultiEvent          = class; //TCollectionItem, der einzelne Kreis
+
+type
+  { TSetAll }
+
+   TSetAll = class (TPersistent)
+   private
+    FBorderColor     : TColor;
+    FBorderWidth     : integer;
+   protected
+
+   public
+    constructor create;
+   end;
+
+type
+
+   { TPropertySetAllEvents }
+
+   TPropertySetAllEvents = class (TPropertyEditor)
+   private
+    aObject     : TSetAll;
+    FButtons    : array [0..10] of TButton;
+    FColorBox   : array [0..5] of TColorBox;
+    FSpinEdit   : array [0..8] of TSpinEdit;
+   protected
+    procedure CreateWindow;
+    procedure ButtonsOnClick(Sender : TObject);
+    procedure ColorBoxOnChange(Sender: TObject);
+    procedure SpinEditOnChange(Sender: TObject);
+   public
+    procedure Edit; Override;
+    function  GetValue: string;Override;
+    function  GetAttributes: TPropertyAttributes; Override;
+   end;
+
 
 
 type
@@ -280,7 +315,7 @@ type
     FTop                : integer;
     FStyle              : TMEventStyle;
     FHotspot            : TRect;
-    FInfoBox : TInfoBox;
+    FInfoBox            : TInfoBox;
 
     procedure SetColorEnd(AValue: TColor);
     procedure SetColorStart(AValue: TColor);
@@ -357,6 +392,7 @@ type
    FEventCollection     : TMultiEventCollection;
    FGradient            : TGradientCourse;
    FLine                : TLine;
+   FSetAll: TSetAll;
    FSetAllSize          : integer;
 
    procedure CalculateTheLine;
@@ -372,6 +408,7 @@ type
    procedure SetBorderWidth(AValue: integer);
 
    procedure SetLine(AValue: TLine);
+   procedure SetSetAll(AValue: TSetAll);
   protected
    function CreateEvents: TMultiEventCollection;
    function GetEvent: TMultiEventCollection;
@@ -406,6 +443,9 @@ type
    //The whidth of the border
    //Die Dicke des Rahmens
    property BorderWidth : integer read FBorderWidth write SetBorderWidth default 1;
+   //
+   //
+   property SetAll : TSetAll read FSetAll write SetSetAll;
 
    property Color;
    property Align;
@@ -418,13 +458,20 @@ type
 procedure Register;
 
 implementation
+{ TSetAll }
+
+constructor TSetAll.create;
+begin
+ FBorderColor         := clBlue;//clBlack;
+ FBorderWidth         := 5;//1;
+end;
+
 {xxxxxxxxxxxxxxxxx TImageIndexPropertyEditor xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx}
 type
   TMEventLineImageIndexPropertyEditor = class(TImageIndexPropertyEditor)
   protected
     function GetImageList: TCustomImageList; override;
   end;
-
 
 function TMEventLineImageIndexPropertyEditor.GetImageList: TCustomImagelist;
 begin
@@ -437,6 +484,7 @@ begin
   {$I multieventline_icon.lrs}
   RegisterComponents('Multi',[TMultiEventLine]);
   RegisterPropertyEditor(TypeInfo(TImageIndex), TMultiEvent, 'ImageIndex', TMEventLineImageIndexPropertyEditor);
+  RegisterPropertyEditor(TypeInfo(TSetAll),nil,'SetAll',TPropertySetAllEvents);
 end;
 
 
@@ -644,6 +692,16 @@ begin
  if FLine=AValue then Exit;
  FLine:=AValue;
  Invalidate;
+end;
+
+procedure TMultiEventLine.SetSetAll(AValue: TSetAll);
+var lv : integer;
+begin
+  for lv:= 0 to pred(FEventCollection.Count) do
+   begin
+    FEventCollection.Items[lv].FBorderColor   := AValue.FBorderColor;
+   end;
+  Invalidate;
 end;
 
 procedure TMultiEventLine.SetAllSize(AValue: integer);
@@ -1100,4 +1158,5 @@ end;
 {$Include Eventitem.inc}
 {$Include ml_line.inc}
 {$Include ml_infobox.inc}
+{$Include ml_SetAllEvents.inc}
 end.
