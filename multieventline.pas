@@ -74,7 +74,7 @@ type
    protected
 
    public
-    constructor create;
+
    end;
 
 type
@@ -84,6 +84,7 @@ type
    TPropertySetAllEvents = class (TPropertyEditor)
    private
     aObject     : TSetAll;
+    aOwner      : TComponent;
     FButtons    : array [0..10] of TButton;
     FColorBox   : array [0..5] of TColorBox;
     FSpinEdit   : array [0..8] of TSpinEdit;
@@ -393,7 +394,7 @@ type
    FGradient            : TGradientCourse;
    FLine                : TLine;
    FSetAll: TSetAll;
-   FSetAllSize          : integer;
+   //FSetAllSize          : integer;
 
    procedure CalculateTheLine;
    procedure DrawEventBgrd(lv: integer);
@@ -403,7 +404,7 @@ type
    procedure DrawTheEvent;
    procedure CalculateTheInfoBox;
    procedure DrawInfoBox;
-   procedure SetAllSize(AValue: integer);
+   //procedure SetAllSize(AValue: integer);
    procedure SetBorderColor(AValue: TColor);
    procedure SetBorderWidth(AValue: integer);
 
@@ -433,7 +434,7 @@ type
    property Events : TMultiEventCollection read GetEvent write SetEvent stored IsEventStored;
    //
    //
-   property SetSizeAllEvents : integer read FSetAllSize write SetAllSize;
+   //property SetSizeAllEvents : integer read FSetAllSize write SetAllSize;
    //
    //
    property LineSettings      : TLine      read FLine  write SetLine;
@@ -458,13 +459,6 @@ type
 procedure Register;
 
 implementation
-{ TSetAll }
-
-constructor TSetAll.create;
-begin
- FBorderColor         := clBlue;//clBlack;
- FBorderWidth         := 5;//1;
-end;
 
 {xxxxxxxxxxxxxxxxx TImageIndexPropertyEditor xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx}
 type
@@ -472,6 +466,7 @@ type
   protected
     function GetImageList: TCustomImageList; override;
   end;
+
 
 function TMEventLineImageIndexPropertyEditor.GetImageList: TCustomImagelist;
 begin
@@ -583,7 +578,7 @@ begin
   inherited Create(AOwner);
   Width := 300;
   Height:=  30;
-  FSetAllSize:= 15;
+  //FSetAllSize:= 15;
 
   FLine                   := TLine.create(self);
   FLine.FColorStart       := clMaroon;
@@ -597,10 +592,14 @@ begin
   FEventCollection := CreateEvents;  //TCollection
   FEventCollection.Add;
   FEventCollection.Add;
+
+  //FSetAll := TSetAll.Create(FSetAll);
+
 end;
 
 destructor TMultiEventLine.Destroy;
 begin
+ //FSetAll.Free;
  FLine.Free;
  FEventCollection.Free;
  inherited Destroy;
@@ -697,13 +696,15 @@ end;
 procedure TMultiEventLine.SetSetAll(AValue: TSetAll);
 var lv : integer;
 begin
+ //FSetAll.FBorderWidth := AValue.FBorderWidth;
   for lv:= 0 to pred(FEventCollection.Count) do
    begin
     FEventCollection.Items[lv].FBorderColor   := AValue.FBorderColor;
+    FEventCollection.Items[lv].FBorderWidth   := AValue.FBorderWidth;
    end;
   Invalidate;
 end;
-
+(*
 procedure TMultiEventLine.SetAllSize(AValue: integer);
 var lv : integer;
 begin
@@ -711,7 +712,7 @@ begin
   FSetAllSize:=AValue;
   for lv:= 0 to pred(FEventCollection.Count) do
    FEventCollection.Items[lv].Size := aValue;
-end;
+end;    *)
 
 procedure TMultiEventLine.SetBorderColor(AValue: TColor);
 begin

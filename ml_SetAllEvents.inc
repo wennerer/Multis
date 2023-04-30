@@ -29,7 +29,7 @@ var SetAllForm  : TCustomForm;
 begin
  try
    aObject     := TSetAll.Create;
-
+   aObject.FBorderColor :=    TMultiEventLine(GetComponent(0)).BorderColor;
 
 
    SetAllForm                := TForm.Create(Application);
@@ -62,6 +62,7 @@ begin
      FColorBox[lv].OnChange    := @ColorBoxOnChange;
     end;//ColorBox
    FColorBox[0].Top         := 10;
+   FColorBox[0].Selected    := aObject.FBorderColor;
 
    for lv:=0 to 0 do
     begin
@@ -74,6 +75,7 @@ begin
      FSpinEdit[lv].OnChange    := @SpinEditOnChange;
     end;//SpinEdit
    FSpinEdit[0].Top            := 40;
+   FSpinEdit[0].Value          := aObject.FBorderWidth;
 
    SetAllForm.ShowModal;
 
@@ -105,18 +107,17 @@ end;
 
 procedure TPropertySetAllEvents.ColorBoxOnChange(Sender: TObject);
 begin
- if Sender = FColorBox[0] then
-  begin
-   aObject.FBorderColor := FColorBox[0].Selected;
+ if Sender = FColorBox[0] then aObject.FBorderColor := FColorBox[0].Selected;
 
-  end;
 
  SetPtrValue(aObject);
 end;
 
 procedure TPropertySetAllEvents.SpinEditOnChange(Sender: TObject);
 begin
+ if Sender = FSpinEdit[0] then aObject.FBorderWidth := FSpinEdit[0].Value;
 
  SetPtrValue(aObject);
 end;
+
 
