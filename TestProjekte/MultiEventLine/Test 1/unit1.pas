@@ -5,8 +5,8 @@ unit Unit1;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ComCtrls, Spin,
-  StdCtrls, MultiPanel, MultiEventLine;
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
+  MultiPanel, MultiEventLine, MultiButton;
 
 type
 
@@ -14,9 +14,9 @@ type
 
   TForm1 = class(TForm)
     Button1: TButton;
+    MultiButton1: TMultiButton;
     MultiEventLine1: TMultiEventLine;
     MultiPanel1: TMultiPanel;
-    SpinEdit1: TSpinEdit;
   private
 
   public

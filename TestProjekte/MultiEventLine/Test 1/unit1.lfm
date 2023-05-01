@@ -1,16 +1,16 @@
 object Form1: TForm1
-  Left = 449
-  Height = 322
+  Left = 457
+  Height = 433
   Top = 250
-  Width = 915
+  Width = 970
   Caption = 'Form1'
-  ClientHeight = 322
-  ClientWidth = 915
+  ClientHeight = 433
+  ClientWidth = 970
+  LCLVersion = '2.2.0.4'
   object MultiPanel1: TMultiPanel
     Left = 0
-    Height = 120
     Top = 0
-    Width = 915
+    Width = 970
     Align = alTop
     StrPolygon = (
       '50'
@@ -23,78 +23,92 @@ object Form1: TForm1
       '2'
     )
     object MultiEventLine1: TMultiEventLine
-      Left = 57
-      Height = 30
-      Top = 38
-      Width = 751
+      Left = 61
+      Height = 57
+      Top = 47
+      Width = 835
       Events = <      
         item
           Size = 15
           Left = 3
           Top = 8
           Tag = 0
-          BorderColor = clLime
+          BorderColor = clOlive
           BorderWidth = 0
           InfoBox.Position = ibBottom
         end      
         item
           Size = 15
-          Left = 185
+          Left = 166
           Top = 8
           Tag = 1
-          BorderColor = clLime
+          BorderColor = clOlive
           BorderWidth = 0
           InfoBox.Position = ibBottom
         end      
         item
           Size = 15
-          Left = 367
+          Left = 329
           Top = 8
           Tag = 2
-          BorderColor = clLime
+          BorderColor = clOlive
           BorderWidth = 0
           InfoBox.Position = ibBottom
         end      
         item
           Size = 15
-          Left = 549
+          Left = 492
           Top = 8
           Tag = 3
-          BorderColor = clLime
+          BorderColor = clOlive
           BorderWidth = 0
           InfoBox.Position = ibBottom
         end      
         item
           Size = 15
-          Left = 731
+          Left = 655
           Top = 8
           Tag = 4
-          BorderColor = clLime
+          BorderColor = clOlive
+          BorderWidth = 0
+          InfoBox.Position = ibBottom
+        end      
+        item
+          Size = 15
+          Left = 818
+          Top = 8
+          Tag = 5
+          BorderColor = clOlive
           BorderWidth = 0
           InfoBox.Position = ibBottom
         end>
-      LineSettings.Width = 731
+      LineSettings.Width = 815
       LineSettings.Height = 3
       LineSettings.HorizMargin = 10
       LineSettings.VertMargin = 14
-      BorderColor = clFuchsia
       BorderWidth = 0
       Color = clForm
     end
   end
-  object SpinEdit1: TSpinEdit
-    Left = 84
-    Height = 27
-    Top = 156
-    Width = 114
-    TabOrder = 1
-  end
   object Button1: TButton
-    Left = 84
+    Left = 68
     Height = 25
-    Top = 200
+    Top = 245
     Width = 75
     Caption = 'Button1'
+    TabOrder = 1
+  end
+  object MultiButton1: TMultiButton
+    Left = 176
+    Height = 50
+    Top = 245
+    Width = 110
+    MessageButton.ImageLeft = 0
+    MessageButton.ImageTop = 0
+    Caption = 'MultiButton1'
+    PressedStartColor = clSilver
+    PressedEndColor = clGray
+    PressedFontColor = clBlack
     TabOrder = 2
   end
 end

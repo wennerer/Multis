@@ -36,7 +36,7 @@ interface
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, LCLIntf,
   IntfGraphics, LCLType, ImgList, LCLProc, GraphType, GraphPropEdits, PropEdits,
-  multipanel, multilayer, infmultis, ptin, StdCtrls, ColorBox, Spin;
+  multipanel, multilayer, infmultis, ptin, StdCtrls, ColorBox, Spin, ExtCtrls;
 
 type
   TGradientCourse = (gcHorizontal,gcVertical,gcSpread,gcRadiant,gcAlternate); //for background color
@@ -74,7 +74,9 @@ type
    protected
 
    public
-
+    //constructor Create;
+    constructor create(aOwner:TCustomControl);
+    procedure AssignTo(Dest: TPersistent);override;
    end;
 
 type
@@ -83,11 +85,13 @@ type
 
    TPropertySetAllEvents = class (TPropertyEditor)
    private
-    aObject     : TSetAll;
-    aOwner      : TComponent;
-    FButtons    : array [0..10] of TButton;
+    TmpSet      : TSetAll;
+    OldSet      : TSetAll;
+    SetAllForm  : TCustomForm;
+    FButtons    : array [0..24] of TButton;
     FColorBox   : array [0..5] of TColorBox;
     FSpinEdit   : array [0..8] of TSpinEdit;
+
    protected
     procedure CreateWindow;
     procedure ButtonsOnClick(Sender : TObject);
@@ -460,6 +464,34 @@ procedure Register;
 
 implementation
 
+constructor TSetAll.create(aOwner: TCustomControl);
+begin
+ FBorderColor     := clBlack;
+ FBorderWidth     := 1;
+end;
+
+{ TSetAll }
+(*
+constructor TSetAll.Create;
+begin
+  FBorderColor     := clBlack;
+  FBorderWidth     := 1;
+end;
+ *)
+procedure TSetAll.AssignTo(Dest: TPersistent);
+begin
+ if Dest is TSetAll then
+  begin
+   TSetAll(Dest).FBorderColor       := FBorderColor;
+   TSetAll(Dest).FBorderWidth       := FBorderWidth;
+  end
+ else
+  inherited AssignTo(Dest);
+end;
+
+
+
+
 {xxxxxxxxxxxxxxxxx TImageIndexPropertyEditor xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx}
 type
   TMEventLineImageIndexPropertyEditor = class(TImageIndexPropertyEditor)
@@ -593,13 +625,15 @@ begin
   FEventCollection.Add;
   FEventCollection.Add;
 
-  //FSetAll := TSetAll.Create(FSetAll);
+  FSetAll := TSetAll.Create(self);
 
+ // FSetAll.FBorderColor:= clPurple;
+ // FSetAll.FBorderWidth:= 3;
 end;
 
 destructor TMultiEventLine.Destroy;
 begin
- //FSetAll.Free;
+ FSetAll.Free;
  FLine.Free;
  FEventCollection.Free;
  inherited Destroy;
@@ -697,10 +731,12 @@ procedure TMultiEventLine.SetSetAll(AValue: TSetAll);
 var lv : integer;
 begin
  //FSetAll.FBorderWidth := AValue.FBorderWidth;
+ //FSetAll.FBorderWidth:= aValue.FBorderWidth;
+ FSetAll.Assign(aValue);
   for lv:= 0 to pred(FEventCollection.Count) do
    begin
-    FEventCollection.Items[lv].FBorderColor   := AValue.FBorderColor;
-    FEventCollection.Items[lv].FBorderWidth   := AValue.FBorderWidth;
+    FEventCollection.Items[lv].BorderColor   := AValue.FBorderColor;
+    FEventCollection.Items[lv].BorderWidth   := AValue.FBorderWidth;
    end;
   Invalidate;
 end;
