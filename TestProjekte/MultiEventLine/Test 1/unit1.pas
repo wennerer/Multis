@@ -13,8 +13,9 @@ type
   { TForm1 }
 
   TForm1 = class(TForm)
-    Button1: TButton;
-    MultiButton1: TMultiButton;
+    ImageList1: TImageList;
+    ImageList2: TImageList;
+    ImageList3: TImageList;
     MultiEventLine1: TMultiEventLine;
     MultiPanel1: TMultiPanel;
   private

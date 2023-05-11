@@ -36,7 +36,8 @@ interface
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, LCLIntf,
   IntfGraphics, LCLType, ImgList, LCLProc, GraphType, GraphPropEdits, PropEdits,
-  multipanel, multilayer, infmultis, ptin, StdCtrls, ColorBox, Spin, ExtCtrls;
+  multipanel, multilayer, infmultis, ptin, StdCtrls, ColorBox, Spin, ExtCtrls, TypInfo,
+  ComCtrls;
 
 type
   TGradientCourse = (gcHorizontal,gcVertical,gcSpread,gcRadiant,gcAlternate); //for background color
@@ -71,11 +72,22 @@ type
    private
     FBorderColor     : TColor;
     FBorderWidth     : integer;
+    FColorEnd        : TColor;
+    FColorGradient   : TGradientCourse;
+    FColorStart      : TColor;
+    FBlendValue      : integer;
+    FDisabledColor   : TColor;
+    FEnabled         : boolean;
+    FFont            : TFont;
+    FHover           : boolean;
+    FImageIndex      : integer;
+    FImages          : TCustomImageList;
    protected
 
    public
     //constructor Create;
     constructor create(aOwner:TCustomControl);
+    destructor Destroy; override;
     procedure AssignTo(Dest: TPersistent);override;
    end;
 
@@ -88,15 +100,20 @@ type
     TmpSet      : TSetAll;
     OldSet      : TSetAll;
     SetAllForm  : TCustomForm;
-    FButtons    : array [0..24] of TButton;
+    aTabsheet   : TPageControl;
+    EventsPage  : TTabsheet;
+    FButtons    : array [0..25] of TButton;
     FColorBox   : array [0..5] of TColorBox;
     FSpinEdit   : array [0..8] of TSpinEdit;
-
+    FComboBox   : array [0..1] of TComboBox;
+    FCheckBox   : array [0..3] of TCheckBox;
    protected
     procedure CreateWindow;
     procedure ButtonsOnClick(Sender : TObject);
     procedure ColorBoxOnChange(Sender: TObject);
     procedure SpinEditOnChange(Sender: TObject);
+    procedure ComboBoxOnChange(Sender: TObject);
+    procedure CheckBoxOnChange(Sender: TObject);
    public
     procedure Edit; Override;
     function  GetValue: string;Override;
@@ -422,6 +439,11 @@ type
    function  GetTextWidth (AText : String ; AFont : TFont ) : Integer ;
    function  GetTextHeight (AText : String ; AFont : TFont ) : Integer ;
    procedure Notification(AComponent: TComponent; Operation: TOperation); override;
+   procedure DefineProperties(Filer: TFiler); override;
+   procedure ReadFont(aReader: TReader; aFont: TFont);
+   procedure ReadSetAll(Reader: TReader);
+   procedure WriteFont(aWriter: TWriter; aFont: TFont);
+   procedure WriteSetAll(Writer: TWriter);
   public
    constructor Create(AOwner: TComponent); override;
    destructor Destroy; override;
@@ -468,22 +490,39 @@ constructor TSetAll.create(aOwner: TCustomControl);
 begin
  FBorderColor     := clBlack;
  FBorderWidth     := 1;
+ FColorEnd        := clCream;
+ FColorGradient   := gcSpread;
+ FColorStart      := clWhite;
+ FBlendValue      := 180;
+ FDisabledColor   := $D2D2D2;
+ FEnabled         := true;
+ FFont            := TFont.Create;
+ FImageIndex      := -1;
+ FImages          := nil;
 end;
 
-{ TSetAll }
-(*
-constructor TSetAll.Create;
+destructor TSetAll.Destroy;
 begin
-  FBorderColor     := clBlack;
-  FBorderWidth     := 1;
+ FFont.Free;
+ inherited Destroy;
 end;
- *)
+
 procedure TSetAll.AssignTo(Dest: TPersistent);
 begin
  if Dest is TSetAll then
   begin
    TSetAll(Dest).FBorderColor       := FBorderColor;
    TSetAll(Dest).FBorderWidth       := FBorderWidth;
+   TSetAll(Dest).FColorEnd          := FColorEnd;
+   TSetAll(Dest).FColorGradient     := FColorGradient;
+   TSetAll(Dest).FColorStart        := FColorStart;
+   TSetAll(Dest).FBlendValue        := FBlendValue;
+   TSetAll(Dest).FDisabledColor     := FDisabledColor;
+   TSetAll(Dest).FEnabled           := FEnabled;
+   TSetAll(Dest).FFont.Assign(FFont);
+   TSetAll(Dest).FHover             := FHover;
+   TSetAll(Dest).FImageIndex        := FImageIndex;
+   TSetAll(Dest).FImages            := FImages;
   end
  else
   inherited AssignTo(Dest);
@@ -627,8 +666,6 @@ begin
 
   FSetAll := TSetAll.Create(self);
 
- // FSetAll.FBorderColor:= clPurple;
- // FSetAll.FBorderWidth:= 3;
 end;
 
 destructor TMultiEventLine.Destroy;
@@ -730,25 +767,25 @@ end;
 procedure TMultiEventLine.SetSetAll(AValue: TSetAll);
 var lv : integer;
 begin
- //FSetAll.FBorderWidth := AValue.FBorderWidth;
- //FSetAll.FBorderWidth:= aValue.FBorderWidth;
  FSetAll.Assign(aValue);
   for lv:= 0 to pred(FEventCollection.Count) do
    begin
-    FEventCollection.Items[lv].BorderColor   := AValue.FBorderColor;
-    FEventCollection.Items[lv].BorderWidth   := AValue.FBorderWidth;
+    FEventCollection.Items[lv].BorderColor      := AValue.FBorderColor;
+    FEventCollection.Items[lv].BorderWidth      := AValue.FBorderWidth;
+    FEventCollection.Items[lv].ColorEnd         := AValue.FColorEnd;
+    FEventCollection.Items[lv].ColorGradient    := AValue.FColorGradient;
+    FEventCollection.Items[lv].ColorStart       := AValue.FColorStart;
+    FEventCollection.Items[lv].DisabledBlendVal := AValue.FBlendValue;
+    FEventCollection.Items[lv].DisabledColor    := AValue.FDisabledColor;
+    FEventCollection.Items[lv].FEnabled         := AValue.FEnabled;
+    FEventCollection.Items[lv].FFont.Assign(AValue.FFont);
+    FEventCollection.Items[lv].FHover           := AValue.FHover;
+    FEventCollection.Items[lv].FImageIndex      := AValue.FImageIndex;
+    FEventCollection.Items[lv].FImageList       := AValue.FImages;
    end;
   Invalidate;
 end;
-(*
-procedure TMultiEventLine.SetAllSize(AValue: integer);
-var lv : integer;
-begin
-  if FSetAllSize=AValue then Exit;
-  FSetAllSize:=AValue;
-  for lv:= 0 to pred(FEventCollection.Count) do
-   FEventCollection.Items[lv].Size := aValue;
-end;    *)
+
 
 procedure TMultiEventLine.SetBorderColor(AValue: TColor);
 begin
@@ -800,6 +837,92 @@ begin
    for lv:= 0 to pred(FEventCollection.Count) do
     if AComponent = FEventCollection.Items[lv].FImageList then
      FEventCollection.Items[lv].Images := nil;
+end;
+
+procedure TMultiEventLine.DefineProperties(Filer: TFiler);
+begin
+  inherited DefineProperties(Filer);
+  Filer.DefineProperty('FSetAll',@ReadSetAll,@WriteSetAll,true);
+end;
+
+procedure TMultiEventLine.ReadFont(aReader:TReader;aFont: TFont);
+var aBool : Boolean;
+begin
+ aFont.Height    := aReader.ReadInteger;
+ aFont.Name      := aReader.ReadString;
+ aBool           := aReader.ReadBoolean;
+ if aBool then aFont.Style := aFont.Style+[fsBold]
+ else aFont.Style := aFont.Style-[fsBold];
+ aBool           := aReader.ReadBoolean;
+ if aBool then aFont.Style := aFont.Style+[fsItalic]
+ else aFont.Style := aFont.Style-[fsItalic];
+ aBool           := aReader.ReadBoolean;
+ if aBool then aFont.Style := aFont.Style+[fsStrikeOut]
+ else aFont.Style := aFont.Style-[fsStrikeOut];
+ aBool           := aReader.ReadBoolean;
+ if aBool then aFont.Style := aFont.Style+[fsUnderline]
+ else aFont.Style := aFont.Style-[fsUnderline];
+ aFont.Color     := aReader.ReadInteger;
+end;
+
+procedure TMultiEventLine.ReadSetAll(Reader: TReader);
+begin
+ with Reader do begin
+    ReadListBegin;
+     FSetAll.FBorderColor    := ReadInteger;
+     FSetAll.FBorderWidth    := ReadInteger;
+     FSetAll.FColorEnd       := ReadInteger;
+     FSetAll.FColorGradient  := TGradientCourse(ReadInteger);
+     FSetAll.FColorStart     := ReadInteger;
+     FSetAll.FBlendValue     := ReadInteger;
+     FSetAll.FDisabledColor  := ReadInteger;
+     FSetAll.FEnabled        := ReadBoolean;
+     ReadFont(Reader,FSetAll.FFont);
+     FSetAll.FHover          := ReadBoolean;
+     FSetAll.FImageIndex     := ReadInteger;
+     //FSetAll.FImages         := ;
+     //FSetAll.aString:= ReadString;
+
+    ReadListEnd;
+  end;
+end;
+
+procedure TMultiEventLine.WriteFont(aWriter: TWriter;aFont: TFont);
+var aBool : Boolean;
+begin
+ aWriter.WriteInteger(aFont.Height);
+ aWriter.WriteString(aFont.Name);
+ if fsBold in aFont.Style then aBool := true else aBool:=false;
+ aWriter.WriteBoolean(aBool);
+ if fsItalic in aFont.Style then aBool := true else aBool:=false;
+ aWriter.WriteBoolean(aBool);
+ if fsStrikeOut in aFont.Style then aBool := true else aBool:=false;
+ aWriter.WriteBoolean(aBool);
+ if fsUnderline in aFont.Style then aBool := true else aBool:=false;
+ aWriter.WriteBoolean(aBool);
+ aWriter.WriteInteger(aFont.Color);
+end;
+
+procedure TMultiEventLine.WriteSetAll(Writer: TWriter);
+begin
+ with Writer do begin
+    WriteListBegin;
+     WriteInteger(FSetAll.FBorderColor);
+     WriteInteger(FSetAll.FBorderWidth);
+     WriteInteger(FSetAll.FColorEnd);
+     WriteInteger(ord(FSetAll.FColorGradient));
+     WriteInteger(FSetAll.FColorStart);
+     WriteInteger(FSetAll.FBlendValue);
+     WriteInteger(FSetAll.FDisabledColor);
+     WriteBoolean(FSetAll.FEnabled);
+     WriteFont(Writer,FSetAll.FFont);
+     WriteBoolean(FSetAll.FHover);
+     WriteInteger(FSetAll.FImageIndex);
+
+     //WriteString(SetAll.aString);
+
+    WriteListEnd;
+  end;
 end;
 
 procedure TMultiEventLine.CalculateTheLine;
