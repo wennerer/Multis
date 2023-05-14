@@ -44,6 +44,7 @@ begin
    OldSet.Assign(TMultiEventLine(GetComponent(0)).FSetAll);
 
 
+
    SetAllForm                := TForm.Create(Application);
    SetAllForm.Width          := 715;
    SetAllForm.Height         := 500;
@@ -77,7 +78,7 @@ begin
      FButtons[lv].Style       := mbsRect;
      FButtons[lv].OnClick     := @ButtonsOnClick;
     end;//Button
-   for lv:=13 to 23 do
+   for lv:=13 to 17 do
     begin
      FButtons[lv]             := TMultiButton.Create(SetAllForm);
      FButtons[lv].Parent      := EventsPage;
@@ -105,6 +106,11 @@ begin
     FButtons[10].Caption      := 'Hover';
     FButtons[11].Caption      := 'ImageIndex';
     FButtons[12].Caption      := 'Images';
+    FButtons[13].Caption      := 'RndRctRadius';
+    FButtons[14].Caption      := 'ShowNumber';
+    FButtons[15].Caption      := 'Size';
+    FButtons[16].Caption      := 'Style';
+    FButtons[17].Caption      := 'Visible';
 
   //XXXXX
 
@@ -129,7 +135,7 @@ begin
    AdjustColorBox(System_ToRGB(TmpSet.FFont.Color),4);
 
   //XXXXX
-   for lv:=0 to 2 do
+   for lv:=0 to 4 do
     begin
      FSpinEdit[lv]             := TSpinEdit.Create(SetAllForm);
      FSpinEdit[lv].Parent      := EventsPage;
@@ -151,10 +157,21 @@ begin
     FSpinEdit[2].MaxValue       := TmpSet.FImages.Count -1;
    FSpinEdit[2].Top            := 340;
    FSpinEdit[2].Value          := TmpSet.FImageIndex;
+   FSpinEdit[3].Top            := 10;
+   FSpinEdit[3].Left           := 540;
+   FSpinEdit[3].MinValue       := 0;
+   FSpinEdit[3].MaxValue       := 100;
+   FSpinEdit[3].Value          := TmpSet.FRRRadius;
+   FSpinEdit[4].Top            := 70;
+   FSpinEdit[4].Left           := 540;
+   FSpinEdit[4].MinValue       := 0;
+   FSpinEdit[4].MaxValue       := 100;
+   FSpinEdit[4].Value          := TmpSet.FSize;
+
 
 
   //XXXXXX
-   for lv:=0 to 1 do
+   for lv:=0 to 2 do
     begin
      FComboBox[lv]             := TComboBox.Create(SetAllForm);
      FComboBox[lv].Parent      := EventsPage;
@@ -184,13 +201,18 @@ begin
     FComboBox[1].Items.Add(co.Name);
    if TmpSet.FImages <> nil then
     FComboBox[1].Caption        := TmpSet.FImages.Name;
-
+   FComboBox[2].Left        := 540;
+   FComboBox[2].Items.Add('mesRect');
+   FComboBox[2].Items.Add('mesRoundRect');
+   FComboBox[2].Items.Add('mesCircle');
+   FComboBox[2].Top            := 100;
+   FComboBox[2].Caption        := GetEnumName(TypeInfo(TMEventStyle), ord(TmpSet.FStyle));
 
 
 
 
   //XXXXXX
-   for lv:=0 to 1 do
+   for lv:=0 to 3 do
     begin
      FCheckBox[lv]             := TCheckBox.Create(SetAllForm);
      FCheckBox[lv].Parent      := EventsPage;
@@ -201,6 +223,13 @@ begin
     FCheckBox[0].Checked := TmpSet.FEnabled;
     FCheckBox[1].Top     := 310;
     FCheckBox[1].Checked := TmpSet.FHover;
+    FCheckBox[2].Top     := 40;
+    FCheckBox[2].Left    := 540;
+    FCheckBox[2].Checked := TmpSet.FNumbers;
+    FCheckBox[3].Top     := 130;
+    FCheckBox[3].Left    := 540;
+
+    FCheckBox[3].Checked := TmpSet.FVisible;
 
    //XXXXXXXX
    aShape             := TShape.Create(SetAllForm);
@@ -215,21 +244,21 @@ begin
 
    for lv:=24 to 25 do
     begin
-     FButtons[lv]             := TMultiButton.Create(SetAllForm);
-     FButtons[lv].Parent      := SetAllForm;
-     FButtons[lv].Top         := 455;
-     FButtons[lv].Width       := 150;
-     FButtons[lv].FocusFrameWidth   := 0;
-     FButtons[lv].FocusFrameOn      := false;
-     FButtons[lv].ForegroundFocusOn := true;
-     FButtons[lv].Height            := 25;
-     FButtons[lv].Style       := mbsRect;
-     FButtons[lv].OnClick     := @ButtonsOnClick;
+     FButton[lv]             := TMultiButton.Create(SetAllForm);
+     FButton[lv].Parent      := SetAllForm;
+     FButton[lv].Top         := 455;
+     FButton[lv].Width       := 150;
+     FButton[lv].FocusFrameWidth   := 0;
+     FButton[lv].FocusFrameOn      := false;
+     FButton[lv].ForegroundFocusOn := true;
+     FButton[lv].Height            := 25;
+     FButton[lv].Style       := mbsRect;
+     FButton[lv].OnClick     := @ButtonsOnClick;
     end;//Button
-    FButtons[24].Left        := 100;
-    FButtons[25].Left        := 465;
-    FButtons[24].Caption     := 'Okay';
-    FButtons[25].Caption     := 'Abbrechen';
+    FButton[24].Left        := 100;
+    FButton[25].Left        := 465;
+    FButton[24].Caption     := 'Okay';
+    FButton[25].Caption     := 'Abbrechen';
 
 
 
@@ -375,19 +404,43 @@ begin
    FComboBox[1].Caption:= FComboBox[1].Items[FComboBox[1].ItemIndex];
    ComboBoxOnChange(FComboBox[1]);
   end;
+  if Sender = FButtons[13] then
+  begin
+   TmpSet.FRRRadius := TmpSet.FRRRadius +1;
+   if TmpSet.FRRRadius > 100 then TmpSet.FRRRadius := 0;
+   FSpinEdit[3].Value:= TmpSet.FRRRadius;
+  end;
+  if Sender = FButtons[14] then
+  begin
+   if TmpSet.FNumbers then TmpSet.FNumbers := false else TmpSet.FNumbers:= true;
+   FCheckBox[2].Checked := TmpSet.FNumbers;
+  end;
+  if Sender = FButtons[15] then
+  begin
+   TmpSet.FSize := TmpSet.FSize +1;
+   if TmpSet.FSize > 100 then TmpSet.FSize := 0;
+   FSpinEdit[4].Value:= TmpSet.FSize;
+  end;
+  if Sender = FButtons[16] then
+  begin
+   if FComboBox[2].ItemIndex < 2 then FComboBox[2].ItemIndex := FComboBox[2].ItemIndex +1
+   else FComboBox[2].ItemIndex := 0;
+   TmpSet.FStyle := TMEventStyle(FComboBox[2].ItemIndex);
+   FComboBox[2].Caption  := GetEnumName(TypeInfo(TMEventStyle), ord(TmpSet.FStyle));
+  end;
+  if Sender = FButtons[17] then
+  begin
+   if TmpSet.FVisible then TmpSet.FVisible := false else TmpSet.FVisible:= true;
+   FCheckBox[3].Checked := TmpSet.FVisible;
+  end;
 
 
-
-
-
-
-
-  if Sender = FButtons[24] then
+  if Sender = FButton[24] then
   begin
     SetAllForm.Close;
     exit;
    end;
-  if Sender = FButtons[25] then
+  if Sender = FButton[25] then
    begin
     SetPtrValue(OldSet);
     SetAllForm.Close;
@@ -428,6 +481,8 @@ begin
  if Sender = FSpinEdit[0] then TmpSet.FBorderWidth := FSpinEdit[0].Value;
  if Sender = FSpinEdit[1] then TmpSet.FBlendValue  := FSpinEdit[1].Value;
  if Sender = FSpinEdit[2] then TmpSet.FImageIndex  := FSpinEdit[2].Value;
+ if Sender = FSpinEdit[3] then TmpSet.FRRRadius    := FSpinEdit[3].Value;
+ if Sender = FSpinEdit[4] then TmpSet.FSize        := FSpinEdit[4].Value;
 
  SetPtrValue(TmpSet);
 end;
@@ -465,14 +520,21 @@ begin
       end;
 
   end;//Sender
+ if Sender = FComboBox[2] then TmpSet.FStyle := TMEventStyle(FComboBox[2].ItemIndex);
 
  SetPtrValue(TmpSet);
 end;
 
 procedure TPropertySetAllEvents.CheckBoxOnChange(Sender: TObject);
 begin
- TmpSet.FEnabled := FCheckBox[0].Checked;
- TmpSet.FHover   := FCheckBox[1].Checked;
+ if Sender = FCheckBox[0] then
+  TmpSet.FEnabled := FCheckBox[0].Checked;
+ if Sender = FCheckBox[1] then
+  TmpSet.FHover   := FCheckBox[1].Checked;
+ if Sender = FCheckBox[2] then
+  TmpSet.FNumbers := FCheckBox[2].Checked;
+ if Sender = FCheckBox[3] then
+  TmpSet.FVisible := FCheckBox[3].Checked;
 
  SetPtrValue(TmpSet);
 end;

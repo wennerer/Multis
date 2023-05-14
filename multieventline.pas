@@ -82,6 +82,11 @@ type
     FHover           : boolean;
     FImageIndex      : integer;
     FImages          : TCustomImageList;
+    FRRRadius        : integer;
+    FNumbers         : boolean;
+    FSize            : integer;
+    FStyle           : TMEventStyle;
+    FVisible         : boolean;
    protected
 
    public
@@ -102,10 +107,11 @@ type
     SetAllForm  : TCustomForm;
     aTabsheet   : TPageControl;
     EventsPage  : TTabsheet;
-    FButtons    : array [0..25] of TMultiButton;
+    FButtons    : array [0..17] of TMultiButton;
+    FButton     : array [24..25] of TMultiButton;
     FColorBox   : array [0..5] of TColorBox;
-    FSpinEdit   : array [0..8] of TSpinEdit;
-    FComboBox   : array [0..1] of TComboBox;
+    FSpinEdit   : array [0..4] of TSpinEdit;
+    FComboBox   : array [0..2] of TComboBox;
     FCheckBox   : array [0..3] of TCheckBox;
    protected
     procedure CreateWindow;
@@ -500,6 +506,11 @@ begin
  FFont            := TFont.Create;
  FImageIndex      := -1;
  FImages          := nil;
+ FRRRadius        := 5;
+ FNumbers         := true;
+ FSize            := 15;
+ FStyle           := mesCircle;
+ FVisible         := true;
 end;
 
 destructor TSetAll.Destroy;
@@ -524,6 +535,11 @@ begin
    TSetAll(Dest).FHover             := FHover;
    TSetAll(Dest).FImageIndex        := FImageIndex;
    TSetAll(Dest).FImages            := FImages;
+   TSetAll(Dest).FRRRadius          := FRRRadius;
+   TSetAll(Dest).FNumbers           := FNumbers;
+   TSetAll(Dest).FSize              := FSize;
+   TSetAll(Dest).FStyle             := FStyle;
+   TSetAll(Dest).FVisible           := FVisible;
   end
  else
   inherited AssignTo(Dest);
@@ -785,6 +801,11 @@ begin
     FEventCollection.Items[lv].FHover           := AValue.FHover;
     FEventCollection.Items[lv].FImageIndex      := AValue.FImageIndex;
     FEventCollection.Items[lv].FImageList       := AValue.FImages;
+    FEventCollection.Items[lv].FRRRadius        := AValue.FRRRadius;
+    FEventCollection.Items[lv].FNumbers         := AValue.FNumbers;
+    FEventCollection.Items[lv].FSize            := AValue.FSize;
+    FEventCollection.Items[lv].FStyle           := AValue.FStyle;
+    FEventCollection.Items[lv].FVisible         := AValue.FVisible;
    end;
   Invalidate;
 end;
@@ -885,8 +906,11 @@ begin
      FSetAll.FHover          := ReadBoolean;
      FSetAll.FImageIndex     := ReadInteger;
      s                       := ReadString; //show in loaded procedure
-
-
+     FSetAll.FRRRadius       := ReadInteger;
+     FSetAll.FNumbers        := ReadBoolean;
+     FSetAll.FSize           := ReadInteger;
+     FSetAll.FStyle          := TMEventStyle(ReadInteger);
+     FSetAll.FVisible        := ReadBoolean;
 
      //FSetAll.aString:= ReadString;
 
@@ -929,6 +953,11 @@ begin
       WriteString(SetAll.FImages.Name)
      else
       WriteString('nil');
+     WriteInteger(FSetAll.FRRRadius);
+     WriteBoolean(FSetAll.FNumbers);
+     WriteInteger(FSetAll.FSize);
+     WriteInteger(ord(FSetAll.FStyle));
+     WriteBoolean(FSetAll.FVisible);
 
      //WriteString(SetAll.aString);
 

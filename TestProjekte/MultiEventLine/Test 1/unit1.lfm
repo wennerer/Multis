@@ -23,35 +23,23 @@ object Form1: TForm1
       '2'
     )
     object MultiEventLine1: TMultiEventLine
-      Left = 50
+      Left = 90
       Height = 30
-      Top = 17
+      Top = 55
       Width = 300
       Events = <      
         item
           Size = 15
-          DisabledColor = 5658355
           Left = 3
           Top = 8
           Tag = 0
-          ShowNumber = False
-          BorderColor = 1303031
-          Images = ImageList2
-          ImageIndex = 1
-          Font.Color = 5658355
           InfoBox.Position = ibBottom
         end      
         item
           Size = 15
-          DisabledColor = 5658355
           Left = 283
           Top = 8
           Tag = 1
-          ShowNumber = False
-          BorderColor = 1303031
-          Images = ImageList2
-          ImageIndex = 1
-          Font.Color = 5658355
           InfoBox.Position = ibBottom
         end>
       LineSettings.Width = 280
@@ -59,15 +47,14 @@ object Form1: TForm1
       LineSettings.HorizMargin = 10
       LineSettings.VertMargin = 14
       BorderWidth = 0
-      Color = clForm
       FSetAll = (
-        1303031
+        0
         1
         15793151
         2
         16777215
         180
-        5658355
+        13816530
         True
         0
         'default'
@@ -75,10 +62,15 @@ object Form1: TForm1
         False
         False
         False
-        5658355
+        536870912
         False
-        1
-        'ImageList2'
+        -1
+        'nil'
+        5
+        True
+        15
+        2
+        True
       )
     end
   end
