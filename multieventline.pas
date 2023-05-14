@@ -36,8 +36,8 @@ interface
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, LCLIntf,
   IntfGraphics, LCLType, ImgList, LCLProc, GraphType, GraphPropEdits, PropEdits,
-  multipanel, multilayer, infmultis, ptin, StdCtrls, ColorBox, Spin, ExtCtrls, TypInfo,
-  ComCtrls;
+  multipanel, multilayer, infmultis, ptin, StdCtrls, ColorBox, Spin, ExtCtrls,
+  TypInfo, FPImage, ComCtrls, multibutton;
 
 type
   TGradientCourse = (gcHorizontal,gcVertical,gcSpread,gcRadiant,gcAlternate); //for background color
@@ -86,7 +86,7 @@ type
 
    public
     //constructor Create;
-    constructor create(aOwner:TCustomControl);
+    constructor create({%H-}aOwner:TCustomControl);
     destructor Destroy; override;
     procedure AssignTo(Dest: TPersistent);override;
    end;
@@ -102,7 +102,7 @@ type
     SetAllForm  : TCustomForm;
     aTabsheet   : TPageControl;
     EventsPage  : TTabsheet;
-    FButtons    : array [0..25] of TButton;
+    FButtons    : array [0..25] of TMultiButton;
     FColorBox   : array [0..5] of TColorBox;
     FSpinEdit   : array [0..8] of TSpinEdit;
     FComboBox   : array [0..1] of TComboBox;
@@ -110,6 +110,7 @@ type
    protected
     procedure CreateWindow;
     procedure ButtonsOnClick(Sender : TObject);
+    procedure AdjustColorBox(aColor: TColor; aIndex: integer);
     procedure ColorBoxOnChange(Sender: TObject);
     procedure SpinEditOnChange(Sender: TObject);
     procedure ComboBoxOnChange(Sender: TObject);
@@ -682,6 +683,8 @@ begin
  inherited Loaded;
  for lv:= 0 to pred(FEventCollection.Count) do
    FEventCollection.Items[lv].FTag := lv;
+ if FEventCollection.Items[0].FImageList <> nil then
+  FSetAll.FImages := FEventCollection.Items[0].FImageList;
 end;
 
 procedure TMultiEventLine.MouseEnter;
@@ -866,6 +869,7 @@ begin
 end;
 
 procedure TMultiEventLine.ReadSetAll(Reader: TReader);
+var {%H-}s : string;
 begin
  with Reader do begin
     ReadListBegin;
@@ -880,7 +884,10 @@ begin
      ReadFont(Reader,FSetAll.FFont);
      FSetAll.FHover          := ReadBoolean;
      FSetAll.FImageIndex     := ReadInteger;
-     //FSetAll.FImages         := ;
+     s                       := ReadString; //show in loaded procedure
+
+
+
      //FSetAll.aString:= ReadString;
 
     ReadListEnd;
@@ -918,6 +925,10 @@ begin
      WriteFont(Writer,FSetAll.FFont);
      WriteBoolean(FSetAll.FHover);
      WriteInteger(FSetAll.FImageIndex);
+     if SetAll.FImages <> nil then
+      WriteString(SetAll.FImages.Name)
+     else
+      WriteString('nil');
 
      //WriteString(SetAll.aString);
 

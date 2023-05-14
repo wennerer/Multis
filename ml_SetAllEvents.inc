@@ -12,7 +12,7 @@ end;
 function TPropertySetAllEvents.GetValue: string;
 begin
   //Result:=inherited GetValue;
- result := 'SetAllPropertiesForEvents';
+ result := 'SetPropertiesForAllEvents';
 end;
 
 function TPropertySetAllEvents.GetAttributes: TPropertyAttributes;
@@ -22,8 +22,20 @@ begin
 end;
 
 procedure TPropertySetAllEvents.CreateWindow;
-var lv          : integer;
-    aShape      : TShape;
+var lv,i         : integer;
+    aShape       : TShape;
+    aControl     : TControl;
+    aForm        : TCustomForm;
+    co           : TComponent;
+
+ function System_ToRGB(clSys:TColor):TColor;
+ var FPCol :  TFPColor;
+  begin
+   FPCol:=TColorToFPColor(ColorToRGB(clSys));
+   result :=FPColorToTColor(FPCol);
+  end;
+
+
 begin
  try
    TmpSet     := TSetAll.Create(nil);
@@ -38,7 +50,7 @@ begin
    SetAllForm.Left           := (SetAllForm.Monitor.Width div 2) - (SetAllForm.Width div 2);
    SetAllForm.Top            := (SetAllForm.Monitor.Height div 2) -(SetAllForm.Height div 2);
    SetAllForm.BorderStyle    := bsSingle;
-   SetAllForm.Caption        := 'Set All Properties For Events';
+   SetAllForm.Caption        := 'Set Properties For All Events';
 
    aTabSheet              := TPageControl.Create(SetAllForm);
    aTabSheet.Parent       := SetAllForm;
@@ -53,20 +65,30 @@ begin
 
    for lv:=0 to 12 do
     begin
-     FButtons[lv]             := TButton.Create(SetAllForm);
+     FButtons[lv]             := TMultiButton.Create(SetAllForm);
      FButtons[lv].Parent      := EventsPage;
      FButtons[lv].Left        := 10;
      FButtons[lv].Top         := 10 + (lv*30);
      FButtons[lv].Width       := 150;
+     FButtons[lv].FocusFrameWidth   := 0;
+     FButtons[lv].FocusFrameOn      := false;
+     FButtons[lv].ForegroundFocusOn := true;
+     FButtons[lv].Height            := 25;
+     FButtons[lv].Style       := mbsRect;
      FButtons[lv].OnClick     := @ButtonsOnClick;
     end;//Button
    for lv:=13 to 23 do
     begin
-     FButtons[lv]             := TButton.Create(SetAllForm);
+     FButtons[lv]             := TMultiButton.Create(SetAllForm);
      FButtons[lv].Parent      := EventsPage;
      FButtons[lv].Left        := 380;
-     FButtons[lv].Top         := 10 + ((lv-12)*30);
+     FButtons[lv].Top         := 10 + ((lv-13)*30);
      FButtons[lv].Width       := 150;
+     FButtons[lv].FocusFrameWidth   := 0;
+     FButtons[lv].FocusFrameOn      := false;
+     FButtons[lv].ForegroundFocusOn := true;
+     FButtons[lv].Height            := 25;
+     FButtons[lv].Style       := mbsRect;
      FButtons[lv].OnClick     := @ButtonsOnClick;
     end;//Button
 
@@ -79,16 +101,14 @@ begin
     FButtons[6].Caption       := 'DisabledColor';
     FButtons[7].Caption       := 'Enabled';
     FButtons[8].Caption       := 'Font';
-    FButtons[12].Top          := 250;
-    FButtons[12].Left         := 170;
-    FButtons[12].Caption      := 'Font Color ';
-    FButtons[9].Caption       := 'Hover';
-    FButtons[10].Caption      := 'ImageIndex';
-    FButtons[11].Caption      := 'Images';
+    FButtons[9].Caption       := 'Font Color ';
+    FButtons[10].Caption      := 'Hover';
+    FButtons[11].Caption      := 'ImageIndex';
+    FButtons[12].Caption      := 'Images';
 
   //XXXXX
 
-   for lv:=0 to 3 do
+   for lv:=0 to 4 do
     begin
      FColorBox[lv]             := TColorBox.Create(SetAllForm);
      FColorBox[lv].Parent      := EventsPage;
@@ -97,13 +117,16 @@ begin
      FColorBox[lv].OnChange    := @ColorBoxOnChange;
     end;//ColorBox
    FColorBox[0].Top         := 10;
-   FColorBox[0].Selected    := TmpSet.FBorderColor;
+   AdjustColorBox(TmpSet.FBorderColor,0);
    FColorBox[1].Top         := 70;
-   FColorBox[1].Selected    := TmpSet.FColorEnd;
+   AdjustColorBox(TmpSet.FColorEnd,1);
    FColorBox[2].Top         := 130;
-   FColorBox[2].Selected    := TmpSet.FColorStart;
+   AdjustColorBox(TmpSet.FColorStart,2);
    FColorBox[3].Top         := 190;
-   FColorBox[3].Selected    := TmpSet.FDisabledColor;
+   AdjustColorBox(TmpSet.FDisabledColor,3);
+   FColorBox[4].Top         := 280;
+   //FColorBox[4].Selected    := System_ToRGB(TmpSet.FFont.Color);
+   AdjustColorBox(System_ToRGB(TmpSet.FFont.Color),4);
 
   //XXXXX
    for lv:=0 to 2 do
@@ -124,27 +147,47 @@ begin
    FSpinEdit[1].Top            := 160;
    FSpinEdit[1].Value          := TmpSet.FBlendValue;
    FSpinEdit[2].MinValue       := -1;
-  // FSpinEdit[2].MaxValue       := TmpSet.im;
-   FSpinEdit[2].Top            := 310;
+   if TmpSet.FImages <> nil then
+    FSpinEdit[2].MaxValue       := TmpSet.FImages.Count -1;
+   FSpinEdit[2].Top            := 340;
    FSpinEdit[2].Value          := TmpSet.FImageIndex;
 
 
   //XXXXXX
-   for lv:=0 to 0 do
+   for lv:=0 to 1 do
     begin
      FComboBox[lv]             := TComboBox.Create(SetAllForm);
      FComboBox[lv].Parent      := EventsPage;
-     FComboBox[lv].Left        := 170;
      FComboBox[lv].Width       := 150;
-     FComboBox[lv].Items.Add('gcHorizontal');
-     FComboBox[lv].Items.Add('gcVertical');
-     FComboBox[lv].Items.Add('gcSpread');
-     FComboBox[lv].Items.Add('gcRadiant');
-     FComboBox[lv].Items.Add('gcAlternate');
      FComboBox[lv].OnChange    := @ComboBoxOnChange;
     end;//Combo
+   FComboBox[0].Left        := 170;
+   FComboBox[0].Items.Add('gcHorizontal');
+   FComboBox[0].Items.Add('gcVertical');
+   FComboBox[0].Items.Add('gcSpread');
+   FComboBox[0].Items.Add('gcRadiant');
+   FComboBox[0].Items.Add('gcAlternate');
    FComboBox[0].Top            := 100;
    FComboBox[0].Caption        := GetEnumName(TypeInfo(TGradientCourse), ord(TmpSet.FColorGradient));
+   FComboBox[1].Left           := 170;
+   FComboBox[1].Top            := 370;
+   aControl := (TMultiEventLine(GetComponent(0)).Parent);
+   i:=0;
+   repeat
+    if aControl is TForm then i:=100
+    else aControl := aControl.Parent;
+    inc(i);
+   until i>100;
+   aForm := aControl as TCustomForm;
+   for co in aForm do
+    if co is TImageList then
+    FComboBox[1].Items.Add(co.Name);
+   if TmpSet.FImages <> nil then
+    FComboBox[1].Caption        := TmpSet.FImages.Name;
+
+
+
+
 
   //XXXXXX
    for lv:=0 to 1 do
@@ -156,7 +199,7 @@ begin
     end;//Checkbox
     FCheckBox[0].Top     := 220;
     FCheckBox[0].Checked := TmpSet.FEnabled;
-    FCheckBox[1].Top     := 280;
+    FCheckBox[1].Top     := 310;
     FCheckBox[1].Checked := TmpSet.FHover;
 
    //XXXXXXXX
@@ -172,10 +215,15 @@ begin
 
    for lv:=24 to 25 do
     begin
-     FButtons[lv]             := TButton.Create(SetAllForm);
+     FButtons[lv]             := TMultiButton.Create(SetAllForm);
      FButtons[lv].Parent      := SetAllForm;
      FButtons[lv].Top         := 455;
      FButtons[lv].Width       := 150;
+     FButtons[lv].FocusFrameWidth   := 0;
+     FButtons[lv].FocusFrameOn      := false;
+     FButtons[lv].ForegroundFocusOn := true;
+     FButtons[lv].Height            := 25;
+     FButtons[lv].Style       := mbsRect;
      FButtons[lv].OnClick     := @ButtonsOnClick;
     end;//Button
     FButtons[24].Left        := 100;
@@ -204,10 +252,7 @@ end;
 procedure TPropertySetAllEvents.ButtonsOnClick(Sender: TObject);
 var aColorDialog : TColorDialog;
     aFontDialog  : TFontDialog;
-    aControl     : TControl;
-    aForm        : TCustomForm;
-    co           : TComponent;
-    i            : integer;
+
 begin
  if Sender = FButtons[0] then
   begin
@@ -216,7 +261,8 @@ begin
    try
     if aColorDialog.Execute then
      TmpSet.FBorderColor  := aColorDialog.Color;
-     FColorBox[0].Selected := TmpSet.FBorderColor;
+     AdjustColorBox(TmpSet.FBorderColor,0);
+     //FColorBox[0].Selected := TmpSet.FBorderColor;
    finally
     aColorDialog.Free;
    end;
@@ -234,7 +280,8 @@ begin
    try
     if aColorDialog.Execute then
      TmpSet.FColorEnd  := aColorDialog.Color;
-     FColorBox[1].Selected := TmpSet.FColorEnd;
+     AdjustColorBox(TmpSet.FColorEnd,1);
+     //FColorBox[1].Selected := TmpSet.FColorEnd;
    finally
     aColorDialog.Free;
    end;
@@ -253,7 +300,8 @@ begin
    try
     if aColorDialog.Execute then
      TmpSet.FColorStart    := aColorDialog.Color;
-     FColorBox[2].Selected := TmpSet.FColorStart;
+     AdjustColorBox(TmpSet.FColorStart,2);
+     //FColorBox[2].Selected := TmpSet.FColorStart;
    finally
     aColorDialog.Free;
    end;
@@ -271,7 +319,8 @@ begin
    try
     if aColorDialog.Execute then
      TmpSet.FDisabledColor := aColorDialog.Color;
-     FColorBox[3].Selected := TmpSet.FDisabledColor;
+     AdjustColorBox(TmpSet.FDisabledColor,3);
+     //FColorBox[3].Selected := TmpSet.FDisabledColor;
    finally
     aColorDialog.Free;
    end;
@@ -295,40 +344,42 @@ begin
   end;
   if Sender = FButtons[9] then
   begin
-   if TmpSet.FHover then TmpSet.FHover := false else TmpSet.FHover:= true;
-   FCheckBox[1].Checked := TmpSet.FHover;
-  end;
-  if Sender = FButtons[10] then
-  begin
-   //Imageindex
-  end;
-  if Sender = FButtons[11] then
-  begin
-   aControl := (TMultiEventLine(GetComponent(0)).Parent);
-   i:=0;
-   repeat
-    if aControl is TForm then i:=100
-    else aControl := aControl.Parent;
-    inc(i);
-   until i>100;
-   aForm := aControl as TCustomForm;
-   for co in aForm do
-    if co is TImageList then
-    showmessage(co.Name);
-  end;
-
-  if Sender = FButtons[12] then
-  begin
    aColorDialog       := TColorDialog.Create(nil);
    aColorDialog.Color := TmpSet.FFont.Color;
    try
     if aColorDialog.Execute then
      TmpSet.FFont.Color := aColorDialog.Color;
-     //FColorBox[3].Selected := TmpSet.FDisabledColor;
+     AdjustColorBox(TmpSet.FFont.Color,4);
+     //FColorBox[4].Selected := TmpSet.FFont.Color;
    finally
     aColorDialog.Free;
    end;
   end;
+ if Sender = FButtons[10] then
+  begin
+   if TmpSet.FHover then TmpSet.FHover := false else TmpSet.FHover:= true;
+   FCheckBox[1].Checked := TmpSet.FHover;
+  end;
+  if Sender = FButtons[11] then //ImageIndex
+  begin
+   TmpSet.FImageIndex := TmpSet.FImageIndex +1;
+   if TmpSet.FImageIndex > pred(TmpSet.FImages.Count) then TmpSet.FImageIndex := -1;
+   FSpinEdit[2].Value:= TmpSet.FImageIndex;
+  end;
+  if Sender = FButtons[12] then  //Images
+  begin
+   if FComboBox[1].ItemIndex >= pred(FComboBox[1].Items.Count) then
+    FComboBox[1].ItemIndex:=0
+   else
+    FComboBox[1].ItemIndex:= FComboBox[1].ItemIndex+1;
+   FComboBox[1].Caption:= FComboBox[1].Items[FComboBox[1].ItemIndex];
+   ComboBoxOnChange(FComboBox[1]);
+  end;
+
+
+
+
+
 
 
   if Sender = FButtons[24] then
@@ -345,12 +396,29 @@ begin
   SetPtrValue(TmpSet);
 end;
 
+procedure TPropertySetAllEvents.AdjustColorBox(aColor: TColor; aIndex: integer);
+var Str         : string;
+    lv          : integer;
+    clfl        : boolean;
+begin
+ str := colortostring(aColor); clfl := false;
+
+ for lv:=0 to pred(FColorBox[aIndex].Items.Count) do
+   begin
+    if FColorBox[aIndex].Items.Strings[lv] = str then clfl :=true;
+    if clfl then break;
+   end;
+ if not clfl then FColorBox[aIndex].Items.InsertObject(0,str,TObject(PtrInt(aColor)));
+ FColorBox[aIndex].Selected:=aColor;
+end;
+
 procedure TPropertySetAllEvents.ColorBoxOnChange(Sender: TObject);
 begin
- if Sender = FColorBox[0] then TmpSet.FBorderColor    := FColorBox[0].Selected;
- if Sender = FColorBox[1] then TmpSet.FColorEnd       := FColorBox[1].Selected;
- if Sender = FColorBox[2] then TmpSet.FColorStart     := FColorBox[2].Selected;
- if Sender = FColorBox[3] then TmpSet.FDisabledColor  := FColorBox[3].Selected;
+ if Sender = FColorBox[0] then TmpSet.FBorderColor   := FColorBox[0].Selected;
+ if Sender = FColorBox[1] then TmpSet.FColorEnd      := FColorBox[1].Selected;
+ if Sender = FColorBox[2] then TmpSet.FColorStart    := FColorBox[2].Selected;
+ if Sender = FColorBox[3] then TmpSet.FDisabledColor := FColorBox[3].Selected;
+ if Sender = FColorBox[4] then TmpSet.FFont.Color    := FColorBox[4].Selected;
 
  SetPtrValue(TmpSet);
 end;
@@ -359,13 +427,44 @@ procedure TPropertySetAllEvents.SpinEditOnChange(Sender: TObject);
 begin
  if Sender = FSpinEdit[0] then TmpSet.FBorderWidth := FSpinEdit[0].Value;
  if Sender = FSpinEdit[1] then TmpSet.FBlendValue  := FSpinEdit[1].Value;
+ if Sender = FSpinEdit[2] then TmpSet.FImageIndex  := FSpinEdit[2].Value;
 
  SetPtrValue(TmpSet);
 end;
 
 procedure TPropertySetAllEvents.ComboBoxOnChange(Sender: TObject);
+var aControl     : TControl;
+    aForm        : TCustomForm;
+    co           : TComponent;
+    i            : integer;
 begin
  if Sender = FComboBox[0] then TmpSet.FColorGradient := TGradientCourse(FComboBox[0].ItemIndex);
+ if Sender = FComboBox[1] then
+  begin
+   aControl := (TMultiEventLine(GetComponent(0)).Parent);
+   i:=0;
+   repeat
+    if aControl is TForm then i:=100
+    else aControl := aControl.Parent;
+    inc(i);
+   until i>100;
+   aForm := aControl as TCustomForm;
+   for co in aForm do
+    if co is TImageList then
+     if (co as TImageList).Name = FComboBox[1].Caption then
+      begin
+       FSpinEdit[2].Enabled:= true;
+       TmpSet.FImages := co as TImageList;
+       if TmpSet.FImages.Count = 0 then
+        begin
+         FSpinEdit[2].Value:= -1;
+         FSpinEdit[2].Enabled:= false;
+        end;
+       FSpinEdit[2].MaxValue:= TmpSet.FImages.Count-1
+
+      end;
+
+  end;//Sender
 
  SetPtrValue(TmpSet);
 end;
