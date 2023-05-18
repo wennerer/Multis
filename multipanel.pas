@@ -1,6 +1,6 @@
 { <A panel for the multi components>
-  <Version 1.0.0.7>
-  Copyright (C) <11.02.2023> <Bernd Hübner>
+  <Version 1.0.0.8>
+  Copyright (C) <18.05.2023> <Bernd Hübner>
   Many thanks to the members of the German Lazarus Forum!
   For some improvements see https://www.lazarusforum.de/viewtopic.php?f=29&t=14033
 
@@ -582,7 +582,7 @@ type
 procedure Register;
 
 implementation
-uses multibutton, multiplexslider, multilayer,MultiRadioGroup;
+uses multibutton, multiplexslider, multilayer, MultiRadioGroup, MultiCheckGroup;
 
 type
   TMultiPanelImageIndexPropertyEditor = class(TImageIndexPropertyEditor)
@@ -2050,6 +2050,7 @@ begin
       if Controls[lv] is TMultiplexSlider then (Controls[lv] as TMultiplexSlider).Invalidate;
       if Controls[lv] is TMultiLayer then (Controls[lv] as TMultiLayer).Invalidate;
       if Controls[lv] is TMultiRadioGroup then (Controls[lv] as TMultiRadioGroup).Invalidate;
+      if Controls[lv] is TMultiCheckGroup then (Controls[lv] as TMultiCheckGroup).Invalidate;
      end;
 
   if not FRunThroughPaint  and not (csDesigning in Componentstate) then  //copys the canvas of the panel for appear/disappear
