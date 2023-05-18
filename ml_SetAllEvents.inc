@@ -138,7 +138,7 @@ begin
    AdjustColorBox(System_ToRGB(TmpSet.FFont.Color),4);
 
   //XXXXX
-   for lv:=0 to 5 do
+   for lv:=0 to 7 do
     begin
      FSpinEdit[lv]             := TSpinEdit.Create(SetAllForm);
      if lv < 5 then
@@ -177,10 +177,18 @@ begin
    FSpinEdit[5].MinValue       := 0;
    FSpinEdit[5].MaxValue       := 10;
    FSpinEdit[5].Value          := TmpSet.FInfoBox.FBorderWidth;
+   FSpinEdit[6].Top            := 100;
+   FSpinEdit[6].MinValue       := 0;
+   FSpinEdit[6].MaxValue       := 100;
+   FSpinEdit[6].Value          := TmpSet.FInfoBox.FCapLeft;
+   FSpinEdit[7].Top            := 160;
+   FSpinEdit[7].MinValue       := 0;
+   FSpinEdit[7].MaxValue       := 100;
+   FSpinEdit[7].Value          := TmpSet.FInfoBox.FCapTop;
 
 
   //XXXXXX
-   for lv:=0 to 2 do
+   for lv:=0 to 4 do
     begin
      FComboBox[lv]             := TComboBox.Create(SetAllForm);
      FComboBox[lv].Parent      := EventsPage;
@@ -216,12 +224,25 @@ begin
    FComboBox[2].Items.Add('mesCircle');
    FComboBox[2].Top            := 100;
    FComboBox[2].Caption        := GetEnumName(TypeInfo(TMEventStyle), ord(TmpSet.FStyle));
-
+   FComboBox[3].Left        := 170;
+   FComboBox[3].Parent      := InfoBoxPage;
+   FComboBox[3].Items.Add('taLeftJustify');
+   FComboBox[3].Items.Add('taRightJustify');
+   FComboBox[3].Items.Add('taCenter');
+   FComboBox[3].Top            := 70;
+   FComboBox[3].Caption        := GetEnumName(TypeInfo(TAlignment), ord(TmpSet.FInfoBox.FTextStyle_Alignment));
+   FComboBox[4].Left        := 170;
+   FComboBox[4].Parent      := InfoBoxPage;
+   FComboBox[4].Items.Add('tlTop');
+   FComboBox[4].Items.Add('tlCenter');
+   FComboBox[4].Items.Add('tlBottom');
+   FComboBox[4].Top            := 130;
+   FComboBox[4].Caption        := GetEnumName(TypeInfo(TTextLayout), ord(TmpSet.FInfoBox.FTextStyle_Layout));
 
 
 
   //XXXXXX
-   for lv:=0 to 3 do
+   for lv:=0 to 4 do
     begin
      FCheckBox[lv]             := TCheckBox.Create(SetAllForm);
      FCheckBox[lv].Parent      := EventsPage;
@@ -237,8 +258,10 @@ begin
     FCheckBox[2].Checked := TmpSet.FNumbers;
     FCheckBox[3].Top     := 130;
     FCheckBox[3].Left    := 540;
-
     FCheckBox[3].Checked := TmpSet.FVisible;
+    FCheckBox[4].Top     := 190;
+    FCheckBox[4].Parent  := InfoBoxPage;
+    FCheckBox[4].Checked := TmpSet.FInfoBox.FCaptionWordbreak;
 
    //XXXXXXXX
    aShape             := TShape.Create(SetAllForm);
@@ -519,6 +542,40 @@ begin
     if TmpSet.FInfoBox.FBorderWidth > 10 then TmpSet.FInfoBox.FBorderWidth := 1;
     FSpinEdit[5].Value := TmpSet.FInfoBox.FBorderWidth;
    end;
+ if Sender = FInfoButtons[2] then
+  begin
+   if FComboBox[3].ItemIndex < 2 then FComboBox[3].ItemIndex := FComboBox[3].ItemIndex +1
+   else FComboBox[3].ItemIndex := 0;
+   TmpSet.FInfoBox.FTextStyle_Alignment := TAlignment(FComboBox[3].ItemIndex);
+   FComboBox[3].Caption  := GetEnumName(TypeInfo(TAlignment), ord(TmpSet.FInfoBox.FTextStyle_Alignment));
+  end;
+ if Sender = FInfoButtons[3] then
+  begin
+   TmpSet.FInfoBox.FCapLeft := TmpSet.FInfoBox.FCapLeft +1;
+   if TmpSet.FInfoBox.FCapLeft > 100 then TmpSet.FInfoBox.FCapLeft := 0;
+   FSpinEdit[6].Value:= TmpSet.FInfoBox.FCapLeft;
+  end;
+ if Sender = FInfoButtons[4] then
+  begin
+   if FComboBox[4].ItemIndex < 2 then FComboBox[4].ItemIndex := FComboBox[4].ItemIndex +1
+   else FComboBox[4].ItemIndex := 0;
+   TmpSet.FInfoBox.FTextStyle_Layout := TTextLayout(FComboBox[4].ItemIndex);
+   FComboBox[4].Caption  := GetEnumName(TypeInfo(TTextLayout), ord(TmpSet.FInfoBox.FTextStyle_Layout));
+  end;
+ if Sender = FInfoButtons[5] then
+  begin
+   TmpSet.FInfoBox.FCapTop := TmpSet.FInfoBox.FCapTop +1;
+   if TmpSet.FInfoBox.FCapTop > 100 then TmpSet.FInfoBox.FCapTop := 0;
+   FSpinEdit[7].Value:= TmpSet.FInfoBox.FCapTop;
+  end;
+ if Sender = FInfoButtons[6] then
+  begin
+   if TmpSet.FInfoBox.FCaptionWordbreak then TmpSet.FInfoBox.FCaptionWordbreak := false
+   else TmpSet.FInfoBox.FCaptionWordbreak:= true;
+   FCheckBox[4].Checked := TmpSet.FInfoBox.FCaptionWordbreak;
+  end;
+
+
 
 
 
@@ -573,6 +630,8 @@ begin
  if Sender = FSpinEdit[3] then TmpSet.FRRRadius    := FSpinEdit[3].Value;
  if Sender = FSpinEdit[4] then TmpSet.FSize        := FSpinEdit[4].Value;
  if Sender = FSpinEdit[5] then TmpSet.FInfoBox.FBorderWidth := FSpinEdit[5].Value;
+ if Sender = FSpinEdit[6] then TmpSet.FInfoBox.FCapLeft     := FSpinEdit[6].Value;
+ if Sender = FSpinEdit[7] then TmpSet.FInfoBox.FCapTop      := FSpinEdit[7].Value;
 
  SetPtrValue(TmpSet);
 end;
@@ -611,6 +670,8 @@ begin
 
   end;//Sender
  if Sender = FComboBox[2] then TmpSet.FStyle := TMEventStyle(FComboBox[2].ItemIndex);
+ if Sender = FComboBox[3] then TmpSet.FInfoBox.FTextStyle_Alignment := TAlignment(FComboBox[3].ItemIndex);
+ if Sender = FComboBox[4] then TmpSet.FInfoBox.FTextStyle_Layout    := TTextLayout(FComboBox[4].ItemIndex);
 
  SetPtrValue(TmpSet);
 end;
@@ -625,6 +686,8 @@ begin
   TmpSet.FNumbers := FCheckBox[2].Checked;
  if Sender = FCheckBox[3] then
   TmpSet.FVisible := FCheckBox[3].Checked;
+ if Sender = FCheckBox[4] then
+  TmpSet.FInfoBox.FCaptionWordbreak := FCheckBox[4].Checked;
 
  SetPtrValue(TmpSet);
 end;

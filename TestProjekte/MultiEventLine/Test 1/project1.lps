@@ -20,7 +20,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
-        <CursorPos X="38" Y="17"/>
+        <CursorPos X="31" Y="10"/>
         <UsageCount Value="222"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -28,25 +28,26 @@
       <Unit>
         <Filename Value="../../../multieventline.pas"/>
         <UnitName Value="MultiEventLine"/>
-        <EditorIndex Value="2"/>
-        <TopLine Value="103"/>
-        <CursorPos X="32" Y="123"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="821"/>
+        <CursorPos X="42" Y="836"/>
         <UsageCount Value="110"/>
         <Bookmarks Count="6">
-          <Item0 X="3" Y="78"/>
-          <Item1 X="13" Y="506" ID="1"/>
-          <Item2 X="11" Y="535" ID="2"/>
-          <Item3 X="12" Y="802" ID="3"/>
-          <Item4 X="19" Y="911" ID="4"/>
-          <Item5 X="24" Y="959" ID="5"/>
+          <Item0 X="3" Y="83"/>
+          <Item1 X="13" Y="511" ID="1"/>
+          <Item2 X="11" Y="545" ID="2"/>
+          <Item3 X="12" Y="817" ID="3"/>
+          <Item4 X="19" Y="932" ID="4"/>
+          <Item5 X="24" Y="985" ID="5"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="../../../ml_SetAllEvents.inc"/>
-        <EditorIndex Value="4"/>
-        <TopLine Value="555"/>
-        <CursorPos X="42" Y="577"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="669"/>
+        <CursorPos X="45" Y="263"/>
         <UsageCount Value="110"/>
         <Loaded Value="True"/>
       </Unit>
@@ -103,141 +104,112 @@
       </Unit>
       <Unit>
         <Filename Value="../../../ml_infobox.inc"/>
-        <EditorIndex Value="3"/>
-        <CursorPos X="28" Y="23"/>
-        <UsageCount Value="43"/>
+        <EditorIndex Value="2"/>
+        <CursorPos X="19" Y="19"/>
+        <UsageCount Value="44"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="../../../multipanel.pas"/>
         <UnitName Value="MultiPanel"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="1"/>
-        <TopLine Value="2040"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="547"/>
         <CursorPos X="15" Y="547"/>
         <UsageCount Value="22"/>
-        <Loaded Value="True"/>
       </Unit>
     </Units>
-    <JumpHistory HistoryIndex="29">
+    <JumpHistory HistoryIndex="22">
       <Position>
         <Filename Value="../../../multieventline.pas"/>
-        <Caret Line="808" Column="67" TopLine="789"/>
+        <Caret Line="835" Column="85" TopLine="813"/>
       </Position>
       <Position>
         <Filename Value="../../../multieventline.pas"/>
-        <Caret Line="913" Column="44" TopLine="890"/>
+        <Caret Line="997" Column="46" TopLine="981"/>
+      </Position>
+      <Position>
+        <Filename Value="../../../multieventline.pas"/>
+        <Caret Line="530" Column="39" TopLine="514"/>
       </Position>
       <Position>
         <Filename Value="unit1.pas"/>
-        <Caret Line="11" Column="32"/>
+        <Caret Line="15" Column="31"/>
       </Position>
       <Position>
         <Filename Value="unit1.pas"/>
-        <Caret Line="10" Column="32"/>
+        <Caret Line="10" Column="31"/>
       </Position>
       <Position>
-        <Filename Value="../../../ml_SetAllEvents.inc"/>
-        <Caret Line="423" Column="17" TopLine="413"/>
+        <Filename Value="../../../multieventline.pas"/>
+        <Caret Line="125" Column="32" TopLine="106"/>
+      </Position>
+      <Position>
+        <Filename Value="../../../multieventline.pas"/>
+        <Caret Line="75" Column="39" TopLine="60"/>
+      </Position>
+      <Position>
+        <Filename Value="../../../multieventline.pas"/>
+        <Caret Line="82" Column="3" TopLine="60"/>
+      </Position>
+      <Position>
+        <Filename Value="../../../multieventline.pas"/>
+        <Caret Line="534" Column="36" TopLine="509"/>
+      </Position>
+      <Position>
+        <Filename Value="../../../multieventline.pas"/>
+        <Caret Line="571" Column="67" TopLine="553"/>
+      </Position>
+      <Position>
+        <Filename Value="../../../multieventline.pas"/>
+        <Caret Line="844" Column="84" TopLine="823"/>
       </Position>
       <Position>
         <Filename Value="unit1.pas"/>
-        <Caret Line="10" Column="32"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../ml_SetAllEvents.inc"/>
-        <Caret Line="46" Column="70" TopLine="29"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../ml_SetAllEvents.inc"/>
-        <Caret Line="531" Column="43" TopLine="46"/>
+        <Caret Line="10" Column="31"/>
       </Position>
       <Position>
         <Filename Value="../../../multieventline.pas"/>
-        <Caret Line="72" Column="29" TopLine="67"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multieventline.pas"/>
-        <Caret Line="520" Column="2" TopLine="495"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multieventline.pas"/>
-        <Caret Line="74" Column="32" TopLine="64"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multieventline.pas"/>
-        <Caret Line="520" Column="11" TopLine="505"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multieventline.pas"/>
-        <Caret Line="76" Column="36" TopLine="64"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multieventline.pas"/>
-        <Caret Line="1367" Column="23" TopLine="1344"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multieventline.pas"/>
-        <Caret Line="75" Column="3" TopLine="62"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multieventline.pas"/>
-        <Caret Line="523" Column="2" TopLine="499"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multieventline.pas"/>
-        <Caret Line="77" Column="32" TopLine="69"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multieventline.pas"/>
-        <Caret Line="554" Column="65" TopLine="532"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multieventline.pas"/>
-        <Caret Line="822" Column="86" TopLine="801"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multieventline.pas"/>
-        <Caret Line="929" Column="51" TopLine="908"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../ml_SetAllEvents.inc"/>
-        <Caret Line="497" Column="4" TopLine="479"/>
+        <Caret Line="1013" Column="37" TopLine="878"/>
       </Position>
       <Position>
         <Filename Value="unit1.pas"/>
-        <Caret Line="10" Column="32"/>
+        <Caret Line="10" Column="31"/>
+      </Position>
+      <Position>
+        <Filename Value="../../../multieventline.pas"/>
+        <Caret Line="76" Column="39" TopLine="63"/>
+      </Position>
+      <Position>
+        <Filename Value="../../../multieventline.pas"/>
+        <Caret Line="83" Column="3" TopLine="63"/>
+      </Position>
+      <Position>
+        <Filename Value="../../../multieventline.pas"/>
+        <Caret Line="536" Column="40" TopLine="520"/>
+      </Position>
+      <Position>
+        <Filename Value="../../../multieventline.pas"/>
+        <Caret Line="573" Column="77" TopLine="554"/>
+      </Position>
+      <Position>
+        <Filename Value="../../../multieventline.pas"/>
+        <Caret Line="847" Column="94" TopLine="828"/>
       </Position>
       <Position>
         <Filename Value="unit1.pas"/>
-        <Caret Line="17" Column="38"/>
+        <Caret Line="10" Column="31"/>
       </Position>
       <Position>
         <Filename Value="../../../multieventline.pas"/>
-        <Caret Line="71" Column="33" TopLine="64"/>
+        <Caret Line="1005" Column="45" TopLine="993"/>
       </Position>
       <Position>
         <Filename Value="../../../multieventline.pas"/>
-        <Caret Line="78" Column="3" TopLine="64"/>
+        <Caret Line="511" Column="13" TopLine="498"/>
       </Position>
       <Position>
         <Filename Value="../../../multieventline.pas"/>
-        <Caret Line="526" Column="28" TopLine="505"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multieventline.pas"/>
-        <Caret Line="558" Column="65" TopLine="538"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multieventline.pas"/>
-        <Caret Line="827" Column="86" TopLine="804"/>
-      </Position>
-      <Position>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="17" Column="38"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multipanel.pas"/>
+        <Caret Line="839" Column="47" TopLine="821"/>
       </Position>
     </JumpHistory>
     <RunParams>

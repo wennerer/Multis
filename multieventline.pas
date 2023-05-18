@@ -67,9 +67,14 @@ type
 
 type
     InfoBox = record
-     FBorderColor     : TColor;
-     FBorderWidth     : integer;
-     end;
+     FBorderColor           : TColor;
+     FBorderWidth           : integer;
+     FTextStyle_Alignment   : TAlignment;
+     FCapLeft               : integer;
+     FTextStyle_Layout      : TTextLayout;
+     FCapTop                : integer;
+     FCaptionWordbreak      : boolean;
+    end;
 
 type
   { TSetAll }
@@ -120,9 +125,9 @@ type
     FInfoButtons  : array [0..16] of TMultiButton;
     FButton       : array [24..25] of TMultiButton;
     FColorBox     : array [0..5] of TColorBox;
-    FSpinEdit     : array [0..5] of TSpinEdit;
-    FComboBox     : array [0..2] of TComboBox;
-    FCheckBox     : array [0..3] of TCheckBox;
+    FSpinEdit     : array [0..7] of TSpinEdit;
+    FComboBox     : array [0..4] of TComboBox;
+    FCheckBox     : array [0..4] of TCheckBox;
    protected
     procedure CreateWindow;
     procedure ButtonsOnClick(Sender : TObject);
@@ -522,8 +527,13 @@ begin
  FStyle           := mesCircle;
  FVisible         := true;
 
- FInfoBox.FBorderColor     := clNone;
- FInfoBox.FBorderWidth     := 1;
+ FInfoBox.FBorderColor         := clNone;
+ FInfoBox.FBorderWidth         := 1;
+ FInfoBox.FTextStyle_Alignment := taLeftJustify;
+ FInfoBox.FCapLeft             := 2;
+ FInfoBox.FTextStyle_Layout    := tlCenter;
+ FInfoBox.FCapTop              := 0;
+ FInfoBox.FCaptionWordbreak    := false;
 end;
 
 destructor TSetAll.Destroy;
@@ -554,8 +564,13 @@ begin
    TSetAll(Dest).FStyle             := FStyle;
    TSetAll(Dest).FVisible           := FVisible;
 
-   TSetAll(Dest).FInfoBox.FBorderColor  := FInfoBox.FBorderColor;
-   TSetAll(Dest).FInfoBox.FBorderWidth  := FInfoBox.FBorderWidth;
+   TSetAll(Dest).FInfoBox.FBorderColor         := FInfoBox.FBorderColor;
+   TSetAll(Dest).FInfoBox.FBorderWidth         := FInfoBox.FBorderWidth;
+   TSetAll(Dest).FInfoBox.FTextStyle_Alignment := FInfoBox.FTextStyle_Alignment;
+   TSetAll(Dest).FInfoBox.FCapLeft             := FInfoBox.FCapLeft;
+   TSetAll(Dest).FInfoBox.FTextStyle_Layout    := FInfoBox.FTextStyle_Layout;
+   TSetAll(Dest).FInfoBox.FCapTop              := FInfoBox.FCapTop;
+   TSetAll(Dest).FInfoBox.FCaptionWordbreak    := FInfoBox.FCaptionWordbreak;
   end
  else
   inherited AssignTo(Dest);
@@ -812,19 +827,25 @@ begin
     FEventCollection.Items[lv].ColorStart       := AValue.FColorStart;
     FEventCollection.Items[lv].DisabledBlendVal := AValue.FBlendValue;
     FEventCollection.Items[lv].DisabledColor    := AValue.FDisabledColor;
-    FEventCollection.Items[lv].FEnabled         := AValue.FEnabled;
+    FEventCollection.Items[lv].Enabled          := AValue.FEnabled;
     FEventCollection.Items[lv].FFont.Assign(AValue.FFont);
-    FEventCollection.Items[lv].FHover           := AValue.FHover;
-    FEventCollection.Items[lv].FImageIndex      := AValue.FImageIndex;
-    FEventCollection.Items[lv].FImageList       := AValue.FImages;
-    FEventCollection.Items[lv].FRRRadius        := AValue.FRRRadius;
-    FEventCollection.Items[lv].FNumbers         := AValue.FNumbers;
-    FEventCollection.Items[lv].FSize            := AValue.FSize;
-    FEventCollection.Items[lv].FStyle           := AValue.FStyle;
-    FEventCollection.Items[lv].FVisible         := AValue.FVisible;
+    FEventCollection.Items[lv].Hover            := AValue.FHover;
+    FEventCollection.Items[lv].ImageIndex       := AValue.FImageIndex;
+    FEventCollection.Items[lv].Images           := AValue.FImages;
+    FEventCollection.Items[lv].RndRctRadius     := AValue.FRRRadius;
+    FEventCollection.Items[lv].ShowNumber       := AValue.FNumbers;
+    FEventCollection.Items[lv].Size             := AValue.FSize;
+    FEventCollection.Items[lv].Style            := AValue.FStyle;
+    FEventCollection.Items[lv].Visible          := AValue.FVisible;
 
-    FEventCollection.Items[lv].FInfoBox.FBorderColor  := AValue.FInfoBox.FBorderColor;
-    FEventCollection.Items[lv].FInfoBox.FBorderWidth  := AValue.FInfoBox.FBorderWidth;
+    FEventCollection.Items[lv].FInfoBox.BorderColor      := AValue.FInfoBox.FBorderColor;
+    FEventCollection.Items[lv].FInfoBox.BorderWidth      := AValue.FInfoBox.FBorderWidth;
+    FEventCollection.Items[lv].FInfoBox.CaptionAlignment := AValue.FInfoBox.FTextStyle_Alignment;
+    FEventCollection.Items[lv].FInfoBox.CaptionHorMargin := AValue.FInfoBox.FCapLeft;
+    FEventCollection.Items[lv].FInfoBox.CaptionLayout    := AValue.FInfoBox.FTextStyle_Layout;
+    FEventCollection.Items[lv].FInfoBox.CaptionVerMargin := AValue.FInfoBox.FCapTop;
+    FEventCollection.Items[lv].FInfoBox.CaptionWordbreak := AValue.FInfoBox.FCaptionWordbreak;
+
    end;
   Invalidate;
 end;
@@ -931,8 +952,13 @@ begin
      FSetAll.FStyle          := TMEventStyle(ReadInteger);
      FSetAll.FVisible        := ReadBoolean;
 
-     FSetAll.FInfoBox.FBorderColor  := ReadInteger;
-     FSetAll.FInfoBox.FBorderWidth  := ReadInteger;
+     FSetAll.FInfoBox.FBorderColor         := ReadInteger;
+     FSetAll.FInfoBox.FBorderWidth         := ReadInteger;
+     FSetAll.FInfoBox.FTextStyle_Alignment := TAlignment(ReadInteger);
+     FSetAll.FInfoBox.FCapLeft             := ReadInteger;
+     FSetAll.FInfoBox.FTextStyle_Layout    := TTextLayout(ReadInteger);
+     FSetAll.FInfoBox.FCapTop              := ReadInteger;
+     FSetAll.FInfoBox.FCaptionWordbreak    := ReadBoolean;
 
      //FSetAll.aString:= ReadString;
 
@@ -983,6 +1009,11 @@ begin
 
      WriteInteger(FSetAll.FInfoBox.FBorderColor);
      WriteInteger(FSetAll.FInfoBox.FBorderWidth);
+     WriteInteger(ord(FSetAll.FInfoBox.FTextStyle_Alignment));
+     WriteInteger(FSetAll.FInfoBox.FCapLeft);
+     WriteInteger(ord(FSetAll.FInfoBox.FTextStyle_Layout));
+     WriteInteger(FSetAll.FInfoBox.FCapTop);
+     WriteBoolean(FSetAll.FInfoBox.FCaptionWordbreak);
 
      //WriteString(SetAll.aString);
 

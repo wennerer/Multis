@@ -22,36 +22,46 @@ object Form1: TForm1
       '2'
     )
     object MultiEventLine1: TMultiEventLine
-      Left = 71
-      Height = 54
-      Top = 32
-      Width = 689
+      Left = 114
+      Height = 62
+      Top = 31
+      Width = 582
       Events = <      
         item
           Size = 15
           Left = 3
           Top = 8
           Tag = 0
+          InfoBox.Caption = 'Bernd Hübner'
           InfoBox.Position = ibBottom
-          InfoBox.BorderColor = clPurple
-          InfoBox.BorderWidth = 3
         end      
         item
           Size = 15
-          Left = 672
+          Left = 190
           Top = 8
           Tag = 1
           InfoBox.Position = ibBottom
-          InfoBox.BorderColor = clPurple
-          InfoBox.BorderWidth = 3
+        end      
+        item
+          Size = 15
+          Left = 377
+          Top = 8
+          Tag = 2
+          InfoBox.Position = ibBottom
+        end      
+        item
+          Size = 15
+          Left = 564
+          Top = 8
+          Tag = 3
+          InfoBox.Position = ibBottom
         end>
-      LineSettings.Width = 669
+      LineSettings.Width = 562
       LineSettings.Height = 3
       LineSettings.HorizMargin = 10
       LineSettings.VertMargin = 14
-      BorderColor = clWhite
       BorderWidth = 0
-      Color = clNone
+      Color = clForm
       FSetAll = (
         0
         1
@@ -76,8 +86,13 @@ object Form1: TForm1
         15
         2
         True
-        8388736
-        3
+        536870911
+        1
+        0
+        2
+        1
+        0
+        False
       )
     end
   end
