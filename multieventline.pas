@@ -66,10 +66,18 @@ type
   TMultiEvent          = class; //TCollectionItem, der einzelne Kreis
 
 type
+    InfoBox = record
+     FBorderColor     : TColor;
+     FBorderWidth     : integer;
+     end;
+
+type
   { TSetAll }
+
 
    TSetAll = class (TPersistent)
    private
+    FInfoBox         : InfoBox;
     FBorderColor     : TColor;
     FBorderWidth     : integer;
     FColorEnd        : TColor;
@@ -102,17 +110,19 @@ type
 
    TPropertySetAllEvents = class (TPropertyEditor)
    private
-    TmpSet      : TSetAll;
-    OldSet      : TSetAll;
-    SetAllForm  : TCustomForm;
-    aTabsheet   : TPageControl;
-    EventsPage  : TTabsheet;
-    FButtons    : array [0..17] of TMultiButton;
-    FButton     : array [24..25] of TMultiButton;
-    FColorBox   : array [0..5] of TColorBox;
-    FSpinEdit   : array [0..4] of TSpinEdit;
-    FComboBox   : array [0..2] of TComboBox;
-    FCheckBox   : array [0..3] of TCheckBox;
+    TmpSet        : TSetAll;
+    OldSet        : TSetAll;
+    SetAllForm    : TCustomForm;
+    aTabsheet     : TPageControl;
+    EventsPage    : TTabsheet;
+    InfoBoxPage   : TTabsheet;
+    FButtons      : array [0..17] of TMultiButton;
+    FInfoButtons  : array [0..16] of TMultiButton;
+    FButton       : array [24..25] of TMultiButton;
+    FColorBox     : array [0..5] of TColorBox;
+    FSpinEdit     : array [0..5] of TSpinEdit;
+    FComboBox     : array [0..2] of TComboBox;
+    FCheckBox     : array [0..3] of TCheckBox;
    protected
     procedure CreateWindow;
     procedure ButtonsOnClick(Sender : TObject);
@@ -511,6 +521,9 @@ begin
  FSize            := 15;
  FStyle           := mesCircle;
  FVisible         := true;
+
+ FInfoBox.FBorderColor     := clNone;
+ FInfoBox.FBorderWidth     := 1;
 end;
 
 destructor TSetAll.Destroy;
@@ -540,6 +553,9 @@ begin
    TSetAll(Dest).FSize              := FSize;
    TSetAll(Dest).FStyle             := FStyle;
    TSetAll(Dest).FVisible           := FVisible;
+
+   TSetAll(Dest).FInfoBox.FBorderColor  := FInfoBox.FBorderColor;
+   TSetAll(Dest).FInfoBox.FBorderWidth  := FInfoBox.FBorderWidth;
   end
  else
   inherited AssignTo(Dest);
@@ -806,6 +822,9 @@ begin
     FEventCollection.Items[lv].FSize            := AValue.FSize;
     FEventCollection.Items[lv].FStyle           := AValue.FStyle;
     FEventCollection.Items[lv].FVisible         := AValue.FVisible;
+
+    FEventCollection.Items[lv].FInfoBox.FBorderColor  := AValue.FInfoBox.FBorderColor;
+    FEventCollection.Items[lv].FInfoBox.FBorderWidth  := AValue.FInfoBox.FBorderWidth;
    end;
   Invalidate;
 end;
@@ -912,6 +931,9 @@ begin
      FSetAll.FStyle          := TMEventStyle(ReadInteger);
      FSetAll.FVisible        := ReadBoolean;
 
+     FSetAll.FInfoBox.FBorderColor  := ReadInteger;
+     FSetAll.FInfoBox.FBorderWidth  := ReadInteger;
+
      //FSetAll.aString:= ReadString;
 
     ReadListEnd;
@@ -958,6 +980,9 @@ begin
      WriteInteger(FSetAll.FSize);
      WriteInteger(ord(FSetAll.FStyle));
      WriteBoolean(FSetAll.FVisible);
+
+     WriteInteger(FSetAll.FInfoBox.FBorderColor);
+     WriteInteger(FSetAll.FInfoBox.FBorderWidth);
 
      //WriteString(SetAll.aString);
 

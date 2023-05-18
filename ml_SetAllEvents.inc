@@ -62,6 +62,9 @@ begin
    EventsPage.Parent         := aTabSheet;
    EventsPage.Caption        := 'Set Event Properties';
 
+   InfoBoxPage                := TTabsheet.Create(SetAllForm);
+   InfoBoxPage.Parent         := aTabSheet;
+   InfoBoxPage.Caption        := 'Set InfoBox Properties';
 
 
    for lv:=0 to 12 do
@@ -135,10 +138,13 @@ begin
    AdjustColorBox(System_ToRGB(TmpSet.FFont.Color),4);
 
   //XXXXX
-   for lv:=0 to 4 do
+   for lv:=0 to 5 do
     begin
      FSpinEdit[lv]             := TSpinEdit.Create(SetAllForm);
+     if lv < 5 then
      FSpinEdit[lv].Parent      := EventsPage;
+     if lv > 4 then
+     FSpinEdit[lv].Parent      := InfoBoxPage;
      FSpinEdit[lv].Left        := 170;
      FSpinEdit[lv].Width       := 150;
      FSpinEdit[lv].Alignment   := taRightJustify;
@@ -167,7 +173,10 @@ begin
    FSpinEdit[4].MinValue       := 0;
    FSpinEdit[4].MaxValue       := 100;
    FSpinEdit[4].Value          := TmpSet.FSize;
-
+   FSpinEdit[5].Top            := 40;
+   FSpinEdit[5].MinValue       := 0;
+   FSpinEdit[5].MaxValue       := 10;
+   FSpinEdit[5].Value          := TmpSet.FInfoBox.FBorderWidth;
 
 
   //XXXXXX
@@ -261,9 +270,66 @@ begin
     FButton[25].Caption     := 'Abbrechen';
 
 
+//IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+//IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
 
+   for lv:=0 to 12 do
+    begin
+     FInfoButtons[lv]             := TMultiButton.Create(SetAllForm);
+     FInfoButtons[lv].Parent      := InfoBoxPage;
+     FInfoButtons[lv].Left        := 10;
+     FInfoButtons[lv].Top         := 10 + (lv*30);
+     FInfoButtons[lv].Width       := 150;
+     FInfoButtons[lv].FocusFrameWidth   := 0;
+     FInfoButtons[lv].FocusFrameOn      := false;
+     FInfoButtons[lv].ForegroundFocusOn := true;
+     FInfoButtons[lv].Height            := 25;
+     FInfoButtons[lv].Style       := mbsRect;
+     FInfoButtons[lv].OnClick     := @ButtonsOnClick;
+    end;//Button
+   for lv:=13 to 16 do
+    begin
+     FInfoButtons[lv]             := TMultiButton.Create(SetAllForm);
+     FInfoButtons[lv].Parent      := InfoBoxPage;
+     FInfoButtons[lv].Left        := 380;
+     FInfoButtons[lv].Top         := 10 + ((lv-13)*30);
+     FInfoButtons[lv].Width       := 150;
+     FInfoButtons[lv].FocusFrameWidth   := 0;
+     FInfoButtons[lv].FocusFrameOn      := false;
+     FInfoButtons[lv].ForegroundFocusOn := true;
+     FInfoButtons[lv].Height            := 25;
+     FInfoButtons[lv].Style       := mbsRect;
+     FInfoButtons[lv].OnClick     := @ButtonsOnClick;
+    end;//Button
 
+    FInfoButtons[0].Caption       := 'BorderColor';
+    FInfoButtons[1].Caption       := 'BorderWidth';
+    FInfoButtons[2].Caption       := 'CaptionAlignment';
+    FInfoButtons[3].Caption       := 'CaptionHorMargin';
+    FInfoButtons[4].Caption       := 'CaptionLayout';
+    FInfoButtons[5].Caption       := 'CaptionVertMargin';
+    FInfoButtons[6].Caption       := 'CaptionWordbreak';
+    FInfoButtons[7].Caption       := 'Color';
+    FInfoButtons[8].Caption       := 'Font';
+    FInfoButtons[9].Caption       := 'Font Color ';
+    FInfoButtons[10].Caption      := 'Height';
+    FInfoButtons[11].Caption      := 'HorizCorrection';
+    FInfoButtons[12].Caption      := 'Position';
+    FInfoButtons[13].Caption      := 'RndRctRadius';
+    FInfoButtons[14].Caption      := 'Style';
+    FInfoButtons[15].Caption      := 'VertCorrection';
+    FInfoButtons[16].Caption      := 'Width';
 
+    for lv:=5 to 5 do
+    begin
+     FColorBox[lv]             := TColorBox.Create(SetAllForm);
+     FColorBox[lv].Parent      := InfoBoxPage;
+     FColorBox[lv].Left        := 170;
+     FColorBox[lv].Width       := 150;
+     FColorBox[lv].OnChange    := @ColorBoxOnChange;
+    end;//ColorBox
+   FColorBox[5].Top         := 10;
+   AdjustColorBox(TmpSet.FBorderColor,5);
 
 
 
@@ -433,6 +499,27 @@ begin
    if TmpSet.FVisible then TmpSet.FVisible := false else TmpSet.FVisible:= true;
    FCheckBox[3].Checked := TmpSet.FVisible;
   end;
+ //IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+ //IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+ if Sender = FInfoButtons[0] then
+  begin
+   aColorDialog       := TColorDialog.Create(nil);
+   aColorDialog.Color := TmpSet.FInfoBox.FBorderColor ;
+   try
+    if aColorDialog.Execute then
+     TmpSet.FInfoBox.FBorderColor  := aColorDialog.Color;
+     AdjustColorBox(TmpSet.FInfoBox.FBorderColor,5);
+   finally
+    aColorDialog.Free;
+   end;
+  end;
+ if Sender = FInfoButtons[1] then
+   begin
+    TmpSet.FInfoBox.FBorderWidth:= TmpSet.FInfoBox.FBorderWidth+1;
+    if TmpSet.FInfoBox.FBorderWidth > 10 then TmpSet.FInfoBox.FBorderWidth := 1;
+    FSpinEdit[5].Value := TmpSet.FInfoBox.FBorderWidth;
+   end;
+
 
 
   if Sender = FButton[24] then
@@ -473,6 +560,8 @@ begin
  if Sender = FColorBox[3] then TmpSet.FDisabledColor := FColorBox[3].Selected;
  if Sender = FColorBox[4] then TmpSet.FFont.Color    := FColorBox[4].Selected;
 
+ if Sender = FColorBox[5] then TmpSet.FInfoBox.FBorderColor   := FColorBox[5].Selected;
+
  SetPtrValue(TmpSet);
 end;
 
@@ -483,6 +572,7 @@ begin
  if Sender = FSpinEdit[2] then TmpSet.FImageIndex  := FSpinEdit[2].Value;
  if Sender = FSpinEdit[3] then TmpSet.FRRRadius    := FSpinEdit[3].Value;
  if Sender = FSpinEdit[4] then TmpSet.FSize        := FSpinEdit[4].Value;
+ if Sender = FSpinEdit[5] then TmpSet.FInfoBox.FBorderWidth := FSpinEdit[5].Value;
 
  SetPtrValue(TmpSet);
 end;
