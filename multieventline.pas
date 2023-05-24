@@ -27,7 +27,7 @@
   Franklin Street - Fifth Floor, Boston, MA 02110-1335, USA.
 }
 
-unit MultiEventLine;
+unit MultiEventLine;     //Hover, Style InfoBox Größe automatisch,
 
 {$mode ObjFPC}{$H+}
 
@@ -74,6 +74,15 @@ type
      FTextStyle_Layout      : TTextLayout;
      FCapTop                : integer;
      FCaptionWordbreak      : boolean;
+     FColor                 : TColor;
+     FFont                  : TFont;
+     FHeight                : integer;
+     FHorizCorrection       : integer;
+     FInfoBoxPosition       : TInfoBoxPosition;
+     FRRRadius              : integer;
+     FStyle                 : TInfoBoxStyle;
+     FVertCorrection        : integer;
+     FWidth                 : integer;
     end;
 
 type
@@ -124,9 +133,9 @@ type
     FButtons      : array [0..17] of TMultiButton;
     FInfoButtons  : array [0..16] of TMultiButton;
     FButton       : array [24..25] of TMultiButton;
-    FColorBox     : array [0..5] of TColorBox;
-    FSpinEdit     : array [0..7] of TSpinEdit;
-    FComboBox     : array [0..4] of TComboBox;
+    FColorBox     : array [0..7] of TColorBox;
+    FSpinEdit     : array [0..12] of TSpinEdit;
+    FComboBox     : array [0..6] of TComboBox;
     FCheckBox     : array [0..4] of TCheckBox;
    protected
     procedure CreateWindow;
@@ -534,10 +543,20 @@ begin
  FInfoBox.FTextStyle_Layout    := tlCenter;
  FInfoBox.FCapTop              := 0;
  FInfoBox.FCaptionWordbreak    := false;
+ FInfoBox.FColor               := clWhite;
+ FInfoBox.FFont                := TFont.Create;
+ FInfoBox.FHeight              := 20;
+ FInfoBox.FHorizCorrection     := 0;
+ FInfoBox.FInfoBoxPosition     := ibNone;
+ FInfoBox.FRRRadius            := 5;
+ FInfoBox.FStyle               := ibsRectangle;
+ FInfoBox.FVertCorrection      := 5;
+ FInfoBox.FWidth               := 80;
 end;
 
 destructor TSetAll.Destroy;
 begin
+ FInfoBox.FFont.Free;
  FFont.Free;
  inherited Destroy;
 end;
@@ -571,6 +590,15 @@ begin
    TSetAll(Dest).FInfoBox.FTextStyle_Layout    := FInfoBox.FTextStyle_Layout;
    TSetAll(Dest).FInfoBox.FCapTop              := FInfoBox.FCapTop;
    TSetAll(Dest).FInfoBox.FCaptionWordbreak    := FInfoBox.FCaptionWordbreak;
+   TSetAll(Dest).FInfoBox.FColor               := FInfoBox.FColor;
+   TSetAll(Dest).FInfoBox.FFont.Assign(FInfoBox.FFont);
+   TSetAll(Dest).FInfoBox.FHeight              := FInfoBox.FHeight;
+   TSetAll(Dest).FInfoBox.FHorizCorrection     := FInfoBox.FHorizCorrection;
+   TSetAll(Dest).FInfoBox.FInfoBoxPosition     := FInfoBox.FInfoBoxPosition;
+   TSetAll(Dest).FInfoBox.FRRRadius            := FInfoBox.FRRRadius;
+   TSetAll(Dest).FInfoBox.FStyle               := FInfoBox.FStyle;
+   TSetAll(Dest).FInfoBox.FVertCorrection      := FInfoBox.FVertCorrection;
+   TSetAll(Dest).FInfoBox.FWidth               := FInfoBox.FWidth;
   end
  else
   inherited AssignTo(Dest);
@@ -845,7 +873,15 @@ begin
     FEventCollection.Items[lv].FInfoBox.CaptionLayout    := AValue.FInfoBox.FTextStyle_Layout;
     FEventCollection.Items[lv].FInfoBox.CaptionVerMargin := AValue.FInfoBox.FCapTop;
     FEventCollection.Items[lv].FInfoBox.CaptionWordbreak := AValue.FInfoBox.FCaptionWordbreak;
-
+    FEventCollection.Items[lv].FInfoBox.Color            := AValue.FInfoBox.FColor;
+    FEventCollection.Items[lv].FInfoBox.FFont.Assign(AValue.FInfoBox.FFont);
+    FEventCollection.Items[lv].FInfoBox.Height           := AValue.FInfoBox.FHeight;
+    FEventCollection.Items[lv].FInfoBox.HorizCorrection  := AValue.FInfoBox.FHorizCorrection;
+    FEventCollection.Items[lv].FInfoBox.Position         := AValue.FInfoBox.FInfoBoxPosition;
+    FEventCollection.Items[lv].FInfoBox.RndRctRadius     := AValue.FInfoBox.FRRRadius;
+    FEventCollection.Items[lv].FInfoBox.Style            := AValue.FInfoBox.FStyle;
+    FEventCollection.Items[lv].FInfoBox.VertCorrection   := AValue.FInfoBox.FVertCorrection;
+    FEventCollection.Items[lv].FInfoBox.Width            := AValue.FInfoBox.FWidth;
    end;
   Invalidate;
 end;
@@ -959,6 +995,15 @@ begin
      FSetAll.FInfoBox.FTextStyle_Layout    := TTextLayout(ReadInteger);
      FSetAll.FInfoBox.FCapTop              := ReadInteger;
      FSetAll.FInfoBox.FCaptionWordbreak    := ReadBoolean;
+     FSetAll.FInfoBox.FColor               := ReadInteger;
+     ReadFont(Reader,FSetAll.FInfoBox.FFont);
+     FSetAll.FInfoBox.FHeight              := ReadInteger;
+     FSetAll.FInfoBox.FHorizCorrection     := ReadInteger;
+     FSetAll.FInfoBox.FInfoBoxPosition     := TInfoBoxPosition(ReadInteger);
+     FSetAll.FInfoBox.FRRRadius            := ReadInteger;
+     FSetAll.FInfoBox.FStyle               := TInfoBoxStyle(ReadInteger);
+     FSetAll.FInfoBox.FVertCorrection      := ReadInteger;
+     FSetAll.FInfoBox.FWidth               := ReadInteger;
 
      //FSetAll.aString:= ReadString;
 
@@ -1014,6 +1059,15 @@ begin
      WriteInteger(ord(FSetAll.FInfoBox.FTextStyle_Layout));
      WriteInteger(FSetAll.FInfoBox.FCapTop);
      WriteBoolean(FSetAll.FInfoBox.FCaptionWordbreak);
+     WriteInteger(FSetAll.FInfoBox.FColor);
+     WriteFont(Writer,FSetAll.FInfoBox.FFont);
+     WriteInteger(FSetAll.FInfoBox.FHeight);
+     WriteInteger(FSetAll.FInfoBox.FHorizCorrection);
+     WriteInteger(ord(FSetAll.FInfoBox.FInfoBoxPosition));
+     WriteInteger(FSetAll.FInfoBox.FRRRadius);
+     WriteInteger(ord(FSetAll.FInfoBox.FStyle));
+     WriteInteger(FSetAll.FInfoBox.FVertCorrection);
+     WriteInteger(FSetAll.FInfoBox.FWidth);
 
      //WriteString(SetAll.aString);
 

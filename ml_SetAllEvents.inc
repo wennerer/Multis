@@ -44,7 +44,6 @@ begin
    OldSet.Assign(TMultiEventLine(GetComponent(0)).FSetAll);
 
 
-
    SetAllForm                := TForm.Create(Application);
    SetAllForm.Width          := 715;
    SetAllForm.Height         := 500;
@@ -120,9 +119,10 @@ begin
    for lv:=0 to 4 do
     begin
      FColorBox[lv]             := TColorBox.Create(SetAllForm);
-     FColorBox[lv].Parent      := EventsPage;
+     FColorBox[lv].Parent     := EventsPage;
      FColorBox[lv].Left        := 170;
      FColorBox[lv].Width       := 150;
+     FColorBox[lv].Style       :=[cbStandardColors,cbExtendedColors,cbSystemColors,cbIncludeNone];
      FColorBox[lv].OnChange    := @ColorBoxOnChange;
     end;//ColorBox
    FColorBox[0].Top         := 10;
@@ -137,8 +137,9 @@ begin
    //FColorBox[4].Selected    := System_ToRGB(TmpSet.FFont.Color);
    AdjustColorBox(System_ToRGB(TmpSet.FFont.Color),4);
 
+
   //XXXXX
-   for lv:=0 to 7 do
+   for lv:=0 to 12 do
     begin
      FSpinEdit[lv]             := TSpinEdit.Create(SetAllForm);
      if lv < 5 then
@@ -185,10 +186,33 @@ begin
    FSpinEdit[7].MinValue       := 0;
    FSpinEdit[7].MaxValue       := 100;
    FSpinEdit[7].Value          := TmpSet.FInfoBox.FCapTop;
+   FSpinEdit[8].Top            := 310;
+   FSpinEdit[8].MinValue       := 0;
+   FSpinEdit[8].MaxValue       := 100;
+   FSpinEdit[8].Value          := TmpSet.FInfoBox.FHeight;
+   FSpinEdit[9].Top            := 340;
+   FSpinEdit[9].MinValue       := 0;
+   FSpinEdit[9].MaxValue       := 100;
+   FSpinEdit[9].Value          := TmpSet.FInfoBox.FHorizCorrection;
+   FSpinEdit[10].Top            := 10;
+   FSpinEdit[10].Left           := 540;
+   FSpinEdit[10].MinValue       := 0;
+   FSpinEdit[10].MaxValue       := 50;
+   FSpinEdit[10].Value          := TmpSet.FInfoBox.FRRRadius;
+   FSpinEdit[11].Top            := 70;
+   FSpinEdit[11].Left           := 540;
+   FSpinEdit[11].MinValue       := 0;
+   FSpinEdit[11].MaxValue       := 100;
+   FSpinEdit[11].Value          := TmpSet.FInfoBox.FVertCorrection;
+   FSpinEdit[12].Top            := 100;
+   FSpinEdit[12].Left           := 540;
+   FSpinEdit[12].MinValue       := 0;
+   FSpinEdit[12].MaxValue       := 500;
+   FSpinEdit[12].Value          := TmpSet.FInfoBox.FWidth;
 
 
   //XXXXXX
-   for lv:=0 to 4 do
+   for lv:=0 to 6 do
     begin
      FComboBox[lv]             := TComboBox.Create(SetAllForm);
      FComboBox[lv].Parent      := EventsPage;
@@ -238,7 +262,20 @@ begin
    FComboBox[4].Items.Add('tlBottom');
    FComboBox[4].Top            := 130;
    FComboBox[4].Caption        := GetEnumName(TypeInfo(TTextLayout), ord(TmpSet.FInfoBox.FTextStyle_Layout));
-
+   FComboBox[5].Left        := 170;
+   FComboBox[5].Parent      := InfoBoxPage;
+   FComboBox[5].Items.Add('ibTop');
+   FComboBox[5].Items.Add('ibBottom');
+   FComboBox[5].Items.Add('ibNone');
+   FComboBox[5].Top            := 370;
+   FComboBox[5].Caption        := GetEnumName(TypeInfo(TInfoBoxPosition), ord(TmpSet.FInfoBox.FInfoBoxPosition));
+   FComboBox[6].Left        := 540;
+   FComboBox[6].Parent      := InfoBoxPage;
+   FComboBox[6].Items.Add('ibsRectangle');
+   FComboBox[6].Items.Add('ibsRoundRect');
+   FComboBox[6].Items.Add('ibsEllipse');
+   FComboBox[6].Top            := 40;
+   FComboBox[6].Caption        := GetEnumName(TypeInfo(TInfoBoxStyle), ord(TmpSet.FInfoBox.FStyle));
 
 
   //XXXXXX
@@ -343,18 +380,21 @@ begin
     FInfoButtons[15].Caption      := 'VertCorrection';
     FInfoButtons[16].Caption      := 'Width';
 
-    for lv:=5 to 5 do
+    for lv:=5 to 7 do
     begin
      FColorBox[lv]             := TColorBox.Create(SetAllForm);
      FColorBox[lv].Parent      := InfoBoxPage;
      FColorBox[lv].Left        := 170;
      FColorBox[lv].Width       := 150;
+     FColorBox[lv].Style       :=[cbStandardColors,cbExtendedColors,cbSystemColors,cbIncludeNone];
      FColorBox[lv].OnChange    := @ColorBoxOnChange;
     end;//ColorBox
    FColorBox[5].Top         := 10;
-   AdjustColorBox(TmpSet.FBorderColor,5);
-
-
+   AdjustColorBox(TmpSet.FInfoBox.FBorderColor,5);
+   FColorBox[6].Top         := 220;
+   AdjustColorBox(TmpSet.FInfoBox.FColor,6);
+   FColorBox[7].Top         := 280;
+   AdjustColorBox(TmpSet.FInfoBox.FFont.Color,7);
 
 
     SetAllForm.ShowModal;
@@ -574,9 +614,89 @@ begin
    else TmpSet.FInfoBox.FCaptionWordbreak:= true;
    FCheckBox[4].Checked := TmpSet.FInfoBox.FCaptionWordbreak;
   end;
+ if Sender = FInfoButtons[7] then
+  begin
+   aColorDialog       := TColorDialog.Create(nil);
+   aColorDialog.Color := TmpSet.FInfoBox.FColor;
+   try
+    if aColorDialog.Execute then
+     TmpSet.FInfoBox.FColor := aColorDialog.Color;
+     AdjustColorBox(TmpSet.FInfoBox.FColor,6);
+   finally
+    aColorDialog.Free;
+   end;
+  end;
+ if Sender = FInfoButtons[8] then
+  begin
+   aFontDialog       := TFontDialog.Create(nil);
+   aFontDialog.Font.Assign(TmpSet.FInfoBox.FFont);
+   try
+    if aFontDialog.Execute then
+     TmpSet.FInfoBox.FFont.Assign(aFontDialog.Font);
 
-
-
+   finally
+    aFontDialog.Free;
+   end;
+  end;
+ if Sender = FInfoButtons[9] then
+  begin
+   aColorDialog       := TColorDialog.Create(nil);
+   aColorDialog.Color := TmpSet.FInfoBox.FFont.Color;
+   try
+    if aColorDialog.Execute then
+     TmpSet.FInfoBox.FFont.Color := aColorDialog.Color;
+     AdjustColorBox(TmpSet.FInfoBox.FFont.Color,7);
+   finally
+    aColorDialog.Free;
+   end;
+  end;
+ if Sender = FInfoButtons[10] then
+  begin
+   TmpSet.FInfoBox.FHeight := TmpSet.FInfoBox.FHeight +1;
+   if TmpSet.FInfoBox.FHeight > 100 then TmpSet.FInfoBox.FHeight := 0;
+   FSpinEdit[8].Value:= TmpSet.FInfoBox.FHeight;
+  end;
+ if Sender = FInfoButtons[11] then
+  begin
+   TmpSet.FInfoBox.FHorizCorrection := TmpSet.FInfoBox.FHorizCorrection +1;
+   if TmpSet.FInfoBox.FHorizCorrection > 100 then TmpSet.FInfoBox.FHorizCorrection := 0;
+   FSpinEdit[9].Value:= TmpSet.FInfoBox.FHorizCorrection;
+  end;
+ if Sender = FInfoButtons[12] then
+  begin
+   if FComboBox[5].ItemIndex < 2 then FComboBox[5].ItemIndex := FComboBox[5].ItemIndex +1
+   else FComboBox[5].ItemIndex := 0;
+   case FComboBox[5].ItemIndex of
+    0 : TmpSet.FInfoBox.FInfoBoxPosition := ibTop;
+    1 : TmpSet.FInfoBox.FInfoBoxPosition := ibBottom;
+    2 : TmpSet.FInfoBox.FInfoBoxPosition := ibNone;
+   end;
+  end;
+ if Sender = FInfoButtons[13] then
+  begin
+   TmpSet.FInfoBox.FRRRadius := TmpSet.FInfoBox.FRRRadius +1;
+   if TmpSet.FInfoBox.FRRRadius > 50 then TmpSet.FInfoBox.FRRRadius := 0;
+   FSpinEdit[10].Value:= TmpSet.FInfoBox.FRRRadius;
+  end;
+ if Sender = FInfoButtons[14] then
+  begin
+   if FComboBox[6].ItemIndex < 2 then FComboBox[6].ItemIndex := FComboBox[6].ItemIndex +1
+   else FComboBox[6].ItemIndex := 0;
+   TmpSet.FInfoBox.FStyle := TInfoBoxStyle(FComboBox[6].ItemIndex);
+   FComboBox[6].Caption  := GetEnumName(TypeInfo(TInfoBoxStyle), ord(TmpSet.FInfoBox.FStyle));
+  end;
+ if Sender = FInfoButtons[15] then
+  begin
+   TmpSet.FInfoBox.FVertCorrection := TmpSet.FInfoBox.FVertCorrection +1;
+   if TmpSet.FInfoBox.FVertCorrection > 100 then TmpSet.FInfoBox.FVertCorrection := 0;
+   FSpinEdit[11].Value:= TmpSet.FInfoBox.FVertCorrection;
+  end;
+ if Sender = FInfoButtons[16] then
+  begin
+   TmpSet.FInfoBox.FWidth := TmpSet.FInfoBox.FWidth +1;
+   if TmpSet.FInfoBox.FWidth > 500 then TmpSet.FInfoBox.FWidth := 0;
+   FSpinEdit[12].Value:= TmpSet.FInfoBox.FWidth;
+  end;
 
 
   if Sender = FButton[24] then
@@ -618,6 +738,8 @@ begin
  if Sender = FColorBox[4] then TmpSet.FFont.Color    := FColorBox[4].Selected;
 
  if Sender = FColorBox[5] then TmpSet.FInfoBox.FBorderColor   := FColorBox[5].Selected;
+ if Sender = FColorBox[6] then TmpSet.FInfoBox.FColor         := FColorBox[6].Selected;
+ if Sender = FColorBox[7] then TmpSet.FInfoBox.FFont.Color    := FColorBox[7].Selected;
 
  SetPtrValue(TmpSet);
 end;
@@ -629,9 +751,14 @@ begin
  if Sender = FSpinEdit[2] then TmpSet.FImageIndex  := FSpinEdit[2].Value;
  if Sender = FSpinEdit[3] then TmpSet.FRRRadius    := FSpinEdit[3].Value;
  if Sender = FSpinEdit[4] then TmpSet.FSize        := FSpinEdit[4].Value;
- if Sender = FSpinEdit[5] then TmpSet.FInfoBox.FBorderWidth := FSpinEdit[5].Value;
- if Sender = FSpinEdit[6] then TmpSet.FInfoBox.FCapLeft     := FSpinEdit[6].Value;
- if Sender = FSpinEdit[7] then TmpSet.FInfoBox.FCapTop      := FSpinEdit[7].Value;
+ if Sender = FSpinEdit[5] then TmpSet.FInfoBox.FBorderWidth     := FSpinEdit[5].Value;
+ if Sender = FSpinEdit[6] then TmpSet.FInfoBox.FCapLeft         := FSpinEdit[6].Value;
+ if Sender = FSpinEdit[7] then TmpSet.FInfoBox.FCapTop          := FSpinEdit[7].Value;
+ if Sender = FSpinEdit[8] then TmpSet.FInfoBox.FHeight          := FSpinEdit[8].Value;
+ if Sender = FSpinEdit[9] then TmpSet.FInfoBox.FHorizCorrection := FSpinEdit[9].Value;
+ if Sender = FSpinEdit[10] then TmpSet.FInfoBox.FRRRadius       := FSpinEdit[10].Value;
+ if Sender = FSpinEdit[11] then TmpSet.FInfoBox.FVertCorrection := FSpinEdit[11].Value;
+ if Sender = FSpinEdit[12] then TmpSet.FInfoBox.FWidth          := FSpinEdit[12].Value;
 
  SetPtrValue(TmpSet);
 end;
@@ -672,6 +799,15 @@ begin
  if Sender = FComboBox[2] then TmpSet.FStyle := TMEventStyle(FComboBox[2].ItemIndex);
  if Sender = FComboBox[3] then TmpSet.FInfoBox.FTextStyle_Alignment := TAlignment(FComboBox[3].ItemIndex);
  if Sender = FComboBox[4] then TmpSet.FInfoBox.FTextStyle_Layout    := TTextLayout(FComboBox[4].ItemIndex);
+ if Sender = FComboBox[5] then
+  case FComboBox[5].ItemIndex of
+   0 : TmpSet.FInfoBox.FInfoBoxPosition := ibTop;
+   1 : TmpSet.FInfoBox.FInfoBoxPosition := ibBottom;
+   2 : TmpSet.FInfoBox.FInfoBoxPosition := ibNone;
+  end;
+ if Sender = FComboBox[6] then TmpSet.FInfoBox.FStyle    := TInfoBoxStyle(FComboBox[6].ItemIndex);
+
+
 
  SetPtrValue(TmpSet);
 end;

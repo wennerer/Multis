@@ -7,7 +7,7 @@ constructor TInfoBox.create(AOwner: TMultiEvent);
 begin
  inherited create;
  FOwner               := aOwner;
- FInfoBoxPosition     := ibBottom;//ibNone;
+ FInfoBoxPosition     := ibNone;
  FWidth               := 80;
  FHeight              := 20;
  FHorizCorrection     := 0;
