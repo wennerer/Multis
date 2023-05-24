@@ -1,10 +1,10 @@
 object Form1: TForm1
   Left = 1520
-  Height = 240
+  Height = 347
   Top = 250
   Width = 1035
   Caption = 'Form1'
-  ClientHeight = 240
+  ClientHeight = 347
   ClientWidth = 1035
   object MultiPanel1: TMultiPanel
     Left = 0
@@ -29,6 +29,7 @@ object Form1: TForm1
       Events = <      
         item
           Size = 15
+          Hover = True
           Left = 3
           Top = 8
           Tag = 0
@@ -38,6 +39,7 @@ object Form1: TForm1
         end      
         item
           Size = 15
+          Hover = True
           Left = 173
           Top = 8
           Tag = 1
@@ -47,6 +49,7 @@ object Form1: TForm1
         end      
         item
           Size = 15
+          Hover = True
           Left = 343
           Top = 8
           Tag = 2
@@ -56,6 +59,7 @@ object Form1: TForm1
         end      
         item
           Size = 15
+          Hover = True
           Left = 513
           Top = 8
           Tag = 3
@@ -65,6 +69,7 @@ object Form1: TForm1
         end      
         item
           Size = 15
+          Hover = True
           Left = 683
           Top = 8
           Tag = 4
@@ -94,7 +99,7 @@ object Form1: TForm1
         False
         False
         536870912
-        False
+        True
         -1
         'nil'
         5

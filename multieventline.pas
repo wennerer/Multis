@@ -354,6 +354,7 @@ type
     FFont               : TFont;
     FGradient           : TGradientCourse;
     FHover              : boolean;
+    FHoverOn            : boolean;
     FHoverBlendValue    : integer;
     FHoverColor         : TColor;
     FImageIndex         : TImageIndex;
@@ -440,13 +441,13 @@ type
 
   TMultiEventLine= class(TCustomControl)
   private
-    FBorderColor: TColor;
-    FBorderWidth: integer;
+   FBorderColor         : TColor;
+   FBorderWidth         : integer;
    FEventCollection     : TMultiEventCollection;
    FGradient            : TGradientCourse;
    FLine                : TLine;
-   FSetAll: TSetAll;
-   //FSetAllSize          : integer;
+   FSetAll              : TSetAll;
+
 
    procedure CalculateTheLine;
    procedure DrawEventBgrd(lv: integer);
@@ -768,8 +769,11 @@ begin
 end;
 
 procedure TMultiEventLine.MouseLeave;
+var lv : integer;
 begin
   inherited MouseLeave;
+  for lv:= 0 to pred(FEventCollection.Count) do
+   FEventCollection.Items[lv].FHoverOn := false;
 end;
 
 procedure TMultiEventLine.MouseMove(Shift: TShiftState; X, Y: Integer);
@@ -778,15 +782,15 @@ begin
   inherited MouseMove(Shift, X, Y);
   for lv:= 0 to pred(FEventCollection.Count) do
    begin
-    FEventCollection.Items[lv].FHover := false;
+    FEventCollection.Items[lv].FHoverOn := false;
     case FEventCollection.Items[lv].FStyle of
      mesRoundRect : if PointInRoundRect(FEventCollection.Items[lv].FHotspot,x,y,
                     FEventCollection.Items[lv].FRRRadius,FEventCollection.Items[lv].FRRRadius) then
-                    FEventCollection.Items[lv].FHover := true;
+                    FEventCollection.Items[lv].FHoverOn := true;
      mesRect      : if PtInRect(FEventCollection.Items[lv].FHotspot,Point(x,y)) then
-                    FEventCollection.Items[lv].FHover := true;
+                    FEventCollection.Items[lv].FHoverOn := true;
      mesCircle    : if PointInCircle(FEventCollection.Items[lv].FHotspot,x,y) then
-                    FEventCollection.Items[lv].FHover := true;
+                    FEventCollection.Items[lv].FHoverOn := true;
     end;
    end;
   Invalidate;
@@ -1349,7 +1353,7 @@ begin
 
      aBmp := TBitmap.Create;
      try
-        if FEventCollection.Items[lv].FHover then
+        if FEventCollection.Items[lv].FHover and FEventCollection.Items[lv].FHoverOn then
          begin
           aBmp.PixelFormat := pf32bit;
           aBmp.SetSize(FEventCollection.Items[lv].FSize,FEventCollection.Items[lv].FSize);
