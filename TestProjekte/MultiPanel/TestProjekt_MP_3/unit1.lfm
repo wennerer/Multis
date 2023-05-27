@@ -1,0 +1,113 @@
+object Form1: TForm1
+  Left = 457
+  Height = 297
+  Top = 250
+  Width = 512
+  Caption = 'MultiPanel as GroupBox'
+  ClientHeight = 297
+  ClientWidth = 512
+  Color = clWhite
+  object MultiPanel1: TMultiPanel
+    Left = 40
+    Height = 200
+    Top = 40
+    Width = 416
+    Style = mpsRoundRect
+    ColorStart = 11460590
+    ColorEnd = 10933986
+    ColorGradient = gcAlternate
+    RndRctRadius = 10
+    BorderSettings.InnerColor = 4101305
+    BorderSettings.InnerWidth = 3
+    BorderSettings.Between = 20
+    Caption = ' MultiPanel '
+    Font.Color = 4101305
+    Font.Style = [fsBold]
+    CaptionAlignment = taLeftJustify
+    CaptionLayout = tlTop
+    CaptionHorMargin = 40
+    CaptionVerMargin = 12
+    StrPolygon = (
+      '50'
+      '2'
+      '98'
+      '98'
+      '2'
+      '98'
+      '50'
+      '2'
+    )
+    object ColorBox1: TColorBox
+      Left = 80
+      Height = 25
+      Top = 64
+      Width = 100
+      Selected = clRed
+      ItemHeight = 0
+      TabOrder = 0
+    end
+    object ColorBox2: TColorBox
+      Left = 232
+      Height = 25
+      Top = 64
+      Width = 100
+      Selected = clLime
+      ItemHeight = 0
+      TabOrder = 1
+    end
+    object ColorBox3: TColorBox
+      Left = 80
+      Height = 25
+      Top = 128
+      Width = 100
+      Selected = clBlue
+      ItemHeight = 0
+      TabOrder = 2
+    end
+    object ColorBox4: TColorBox
+      Left = 232
+      Height = 25
+      Top = 128
+      Width = 100
+      Selected = clFuchsia
+      ItemHeight = 0
+      TabOrder = 3
+    end
+    object TextBox1: TTextBox
+      Left = 80
+      Height = 20
+      Top = 40
+      Width = 70
+      Caption = 'Bar'
+      CaptionAlignment = taLeftJustify
+      CaptionHorMargin = 2
+    end
+    object TextBox2: TTextBox
+      Left = 232
+      Height = 20
+      Top = 40
+      Width = 70
+      Caption = 'Back'
+      CaptionAlignment = taLeftJustify
+      CaptionHorMargin = 2
+    end
+    object TextBox3: TTextBox
+      Left = 80
+      Height = 20
+      Top = 106
+      Width = 70
+      Caption = 'Bar Stop'
+      CaptionAlignment = taLeftJustify
+      CaptionHorMargin = 2
+    end
+    object TextBox4: TTextBox
+      Left = 232
+      Height = 20
+      Top = 106
+      Width = 70
+      Caption = 'Back Stop'
+      CaptionAlignment = taLeftJustify
+      CaptionHorMargin = 2
+    end
+  end
+end

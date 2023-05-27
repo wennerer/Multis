@@ -1,6 +1,6 @@
 { <A panel for the multi components>
-  <Version 1.0.0.8>
-  Copyright (C) <18.05.2023> <Bernd Hübner>
+  <Version 1.0.0.9>
+  Copyright (C) <27.05.2023> <Bernd Hübner>
   Many thanks to the members of the German Lazarus Forum!
   For some improvements see https://www.lazarusforum.de/viewtopic.php?f=29&t=14033
 
@@ -371,6 +371,8 @@ type
 
     procedure DoAppear;
     procedure DoDisappear;
+    function GetTextHeight(AText: String; AFont: TFont): Integer;
+    function GetTextWidth(AText: String; AFont: TFont): Integer;
     procedure LeftToRight;
     procedure SetAlignment(AValue: TAlignment);
     procedure SetAnimationSpeed(AValue: double);
@@ -414,6 +416,7 @@ type
     procedure VisitThePolygon;
     procedure MouseInComponent({%H-}Sender : TObject);
     procedure MouseNotInComponent({%H-}Sender : TObject);
+    procedure WriteCaption;
 
   protected
     procedure DefineProperties(Filer: TFiler); override;
@@ -1883,6 +1886,33 @@ begin
     end;
 end;
 
+function TMultiPanel.GetTextWidth (AText : String ; AFont : TFont ) : Integer ;
+var bmp : TBitmap ;
+begin
+ Result := 0 ;
+ bmp := TBitmap.Create ;
+ try
+  bmp.Canvas.Font.Assign(AFont);
+  Result := bmp.Canvas.TextWidth(AText);
+ finally
+  bmp.Free;
+ end;
+end ;
+
+function TMultiPanel.GetTextHeight (AText : String ; AFont : TFont ) : Integer ;
+var bmp : TBitmap ;
+begin
+ Result := 0 ;
+ bmp := TBitmap.Create ;
+ try
+  bmp.Canvas.Font.Assign(AFont);
+  Result := bmp.Canvas.TextHeight(AText);
+ finally
+  bmp.Free;
+ end;
+end ;
+
+
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx---drawing---XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 procedure TMultiPanel.DrawThePanel;
@@ -1890,7 +1920,6 @@ var   bkBmp        : TBitmap;
       trBmp        : TBitmap;
       mask         : TBitmap;
       Dest         : TBitmap;
-      textrect     : TRect;
       i            : integer;
       aInnerPoly   : array of TPoint;
 begin
@@ -1968,11 +1997,7 @@ begin
 
    FMultiBkgrdBmp.Canvas.Draw(0,0,Dest);
 
-   if (FImageList <> nil) and (FImageIndex > -1) and (FImageIndex < FImageList.Count) then
-      FImageList.ResolutionForPPI[FImageWidth, Font.PixelsPerInch, GetCanvasScaleFactor].Draw(FMultiBkgrdBmp.Canvas,
-      FImageLeft,FImageTop,FImageIndex);
-   textrect := rect(0,0,width,height);
-   FMultiBkgrdBmp.Canvas.TextRect(TextRect,FCapLeft,FCapTop,FCaption,FTextStyle);
+
 
 
  //Draw a Border
@@ -2005,12 +2030,38 @@ begin
       end;
      end;
 
+    if (FImageList <> nil) and (FImageIndex > -1) and (FImageIndex < FImageList.Count) then
+      FImageList.ResolutionForPPI[FImageWidth, Font.PixelsPerInch, GetCanvasScaleFactor].Draw(FMultiBkgrdBmp.Canvas,
+      FImageLeft,FImageTop,FImageIndex);
+
    bkBmp.Free;
    trBmp.Free;
    mask.Free;
    Dest.Free;
+
+   WriteCaption;
 end;
 
+procedure TMultiPanel.WriteCaption;
+var textrect     : TRect;
+    CaptionRect  : TRect;
+    aBmp         : TBitmap;
+begin
+ textrect := rect(0,0,width,height);
+ CaptionRect := rect(FCapLeft,FCapTop,
+                     FCapLeft+GetTextWidth(FCaption,FMultiBkgrdBmp.canvas.Font),
+                     FCapTop+GetTextHeight(FCaption,FMultiBkgrdBmp.canvas.Font));
+ aBmp      := TBitmap.Create;
+ try
+  aBmp.SetSize(width,height);
+  Gradient_Bmp(aBmp,FColorStart,FColorEnd,ord(FGradient));
+  FMultiBkgrdBmp.canvas.CopyRect(CaptionRect,aBmp.Canvas,CaptionRect);
+ finally
+  aBmp.Free;
+ end;
+
+ FMultiBkgrdBmp.Canvas.TextRect(TextRect,FCapLeft,FCapTop,FCaption,FTextStyle);
+end;
 
 procedure TMultiPanel.Paint;
 var lv         : integer;
