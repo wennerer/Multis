@@ -13,7 +13,7 @@ object Form1: TForm1
     Top = 40
     Width = 416
     Style = mpsRoundRect
-    ColorStart = 11460590
+    ColorStart = 6465464
     ColorEnd = 10933986
     ColorGradient = gcAlternate
     RndRctRadius = 10

@@ -275,6 +275,30 @@ begin
    tmpBmp.Canvas.Pixels[1, 0] := aStop;
    tmpBmp.Canvas.Pixels[1, 1] := aStart;
 
+   (*tmpBmp.SetSize(2,2);
+   tmpBmp.Canvas.Brush.Color:= aStart;
+   tmpBmp.Canvas.FillRect(0,0,1,1);
+   tmpBmp.Canvas.FillRect(1,1,2,2);
+   tmpBmp.Canvas.Brush.Color:= aStop;
+   tmpBmp.Canvas.FillRect(1,0,2,1);
+   tmpBmp.Canvas.FillRect(0,1,1,2);*)
+
+   (*tmpBmp.SetSize(6,6);
+   tmpBmp.Canvas.Brush.Color:= aStart;
+   tmpBmp.Canvas.FillRect(0,0,3,3);
+   tmpBmp.Canvas.FillRect(3,3,6,6);
+   tmpBmp.Canvas.Brush.Color:= aStop;
+   tmpBmp.Canvas.FillRect(3,0,6,3);
+   tmpBmp.Canvas.FillRect(0,3,3,6);*)
+
+   (*tmpBmp.SetSize(4,4);
+   tmpBmp.Canvas.Brush.Color:= aStart;
+   tmpBmp.Canvas.FillRect(0,0,2,2);
+   tmpBmp.Canvas.FillRect(2,2,4,4);
+   tmpBmp.Canvas.Brush.Color:= aStop;
+   tmpBmp.Canvas.FillRect(2,0,4,2);
+   tmpBmp.Canvas.FillRect(0,2,2,4);*)
+
    aBmp.Canvas.Brush.Bitmap := nil;
    aBmp.Canvas.Brush.Bitmap := tmpBmp ;
    aBmp.Canvas.FillRect(0, 0,aBmp.Width,aBmp.Height) ;
