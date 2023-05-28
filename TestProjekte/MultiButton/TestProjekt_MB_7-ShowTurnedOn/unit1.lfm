@@ -1,0 +1,407 @@
+object Form1: TForm1
+  Left = 457
+  Height = 435
+  Top = 250
+  Width = 371
+  Caption = 'USB Audio Interface'
+  ClientHeight = 435
+  ClientWidth = 371
+  Color = 2631720
+  object MultiPanel_Settings: TMultiPanel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    Left = 0
+    Height = 424
+    Top = 0
+    Width = 218
+    Style = mpsRoundRect
+    ColorStart = 3289650
+    ColorEnd = 3289650
+    ColorGradient = gcAlternate
+    RndRctRadius = 15
+    BorderSettings.InnerColor = clMaroon
+    BorderSettings.InnerWidth = 2
+    BorderSettings.Between = 12
+    Caption = ' Audio settings:  '
+    Font.Color = clWhite
+    CaptionAlignment = taLeftJustify
+    CaptionLayout = tlTop
+    CaptionHorMargin = 30
+    CaptionVerMargin = 5
+    StrPolygon = (
+      '50'
+      '2'
+      '98'
+      '98'
+      '2'
+      '98'
+      '50'
+      '2'
+    )
+    object MultiPanel_Pre: TMultiPanel
+      Left = 16
+      Height = 200
+      Top = 208
+      Width = 184
+      ColorStart = 3289650
+      ColorEnd = 3289650
+      ColorGradient = gcAlternate
+      BorderSettings.OuterColor = 14149079
+      BorderSettings.InnerColor = 14149079
+      BorderSettings.InnerWidth = 2
+      BorderSettings.Between = 10
+      Caption = ' Pre-emphasis: '
+      Font.Color = clWhite
+      CaptionAlignment = taLeftJustify
+      CaptionLayout = tlTop
+      CaptionHorMargin = 15
+      CaptionVerMargin = 1
+      StrPolygon = (
+        '50'
+        '2'
+        '98'
+        '98'
+        '2'
+        '98'
+        '50'
+        '2'
+      )
+      object MultiButton_Linear: TMultiButton
+        Left = 16
+        Height = 40
+        Top = 24
+        Width = 150
+        Style = mbsRect
+        ColorStart = 4605517
+        ColorEnd = 6908272
+        ColorGradient = gcHorizontal
+        MessageButton.Style = mbsRect
+        MessageButton.ColorStart = clSilver
+        MessageButton.ColorGradient = gcHorizontal
+        MessageButton.ShowPressed = False
+        MessageButton.PressedColor = clLime
+        MessageButton.ImageLeft = 0
+        MessageButton.ImageTop = 0
+        MessageButton.Visible = True
+        MessageButton.Alignment = alRightIn
+        MessageButton.HoverOn = False
+        Caption = 'Linear'
+        Font.Color = clSilver
+        CaptionAlignment = taLeftJustify
+        CaptionHorMargin = 8
+        HoverOn = False
+        HoverStartColor = clBlack
+        HoverEndColor = 4605517
+        HoverFontColor = clSilver
+        FocusFrameWidth = 2
+        PressedStartColor = clBlack
+        PressedEndColor = 4605517
+        FocusColor = clWhite
+        FocusFrameOn = False
+        ForegroundFocusOn = True
+        Down = True
+        AllowsUp = True
+        GroupIndex = 1
+        ShowTurnedOn = True
+        MultiButton_StyleManager = MultiButtonStyleManager1
+        TabOrder = 0
+      end
+      object MultiButton_20: TMultiButton
+        Left = 16
+        Height = 40
+        Top = 64
+        Width = 150
+        Style = mbsRect
+        ColorStart = 4605517
+        ColorEnd = 6908272
+        ColorGradient = gcHorizontal
+        MessageButton.Style = mbsRect
+        MessageButton.ColorStart = clSilver
+        MessageButton.ColorGradient = gcHorizontal
+        MessageButton.ShowPressed = False
+        MessageButton.PressedColor = clLime
+        MessageButton.ImageLeft = 0
+        MessageButton.ImageTop = 0
+        MessageButton.Visible = True
+        MessageButton.Alignment = alRightIn
+        MessageButton.HoverOn = False
+        Caption = '20μS'
+        Font.Color = clSilver
+        CaptionAlignment = taLeftJustify
+        CaptionHorMargin = 8
+        HoverOn = False
+        HoverStartColor = clBlack
+        HoverEndColor = 4605517
+        HoverFontColor = clSilver
+        FocusFrameWidth = 2
+        PressedStartColor = clBlack
+        PressedEndColor = 4605517
+        FocusColor = clWhite
+        FocusFrameOn = False
+        ForegroundFocusOn = True
+        AllowsUp = True
+        GroupIndex = 1
+        ShowTurnedOn = True
+        MultiButton_StyleManager = MultiButtonStyleManager1
+        TabOrder = 1
+      end
+      object MultiButton_50: TMultiButton
+        Left = 16
+        Height = 40
+        Top = 104
+        Width = 150
+        Style = mbsRect
+        ColorStart = 4605517
+        ColorEnd = 6908272
+        ColorGradient = gcHorizontal
+        MessageButton.Style = mbsRect
+        MessageButton.ColorStart = clSilver
+        MessageButton.ColorGradient = gcHorizontal
+        MessageButton.ShowPressed = False
+        MessageButton.PressedColor = clLime
+        MessageButton.ImageLeft = 0
+        MessageButton.ImageTop = 0
+        MessageButton.Visible = True
+        MessageButton.Alignment = alRightIn
+        MessageButton.HoverOn = False
+        Caption = '50 μS'
+        Font.Color = clSilver
+        CaptionAlignment = taLeftJustify
+        CaptionHorMargin = 8
+        HoverOn = False
+        HoverStartColor = clBlack
+        HoverEndColor = 4605517
+        HoverFontColor = clSilver
+        FocusFrameWidth = 2
+        PressedStartColor = clBlack
+        PressedEndColor = 4605517
+        FocusColor = clWhite
+        FocusFrameOn = False
+        ForegroundFocusOn = True
+        AllowsUp = True
+        GroupIndex = 1
+        ShowTurnedOn = True
+        MultiButton_StyleManager = MultiButtonStyleManager1
+        TabOrder = 2
+      end
+      object MultiButton_70: TMultiButton
+        Left = 16
+        Height = 40
+        Top = 144
+        Width = 150
+        Style = mbsRect
+        ColorStart = 4605517
+        ColorEnd = 6908272
+        ColorGradient = gcHorizontal
+        MessageButton.Style = mbsRect
+        MessageButton.ColorStart = clSilver
+        MessageButton.ColorGradient = gcHorizontal
+        MessageButton.ShowPressed = False
+        MessageButton.PressedColor = clLime
+        MessageButton.ImageLeft = 0
+        MessageButton.ImageTop = 0
+        MessageButton.Visible = True
+        MessageButton.Alignment = alRightIn
+        MessageButton.HoverOn = False
+        Caption = '70 μS'
+        Font.Color = clSilver
+        CaptionAlignment = taLeftJustify
+        CaptionHorMargin = 8
+        HoverOn = False
+        HoverStartColor = clBlack
+        HoverEndColor = 4605517
+        HoverFontColor = clSilver
+        FocusFrameWidth = 2
+        PressedStartColor = clBlack
+        PressedEndColor = 4605517
+        FocusColor = clWhite
+        FocusFrameOn = False
+        ForegroundFocusOn = True
+        AllowsUp = True
+        GroupIndex = 1
+        ShowTurnedOn = True
+        MultiButton_StyleManager = MultiButtonStyleManager1
+        TabOrder = 3
+      end
+    end
+    object MultiPanel_Audio: TMultiPanel
+      Left = 16
+      Height = 165
+      Top = 32
+      Width = 184
+      ColorStart = 3289650
+      ColorEnd = 3289650
+      ColorGradient = gcAlternate
+      BorderSettings.OuterColor = 14149079
+      BorderSettings.InnerColor = 14149079
+      BorderSettings.InnerWidth = 2
+      BorderSettings.Between = 10
+      Caption = ' Audio input: '
+      Font.Color = clWhite
+      CaptionAlignment = taLeftJustify
+      CaptionLayout = tlTop
+      CaptionHorMargin = 15
+      CaptionVerMargin = 1
+      StrPolygon = (
+        '50'
+        '2'
+        '98'
+        '98'
+        '2'
+        '98'
+        '50'
+        '2'
+      )
+      object MultiButton_Mono: TMultiButton
+        Left = 16
+        Height = 40
+        Top = 24
+        Width = 150
+        Style = mbsRect
+        ColorStart = 4605517
+        ColorEnd = 6908272
+        ColorGradient = gcHorizontal
+        MessageButton.Style = mbsRect
+        MessageButton.ColorStart = clSilver
+        MessageButton.ColorGradient = gcHorizontal
+        MessageButton.ShowPressed = False
+        MessageButton.PressedColor = clLime
+        MessageButton.ImageLeft = 0
+        MessageButton.ImageTop = 0
+        MessageButton.Visible = True
+        MessageButton.Alignment = alRightIn
+        MessageButton.HoverOn = False
+        Caption = 'Mono'
+        Font.Color = clSilver
+        CaptionAlignment = taLeftJustify
+        CaptionHorMargin = 8
+        HoverOn = False
+        HoverStartColor = clBlack
+        HoverEndColor = 4605517
+        HoverFontColor = clSilver
+        FocusFrameWidth = 2
+        PressedStartColor = clBlack
+        PressedEndColor = 4605517
+        FocusColor = clWhite
+        FocusFrameOn = False
+        ForegroundFocusOn = True
+        AllowsUp = True
+        GroupIndex = 2
+        ShowTurnedOn = True
+        MultiButton_StyleManager = MultiButtonStyleManager1
+        TabOrder = 0
+      end
+      object MultiButton_Stereo: TMultiButton
+        Left = 16
+        Height = 40
+        Top = 64
+        Width = 150
+        Style = mbsRect
+        ColorStart = 4605517
+        ColorEnd = 6908272
+        ColorGradient = gcHorizontal
+        MessageButton.Style = mbsRect
+        MessageButton.ColorStart = clSilver
+        MessageButton.ColorGradient = gcHorizontal
+        MessageButton.ShowPressed = False
+        MessageButton.PressedColor = clLime
+        MessageButton.ImageLeft = 0
+        MessageButton.ImageTop = 0
+        MessageButton.Visible = True
+        MessageButton.Alignment = alRightIn
+        MessageButton.HoverOn = False
+        Caption = 'Stereo'
+        Font.Color = clSilver
+        CaptionAlignment = taLeftJustify
+        CaptionHorMargin = 8
+        HoverOn = False
+        HoverStartColor = clBlack
+        HoverEndColor = 4605517
+        HoverFontColor = clSilver
+        FocusFrameWidth = 2
+        PressedStartColor = clBlack
+        PressedEndColor = 4605517
+        FocusColor = clWhite
+        FocusFrameOn = False
+        ForegroundFocusOn = True
+        Down = True
+        AllowsUp = True
+        GroupIndex = 2
+        ShowTurnedOn = True
+        MultiButton_StyleManager = MultiButtonStyleManager1
+        TabOrder = 1
+      end
+      object MultiButton_MPX: TMultiButton
+        Left = 16
+        Height = 40
+        Top = 104
+        Width = 150
+        Style = mbsRect
+        ColorStart = 4605517
+        ColorEnd = 6908272
+        ColorGradient = gcHorizontal
+        MessageButton.Style = mbsRect
+        MessageButton.ColorStart = clSilver
+        MessageButton.ColorGradient = gcHorizontal
+        MessageButton.ShowPressed = False
+        MessageButton.PressedColor = clLime
+        MessageButton.ImageLeft = 0
+        MessageButton.ImageTop = 0
+        MessageButton.Visible = True
+        MessageButton.Alignment = alRightIn
+        MessageButton.HoverOn = False
+        Caption = 'MPX'
+        Font.Color = clSilver
+        CaptionAlignment = taLeftJustify
+        CaptionHorMargin = 8
+        HoverOn = False
+        HoverStartColor = clBlack
+        HoverEndColor = 4605517
+        HoverFontColor = clSilver
+        FocusFrameWidth = 2
+        PressedStartColor = clBlack
+        PressedEndColor = 4605517
+        FocusColor = clWhite
+        FocusFrameOn = False
+        ForegroundFocusOn = True
+        AllowsUp = True
+        GroupIndex = 2
+        ShowTurnedOn = True
+        MultiButton_StyleManager = MultiButtonStyleManager1
+        TabOrder = 2
+      end
+    end
+  end
+  object MultiButtonStyleManager1: TMultiButtonStyleManager
+    Style = mbsRect
+    Width = 150
+    Height = 40
+    FocusFrameON = False
+    ForegroundFocusOn = True
+    FocusFrameWidth = 2
+    HoverOn = False
+    ColorGradient = gcHorizontal
+    ColorStart = 4605517
+    ColorEnd = 6908272
+    HoverStartColor = clBlack
+    HoverEndColor = 4605517
+    HoverFontColor = clSilver
+    Font.Color = clSilver
+    FocusColor = clWhite
+    PressedStartColor = clBlack
+    PressedEndColor = 4605517
+    CaptionAlignment = taLeftJustify
+    CaptionHorMargin = 8
+    MessageButtonVisible = True
+    MessageButtonStyle = mbsRect
+    MessageButtonAlignment = alRightIn
+    MessageButtonHoverOn = False
+    MessageButtonShowPressed = False
+    MessageButtonColorGradient = gcHorizontal
+    MessageButtonColorStart = clSilver
+    MessageButtonPressedColor = clLime
+    OffSetHeight = True
+    Left = 208
+    Top = 400
+  end
+end
