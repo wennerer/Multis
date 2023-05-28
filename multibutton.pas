@@ -1,6 +1,6 @@
 { <A button with an integrated button>
-  <Version 1.2.7.7>
-  Copyright (C) <12.03.2023> <Bernd Hübner>
+  <Version 1.2.7.8>
+  Copyright (C) <28.05.2023> <Bernd Hübner>
   Many thanks to the members of the German Lazarus Forum!
   wp_xyz helped me jump over many hurdles!
   For some improvements see https://www.lazarusforum.de/viewtopic.php?f=29&t=13252
@@ -119,6 +119,7 @@ type
      FRRRadius    : integer;
      FShowBorder  : boolean;
      FShowPressed: boolean;
+     FShowTurnedOn: boolean;
      FStyle       : TMButtonStyle;
      FFont        : TFont;
      FMessageButtonFontColor : TColor;
@@ -304,6 +305,7 @@ type
     FPressedStCol     : TColor;
     FShowBorder       : boolean;
     FShowMsgButtonInGroup: boolean;
+    FShowTurnedOn: boolean;
     FStyle            : TMButtonStyle;
     FBWidth           : integer;
     FBHeight          : integer;
@@ -355,6 +357,7 @@ type
    function  GetStyleManager: TMultiButtonStyleManager;
    procedure ImagesChanged({%H-}Sender: TObject);
    procedure SetForegroundFocusOn(AValue: boolean);
+   procedure SetShowTurnedOn(AValue: boolean);
 
    procedure StyleManagerChanged(Sender: TObject);
    procedure SetAllowsUp(AValue: boolean);
@@ -579,6 +582,9 @@ type
    //Shows the message button on the MultiButton in a group
    //Zeigt den Message Button auf einem MultiButton in einer Gruppe
    property ShowMsgButtonInGroup : boolean read FShowMsgButtonInGroup write SetShowMsgButtonInGroup default false;
+   //Makes a visible MessageButton coloured when the button is down
+   //Macht einen sichtbaren MessageButton farbig wenn der Button gedrückt ist (Down)
+   property ShowTurnedOn : boolean read FShowTurnedOn write SetShowTurnedOn default false;
    //When True, the Hint text is shown when the mouse hovers over the control
    //Wenn True, wird der Hinweistext angezeigt, wenn sich die Maus über dem Steuerelement befindet
    property ShowHint;
@@ -1612,6 +1618,14 @@ begin
   Invalidate;
 end;
 
+
+procedure TMultiButton.SetShowTurnedOn(AValue: boolean);
+begin
+  if FShowTurnedOn=AValue then Exit;
+  FShowTurnedOn:=AValue;
+  Invalidate;
+end;
+
 procedure TMultiButton.SetImageList(AValue: TCustomImageList);
 begin
   if FImageList = AValue then Exit;
@@ -2226,7 +2240,6 @@ begin
 end;
 
 
-
 //xxxxxxxxxxxxxxxxxxxxxxx  Drawing xxxxxxxxxxxxxxxxxxxxxxxxxx
 
 procedure TMultiButton.CalculateDimensions;
@@ -2767,8 +2780,9 @@ if ((HoverOn=true) and (Hover=true)) then
 
      if pressed and FShowPressed  then
       self.canvas.Draw(Hotspot.Left,Hotspot.Top,MessagePressedBmp);
-
-   end;
+    end;//with MessageButton
+   if ShowTurnedOn and Down then
+    canvas.Draw(MessageButton.Hotspot.Left,MessageButton.Hotspot.Top,MessagePressedBmp);
  end;
 
  //Enable
