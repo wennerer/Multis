@@ -79,6 +79,8 @@ type
      FHeight                : integer;
      FHorizCorrection       : integer;
      FInfoBoxPosition       : TInfoBoxPosition;
+     FDownUp                : boolean;
+     FUpDown                : boolean;
      FRRRadius              : integer;
      FStyle                 : TInfoBoxStyle;
      FVertCorrection        : integer;
@@ -140,6 +142,7 @@ type
    protected
     procedure CreateWindow;
     procedure ButtonsOnClick(Sender : TObject);
+    procedure UpDown(Sender : TObject);
     procedure AdjustColorBox(aColor: TColor; aIndex: integer);
     procedure ColorBoxOnChange(Sender: TObject);
     procedure SpinEditOnChange(Sender: TObject);
@@ -159,20 +162,23 @@ type
 
   TInfoBox = class(TPersistent)
    private
-     FBorderColor: TColor;
-     FBorderWidth: integer;
+     FBorderColor        : TColor;
+     FBorderWidth        : integer;
      FCapLeft            : integer;
      FCaptionWordbreak   : boolean;
      FCapTop             : integer;
-     FColor: TColor;
-     FFont: TFont;
+     FColor              : TColor;
+     FFont               : TFont;
      FHeight             : integer;
      FHorizCorrection    : integer;
      FInfoBoxPosition    : TInfoBoxPosition;
+     FDownUp             : boolean;
+     FUpDown             : boolean;
+     FPositionCanged     : boolean;
      FOwner              : TMultiEvent;
      FCaption            : TCaption;
-     FRRRadius: integer;
-     FStyle: TInfoBoxStyle;
+     FRRRadius           : integer;
+     FStyle              : TInfoBoxStyle;
      FTextStyle          : TTextStyle;
      FVertCorrection     : integer;
      FWidth              : integer;
@@ -448,8 +454,9 @@ type
    FLine                : TLine;
    FSetAll              : TSetAll;
 
-
+   procedure CalculateHeight;
    procedure CalculateTheLine;
+   procedure downup;
    procedure DrawEventBgrd(lv: integer);
    procedure DrawTheLine;
    procedure DrawNotEnabled;
@@ -463,6 +470,7 @@ type
 
    procedure SetLine(AValue: TLine);
    procedure SetSetAll(AValue: TSetAll);
+   procedure updown;
   protected
    function CreateEvents: TMultiEventCollection;
    function GetEvent: TMultiEventCollection;
@@ -846,6 +854,28 @@ begin
  Invalidate;
 end;
 
+procedure TMultiEventLine.downup;
+var lv : integer;
+begin
+ FEventCollection.Items[0].FInfoBox.Position := ibBottom;
+ for lv:= 1 to pred(FEventCollection.Count) do
+  begin
+   if odd(lv) then FEventCollection.Items[lv].FInfoBox.Position := ibTop
+   else FEventCollection.Items[lv].FInfoBox.Position := ibBottom;
+  end;
+end;
+
+procedure TMultiEventLine.updown;
+var lv : integer;
+begin
+ FEventCollection.Items[0].FInfoBox.Position := ibTop;
+ for lv:= 1 to pred(FEventCollection.Count) do
+  begin
+   if odd(lv) then FEventCollection.Items[lv].FInfoBox.Position := ibBottom
+   else FEventCollection.Items[lv].FInfoBox.Position := ibTop;
+  end;
+end;
+
 procedure TMultiEventLine.SetSetAll(AValue: TSetAll);
 var lv : integer;
 begin
@@ -887,6 +917,8 @@ begin
     FEventCollection.Items[lv].FInfoBox.VertCorrection   := AValue.FInfoBox.FVertCorrection;
     FEventCollection.Items[lv].FInfoBox.Width            := AValue.FInfoBox.FWidth;
    end;
+   if AValue.FInfoBox.FDownUp then downup;
+   if AValue.FInfoBox.FUpDown then updown;
   Invalidate;
 end;
 
@@ -1079,6 +1111,39 @@ begin
   end;
 end;
 
+procedure TMultiEventLine.CalculateHeight;
+var lv,Hmin,IBmax         : integer;
+    atop,abottom,achanged : boolean;
+begin
+ aTop := false; aBottom := false;achanged := false;IBmax := 0;
+ for lv:= 0 to pred(FEventCollection.Count) do
+  begin
+   if FEventCollection.Items[lv].FInfoBox.FPositionCanged then achanged := true;
+   FEventCollection.Items[lv].FInfoBox.FPositionCanged := false;
+   if FEventCollection.Items[lv].FInfoBox.FInfoBoxPosition = ibTop    then aTop   :=true;
+   if FEventCollection.Items[lv].FInfoBox.FInfoBoxPosition = ibBottom then aBottom:=true;
+   if FEventCollection.Items[lv].FInfoBox.Height > IBmax then
+    IBmax := FEventCollection.Items[lv].FInfoBox.Height;
+  end;
+ if not achanged then exit;
+ if aTop or aBottom then
+  begin
+   Hmin := 30;
+   if aTop    then Hmin := Hmin + IBmax + 5;
+   if aBottom then Hmin := Hmin + IBmax + 5;
+
+   Constraints.MinHeight:= Hmin;
+   if aTop and not aBottom then
+    FLine.FVertMargin := IBmax +17 ;
+   if aBottom and not aTop then
+    FLine.FVertMargin := 14;
+   if aTop and aBottom then
+    FLine.FVertMargin := Hmin div 2;
+  end;
+
+
+end;
+
 procedure TMultiEventLine.CalculateTheLine;
 begin
  FLine.FWidth := Width - (2 * FLine.FHorizontalMargin);
@@ -1145,6 +1210,8 @@ var bkBmp        : TBitmap;
     Dest         : TBitmap;
 
 begin
+ CalculateHeight;
+
  CalculateTheLine;
 
  bkBmp := TBitmap.Create;

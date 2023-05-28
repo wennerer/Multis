@@ -8,6 +8,7 @@ object Form1: TForm1
   ClientWidth = 1035
   object MultiPanel1: TMultiPanel
     Left = 0
+    Height = 300
     Top = 0
     Width = 1035
     Align = alTop
@@ -21,68 +22,75 @@ object Form1: TForm1
       '50'
       '2'
     )
+    object MultiButton1: TMultiButton
+      Left = 51
+      Height = 25
+      Top = 151
+      Width = 150
+      Style = mbsRect
+      MessageButton.Style = mbsRect
+      MessageButton.Caption = 'Up/Down'
+      MessageButton.ImageLeft = 0
+      MessageButton.ImageTop = 0
+      MessageButton.Visible = True
+      MessageButton.Width = 80
+      MessageButton.Alignment = alRightIn
+      Caption = 'Position'
+      CaptionAlignment = taLeftJustify
+      CaptionHorMargin = 5
+      FocusFrameWidth = 0
+      FocusFrameOn = False
+      ForegroundFocusOn = True
+      TabOrder = 0
+    end
     object MultiEventLine1: TMultiEventLine
-      Left = 140
-      Height = 62
-      Top = 36
-      Width = 700
+      Left = 58
+      Height = 80
+      Top = 42
+      Width = 910
       Events = <      
         item
           Size = 15
-          Hover = True
           Left = 3
-          Top = 8
+          Top = 34
           Tag = 0
-          InfoBox.Position = ibBottom
-          InfoBox.Width = 72
-          InfoBox.VertCorrection = 10
+          InfoBox.Position = ibTop
         end      
         item
           Size = 15
-          Hover = True
-          Left = 173
-          Top = 8
+          Left = 225
+          Top = 34
           Tag = 1
           InfoBox.Position = ibBottom
-          InfoBox.Width = 72
-          InfoBox.VertCorrection = 10
         end      
         item
           Size = 15
-          Hover = True
-          Left = 343
-          Top = 8
+          Left = 447
+          Top = 34
           Tag = 2
-          InfoBox.Position = ibBottom
-          InfoBox.Width = 72
-          InfoBox.VertCorrection = 10
+          InfoBox.Position = ibTop
         end      
         item
           Size = 15
-          Hover = True
-          Left = 513
-          Top = 8
+          Left = 669
+          Top = 34
           Tag = 3
           InfoBox.Position = ibBottom
-          InfoBox.Width = 72
-          InfoBox.VertCorrection = 10
         end      
         item
           Size = 15
-          Hover = True
-          Left = 683
-          Top = 8
+          Left = 891
+          Top = 34
           Tag = 4
-          InfoBox.Position = ibBottom
-          InfoBox.Width = 72
-          InfoBox.VertCorrection = 10
+          InfoBox.Position = ibTop
         end>
-      LineSettings.Width = 680
+      LineSettings.Width = 890
       LineSettings.Height = 3
       LineSettings.HorizMargin = 10
-      LineSettings.VertMargin = 14
+      LineSettings.VertMargin = 40
       BorderWidth = 0
       Color = clForm
+      Constraints.MinHeight = 80
       FSetAll = (
         0
         1
@@ -99,7 +107,7 @@ object Form1: TForm1
         False
         False
         536870912
-        True
+        False
         -1
         'nil'
         5
@@ -124,11 +132,11 @@ object Form1: TForm1
         536870912
         20
         0
-        1
+        0
         5
         0
-        10
-        72
+        5
+        80
       )
     end
   end

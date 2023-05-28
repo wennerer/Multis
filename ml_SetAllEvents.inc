@@ -375,6 +375,15 @@ begin
     FInfoButtons[10].Caption      := 'Height';
     FInfoButtons[11].Caption      := 'HorizCorrection';
     FInfoButtons[12].Caption      := 'Position';
+    FInfoButtons[12].CaptionAlignment:= taLeftJustify;
+    FInfoButtons[12].CaptionHorMargin:= 5;
+    FInfoButtons[12].MessageButton.Visible   := true;
+    FInfoButtons[12].MessageButton.Style     := mbsRect;
+    FInfoButtons[12].MessageButton.Alignment := alRightIn;
+    FInfoButtons[12].MessageButton.Width     := 80;
+    FInfoButtons[12].MessageButton.Caption   := 'Up/Down';
+    FInfoButtons[12].MessageButton.OnClick   := @UpDown;
+
     FInfoButtons[13].Caption      := 'RndRctRadius';
     FInfoButtons[14].Caption      := 'Style';
     FInfoButtons[15].Caption      := 'VertCorrection';
@@ -671,6 +680,7 @@ begin
     1 : TmpSet.FInfoBox.FInfoBoxPosition := ibBottom;
     2 : TmpSet.FInfoBox.FInfoBoxPosition := ibNone;
    end;
+   TmpSet.FInfoBox.FUpDown:=false; TmpSet.FInfoBox.FDownUp:=false;
   end;
  if Sender = FInfoButtons[13] then
   begin
@@ -711,6 +721,14 @@ begin
     exit;
    end;
   SetPtrValue(TmpSet);
+end;
+
+procedure TPropertySetAllEvents.UpDown(Sender: TObject);
+begin
+ TmpSet.FInfoBox.FUpDown:=false; TmpSet.FInfoBox.FDownUp:=false;
+ if TmpSet.FInfoBox.FInfoBoxPosition = ibBottom then TmpSet.FInfoBox.FDownUp:= true;
+ if TmpSet.FInfoBox.FInfoBoxPosition = ibTop    then TmpSet.FInfoBox.FUpDown:= true;
+ SetPtrValue(TmpSet);
 end;
 
 procedure TPropertySetAllEvents.AdjustColorBox(aColor: TColor; aIndex: integer);
@@ -800,10 +818,13 @@ begin
  if Sender = FComboBox[3] then TmpSet.FInfoBox.FTextStyle_Alignment := TAlignment(FComboBox[3].ItemIndex);
  if Sender = FComboBox[4] then TmpSet.FInfoBox.FTextStyle_Layout    := TTextLayout(FComboBox[4].ItemIndex);
  if Sender = FComboBox[5] then
-  case FComboBox[5].ItemIndex of
-   0 : TmpSet.FInfoBox.FInfoBoxPosition := ibTop;
-   1 : TmpSet.FInfoBox.FInfoBoxPosition := ibBottom;
-   2 : TmpSet.FInfoBox.FInfoBoxPosition := ibNone;
+  begin
+   case FComboBox[5].ItemIndex of
+    0 : TmpSet.FInfoBox.FInfoBoxPosition := ibTop;
+    1 : TmpSet.FInfoBox.FInfoBoxPosition := ibBottom;
+    2 : TmpSet.FInfoBox.FInfoBoxPosition := ibNone;
+   end;
+   TmpSet.FInfoBox.FUpDown:=false; TmpSet.FInfoBox.FDownUp:=false;
   end;
  if Sender = FComboBox[6] then TmpSet.FInfoBox.FStyle    := TInfoBoxStyle(FComboBox[6].ItemIndex);
 

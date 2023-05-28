@@ -24,6 +24,7 @@ begin
  FStyle               := ibsRectangle;
  FRRRadius            := 5;
  FFont                := TFont.Create;
+ FPositionCanged      := false;
 end;
 
 destructor TInfoBox.Destroy;
@@ -115,6 +116,7 @@ procedure TInfoBox.SetInfoBoxPosition(AValue: TInfoBoxPosition);
 begin
   if FInfoBoxPosition=AValue then Exit;
   FInfoBoxPosition:=AValue;
+  FPositionCanged := true;
 end;
 
 procedure TInfoBox.SetLayout(AValue: TTextLayout);
