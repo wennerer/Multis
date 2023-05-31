@@ -2,10 +2,10 @@ object Form1: TForm1
   Left = 457
   Height = 435
   Top = 250
-  Width = 371
+  Width = 216
   Caption = 'USB Audio Interface'
   ClientHeight = 435
-  ClientWidth = 371
+  ClientWidth = 216
   Color = 2631720
   object MultiPanel_Settings: TMultiPanel
     AnchorSideLeft.Control = Owner
