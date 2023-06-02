@@ -1,0 +1,384 @@
+object MainForm: TMainForm
+  Left = 150
+  Height = 600
+  Top = 250
+  Width = 1000
+  Caption = 'Test the MultiEventline'
+  ClientHeight = 600
+  ClientWidth = 1000
+  Color = clWhite
+  OnCreate = FormCreate
+  object MultiPanel1: TMultiPanel
+    Left = 0
+    Height = 184
+    Top = 0
+    Width = 1000
+    ColorStart = clMoneyGreen
+    ColorEnd = clSkyBlue
+    ColorGradient = gcAlternate
+    Align = alTop
+    StrPolygon = (
+      '50'
+      '2'
+      '98'
+      '98'
+      '2'
+      '98'
+      '50'
+      '2'
+    )
+    object MultiButton1: TMultiButton
+      AnchorSideLeft.Control = MultiPanel1
+      AnchorSideTop.Control = MultiPanel1
+      AnchorSideBottom.Control = MultiPanel1
+      AnchorSideBottom.Side = asrBottom
+      Left = 6
+      Height = 109
+      Top = 6
+      Width = 110
+      ImageIndex = 0
+      Images = ImageList1
+      ImageLeft = 30
+      ImageTop = 12
+      ColorStart = clMoneyGreen
+      ColorEnd = clSkyBlue
+      ColorGradient = gcAlternate
+      RndRctRadius = 1
+      MessageButton.Images = ImageList1
+      MessageButton.ImageLeft = 0
+      MessageButton.ImageTop = 0
+      Caption = 'Line'
+      Font.Color = clMaroon
+      Font.Height = -13
+      Font.Name = 'Sans'
+      Font.Style = [fsBold]
+      CaptionLayout = tlBottom
+      ShowBorder = True
+      BorderColor = clMaroon
+      HoverStartColor = 9600620
+      HoverEndColor = 11902601
+      HoverFontColor = clWhite
+      HoverImageIndex = 0
+      FocusFrameWidth = 0
+      PressedStartColor = 6576464
+      PressedEndColor = 9600620
+      PressedImageIndex = 0
+      FocusColor = clYellow
+      FocusFrameOn = False
+      ForegroundFocusOn = True
+      MultiButton_StyleManager = MultiButtonStyleManager1
+      BorderSpacing.Around = 5
+      TabOrder = 0
+    end
+    object MultiEventLine1: TMultiEventLine
+      AnchorSideLeft.Control = MultiPanel1
+      AnchorSideTop.Control = MultiButton1
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = MultiPanel1
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = MultiSeperator1
+      Left = 1
+      Height = 57
+      Top = 120
+      Width = 998
+      Events = <      
+        item
+          Size = 15
+          Left = 13
+          Top = 8
+          Tag = 0
+          InfoBox.Position = ibBottom
+          InfoBox.Width = 150
+        end      
+        item
+          Size = 15
+          Left = 492
+          Top = 8
+          Tag = 0
+          InfoBox.Position = ibBottom
+          InfoBox.Width = 150
+        end      
+        item
+          Size = 15
+          Left = 971
+          Top = 8
+          Tag = 0
+          InfoBox.Position = ibBottom
+          InfoBox.Width = 150
+        end>
+      LineSettings.Width = 958
+      LineSettings.Height = 3
+      LineSettings.HorizMargin = 20
+      LineSettings.VertMargin = 14
+      BorderColor = clNone
+      BorderWidth = 0
+      Color = clNone
+      Anchors = [akTop, akLeft, akRight, akBottom]
+      BorderSpacing.Top = 5
+      BorderSpacing.Bottom = 2
+      Constraints.MinHeight = 55
+      FSetAll = (
+        0
+        1
+        15793151
+        2
+        16777215
+        180
+        13816530
+        True
+        0
+        'default'
+        False
+        False
+        False
+        False
+        536870912
+        False
+        -1
+        'nil'
+        5
+        True
+        15
+        2
+        True
+        536870911
+        1
+        0
+        2
+        1
+        0
+        False
+        16777215
+        0
+        'default'
+        False
+        False
+        False
+        False
+        536870912
+        20
+        0
+        1
+        5
+        0
+        5
+        150
+      )
+    end
+    object MultiButton2: TMultiButton
+      AnchorSideLeft.Control = MultiButton1
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = MultiPanel1
+      Left = 131
+      Height = 109
+      Top = 6
+      Width = 110
+      ImageIndex = 1
+      Images = ImageList1
+      ImageLeft = 30
+      ImageTop = 12
+      ColorStart = clMoneyGreen
+      ColorEnd = clSkyBlue
+      ColorGradient = gcAlternate
+      RndRctRadius = 1
+      MessageButton.Images = ImageList1
+      MessageButton.ImageLeft = 0
+      MessageButton.ImageTop = 0
+      Caption = 'Rectangle'
+      Font.Color = clMaroon
+      Font.Height = -13
+      Font.Name = 'Sans'
+      Font.Style = [fsBold]
+      CaptionLayout = tlBottom
+      ShowBorder = True
+      BorderColor = clMaroon
+      HoverStartColor = 9600620
+      HoverEndColor = 11902601
+      HoverFontColor = clWhite
+      HoverImageIndex = 1
+      FocusFrameWidth = 0
+      PressedStartColor = 6576464
+      PressedEndColor = 9600620
+      PressedImageIndex = 1
+      FocusColor = clYellow
+      FocusFrameOn = False
+      ForegroundFocusOn = True
+      MultiButton_StyleManager = MultiButtonStyleManager1
+      BorderSpacing.Left = 10
+      BorderSpacing.Around = 5
+      TabOrder = 2
+    end
+    object MultiButton3: TMultiButton
+      AnchorSideLeft.Control = MultiButton2
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = MultiPanel1
+      Left = 256
+      Height = 109
+      Top = 6
+      Width = 110
+      ImageIndex = 2
+      Images = ImageList1
+      ImageLeft = 30
+      ImageTop = 12
+      ColorStart = clMoneyGreen
+      ColorEnd = clSkyBlue
+      ColorGradient = gcAlternate
+      RndRctRadius = 1
+      MessageButton.Images = ImageList1
+      MessageButton.ImageLeft = 0
+      MessageButton.ImageTop = 0
+      Caption = 'Polygon'
+      Font.Color = clMaroon
+      Font.Height = -13
+      Font.Name = 'Sans'
+      Font.Style = [fsBold]
+      CaptionLayout = tlBottom
+      ShowBorder = True
+      BorderColor = clMaroon
+      HoverStartColor = 9600620
+      HoverEndColor = 11902601
+      HoverFontColor = clWhite
+      HoverImageIndex = 2
+      FocusFrameWidth = 0
+      PressedStartColor = 6576464
+      PressedEndColor = 9600620
+      PressedImageIndex = 2
+      FocusColor = clYellow
+      FocusFrameOn = False
+      ForegroundFocusOn = True
+      MultiButton_StyleManager = MultiButtonStyleManager1
+      BorderSpacing.Left = 10
+      BorderSpacing.Around = 5
+      TabOrder = 3
+    end
+    object MultiPanel2: TMultiPanel
+      AnchorSideLeft.Control = MultiButton3
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = MultiPanel1
+      Left = 376
+      Height = 60
+      Top = 1
+      Width = 226
+      ColorStart = clMoneyGreen
+      ColorEnd = clSkyBlue
+      ColorGradient = gcAlternate
+      BorderSettings.InnerColor = clMaroon
+      BorderSettings.Between = 7
+      Caption = ' Pen Color: '
+      CaptionAlignment = taLeftJustify
+      CaptionLayout = tlTop
+      CaptionHorMargin = 20
+      BorderSpacing.Left = 10
+      StrPolygon = (
+        '50'
+        '2'
+        '98'
+        '98'
+        '2'
+        '98'
+        '50'
+        '2'
+      )
+      object ColorBox1: TColorBox
+        Left = 16
+        Height = 25
+        Top = 16
+        Width = 192
+        ItemHeight = 0
+        TabOrder = 0
+      end
+    end
+    object MultiPanel3: TMultiPanel
+      AnchorSideLeft.Control = MultiButton3
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = MultiPanel2
+      AnchorSideTop.Side = asrBottom
+      Left = 376
+      Height = 60
+      Top = 61
+      Width = 226
+      ColorStart = clMoneyGreen
+      ColorEnd = clSkyBlue
+      ColorGradient = gcAlternate
+      BorderSettings.InnerColor = clMaroon
+      BorderSettings.Between = 7
+      Caption = ' Brush Color: '
+      CaptionAlignment = taLeftJustify
+      CaptionLayout = tlTop
+      CaptionHorMargin = 20
+      BorderSpacing.Left = 10
+      StrPolygon = (
+        '50'
+        '2'
+        '98'
+        '98'
+        '2'
+        '98'
+        '50'
+        '2'
+      )
+      object ColorBox2: TColorBox
+        Left = 16
+        Height = 25
+        Top = 16
+        Width = 192
+        ItemHeight = 0
+        TabOrder = 0
+      end
+    end
+    object MultiSeperator1: TMultiSeperator
+      Left = 1
+      Height = 4
+      Top = 179
+      Width = 998
+      Orientation = mspHorizontal
+      ColorEnd = clMaroon
+      Align = alBottom
+    end
+  end
+  object MultiButtonStyleManager1: TMultiButtonStyleManager
+    Width = 110
+    Height = 109
+    RndRctRadius = 1
+    FocusFrameON = False
+    ForegroundFocusOn = True
+    FocusFrameWidth = 0
+    ShowBorder = True
+    ColorGradient = gcAlternate
+    ColorStart = clMoneyGreen
+    ColorEnd = clSkyBlue
+    BorderColor = clMaroon
+    HoverStartColor = 9600620
+    HoverEndColor = 11902601
+    HoverFontColor = clWhite
+    Font.Color = clMaroon
+    Font.Height = -13
+    Font.Name = 'Sans'
+    Font.Style = [fsBold]
+    FocusColor = clYellow
+    PressedStartColor = 6576464
+    PressedEndColor = 9600620
+    CaptionLayout = tlBottom
+    Left = 25
+    Top = 392
+  end
+  object ImageList1: TImageList
+    Height = 48
+    Scaled = True
+    Width = 48
+    Left = 152
+    Top = 392
+    Bitmap = {
+      4C7A030000003000000030000000140100000000000078DAEDDA311202310840
+      51EF7FE96869E3B8631602F88A3F76E6B3C40D12D65A8F0500000000C0151EAF
+      8F8EF0E7CFBFBF3F0000000000000000EEC13EF7CEF9F3E73FCFBFE23B913F7F
+      FEFCF9F3E7CF9F3F7FFEFCF9F3E7AF7FC29F3F7FB3F3000064D6EB13661026CC
+      4F4C99FF9830BB3261EE66CADC5075F72B715576BF9A9B0EBDA58AFBE9178F2A
+      31ECAC5F2117BBEB9E8CE1CEF5B263885827331791DF1F1D43468EA362C8FC8D
+      45ECA713EFB9BB623879D6ECC650E1ACDF89A1BA7F65F7CECFBDF3BEFF67F793
+      FE779D57956ADA88BAB643BD93114346CD7CE2D954CFF189FF8DD1B560877AB6
+      72DFE49B4787BED594DE6197DEEDCEBC4DE7DEBFBB23777753EF4FBBDF5FBFC7
+      6096020D780208098D83
+    }
+  end
+end

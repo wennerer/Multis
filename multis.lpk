@@ -20,13 +20,14 @@
 -TMultiLayer, a component provides a page that can also be made invisible at design time
 -TMultiRadioGroup, you can set the colours and show images
 -TMultiCheckGroup, you can set the colours and show images
+-TMultiEventLine, a line on which events (steps) are displayed
 - the unit PointIn
 -the unit custompen
 
 The help for the package can be called up via the menu item Help , Multis-Help."/>
     <License Value="modified LGPL-2"/>
-    <Version Major="1" Release="6" Build="2"/>
-    <Files Count="27">
+    <Version Major="1" Release="7" Build="1"/>
+    <Files Count="32">
       <Item1>
         <Filename Value="multibuttonstylemanager.pas"/>
         <HasRegisterProc Value="True"/>
@@ -144,6 +145,27 @@ The help for the package can be called up via the menu item Help , Multis-Help."
         <Filename Value="checkboxitem.inc"/>
         <Type Value="Include"/>
       </Item27>
+      <Item28>
+        <Filename Value="multieventline.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="MultiEventLine"/>
+      </Item28>
+      <Item29>
+        <Filename Value="eventcollection.inc"/>
+        <Type Value="Include"/>
+      </Item29>
+      <Item30>
+        <Filename Value="eventitem.inc"/>
+        <Type Value="Include"/>
+      </Item30>
+      <Item31>
+        <Filename Value="ml_infobox.inc"/>
+        <Type Value="Include"/>
+      </Item31>
+      <Item32>
+        <Filename Value="ml_SetAllEvents.inc"/>
+        <Type Value="Include"/>
+      </Item32>
     </Files>
     <CompatibilityMode Value="True"/>
     <i18n>
