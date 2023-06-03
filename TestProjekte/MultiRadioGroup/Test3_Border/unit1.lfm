@@ -1,11 +1,11 @@
 object Form1: TForm1
   Left = 457
-  Height = 380
+  Height = 227
   Top = 250
-  Width = 1003
+  Width = 667
   Caption = 'Form1'
-  ClientHeight = 380
-  ClientWidth = 1003
+  ClientHeight = 227
+  ClientWidth = 667
   object MultiRadioGroup1: TMultiRadioGroup
     Left = 24
     Height = 170
@@ -17,11 +17,22 @@ object Form1: TForm1
         Caption = 'Radiobutton 1'
         Selected = False
         DisplayName = 'MultiRadioButton'
+      end    
+      item
+        Caption = 'Das ist ein ganz langer Text mit Wordbreak'
+        Selected = False
+        CaptionWordbreak = True
+        DisplayName = 'MultiRadioButton'
+      end    
+      item
+        Caption = 'Radiobutton 3'
+        Selected = False
+        DisplayName = 'MultiRadioButton'
       end>
-    Rows = 1
+    Rows = 2
     BorderColor = clRed
     BorderWidth = 3
-    BorderMargin = 8
+    BorderMargin = 6
     CaptionLeft = 25
     TabOrder = 0
   end
@@ -36,8 +47,19 @@ object Form1: TForm1
         Caption = 'Checkbox 1'
         Selected = False
         DisplayName = 'TMultiCheckbox'
+      end    
+      item
+        Caption = 'Checkbox 2'
+        Selected = False
+        DisplayName = 'TMultiCheckbox'
+      end    
+      item
+        Caption = 'Das ist ein ganz langer Text mit Wordbreak'
+        Selected = False
+        CaptionWordbreak = True
+        DisplayName = 'TMultiCheckbox'
       end>
-    Rows = 1
+    Rows = 2
     BorderColor = clLime
     BorderMargin = 6
     CaptionLeft = 20

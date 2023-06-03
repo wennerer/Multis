@@ -1306,38 +1306,36 @@ end;
 function TMultiCheckGroup.CalculateTextRect(aCaptionHeight, aTRH, aSpace, alv: integer): TRect;
 begin
  if alv = 0 then
-  Result := rect(10+FocusFrameWidth +(aTRH-2),
+  Result := rect(5+FocusFrameWidth +(aTRH-2)+FBorderMargin+FBorderWidth,
                  aCaptionHeight+(aSpace*(alv+1))+(alv*aTRH)+FocusFrameWidth,
-                 Width-FocusFrameWidth,
+                 Width-FocusFrameWidth-FBorderMargin-FBorderWidth-1,
                  aCaptionHeight+(aSpace*(alv+1))+aTRH+(alv*aTRH)+FocusFrameWidth)
  else
-  Result := rect(10+FocusFrameWidth +(aTRH-2),
+  Result := rect(5+FocusFrameWidth +(aTRH-2)+FBorderMargin+FBorderWidth,
                  Checkboxes.Items[alv-1].FHotspot.Bottom+aSpace,
-                 Width-FocusFrameWidth,
+                 Width-FocusFrameWidth-FBorderMargin-FBorderWidth-1,
                  Checkboxes.Items[alv-1].FHotspot.Bottom+aSpace+aTRH);
-
 
 end;
 
 function TMultiCheckGroup.CalculateTextRectWithWordbreak(aCaptionHeight, aTRH, aSpace, alv,aRow: integer): TRect;
 begin
  if alv = 0 then
-  Result := rect(10+FocusFrameWidth +((aTRH div aRow)-2),
-                 aCaptionHeight+(aSpace*(alv+1))+(alv*aTRH)+FocusFrameWidth,
-                 Width-FocusFrameWidth,
-                 aCaptionHeight+(aSpace*(alv+1))+aTRH+(alv*aTRH)+FocusFrameWidth)
- else
-  Result := rect(10+FocusFrameWidth +((aTRH div aRow)-2),
-                 Checkboxes.Items[alv-1].FHotspot.Bottom+aSpace,
-                 Width-FocusFrameWidth,
-                 Checkboxes.Items[alv-1].FHotspot.Bottom+aSpace+aTRH);
-
+   Result := rect(5+FocusFrameWidth +((aTRH div aRow)-2)+FBorderMargin+FBorderWidth,
+                  aCaptionHeight+(aSpace*(alv+1))+(alv*aTRH)+FocusFrameWidth,
+                  Width-FocusFrameWidth-FBorderMargin-FBorderWidth-1,
+                  aCaptionHeight+(aSpace*(alv+1))+aTRH+(alv*aTRH)+FocusFrameWidth)
+  else
+   Result := rect(5+FocusFrameWidth +((aTRH div aRow)-2)+FBorderMargin+FBorderWidth,
+                  Checkboxes.Items[alv-1].FHotspot.Bottom+aSpace,
+                  Width-FocusFrameWidth-FBorderMargin-FBorderWidth-1,
+                  Checkboxes.Items[alv-1].FHotspot.Bottom+aSpace+aTRH);
 end;
 
-function TMultiCheckGroup.CalculateButtonRect(aTeRect: TRect; aTRH: integer
-  ): TRect;
+function TMultiCheckGroup.CalculateButtonRect(aTeRect: TRect; aTRH: integer): TRect;
 begin
- Result := rect(10+FocusFrameWidth,aTeRect.Top+2,10+FocusFrameWidth+(aTRH-4),aTeRect.Bottom-2);
+ Result := rect(5+FocusFrameWidth+FBorderMargin+FBorderWidth,aTeRect.Top+2,
+                5+FocusFrameWidth+(aTRH-4)+FBorderMargin+FBorderWidth,aTeRect.Bottom-2);
 end;
 
 function TMultiCheckGroup.CalculateSelectedRect(aButRect: TRect; aTRH: integer
@@ -1349,7 +1347,7 @@ end;
 
 function TMultiCheckGroup.CalculateHotspot(aTeRect: TRect): TRect;
 begin
-  Result := rect(FocusFrameWidth,aTeRect.Top,aTeRect.Right,aTeRect.Bottom);
+  Result := rect(1+FocusFrameWidth+FBorderMargin+FBorderWidth,aTeRect.Top,aTeRect.Right,aTeRect.Bottom);
 end;
 
 
@@ -1592,6 +1590,7 @@ begin
   mssRoundRect : Canvas.RoundRect(aRect,FRRRadius,FRRRadius);
   mssRect      : Canvas.Rectangle(aRect);
  end;
+ Canvas.Pen.Width   := 1;
 end;
 
 procedure TMultiCheckGroup.DrawForegroundFocus;

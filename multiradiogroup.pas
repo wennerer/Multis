@@ -1352,14 +1352,14 @@ end;
 function TMultiRadioGroup.CalculateTextRect(aCaptionHeight, aTRH, aSpace, alv: integer): TRect;
 begin
  if alv = 0 then
-  Result := rect(10+FocusFrameWidth +(aTRH-2),
+  Result := rect(5+FocusFrameWidth +(aTRH-2)+FBorderMargin+FBorderWidth,
                  aCaptionHeight+(aSpace*(alv+1))+(alv*aTRH)+FocusFrameWidth,
-                 Width-FocusFrameWidth,
+                 Width-FocusFrameWidth-FBorderMargin-FBorderWidth-1,
                  aCaptionHeight+(aSpace*(alv+1))+aTRH+(alv*aTRH)+FocusFrameWidth)
  else
-  Result := rect(10+FocusFrameWidth +(aTRH-2),
+  Result := rect(5+FocusFrameWidth +(aTRH-2)+FBorderMargin+FBorderWidth,
                  RadioButtons.Items[alv-1].FHotspot.Bottom+aSpace,
-                 Width-FocusFrameWidth,
+                 Width-FocusFrameWidth-FBorderMargin-FBorderWidth-1,
                  RadioButtons.Items[alv-1].FHotspot.Bottom+aSpace+aTRH);
 
 
@@ -1368,14 +1368,14 @@ end;
 function TMultiRadioGroup.CalculateTextRectWithWordbreak(aCaptionHeight, aTRH, aSpace, alv,aRow: integer): TRect;
 begin
  if alv = 0 then
-  Result := rect(10+FocusFrameWidth +((aTRH div aRow)-2),
+  Result := rect(5+FocusFrameWidth +((aTRH div aRow)-2)+FBorderMargin+FBorderWidth,
                  aCaptionHeight+(aSpace*(alv+1))+(alv*aTRH)+FocusFrameWidth,
-                 Width-FocusFrameWidth,
+                 Width-FocusFrameWidth-FBorderMargin-FBorderWidth-1,
                  aCaptionHeight+(aSpace*(alv+1))+aTRH+(alv*aTRH)+FocusFrameWidth)
  else
-  Result := rect(10+FocusFrameWidth +((aTRH div aRow)-2),
+  Result := rect(5+FocusFrameWidth +((aTRH div aRow)-2)+FBorderMargin+FBorderWidth,
                  RadioButtons.Items[alv-1].FHotspot.Bottom+aSpace,
-                 Width-FocusFrameWidth,
+                 Width-FocusFrameWidth-FBorderMargin-FBorderWidth-1,
                  RadioButtons.Items[alv-1].FHotspot.Bottom+aSpace+aTRH);
 
 end;
@@ -1383,7 +1383,8 @@ end;
 function TMultiRadioGroup.CalculateButtonRect(aTeRect: TRect; aTRH: integer
   ): TRect;
 begin
- Result := rect(10+FocusFrameWidth,aTeRect.Top+2,10+FocusFrameWidth+(aTRH-4),aTeRect.Bottom-2);
+ Result := rect(5+FocusFrameWidth+FBorderMargin+FBorderWidth,aTeRect.Top+2,
+                5+FocusFrameWidth+(aTRH-4)+FBorderMargin+FBorderWidth,aTeRect.Bottom-2);
 end;
 
 function TMultiRadioGroup.CalculateSelectedRect(aButRect: TRect; aTRH: integer
@@ -1395,7 +1396,7 @@ end;
 
 function TMultiRadioGroup.CalculateHotspot(aTeRect: TRect): TRect;
 begin
-  Result := rect(FocusFrameWidth,aTeRect.Top,aTeRect.Right,aTeRect.Bottom);
+  Result := rect(1+FocusFrameWidth+FBorderMargin+FBorderWidth,aTeRect.Top,aTeRect.Right,aTeRect.Bottom);
 end;
 
 
@@ -1583,6 +1584,7 @@ begin
   mssRoundRect : Canvas.RoundRect(aRect,FRRRadius,FRRRadius);
   mssRect      : Canvas.Rectangle(aRect);
  end;
+ Canvas.Pen.Width   := 1;
 end;
 
 procedure TMultiRadioGroup.DrawForegroundFocus;
