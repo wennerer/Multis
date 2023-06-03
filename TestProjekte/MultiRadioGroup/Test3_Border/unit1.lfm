@@ -11,7 +11,7 @@ object Form1: TForm1
     Height = 170
     Top = 24
     Width = 274
-    Caption = 'MultiRadioGroup'
+    Caption = ' MultiRadioGroup '
     RadioButtons = <    
       item
         Caption = 'Radiobutton 1'
@@ -22,6 +22,7 @@ object Form1: TForm1
     BorderColor = clRed
     BorderWidth = 3
     BorderMargin = 8
+    CaptionLeft = 25
     TabOrder = 0
   end
   object MultiCheckGroup1: TMultiCheckGroup
@@ -29,6 +30,7 @@ object Form1: TForm1
     Height = 170
     Top = 24
     Width = 264
+    Caption = ' RadioCheckbox '
     Checkboxes = <    
       item
         Caption = 'Checkbox 1'
@@ -36,6 +38,9 @@ object Form1: TForm1
         DisplayName = 'TMultiCheckbox'
       end>
     Rows = 1
+    BorderColor = clLime
+    BorderMargin = 6
+    CaptionLeft = 20
     TabOrder = 1
   end
 end

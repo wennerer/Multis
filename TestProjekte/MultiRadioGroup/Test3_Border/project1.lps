@@ -20,6 +20,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
+        <IsVisibleTab Value="True"/>
         <UsageCount Value="34"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -27,45 +28,37 @@
       <Unit>
         <Filename Value="../../../multiradiogroup.pas"/>
         <UnitName Value="MultiRadioGroup"/>
-        <EditorIndex Value="2"/>
-        <TopLine Value="1611"/>
-        <CursorPos X="44" Y="1623"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="1652"/>
+        <CursorPos X="2" Y="1670"/>
         <UsageCount Value="17"/>
-        <Bookmarks Count="5">
-          <Item0 X="72" Y="450"/>
-          <Item1 X="21" Y="1033" ID="1"/>
-          <Item2 X="35" Y="540" ID="2"/>
-          <Item3 X="23" Y="1547" ID="3"/>
-          <Item4 X="2" Y="1625" ID="4"/>
+        <Bookmarks Count="4">
+          <Item0 X="20" Y="464"/>
+          <Item1 X="2" Y="1661" ID="1"/>
+          <Item2 X="24" Y="1602" ID="2"/>
+          <Item3 X="17" Y="554" ID="3"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="../../../multicheckgroup.pas"/>
         <UnitName Value="MultiCheckGroup"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="1"/>
-        <TopLine Value="1614"/>
-        <CursorPos X="44" Y="1631"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="1658"/>
+        <CursorPos X="35" Y="1675"/>
         <UsageCount Value="17"/>
         <Loaded Value="True"/>
       </Unit>
+      <Unit>
+        <Filename Value="../../../multipanel.pas"/>
+        <UnitName Value="MultiPanel"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="2042"/>
+        <CursorPos X="82" Y="2054"/>
+        <UsageCount Value="10"/>
+      </Unit>
     </Units>
-    <JumpHistory HistoryIndex="26">
-      <Position>
-        <Filename Value="unit1.pas"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multiradiogroup.pas"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multiradiogroup.pas"/>
-        <Caret Line="443" Column="55" TopLine="421"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multiradiogroup.pas"/>
-        <Caret Line="445" Column="63" TopLine="433"/>
-      </Position>
+    <JumpHistory HistoryIndex="28">
       <Position>
         <Filename Value="../../../multiradiogroup.pas"/>
         <Caret Line="450" Column="62" TopLine="439"/>
@@ -130,10 +123,6 @@
       </Position>
       <Position>
         <Filename Value="../../../multiradiogroup.pas"/>
-        <Caret Line="1550" Column="46" TopLine="1608"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multiradiogroup.pas"/>
         <Caret Line="1623" Column="33" TopLine="1609"/>
       </Position>
       <Position>
@@ -155,6 +144,34 @@
       <Position>
         <Filename Value="../../../multiradiogroup.pas"/>
         <Caret Line="1554" Column="26" TopLine="1540"/>
+      </Position>
+      <Position>
+        <Filename Value="../../../multiradiogroup.pas"/>
+        <Caret Line="123" Column="70" TopLine="110"/>
+      </Position>
+      <Position>
+        <Filename Value="../../../multiradiogroup.pas"/>
+        <Caret Line="463" Column="45" TopLine="452"/>
+      </Position>
+      <Position>
+        <Filename Value="../../../multiradiogroup.pas"/>
+        <Caret Line="1605" Column="74" TopLine="1592"/>
+      </Position>
+      <Position>
+        <Filename Value="../../../multiradiogroup.pas"/>
+        <Caret Line="11" Column="47"/>
+      </Position>
+      <Position>
+        <Filename Value="../../../multicheckgroup.pas"/>
+        <Caret Line="475" Column="43" TopLine="463"/>
+      </Position>
+      <Position>
+        <Filename Value="../../../multiradiogroup.pas"/>
+        <Caret Line="551" Column="14" TopLine="533"/>
+      </Position>
+      <Position>
+        <Filename Value="../../../multiradiogroup.pas"/>
+        <Caret Line="554" Column="17" TopLine="533"/>
       </Position>
     </JumpHistory>
     <RunParams>

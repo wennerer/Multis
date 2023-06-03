@@ -280,6 +280,8 @@ type
     FBorderMargin: integer;
     FBorderWidth: integer;
     FCaption                : TCaption;
+    FCaptionLeft: integer;
+    FCaptionTop: integer;
     FDisabledAlpBV          : integer;
     FDisabledColor          : TColor;
     FEnabled                : boolean;
@@ -330,6 +332,8 @@ type
     procedure SetBorderMargin(AValue: integer);
     procedure SetBorderWidth(AValue: integer);
     procedure SetCaption(AValue: TCaption);
+    procedure SetCaptionLeft(AValue: integer);
+    procedure SetCaptionTop(AValue: integer);
     procedure SetColorEnd(AValue: TColor);
     procedure SetColorStart(AValue: TColor);
     procedure SetDisabledAlpBV(AValue: integer);
@@ -346,6 +350,7 @@ type
     procedure SetCheckBox(AValue: TMultiCheckboxCollection);
     procedure SetRRRadius(AValue: integer);
     procedure SetStyle(AValue: TMBoxStyle);
+    procedure WriteCaption;
 
 
   protected
@@ -466,6 +471,12 @@ type
    //
    //
    property BorderMargin : integer read FBorderMargin write SetBorderMargin default 0;
+   //
+   //
+   property CaptionLeft : integer read FCaptionLeft write SetCaptionLeft default 5;
+   //
+   //
+   property CaptionTop : integer read FCaptionTop write SetCaptionTop default 0;
 
    property DragMode;
    property DragKind;
@@ -554,6 +565,8 @@ begin
   FBorderColor          := clNone;
   FBorderMargin         := 0;
   FBorderWidth          := 1;
+  FCaptionLeft          := 5;
+  FCaptionTop           := 0;
 
   FCheckBoxes := CreateCheckBoxes;  //TCollection
   FCheckBoxes.Add;
@@ -1012,6 +1025,20 @@ begin
   if FCaption=AValue then Exit;
   FCaption:=AValue;
   if not (csLoading in ComponentState) then TriggerAutoSize;
+  Invalidate;
+end;
+
+procedure TMultiCheckGroup.SetCaptionLeft(AValue: integer);
+begin
+  if FCaptionLeft=AValue then Exit;
+  FCaptionLeft:=AValue;
+  Invalidate;
+end;
+
+procedure TMultiCheckGroup.SetCaptionTop(AValue: integer);
+begin
+  if FCaptionTop=AValue then Exit;
+  FCaptionTop:=AValue;
   Invalidate;
 end;
 
@@ -1580,6 +1607,24 @@ begin
  end;
 end;
 
+procedure TMultiCheckGroup.WriteCaption;
+var aBmp         : TBitmap;
+    CaptionRect  : TRect;
+begin
+ CaptionRect := rect(FocusFrameWidth+FCaptionLeft,FocusFrameWidth+FCaptionTop,
+                     FocusFrameWidth+FCaptionLeft+GetTextWidth(FCaption,Canvas.Font),
+                     FocusFrameWidth+FCaptionTop+GetTextHeight(FCaption,Canvas.Font));
+ aBmp      := TBitmap.Create;
+ try
+  aBmp.SetSize(width,height);
+  Gradient_Bmp(aBmp,FColorStart,FColorEnd,ord(FGradient));
+  Canvas.CopyRect(CaptionRect,aBmp.Canvas,CaptionRect);
+ finally
+  aBmp.Free;
+ end;
+
+ canvas.TextOut(FocusFrameWidth+FCaptionLeft,FocusFrameWidth+FCaptionTop,FCaption);
+end;
 
 procedure TMultiCheckGroup.Paint;
 var tmpBmp     : TBitmap;
@@ -1621,15 +1666,15 @@ begin
  end;
  if (ColorStart <> clNone) and (ColorEnd <> clNone) then DrawCheckBoxGroup;
 
- canvas.Brush.Style:= bsClear;
- canvas.Font.Assign(FFont);
- canvas.TextOut(FocusFrameWidth+5,FocusFrameWidth,FCaption);
- canvas.Brush.Style:= bsSolid;
-
  DrawCheckBoxes;
 
  if FBorderColor <> clNone then DrawBorder;
  if FForegroundFocusOn and Focused then DrawForegroundFocus;
+
+ canvas.Brush.Style:= bsClear;
+ canvas.Font.Assign(FFont);
+ WriteCaption;
+ canvas.Brush.Style:= bsSolid;
 
  //Enable
  if not FEnabled then
