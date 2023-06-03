@@ -464,7 +464,6 @@ type
    procedure DrawTheEvent;
    procedure CalculateTheInfoBox;
    procedure DrawInfoBox;
-   //procedure SetAllSize(AValue: integer);
    procedure SetBorderColor(AValue: TColor);
    procedure SetBorderWidth(AValue: integer);
 
@@ -498,9 +497,6 @@ type
    //
    //
    property Events : TMultiEventCollection read GetEvent write SetEvent stored IsEventStored;
-   //
-   //
-   //property SetSizeAllEvents : integer read FSetAllSize write SetAllSize;
    //
    //
    property LineSettings      : TLine      read FLine  write SetLine;
@@ -734,7 +730,6 @@ begin
   inherited Create(AOwner);
   Width := 300;
   Height:=  30;
-  //FSetAllSize:= 15;
 
   FLine                   := TLine.create(self);
   FLine.FColorStart       := clMaroon;
@@ -1151,10 +1146,17 @@ end;
 
 
 procedure TMultiEventLine.CalculateTheEvent;
-var lv,i : integer;
+var lv,i,count : integer;
 begin
- i := FLine.FWidth div pred(FEventCollection.Count);
+ count := -1;
  for lv:= 0 to pred(FEventCollection.Count) do
+  if FEventCollection.Items[lv].Visible then inc(count);
+ parent.parent.Caption:= inttostr(count);
+
+ i := FLine.FWidth div Count;//pred(FEventCollection.Count);
+
+
+ for lv:= 0 to Count do//pred(FEventCollection.Count) do
   begin
    FEventCollection.Items[lv].FLeft := (FLine.FHorizontalMargin + (lv*i)) - (FEventCollection.Items[lv].FSize div 2);
    FEventCollection.Items[lv].FTop  := (FLine.FVertMargin + (FLine.FHeight div 2))

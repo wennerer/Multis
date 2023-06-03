@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ColorBox, Spin,
-  MultiPanel, MultiEventLine, MultiRadioGroup, MultiButton,
+  StdCtrls, MultiPanel, MultiEventLine, MultiRadioGroup, MultiButton,
   MultiButtonStyleManager, MultiSeperator, MultiplexSlider, MultiCheckGroup;
 
 const
@@ -19,6 +19,7 @@ type
   { TMainForm }
 
   TMainForm = class(TForm)
+    Button1: TButton;
     ColorBox1: TColorBox;
     ColorBox2: TColorBox;
     ImageList1: TImageList;
@@ -34,6 +35,7 @@ type
     MultiRadioGroup1: TMultiRadioGroup;
     MultiSeperator1: TMultiSeperator;
     SpinEdit1: TSpinEdit;
+    procedure Button1Click(Sender: TObject);
     procedure ColorBox1Change(Sender: TObject);
     procedure ColorBox2Change(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -46,6 +48,7 @@ type
     procedure FormPaint(Sender: TObject);
     procedure MultiButtonClick(Sender: TObject);
     procedure SpinEdit1Change(Sender: TObject);
+
   private
     PenColor   : TColor;
     PenWidth   : integer;

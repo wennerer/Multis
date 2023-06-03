@@ -19,6 +19,16 @@ begin
  PenColor := ColorBox1.Selected;
 end;
 
+procedure TMainForm.Button1Click(Sender: TObject);
+var i : integer;
+begin
+ i := 1;
+
+ if MultiEventLine1.Events[i].Visible then MultiEventLine1.Events[i].Visible:=false
+ else MultiEventLine1.Events[i].Visible := true;
+
+end;
+
 procedure TMainForm.ColorBox2Change(Sender: TObject);
 begin
   BrushColor := ColorBox2.Selected;
