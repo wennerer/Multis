@@ -1,0 +1,41 @@
+object Form1: TForm1
+  Left = 457
+  Height = 380
+  Top = 250
+  Width = 1003
+  Caption = 'Form1'
+  ClientHeight = 380
+  ClientWidth = 1003
+  object MultiRadioGroup1: TMultiRadioGroup
+    Left = 24
+    Height = 170
+    Top = 24
+    Width = 274
+    Caption = 'MultiRadioGroup'
+    RadioButtons = <    
+      item
+        Caption = 'Radiobutton 1'
+        Selected = False
+        DisplayName = 'MultiRadioButton'
+      end>
+    Rows = 1
+    BorderColor = clRed
+    BorderWidth = 3
+    BorderMargin = 8
+    TabOrder = 0
+  end
+  object MultiCheckGroup1: TMultiCheckGroup
+    Left = 368
+    Height = 170
+    Top = 24
+    Width = 264
+    Checkboxes = <    
+      item
+        Caption = 'Checkbox 1'
+        Selected = False
+        DisplayName = 'TMultiCheckbox'
+      end>
+    Rows = 1
+    TabOrder = 1
+  end
+end

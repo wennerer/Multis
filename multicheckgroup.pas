@@ -276,6 +276,9 @@ type
   private
     FAligningImages         : Boolean;
     FAutoSize               : boolean;
+    FBorderColor: TColor;
+    FBorderMargin: integer;
+    FBorderWidth: integer;
     FCaption                : TCaption;
     FDisabledAlpBV          : integer;
     FDisabledColor          : TColor;
@@ -318,10 +321,14 @@ type
     function CalculateTextRectWithWordbreak(aCaptionHeight, aTRH, aSpace, alv,
       aRow: integer): TRect;
     function CreateCheckBoxes: TMultiCheckboxCollection;
+    procedure DrawBorder;
     function GetCheckBox: TMultiCheckboxCollection;
     function GetTextHeight(AText: String; AFont: TFont): Integer;
     function GetTextWidth(AText: String; AFont: TFont): Integer;
     function IsCheckBoxStored: Boolean;
+    procedure SetBorderColor(AValue: TColor);
+    procedure SetBorderMargin(AValue: integer);
+    procedure SetBorderWidth(AValue: integer);
     procedure SetCaption(AValue: TCaption);
     procedure SetColorEnd(AValue: TColor);
     procedure SetColorStart(AValue: TColor);
@@ -450,6 +457,15 @@ type
    //Number of lines when Wordbreak is active
    //Anzahl der Zeilen wenn Wordbreak aktive
    property Rows  : integer read FRows write FRows;
+   //
+   //
+   property BorderColor : TColor read FBorderColor write SetBorderColor default clNone;
+   //
+   //
+   property BorderWidth : integer read FBorderWidth write SetBorderWidth default 1;
+   //
+   //
+   property BorderMargin : integer read FBorderMargin write SetBorderMargin default 0;
 
    property DragMode;
    property DragKind;
@@ -534,7 +550,10 @@ begin
   FForegroundFocusOn    := false;
   FRows                 := 1;
   FLRFlag               := true;
-  OnGroupChange        := @GroupIsChanged;
+  OnGroupChange         := @GroupIsChanged;
+  FBorderColor          := clNone;
+  FBorderMargin         := 0;
+  FBorderWidth          := 1;
 
   FCheckBoxes := CreateCheckBoxes;  //TCollection
   FCheckBoxes.Add;
@@ -965,6 +984,27 @@ end;
 function TMultiCheckGroup.IsCheckBoxStored: Boolean;
 begin
  result := Checkboxes.Enabled;
+end;
+
+procedure TMultiCheckGroup.SetBorderColor(AValue: TColor);
+begin
+  if FBorderColor=AValue then Exit;
+  FBorderColor:=AValue;
+  Invalidate;
+end;
+
+procedure TMultiCheckGroup.SetBorderMargin(AValue: integer);
+begin
+  if FBorderMargin=AValue then Exit;
+  FBorderMargin:=AValue;
+  Invalidate;
+end;
+
+procedure TMultiCheckGroup.SetBorderWidth(AValue: integer);
+begin
+  if FBorderWidth=AValue then Exit;
+  FBorderWidth:=AValue;
+  Invalidate;
 end;
 
 procedure TMultiCheckGroup.SetCaption(AValue: TCaption);
@@ -1513,6 +1553,20 @@ begin
 
 end;
 
+procedure TMultiCheckGroup.DrawBorder;
+var aRect : TRect;
+begin
+ Canvas.Brush.Style := bsClear;
+ Canvas.Pen.Color   := FBorderColor;
+ Canvas.Pen.Width   := FBorderWidth;
+ aRect := rect(0+FBorderMargin+FFocusFrameWidth,0+FBorderMargin+FFocusFrameWidth,
+               width-FBorderMargin-FFocusFrameWidth,height-FBorderMargin-FFocusFrameWidth);
+ case FStyle of
+  mssRoundRect : Canvas.RoundRect(aRect,FRRRadius,FRRRadius);
+  mssRect      : Canvas.Rectangle(aRect);
+ end;
+end;
+
 procedure TMultiCheckGroup.DrawForegroundFocus;
 var aRect : TRect;
 begin
@@ -1574,6 +1628,7 @@ begin
 
  DrawCheckBoxes;
 
+ if FBorderColor <> clNone then DrawBorder;
  if FForegroundFocusOn and Focused then DrawForegroundFocus;
 
  //Enable
