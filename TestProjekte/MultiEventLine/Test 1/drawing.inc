@@ -3,9 +3,30 @@
 
 procedure TMainForm.MultiButtonClick(Sender: TObject);
 begin
- if Sender = MultiButton1 then Choice := Line;
- if Sender = MultiButton2 then Choice := Rectangle;
- if Sender = MultiButton3 then Choice := Polygone;
+ if Sender = MultiButton1 then
+  begin
+   Choice := Line;
+   MultiEventline1.Events[0].InfoBox.Caption:='click left';
+   MultiEventline1.Events[1].InfoBox.Caption:='drag';
+   MultiEventline1.Events[2].InfoBox.Caption:='let loose';
+   MultiEventline1.Events[3].InfoBox.Caption:='';
+  end;
+ if Sender = MultiButton2 then
+  begin
+   Choice := Rectangle;
+   MultiEventline1.Events[0].InfoBox.Caption:='click left';
+   MultiEventline1.Events[1].InfoBox.Caption:='drag';
+   MultiEventline1.Events[2].InfoBox.Caption:='let loose';
+   MultiEventline1.Events[3].InfoBox.Caption:='';
+  end;
+ if Sender = MultiButton3 then
+  begin
+   Choice := Polygone;
+   MultiEventline1.Events[0].InfoBox.Caption:='click left';
+   MultiEventline1.Events[1].InfoBox.Caption:='let loose and drag';
+   MultiEventline1.Events[2].InfoBox.Caption:='click left, let loose and drag';
+   MultiEventline1.Events[3].InfoBox.Caption:='doubble click finished';
+  end;
 end;
 
 procedure TMainForm.SpinEdit1Change(Sender: TObject);
@@ -60,6 +81,8 @@ begin
      start := true;
     end else inc(count);
   end;
+
+ FirstEvent;
  invalidate;
 end;
 

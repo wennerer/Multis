@@ -19,7 +19,6 @@ type
   { TMainForm }
 
   TMainForm = class(TForm)
-    Button1: TButton;
     ColorBox1: TColorBox;
     ColorBox2: TColorBox;
     ImageList1: TImageList;
@@ -60,6 +59,7 @@ type
     Points     : array of TPoint;
     count      : integer;
     start      : boolean;
+    procedure FirstEvent;
   public
 
   end;
@@ -87,8 +87,10 @@ begin
 
 end;
 
+procedure TMainForm.FirstEvent;
+begin
 
-
+end;
 
 
 

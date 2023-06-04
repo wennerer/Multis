@@ -113,7 +113,7 @@ object MainForm: TMainForm
           Tag = 2
           InfoBox.Caption = '3'
           InfoBox.Position = ibBottom
-          InfoBox.Width = 150
+          InfoBox.Width = 180
         end      
         item
           Size = 15
@@ -365,11 +365,13 @@ object MainForm: TMainForm
       Height = 120
       Top = 1
       Width = 208
-      Caption = 'Change Eventline'
+      Caption = ' Change Eventline '
       FocusFrameWidth = 0
       FocusColor = clYellow
       FocusFrameOn = False
       ForegroundFocusOn = True
+      Style = mssRect
+      ColorGradient = gcAlternate
       ColorStart = clNone
       RadioButtons = <      
         item
@@ -398,6 +400,9 @@ object MainForm: TMainForm
           DisplayName = 'MultiRadioButton'
         end>
       Rows = 1
+      BorderColor = clMaroon
+      BorderMargin = 7
+      CaptionLeft = 15
       BorderSpacing.Left = 10
       TabOrder = 6
     end
@@ -441,15 +446,6 @@ object MainForm: TMainForm
         Value = 1
       end
     end
-  end
-  object Button1: TButton
-    Left = 224
-    Height = 25
-    Top = 254
-    Width = 75
-    Caption = 'Button1'
-    OnClick = Button1Click
-    TabOrder = 1
   end
   object MultiButtonStyleManager1: TMultiButtonStyleManager
     Width = 110

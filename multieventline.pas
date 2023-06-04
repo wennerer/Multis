@@ -1,6 +1,10 @@
 { <A line on which events (steps) are displayed>
-  <Version 1.0.0.1>
-  Copyright (C) <26.04.2023> <Bernd Hübner>
+
+  !!!! Attention this component is not yet finished !!!!
+  !!!! This is only a testversion not for use (now) !!!!
+
+  <Version ALPHA 0.0.0.1>
+  Copyright (C) <04.06.2023> <Bernd Hübner>
   You can find more information here: https://www.lazarusforum.de/viewtopic.php?f=29&t=14033
 
   This library is free software; you can redistribute it and/or modify it under the
@@ -27,7 +31,7 @@
   Franklin Street - Fifth Floor, Boston, MA 02110-1335, USA.
 }
 
-unit MultiEventLine;     //Hover, Style InfoBox Größe automatisch,
+unit MultiEventLine;     //Hover, Reihenfolge bei nicht visible,
 
 {$mode ObjFPC}{$H+}
 
@@ -185,6 +189,7 @@ type
      FLeft               : integer;
      FTop                : integer;
      FCenter             : TPoint;
+
     procedure SetAlignment(AValue: TAlignment);
     procedure SetBorderColor(AValue: TColor);
     procedure SetBorderWidth(AValue: integer);
@@ -387,6 +392,7 @@ type
     procedure SetRRRadius(AValue: integer);
     procedure SetSize(AValue: integer);
     procedure SetVisible(AValue: Boolean);
+    procedure InvalidateEventLine;
    protected
     function GetDisplayName: string; override;
     procedure SetDisplayName(const Value: string); override;
@@ -1146,17 +1152,12 @@ end;
 
 
 procedure TMultiEventLine.CalculateTheEvent;
-var lv,i,count : integer;
+var lv,i : integer;
 begin
- count := -1;
+ i := FLine.FWidth div pred(FEventCollection.Count);
+
+
  for lv:= 0 to pred(FEventCollection.Count) do
-  if FEventCollection.Items[lv].Visible then inc(count);
- parent.parent.Caption:= inttostr(count);
-
- i := FLine.FWidth div Count;//pred(FEventCollection.Count);
-
-
- for lv:= 0 to Count do//pred(FEventCollection.Count) do
   begin
    FEventCollection.Items[lv].FLeft := (FLine.FHorizontalMargin + (lv*i)) - (FEventCollection.Items[lv].FSize div 2);
    FEventCollection.Items[lv].FTop  := (FLine.FVertMargin + (FLine.FHeight div 2))

@@ -28,7 +28,7 @@ begin
  FImageIndex          := -1;
  FFont                := TFont.Create;
  //FFont.OnChange       := @CheckBoxFontChanged;
- FInfoBox := TInfoBox.create(nil);
+ FInfoBox := TInfoBox.create(self);
 end;
 
 destructor TMultiEvent.Destroy;
@@ -46,6 +46,11 @@ begin
   if FVisible=AValue then Exit;
   FVisible:=AValue;
   (FEvents as TMultiEventCollection).FDrawEvent.Invalidate;
+end;
+
+procedure TMultiEvent.InvalidateEventLine;
+begin
+ (FEvents as TMultiEventCollection).FDrawEvent.Invalidate;
 end;
 
 procedure TMultiEvent.SetEnabled(AValue: boolean);

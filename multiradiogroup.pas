@@ -1608,14 +1608,30 @@ begin
  CaptionRect := rect(FocusFrameWidth+FCaptionLeft,FocusFrameWidth+FCaptionTop,
                      FocusFrameWidth+FCaptionLeft+GetTextWidth(FCaption,Canvas.Font),
                      FocusFrameWidth+FCaptionTop+GetTextHeight(FCaption,Canvas.Font));
- aBmp      := TBitmap.Create;
- try
-  aBmp.SetSize(width,height);
-  Gradient_Bmp(aBmp,FColorStart,FColorEnd,ord(FGradient));
-  Canvas.CopyRect(CaptionRect,aBmp.Canvas,CaptionRect);
- finally
-  aBmp.Free;
- end;
+
+  if Parent is TMultiPanel then
+   begin
+    aBmp      := TBitmap.Create;
+    try
+     aBmp.SetSize(width,height);
+     if assigned((Parent as TMultiPanel).FMultiBkgrdBmp) then
+     aBmp.canvas.CopyRect(rect(0,0,width,height),(Parent as TMultiPanel).FMultiBkgrdBmp.Canvas,rect(left,top,left+width,top+height));
+     Canvas.CopyRect(CaptionRect,aBmp.Canvas,CaptionRect);
+    finally
+     aBmp.Free;
+    end;
+   end
+  else
+   begin
+    aBmp      := TBitmap.Create;
+    try
+     aBmp.SetSize(width,height);
+     Gradient_Bmp(aBmp,FColorStart,FColorEnd,ord(FGradient));
+     Canvas.CopyRect(CaptionRect,aBmp.Canvas,CaptionRect);
+    finally
+     aBmp.Free;
+    end;
+   end;
 
  canvas.TextOut(FocusFrameWidth+FCaptionLeft,FocusFrameWidth+FCaptionTop,FCaption);
 end;
