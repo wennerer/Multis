@@ -20,6 +20,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
+        <IsVisibleTab Value="True"/>
         <TopLine Value="73"/>
         <CursorPos X="2" Y="92"/>
         <UsageCount Value="211"/>
@@ -31,16 +32,15 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="4"/>
         <CursorPos X="48" Y="20"/>
-        <UsageCount Value="53"/>
+        <UsageCount Value="71"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="../../../multieventline.pas"/>
         <UnitName Value="MultiEventLine"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <CursorPos X="17" Y="6"/>
-        <UsageCount Value="59"/>
+        <CursorPos X="46" Y="6"/>
+        <UsageCount Value="68"/>
         <Bookmarks Count="2">
           <Item0 X="30" Y="1154"/>
           <Item1 X="5" Y="403" ID="1"/>
@@ -52,7 +52,7 @@
         <EditorIndex Value="2"/>
         <TopLine Value="148"/>
         <CursorPos X="30" Y="174"/>
-        <UsageCount Value="49"/>
+        <UsageCount Value="58"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -60,7 +60,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="812"/>
         <CursorPos X="30" Y="826"/>
-        <UsageCount Value="40"/>
+        <UsageCount Value="38"/>
         <Bookmarks Count="1">
           <Item0 X="25" Y="726"/>
         </Bookmarks>
@@ -71,14 +71,14 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="772"/>
         <CursorPos X="46" Y="792"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="8"/>
       </Unit>
       <Unit>
         <Filename Value="../../../eventitem.inc"/>
         <EditorIndex Value="3"/>
         <TopLine Value="51"/>
         <CursorPos X="59" Y="53"/>
-        <UsageCount Value="17"/>
+        <UsageCount Value="26"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -86,7 +86,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="22"/>
         <CursorPos X="2" Y="47"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="4"/>
       </Unit>
       <Unit>
         <Filename Value="../../../multipanel.pas"/>
@@ -94,27 +94,27 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="1656"/>
         <CursorPos X="85" Y="1566"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="7"/>
       </Unit>
       <Unit>
         <Filename Value="../../../mp_border.inc"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="67" Y="3"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="6"/>
       </Unit>
       <Unit>
         <Filename Value="../../../../../../../../../Programme/Stable_01_22/fpcsrc/rtl/objpas/classes/classesh.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="423"/>
         <CursorPos X="15" Y="436"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="7"/>
       </Unit>
       <Unit>
         <Filename Value="../../../../../../../../../Programme/Stable_01_22/fpcsrc/rtl/objpas/classes/persist.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="40"/>
         <CursorPos X="3" Y="49"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="7"/>
       </Unit>
       <Unit>
         <Filename Value="../../../multicheckgroup.pas"/>
@@ -122,7 +122,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="1609"/>
         <CursorPos X="37" Y="1618"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="8"/>
       </Unit>
       <Unit>
         <Filename Value="../../../multiradiogroup.pas"/>
@@ -130,7 +130,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="1616"/>
         <CursorPos X="44" Y="1622"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="8"/>
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
