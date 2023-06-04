@@ -6,15 +6,15 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, MultiRadioGroup,
-  MultiCheckGroup;
+  MultiCheckGroup, MultiSeperator, MultiPanel;
 
 type
 
   { TForm1 }
 
   TForm1 = class(TForm)
-    MultiCheckGroup1: TMultiCheckGroup;
     MultiRadioGroup1: TMultiRadioGroup;
+    MultiRadioGroup2: TMultiRadioGroup;
   private
 
   public

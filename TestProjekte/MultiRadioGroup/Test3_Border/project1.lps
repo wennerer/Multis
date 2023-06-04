@@ -3,17 +3,17 @@
   <ProjectSession>
     <Version Value="12"/>
     <BuildModes Active="Linux_64_Default"/>
-    <Units>
-      <Unit>
+    <Units Count="6">
+      <Unit0>
         <Filename Value="project1.lpr"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="34"/>
-      </Unit>
-      <Unit>
+        <UsageCount Value="54"/>
+      </Unit0>
+      <Unit1>
         <Filename Value="unit1.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="Form1"/>
@@ -21,154 +21,58 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
         <IsVisibleTab Value="True"/>
-        <UsageCount Value="34"/>
+        <UsageCount Value="54"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
-      </Unit>
-      <Unit>
+      </Unit1>
+      <Unit2>
         <Filename Value="../../../multiradiogroup.pas"/>
         <UnitName Value="MultiRadioGroup"/>
-        <EditorIndex Value="1"/>
-        <TopLine Value="1573"/>
-        <CursorPos X="26" Y="1587"/>
-        <UsageCount Value="17"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="450"/>
+        <CursorPos X="51" Y="465"/>
+        <UsageCount Value="26"/>
         <Bookmarks Count="1">
           <Item0 X="27" Y="1368"/>
         </Bookmarks>
-        <Loaded Value="True"/>
-      </Unit>
-      <Unit>
+      </Unit2>
+      <Unit3>
         <Filename Value="../../../multicheckgroup.pas"/>
         <UnitName Value="MultiCheckGroup"/>
-        <EditorIndex Value="2"/>
-        <TopLine Value="1579"/>
-        <CursorPos X="31" Y="1593"/>
-        <UsageCount Value="17"/>
-        <Loaded Value="True"/>
-      </Unit>
-      <Unit>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="13"/>
+        <CursorPos X="19" Y="2"/>
+        <UsageCount Value="26"/>
+      </Unit3>
+      <Unit4>
         <Filename Value="../../../multipanel.pas"/>
         <UnitName Value="MultiPanel"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="2042"/>
-        <CursorPos X="82" Y="2054"/>
-        <UsageCount Value="10"/>
-      </Unit>
+        <CursorPos X="48" Y="11"/>
+        <UsageCount Value="19"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="../../../multibutton.pas"/>
+        <UnitName Value="MultiButton"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="503"/>
+        <CursorPos X="28" Y="526"/>
+        <UsageCount Value="8"/>
+      </Unit5>
     </Units>
-    <JumpHistory HistoryIndex="28">
-      <Position>
-        <Filename Value="../../../multiradiogroup.pas"/>
-        <Caret Line="539" Column="35" TopLine="526"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multiradiogroup.pas"/>
-        <Caret Line="1032" Column="21" TopLine="1018"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multiradiogroup.pas"/>
-        <Caret Line="1551" Column="36" TopLine="1533"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multiradiogroup.pas"/>
-        <Caret Line="541" Column="30" TopLine="528"/>
-      </Position>
-      <Position>
+    <JumpHistory Count="4" HistoryIndex="3">
+      <Position1>
         <Filename Value="unit1.pas"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multicheckgroup.pas"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multiradiogroup.pas"/>
-        <Caret Line="1623" Column="33" TopLine="1609"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multicheckgroup.pas"/>
-        <Caret Line="461" Column="44" TopLine="443"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multiradiogroup.pas"/>
-        <Caret Line="454" Column="30" TopLine="438"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multiradiogroup.pas"/>
-        <Caret Line="541" Column="16" TopLine="527"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multiradiogroup.pas"/>
-        <Caret Line="1033" Column="21" TopLine="1019"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multiradiogroup.pas"/>
-        <Caret Line="1554" Column="26" TopLine="1540"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multiradiogroup.pas"/>
-        <Caret Line="123" Column="70" TopLine="110"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multiradiogroup.pas"/>
-        <Caret Line="463" Column="45" TopLine="452"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multiradiogroup.pas"/>
-        <Caret Line="1605" Column="74" TopLine="1592"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multiradiogroup.pas"/>
-        <Caret Line="11" Column="47"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multicheckgroup.pas"/>
-        <Caret Line="475" Column="43" TopLine="463"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multiradiogroup.pas"/>
-        <Caret Line="551" Column="14" TopLine="533"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multiradiogroup.pas"/>
-        <Caret Line="554" Column="17" TopLine="533"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multiradiogroup.pas"/>
-        <Caret Line="1670" Column="2" TopLine="1642"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multiradiogroup.pas"/>
-        <Caret Line="361" Column="20" TopLine="349"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multiradiogroup.pas"/>
-        <Caret Line="1470" Column="2" TopLine="1467"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multiradiogroup.pas"/>
-        <Caret Line="356" Column="13" TopLine="343"/>
-      </Position>
-      <Position>
+      </Position1>
+      <Position2>
         <Filename Value="unit1.pas"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multiradiogroup.pas"/>
-        <Caret Line="1393" Column="29" TopLine="1381"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multiradiogroup.pas"/>
-        <Caret Line="1375" Column="35" TopLine="1352"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multiradiogroup.pas"/>
-        <Caret Line="13" Column="29"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multicheckgroup.pas"/>
-        <Caret Line="1350" Column="105" TopLine="1326"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multiradiogroup.pas"/>
-        <Caret Line="313" Column="15" TopLine="302"/>
-      </Position>
+      </Position2>
+      <Position3>
+        <Filename Value="unit1.pas"/>
+      </Position3>
+      <Position4>
+        <Filename Value="unit1.pas"/>
+      </Position4>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

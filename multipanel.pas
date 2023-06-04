@@ -1,6 +1,6 @@
 { <A panel for the multi components>
-  <Version 1.0.0.9>
-  Copyright (C) <27.05.2023> <Bernd Hübner>
+  <Version 1.0.0.10>
+  Copyright (C) <04.06.2023> <Bernd Hübner>
   Many thanks to the members of the German Lazarus Forum!
   For some improvements see https://www.lazarusforum.de/viewtopic.php?f=29&t=14033
 
@@ -2048,18 +2048,22 @@ var textrect     : TRect;
     CaptionRect  : TRect;
     aBmp         : TBitmap;
 begin
+ if FCaption = '' then exit;
  textrect := rect(0,0,width,height);
  CaptionRect := rect(FCapLeft,FCapTop,
                      FCapLeft+GetTextWidth(FCaption,FMultiBkgrdBmp.canvas.Font),
                      FCapTop+GetTextHeight(FCaption,FMultiBkgrdBmp.canvas.Font));
- aBmp      := TBitmap.Create;
- try
-  aBmp.SetSize(width,height);
-  Gradient_Bmp(aBmp,FColorStart,FColorEnd,ord(FGradient));
-  FMultiBkgrdBmp.canvas.CopyRect(CaptionRect,aBmp.Canvas,CaptionRect);
- finally
-  aBmp.Free;
- end;
+ if (FTextStyle.Alignment = taLeftJustify) and (FTextStyle.Layout = tlTop) then
+  begin
+   aBmp      := TBitmap.Create;
+   try
+    aBmp.SetSize(width,height);
+    Gradient_Bmp(aBmp,FColorStart,FColorEnd,ord(FGradient));
+    FMultiBkgrdBmp.canvas.CopyRect(CaptionRect,aBmp.Canvas,CaptionRect);
+   finally
+    aBmp.Free;
+   end;
+  end;
 
  FMultiBkgrdBmp.Canvas.TextRect(TextRect,FCapLeft,FCapTop,FCaption,FTextStyle);
 end;

@@ -1,6 +1,6 @@
 { <A CheckGroup in the multi design>
-  <Version 1.0.0.2>
-  Copyright (C) <23.04.2023> <Bernd Hübner>
+  <Version 1.0.0.3>
+  Copyright (C) <04.06.2023> <Bernd Hübner>
 
   This library is free software; you can redistribute it and/or modify it under the
   terms of the GNU Library General Public License as published by the Free Software
@@ -462,20 +462,20 @@ type
    //Number of lines when Wordbreak is active
    //Anzahl der Zeilen wenn Wordbreak aktive
    property Rows  : integer read FRows write FRows;
-   //
-   //
+   //The color of the border
+   //Die Farbe des Rahmens
    property BorderColor : TColor read FBorderColor write SetBorderColor default clNone;
-   //
-   //
+   //The whidth of the border
+   //Die Dicke des Rahmens
    property BorderWidth : integer read FBorderWidth write SetBorderWidth default 1;
-   //
-   //
+   //The distance of the frame to the outer edge
+   //Der Abstand des Rahmens zur Außenkante
    property BorderMargin : integer read FBorderMargin write SetBorderMargin default 0;
-   //
-   //
+   //The coordinate of the left edge of the caption
+   //Die Koordinate des linken Randes der Beschriftung
    property CaptionLeft : integer read FCaptionLeft write SetCaptionLeft default 5;
-   //
-   //
+   //The coordinate of the top edge of the caption
+   //Die Koordinate des oberen Randes der Beschriftung
    property CaptionTop : integer read FCaptionTop write SetCaptionTop default 0;
 
    property DragMode;

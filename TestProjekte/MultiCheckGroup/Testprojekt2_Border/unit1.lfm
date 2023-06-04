@@ -1,0 +1,75 @@
+object Form1: TForm1
+  Left = 457
+  Height = 288
+  Top = 250
+  Width = 747
+  Caption = 'Test the border'
+  ClientHeight = 288
+  ClientWidth = 747
+  Color = clWhite
+  object MultiCheckGroup1: TMultiCheckGroup
+    Left = 48
+    Height = 120
+    Top = 56
+    Width = 210
+    Style = mssRect
+    Checkboxes = <    
+      item
+        Caption = 'Checkbox 1'
+        Selected = False
+        DisplayName = 'TMultiCheckbox'
+      end    
+      item
+        Caption = 'Checkbox 2'
+        Selected = False
+        DisplayName = 'TMultiCheckbox'
+      end    
+      item
+        Caption = 'Checkbox 3'
+        Selected = False
+        DisplayName = 'TMultiCheckbox'
+      end    
+      item
+        Caption = 'Checkbox 4'
+        Selected = False
+        DisplayName = 'TMultiCheckbox'
+      end>
+    Rows = 1
+    BorderColor = clMaroon
+    TabOrder = 0
+  end
+  object MultiCheckGroup2: TMultiCheckGroup
+    Left = 320
+    Height = 168
+    Top = 56
+    Width = 210
+    Caption = ' This is a Caption '
+    Checkboxes = <    
+      item
+        Caption = 'Checkbox 1'
+        Selected = False
+        DisplayName = 'TMultiCheckbox'
+      end    
+      item
+        Caption = 'Checkbox 2'
+        Selected = False
+        DisplayName = 'TMultiCheckbox'
+      end    
+      item
+        Caption = 'Checkbox 3'
+        Selected = False
+        DisplayName = 'TMultiCheckbox'
+      end    
+      item
+        Caption = 'Checkbox 4'
+        Selected = False
+        DisplayName = 'TMultiCheckbox'
+      end>
+    Rows = 1
+    BorderColor = clLime
+    BorderMargin = 9
+    CaptionLeft = 20
+    CaptionTop = 1
+    TabOrder = 1
+  end
+end

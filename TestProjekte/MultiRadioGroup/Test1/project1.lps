@@ -21,7 +21,7 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="37"/>
+        <TopLine Value="35"/>
         <CursorPos X="4" Y="58"/>
         <UsageCount Value="147"/>
         <Loaded Value="True"/>
@@ -30,9 +30,9 @@
       <Unit>
         <Filename Value="../../../multiradiogroup.pas"/>
         <UnitName Value="MultiRadioGroup"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="1392"/>
-        <CursorPos Y="1399"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="1601"/>
+        <CursorPos X="29" Y="1608"/>
         <UsageCount Value="73"/>
         <Bookmarks Count="4">
           <Item0 X="4" Y="427"/>
@@ -40,13 +40,16 @@
           <Item2 X="2" Y="818" ID="2"/>
           <Item3 X="5" Y="205" ID="3"/>
         </Bookmarks>
+        <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="../../../multipanel.pas"/>
         <UnitName Value="MultiPanel"/>
-        <EditorIndex Value="-1"/>
-        <CursorPos X="28" Y="3"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="2042"/>
+        <CursorPos X="3" Y="309"/>
         <UsageCount Value="10"/>
+        <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="../../../multibutton.pas"/>
@@ -131,8 +134,37 @@
         <CursorPos Y="803"/>
         <UsageCount Value="10"/>
       </Unit>
+      <Unit>
+        <Filename Value="../../../multieventline.pas"/>
+        <UnitName Value="MultiEventLine"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1423"/>
+        <CursorPos X="3" Y="448"/>
+        <UsageCount Value="10"/>
+      </Unit>
+      <Unit>
+        <Filename Value="../../../multicheckgroup.pas"/>
+        <UnitName Value="MultiCheckGroup"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="1600"/>
+        <CursorPos X="30" Y="1600"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit>
     </Units>
-    <JumpHistory HistoryIndex="-1"/>
+    <JumpHistory HistoryIndex="2">
+      <Position>
+        <Filename Value="../../../multiradiogroup.pas"/>
+        <Caret Line="1399" TopLine="1392"/>
+      </Position>
+      <Position>
+        <Filename Value="../../../multicheckgroup.pas"/>
+      </Position>
+      <Position>
+        <Filename Value="../../../multipanel.pas"/>
+        <Caret Line="3" Column="28"/>
+      </Position>
+    </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
       <Modes ActiveMode=""/>

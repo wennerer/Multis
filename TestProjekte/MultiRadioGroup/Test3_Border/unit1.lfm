@@ -1,15 +1,16 @@
 object Form1: TForm1
   Left = 457
-  Height = 227
+  Height = 266
   Top = 250
   Width = 667
-  Caption = 'Form1'
-  ClientHeight = 227
+  Caption = 'Test the border'
+  ClientHeight = 266
   ClientWidth = 667
+  Color = clWhite
   object MultiRadioGroup1: TMultiRadioGroup
-    Left = 24
+    Left = 352
     Height = 170
-    Top = 24
+    Top = 32
     Width = 274
     Caption = ' MultiRadioGroup '
     RadioButtons = <    
@@ -19,7 +20,7 @@ object Form1: TForm1
         DisplayName = 'MultiRadioButton'
       end    
       item
-        Caption = 'Das ist ein ganz langer Text mit Wordbreak'
+        Caption = 'This is a very long text with a wordbreak'
         Selected = False
         CaptionWordbreak = True
         DisplayName = 'MultiRadioButton'
@@ -36,33 +37,37 @@ object Form1: TForm1
     CaptionLeft = 25
     TabOrder = 0
   end
-  object MultiCheckGroup1: TMultiCheckGroup
-    Left = 368
-    Height = 170
-    Top = 24
-    Width = 264
-    Caption = ' RadioCheckbox '
-    Checkboxes = <    
+  object MultiRadioGroup2: TMultiRadioGroup
+    Left = 24
+    Height = 120
+    Top = 32
+    Width = 210
+    Font.Color = clBlue
+    RndRctRadius = 20
+    RadioButtons = <    
       item
-        Caption = 'Checkbox 1'
+        Caption = 'Radiobutton 1'
         Selected = False
-        DisplayName = 'TMultiCheckbox'
+        DisplayName = 'MultiRadioButton'
       end    
       item
-        Caption = 'Checkbox 2'
+        Caption = 'Radiobutton 2'
         Selected = False
-        DisplayName = 'TMultiCheckbox'
+        DisplayName = 'MultiRadioButton'
       end    
       item
-        Caption = 'Das ist ein ganz langer Text mit Wordbreak'
+        Caption = 'Radiobutton 3'
         Selected = False
-        CaptionWordbreak = True
-        DisplayName = 'TMultiCheckbox'
+        DisplayName = 'MultiRadioButton'
+      end    
+      item
+        Caption = 'Radiobutton 4'
+        Selected = False
+        DisplayName = 'MultiRadioButton'
       end>
-    Rows = 2
-    BorderColor = clLime
-    BorderMargin = 6
-    CaptionLeft = 20
+    Rows = 1
+    BorderColor = clBlue
+    BorderWidth = 2
     TabOrder = 1
   end
 end
