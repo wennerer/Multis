@@ -57,6 +57,10 @@ begin
    aTabSheet.Color        := clWindow;
    aTabSheet.SetBounds(0,0,715,435);
 
+   PhasePage              := TTabsheet.Create(SetAllForm);
+   PhasePage.Parent       := aTabSheet;
+   PhasePage.Caption      := 'Select A Phase';
+
    EventsPage                := TTabsheet.Create(SetAllForm);
    EventsPage.Parent         := aTabSheet;
    EventsPage.Caption        := 'Set Event Properties';
@@ -64,6 +68,24 @@ begin
    InfoBoxPage                := TTabsheet.Create(SetAllForm);
    InfoBoxPage.Parent         := aTabSheet;
    InfoBoxPage.Caption        := 'Set InfoBox Properties';
+
+
+   FRadioGroup           := TMultiRadioGroup.Create(SetAllForm);
+   FRadioGroup.Parent    := PhasePage;
+   FRadioGroup.Left      := (SetAllForm.Width div 2) - (FRadioGroup.Width div 2);
+   FRadioGroup.Top       := 100;
+   FRadioGroup.Height    := 160;
+   FRadioGroup.RadioButtons.Add;
+   FRadioGroup.RadioButtons.Add;
+   FRadioGroup.RadioButtons.Add;
+   FRadioGroup.RadioButtons.Add;
+   FRadioGroup.RadioButtons.Items[0].Caption := 'ToDo';
+   FRadioGroup.RadioButtons.Items[1].Caption := 'Active';
+   FRadioGroup.RadioButtons.Items[2].Caption := 'Done';
+   FRadioGroup.RadioButtons.Items[3].Caption := 'InActive';
+   FRadioGroup.RadioButtons.Items[4].Caption := 'WhatEver';
+   FRadioGroup.RadioButtons.Items[ord(TmpSet.FPhase)].Selected:= true;
+   FRadioGroup.OnChange := @PhaseChanged;
 
 
    for lv:=0 to 12 do
@@ -415,6 +437,19 @@ begin
    SetAllForm.Free;
  end;
 end;
+
+
+procedure TPropertySetAllEvents.PhaseChanged(Sender: TObject; const aIndex: integer);
+begin
+ case aIndex of
+  0 : TmpSet.FPhase := phToDo  ;
+  1 : TmpSet.FPhase := phActive  ;
+  2 : TmpSet.FPhase := phDone  ;
+  3 : TmpSet.FPhase := phInActive  ;
+  4 : TmpSet.FPhase := phWhatEver  ;
+ end;
+end;
+
 
 procedure TPropertySetAllEvents.ButtonsOnClick(Sender: TObject);
 var aColorDialog : TColorDialog;

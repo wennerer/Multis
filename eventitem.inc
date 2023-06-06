@@ -29,6 +29,7 @@ begin
  FFont                := TFont.Create;
  //FFont.OnChange       := @CheckBoxFontChanged;
  FInfoBox := TInfoBox.create(self);
+ FPhase               := phToDo  ;
 end;
 
 destructor TMultiEvent.Destroy;
@@ -99,6 +100,13 @@ procedure TMultiEvent.SetImageList(AValue: TCustomImageList);
 begin
   if FImageList=AValue then Exit;
   FImageList:=AValue;
+  (FEvents as TMultiEventCollection).FDrawEvent.Invalidate;
+end;
+
+procedure TMultiEvent.SetPhase(AValue: TPhase);
+begin
+  if FPhase=AValue then Exit;
+  FPhase:=AValue;
   (FEvents as TMultiEventCollection).FDrawEvent.Invalidate;
 end;
 

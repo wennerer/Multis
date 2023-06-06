@@ -41,7 +41,10 @@ uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, LCLIntf,
   IntfGraphics, LCLType, ImgList, LCLProc, GraphType, GraphPropEdits, PropEdits,
   multipanel, multilayer, infmultis, ptin, StdCtrls, ColorBox, Spin, ExtCtrls,
-  TypInfo, FPImage, ComCtrls, multibutton;
+  TypInfo, FPImage, ComCtrls, multibutton, multiradiogroup;
+
+type
+  TPhase = (phToDo,phActive,phDone,phInActive,phWhatEver);
 
 type
   TGradientCourse = (gcHorizontal,gcVertical,gcSpread,gcRadiant,gcAlternate); //for background color
@@ -97,6 +100,7 @@ type
 
    TSetAll = class (TPersistent)
    private
+    FPhase           : TPhase;
     FInfoBox         : InfoBox;
     FBorderColor     : TColor;
     FBorderWidth     : integer;
@@ -134,8 +138,10 @@ type
     OldSet        : TSetAll;
     SetAllForm    : TCustomForm;
     aTabsheet     : TPageControl;
+    PhasePage     : TTabsheet;
     EventsPage    : TTabsheet;
     InfoBoxPage   : TTabsheet;
+    FRadioGroup   : TMultiRadioGroup;
     FButtons      : array [0..17] of TMultiButton;
     FInfoButtons  : array [0..16] of TMultiButton;
     FButton       : array [24..25] of TMultiButton;
@@ -143,6 +149,7 @@ type
     FSpinEdit     : array [0..12] of TSpinEdit;
     FComboBox     : array [0..6] of TComboBox;
     FCheckBox     : array [0..4] of TCheckBox;
+    procedure PhaseChanged(Sender: TObject; const aIndex: integer);
    protected
     procedure CreateWindow;
     procedure ButtonsOnClick(Sender : TObject);
@@ -176,8 +183,8 @@ type
      FHeight             : integer;
      FHorizCorrection    : integer;
      FInfoBoxPosition    : TInfoBoxPosition;
-     FDownUp             : boolean;
-     FUpDown             : boolean;
+     //FDownUp             : boolean;
+     //FUpDown             : boolean;
      FPositionCanged     : boolean;
      FOwner              : TMultiEvent;
      FCaption            : TCaption;
@@ -371,6 +378,7 @@ type
     FImageIndex         : TImageIndex;
     FImageList          : TCustomImageList;
     FNumbers            : boolean;
+    FPhase: TPhase;
     FRRRadius           : integer;
     FSize               : integer;
     FTag                : PtrInt;
@@ -389,6 +397,7 @@ type
     procedure SetGradient(AValue: TGradientCourse);
     procedure SetImageIndex(AValue: TImageIndex);
     procedure SetImageList(AValue: TCustomImageList);
+    procedure SetPhase(AValue: TPhase);
     procedure SetRRRadius(AValue: integer);
     procedure SetSize(AValue: integer);
     procedure SetVisible(AValue: Boolean);
@@ -441,6 +450,9 @@ type
     //
     //
     property InfoBox : TInfoBox read FInfoBox write FInfoBox;
+    //
+    //
+    property Phase : TPhase read FPhase write SetPhase default phToDo  ;
   end;
 
 
@@ -530,6 +542,7 @@ implementation
 
 constructor TSetAll.create(aOwner: TCustomControl);
 begin
+ FPhase           := phToDo  ;
  FBorderColor     := clBlack;
  FBorderWidth     := 1;
  FColorEnd        := clCream;

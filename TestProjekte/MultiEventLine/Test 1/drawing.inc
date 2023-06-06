@@ -2,7 +2,7 @@
 
 
 procedure TMainForm.MultiButtonClick(Sender: TObject);
-begin
+begin (*
  if Sender = MultiButton1 then
   begin
    Choice := Line;
@@ -26,7 +26,7 @@ begin
    MultiEventline1.Events[1].InfoBox.Caption:='let loose and drag';
    MultiEventline1.Events[2].InfoBox.Caption:='click left, let loose and drag';
    MultiEventline1.Events[3].InfoBox.Caption:='doubble click finished';
-  end;
+  end;   *)
 end;
 
 procedure TMainForm.SpinEdit1Change(Sender: TObject);
@@ -44,10 +44,10 @@ procedure TMainForm.Button1Click(Sender: TObject);
 var i : integer;
 begin
  i := 1;
-
+ (*
  if MultiEventLine1.Events[i].Visible then MultiEventLine1.Events[i].Visible:=false
  else MultiEventLine1.Events[i].Visible := true;
-
+  *)
 end;
 
 procedure TMainForm.ColorBox2Change(Sender: TObject);

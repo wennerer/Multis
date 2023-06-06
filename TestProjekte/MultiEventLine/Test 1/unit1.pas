@@ -26,7 +26,6 @@ type
     MultiButton2: TMultiButton;
     MultiButton3: TMultiButton;
     MultiButtonStyleManager1: TMultiButtonStyleManager;
-    MultiEventLine1: TMultiEventLine;
     MultiPanel1: TMultiPanel;
     MultiPanel2: TMultiPanel;
     MultiPanel3: TMultiPanel;
