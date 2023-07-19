@@ -6,14 +6,14 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, MultiEventLine,
-  MultiRadioGroup;
+  MultiRadioGroup, MultiCheckGroup;
 
 type
 
   { TForm1 }
 
   TForm1 = class(TForm)
-    MultiEventLine1: TMultiEventLine;
+    MultiEventLine1 : TMultiEventLine;
 
   private
 

@@ -101,6 +101,7 @@ type
    TSetAll = class (TPersistent)
    private
     FPhase           : TPhase;
+    FIndex           : integer;
     FInfoBox         : InfoBox;
     FBorderColor     : TColor;
     FBorderWidth     : integer;
@@ -134,8 +135,9 @@ type
 
    TPropertySetAllEvents = class (TPropertyEditor)
    private
-    TmpSet        : TSetAll;
-    OldSet        : TSetAll;
+    TmpSet        : array [0..4] of TSetAll;
+    FPhase        : integer;
+    OldSet        : array [0..4] of TSetAll;
     SetAllForm    : TCustomForm;
     aTabsheet     : TPageControl;
     PhasePage     : TTabsheet;
@@ -149,11 +151,12 @@ type
     FSpinEdit     : array [0..12] of TSpinEdit;
     FComboBox     : array [0..6] of TComboBox;
     FCheckBox     : array [0..4] of TCheckBox;
-    procedure PhaseChanged(Sender: TObject; const aIndex: integer);
+    procedure PhaseChanged({%H-}Sender: TObject; const aIndex: integer);
+    procedure UpDateControls;
    protected
     procedure CreateWindow;
     procedure ButtonsOnClick(Sender : TObject);
-    procedure UpDown(Sender : TObject);
+    procedure UpDown({%H-}Sender : TObject);
     procedure AdjustColorBox(aColor: TColor; aIndex: integer);
     procedure ColorBoxOnChange(Sender: TObject);
     procedure SpinEditOnChange(Sender: TObject);
@@ -349,6 +352,7 @@ type
    property Items[Index: Integer]: TMultiEvent read GetEvent write SetEvent; default;
    property VisibleCount: Integer read GetVisibleCount;
    property Enabled: Boolean read GetEnabled;
+
   published
 
   end;
@@ -430,7 +434,7 @@ type
     property Visible          : Boolean read FVisible write SetVisible default true;
     property Left             : integer read FLeft write FLeft;
     property Top              : integer read FTop write FTop;
-    property Tag              : PtrInt read FTag write FTag;
+    property Tag              : PtrInt read FTag write FTag default 0;
     property ShowNumber       : boolean read FNumbers write FNumbers default true;
     property BorderColor      : TColor read FBorderColor write FBorderColor default clBlack;
     property BorderWidth      : integer read FBorderWidth write FBorderWidth default 1;
@@ -471,6 +475,7 @@ type
    FGradient            : TGradientCourse;
    FLine                : TLine;
    FSetAll              : TSetAll;
+   FPhaseAll            : array [0..4] of TSetAll;
 
    procedure CalculateHeight;
    procedure CalculateTheLine;
@@ -482,12 +487,14 @@ type
    procedure DrawTheEvent;
    procedure CalculateTheInfoBox;
    procedure DrawInfoBox;
+   procedure PhaseChanged(AValue : TPhase; aTag : PtrInt);
    procedure SetBorderColor(AValue: TColor);
    procedure SetBorderWidth(AValue: integer);
 
    procedure SetLine(AValue: TLine);
    procedure SetSetAll(AValue: TSetAll);
    procedure updown;
+   procedure SetPropertiesToPhase(AValue:TSetAll);
   protected
    function CreateEvents: TMultiEventCollection;
    function GetEvent: TMultiEventCollection;
@@ -543,6 +550,7 @@ implementation
 constructor TSetAll.create(aOwner: TCustomControl);
 begin
  FPhase           := phToDo  ;
+ FIndex           := 0;
  FBorderColor     := clBlack;
  FBorderWidth     := 1;
  FColorEnd        := clCream;
@@ -589,6 +597,7 @@ procedure TSetAll.AssignTo(Dest: TPersistent);
 begin
  if Dest is TSetAll then
   begin
+   TSetAll(Dest).FPhase             := FPhase;
    TSetAll(Dest).FBorderColor       := FBorderColor;
    TSetAll(Dest).FBorderWidth       := FBorderWidth;
    TSetAll(Dest).FColorEnd          := FColorEnd;
@@ -745,6 +754,7 @@ end;
 { TMultiEventLine}
 
 constructor TMultiEventLine.Create(AOwner: TComponent);
+var lv : integer;
 begin
   inherited Create(AOwner);
   Width := 300;
@@ -762,13 +772,32 @@ begin
   FEventCollection := CreateEvents;  //TCollection
   FEventCollection.Add;
   FEventCollection.Add;
+  for lv:= 0 to pred(FEventCollection.Count) do
+    FEventCollection.Items[lv].FTag := lv;
+
+
 
   FSetAll := TSetAll.Create(self);
+  for lv := 0 to 4 do
+   FPhaseAll[lv] := TSetAll.Create(self);
+
+  FPhaseAll[0].FBorderColor := clBlack;
+  FPhaseAll[0].FFont.Color  := clBlack;
+  FPhaseAll[1].FBorderColor := clBlue;
+  FPhaseAll[1].FFont.Color  := clBlue;
+  FPhaseAll[2].FBorderColor := clLime;
+  FPhaseAll[2].FFont.Color  := clLime;
+  FPhaseAll[3].FBorderColor := clGray;
+  FPhaseAll[3].FFont.Color  := clGray;
+  FPhaseAll[4].FBorderColor := clRed;
+  FPhaseAll[4].FFont.Color  := clRed;
 
 end;
 
 destructor TMultiEventLine.Destroy;
+var lv : integer;
 begin
+ for lv := 0 to 4 do FPhaseAll[lv].Free;
  FSetAll.Free;
  FLine.Free;
  FEventCollection.Free;
@@ -776,11 +805,9 @@ begin
 end;
 
 procedure TMultiEventLine.Loaded;
-var lv : integer;
 begin
  inherited Loaded;
- for lv:= 0 to pred(FEventCollection.Count) do
-   FEventCollection.Items[lv].FTag := lv;
+
  if FEventCollection.Items[0].FImageList <> nil then
   FSetAll.FImages := FEventCollection.Items[0].FImageList;
 end;
@@ -890,12 +917,63 @@ begin
   end;
 end;
 
+procedure TMultiEventLine.PhaseChanged(AValue:TPhase; aTag:PtrInt);
+begin
+ FSetAll.Assign(FPhaseAll[ord(aValue)]);
+
+ FEventCollection.Items[aTag].Phase            := FSetAll.FPhase ;
+ FEventCollection.Items[aTag].BorderColor      := FSetAll.FBorderColor;
+ FEventCollection.Items[aTag].BorderWidth      := FSetAll.FBorderWidth;
+ FEventCollection.Items[aTag].ColorEnd         := FSetAll.FColorEnd;
+ FEventCollection.Items[aTag].ColorGradient    := FSetAll.FColorGradient;
+ FEventCollection.Items[aTag].ColorStart       := FSetAll.FColorStart;
+ FEventCollection.Items[aTag].DisabledBlendVal := FSetAll.FBlendValue;
+ FEventCollection.Items[aTag].DisabledColor    := FSetAll.FDisabledColor;
+ FEventCollection.Items[aTag].Enabled          := FSetAll.FEnabled;
+ FEventCollection.Items[aTag].FFont.Assign(FSetAll.FFont);
+ FEventCollection.Items[aTag].Hover            := FSetAll.FHover;
+ FEventCollection.Items[aTag].ImageIndex       := FSetAll.FImageIndex;
+ FEventCollection.Items[aTag].Images           := FSetAll.FImages;
+ FEventCollection.Items[aTag].RndRctRadius     := FSetAll.FRRRadius;
+ FEventCollection.Items[aTag].ShowNumber       := FSetAll.FNumbers;
+ FEventCollection.Items[aTag].Size             := FSetAll.FSize;
+ FEventCollection.Items[aTag].Style            := FSetAll.FStyle;
+ FEventCollection.Items[aTag].Visible          := FSetAll.FVisible;
+
+ FEventCollection.Items[aTag].FInfoBox.BorderColor      := FSetAll.FInfoBox.FBorderColor;
+ FEventCollection.Items[aTag].FInfoBox.BorderWidth      := FSetAll.FInfoBox.FBorderWidth;
+ FEventCollection.Items[aTag].FInfoBox.CaptionAlignment := FSetAll.FInfoBox.FTextStyle_Alignment;
+ FEventCollection.Items[aTag].FInfoBox.CaptionHorMargin := FSetAll.FInfoBox.FCapLeft;
+ FEventCollection.Items[aTag].FInfoBox.CaptionLayout    := FSetAll.FInfoBox.FTextStyle_Layout;
+ FEventCollection.Items[aTag].FInfoBox.CaptionVerMargin := FSetAll.FInfoBox.FCapTop;
+ FEventCollection.Items[aTag].FInfoBox.CaptionWordbreak := FSetAll.FInfoBox.FCaptionWordbreak;
+ FEventCollection.Items[aTag].FInfoBox.Color            := FSetAll.FInfoBox.FColor;
+ FEventCollection.Items[aTag].FInfoBox.FFont.Assign(FSetAll.FInfoBox.FFont);
+ FEventCollection.Items[aTag].FInfoBox.Height           := FSetAll.FInfoBox.FHeight;
+ FEventCollection.Items[aTag].FInfoBox.HorizCorrection  := FSetAll.FInfoBox.FHorizCorrection;
+ FEventCollection.Items[aTag].FInfoBox.Position         := FSetAll.FInfoBox.FInfoBoxPosition;
+ FEventCollection.Items[aTag].FInfoBox.RndRctRadius     := FSetAll.FInfoBox.FRRRadius;
+ FEventCollection.Items[aTag].FInfoBox.Style            := FSetAll.FInfoBox.FStyle;
+ FEventCollection.Items[aTag].FInfoBox.VertCorrection   := FSetAll.FInfoBox.FVertCorrection;
+ FEventCollection.Items[aTag].FInfoBox.Width            := FSetAll.FInfoBox.FWidth;
+ Invalidate;
+end;
+
+procedure TMultiEventLine.SetPropertiesToPhase(AValue: TSetAll);
+begin
+ FPhaseAll[ord(aValue.FPhase)].Assign(aValue);
+end;
+
 procedure TMultiEventLine.SetSetAll(AValue: TSetAll);
 var lv : integer;
 begin
+ //if FSetAll = aValue then exit;
+ SetPropertiesToPhase(AValue);
  FSetAll.Assign(aValue);
+
   for lv:= 0 to pred(FEventCollection.Count) do
    begin
+    FEventCollection.Items[lv].Phase            := AValue.FPhase ;
     FEventCollection.Items[lv].BorderColor      := AValue.FBorderColor;
     FEventCollection.Items[lv].BorderWidth      := AValue.FBorderWidth;
     FEventCollection.Items[lv].ColorEnd         := AValue.FColorEnd;
@@ -1017,6 +1095,7 @@ end;
 
 procedure TMultiEventLine.ReadSetAll(Reader: TReader);
 var {%H-}s : string;
+    lv     : integer;
 begin
  with Reader do begin
     ReadListBegin;
@@ -1031,7 +1110,7 @@ begin
      ReadFont(Reader,FSetAll.FFont);
      FSetAll.FHover          := ReadBoolean;
      FSetAll.FImageIndex     := ReadInteger;
-     s                       := ReadString; //show in loaded procedure
+     s                       := ReadString; //show in loaded procedure, Name of Imagelist
      FSetAll.FRRRadius       := ReadInteger;
      FSetAll.FNumbers        := ReadBoolean;
      FSetAll.FSize           := ReadInteger;
@@ -1056,7 +1135,44 @@ begin
      FSetAll.FInfoBox.FWidth               := ReadInteger;
 
      //FSetAll.aString:= ReadString;
+    (* for lv := 0 to 4 do
+      begin
+       FPhaseAll[lv].FBorderColor    := ReadInteger;
+       FPhaseAll[lv].FBorderWidth    := ReadInteger;
+       FPhaseAll[lv].FColorEnd       := ReadInteger;
+       FPhaseAll[lv].FColorGradient  := TGradientCourse(ReadInteger);
+       FPhaseAll[lv].FColorStart     := ReadInteger;
+       FPhaseAll[lv].FBlendValue     := ReadInteger;
+       FPhaseAll[lv].FDisabledColor  := ReadInteger;
+       FPhaseAll[lv].FEnabled        := ReadBoolean;
+       ReadFont(Reader,FPhaseAll[lv].FFont);
+       FPhaseAll[lv].FHover          := ReadBoolean;
+       FPhaseAll[lv].FImageIndex     := ReadInteger;
+       s                       := ReadString; //show in loaded procedure
+       FPhaseAll[lv].FRRRadius       := ReadInteger;
+       FPhaseAll[lv].FNumbers        := ReadBoolean;
+       FPhaseAll[lv].FSize           := ReadInteger;
+       FPhaseAll[lv].FStyle          := TMEventStyle(ReadInteger);
+       FPhaseAll[lv].FVisible        := ReadBoolean;
 
+       FPhaseAll[lv].FInfoBox.FBorderColor         := ReadInteger;
+       FPhaseAll[lv].FInfoBox.FBorderWidth         := ReadInteger;
+       FPhaseAll[lv].FInfoBox.FTextStyle_Alignment := TAlignment(ReadInteger);
+       FPhaseAll[lv].FInfoBox.FCapLeft             := ReadInteger;
+       FPhaseAll[lv].FInfoBox.FTextStyle_Layout    := TTextLayout(ReadInteger);
+       FPhaseAll[lv].FInfoBox.FCapTop              := ReadInteger;
+       FPhaseAll[lv].FInfoBox.FCaptionWordbreak    := ReadBoolean;
+       FPhaseAll[lv].FInfoBox.FColor               := ReadInteger;
+       ReadFont(Reader,FPhaseAll[lv].FInfoBox.FFont);
+       FPhaseAll[lv].FInfoBox.FHeight              := ReadInteger;
+       FPhaseAll[lv].FInfoBox.FHorizCorrection     := ReadInteger;
+       FPhaseAll[lv].FInfoBox.FInfoBoxPosition     := TInfoBoxPosition(ReadInteger);
+       FPhaseAll[lv].FInfoBox.FRRRadius            := ReadInteger;
+       FPhaseAll[lv].FInfoBox.FStyle               := TInfoBoxStyle(ReadInteger);
+       FPhaseAll[lv].FInfoBox.FVertCorrection      := ReadInteger;
+       FPhaseAll[lv].FInfoBox.FWidth               := ReadInteger;
+      end;//lv
+                   *)
     ReadListEnd;
   end;
 end;
@@ -1078,6 +1194,7 @@ begin
 end;
 
 procedure TMultiEventLine.WriteSetAll(Writer: TWriter);
+var lv : integer;
 begin
  with Writer do begin
     WriteListBegin;
@@ -1120,7 +1237,47 @@ begin
      WriteInteger(FSetAll.FInfoBox.FWidth);
 
      //WriteString(SetAll.aString);
+  (*   for lv := 0 to 4 do
+      begin
+       WriteInteger(FPhaseAll[lv].FBorderColor);
+       WriteInteger(FPhaseAll[lv].FBorderWidth);
+       WriteInteger(FPhaseAll[lv].FColorEnd);
+       WriteInteger(ord(FPhaseAll[lv].FColorGradient));
+       WriteInteger(FPhaseAll[lv].FColorStart);
+       WriteInteger(FPhaseAll[lv].FBlendValue);
+       WriteInteger(FPhaseAll[lv].FDisabledColor);
+       WriteBoolean(FPhaseAll[lv].FEnabled);
+       WriteFont(Writer,FPhaseAll[lv].FFont);
+       WriteBoolean(FPhaseAll[lv].FHover);
+       WriteInteger(FPhaseAll[lv].FImageIndex);
+       if SetAll.FImages <> nil then
+        WriteString(SetAll.FImages.Name)
+       else
+        WriteString('nil');
+       WriteInteger(FPhaseAll[lv].FRRRadius);
+       WriteBoolean(FPhaseAll[lv].FNumbers);
+       WriteInteger(FPhaseAll[lv].FSize);
+       WriteInteger(ord(FPhaseAll[lv].FStyle));
+       WriteBoolean(FPhaseAll[lv].FVisible);
 
+       WriteInteger(FPhaseAll[lv].FInfoBox.FBorderColor);
+       WriteInteger(FPhaseAll[lv].FInfoBox.FBorderWidth);
+       WriteInteger(ord(FPhaseAll[lv].FInfoBox.FTextStyle_Alignment));
+       WriteInteger(FPhaseAll[lv].FInfoBox.FCapLeft);
+       WriteInteger(ord(FPhaseAll[lv].FInfoBox.FTextStyle_Layout));
+       WriteInteger(FPhaseAll[lv].FInfoBox.FCapTop);
+       WriteBoolean(FPhaseAll[lv].FInfoBox.FCaptionWordbreak);
+       WriteInteger(FPhaseAll[lv].FInfoBox.FColor);
+       WriteFont(Writer,FPhaseAll[lv].FInfoBox.FFont);
+       WriteInteger(FPhaseAll[lv].FInfoBox.FHeight);
+       WriteInteger(FPhaseAll[lv].FInfoBox.FHorizCorrection);
+       WriteInteger(ord(FPhaseAll[lv].FInfoBox.FInfoBoxPosition));
+       WriteInteger(FPhaseAll[lv].FInfoBox.FRRRadius);
+       WriteInteger(ord(FPhaseAll[lv].FInfoBox.FStyle));
+       WriteInteger(FPhaseAll[lv].FInfoBox.FVertCorrection);
+       WriteInteger(FPhaseAll[lv].FInfoBox.FWidth);
+      end; //lv
+                       *)
     WriteListEnd;
   end;
 end;
@@ -1396,6 +1553,7 @@ begin
   begin
    if FEventCollection.Items[lv].FVisible then
     begin
+     PhaseChanged(FEventCollection.Items[lv].FPhase,lv);
      DrawEventBgrd(lv);
      if FEventCollection.Items[lv].FBorderColor <> clNone then
       begin

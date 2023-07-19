@@ -7,22 +7,23 @@ object Form1: TForm1
   ClientHeight = 240
   ClientWidth = 833
   object MultiEventLine1: TMultiEventLine
-    Left = 84
+    Left = 167
     Height = 30
-    Top = 43
+    Top = 83
     Width = 300
     Events = <    
       item
         Size = 15
         Left = 3
         Top = 8
-        Tag = 0
+        Font.Color = clBlack
       end    
       item
         Size = 15
         Left = 283
         Top = 8
         Tag = 1
+        Font.Color = clBlack
       end>
     LineSettings.Width = 280
     LineSettings.Height = 3
@@ -45,7 +46,7 @@ object Form1: TForm1
       False
       False
       False
-      536870912
+      0
       False
       -1
       'nil'
