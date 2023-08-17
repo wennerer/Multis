@@ -13,6 +13,7 @@ object MainForm: TMainForm
   OnMouseMove = FormMouseMove
   OnMouseUp = FormMouseUp
   OnPaint = FormPaint
+  LCLVersion = '2.2.0.4'
   object MultiPanel1: TMultiPanel
     Left = 0
     Height = 184
@@ -96,6 +97,7 @@ object MainForm: TMainForm
           InfoBox.Caption = '1'
           InfoBox.Position = ibBottom
           InfoBox.Width = 150
+          PredefinedStates = pfsInProcess
         end      
         item
           Size = 15
@@ -130,6 +132,42 @@ object MainForm: TMainForm
       LineSettings.VertMargin = 14
       BorderColor = clNone
       BorderWidth = 0
+      States.InProcess.ColorGradient = gcHorizontal
+      States.InProcess.ColorStart = clBlack
+      States.InProcess.ColorEnd = clBlack
+      States.InProcess.Size = 0
+      States.InProcess.Enabled = False
+      States.InProcess.DisabledColor = clBlack
+      States.InProcess.DisabledBlendVal = 0
+      States.InProcess.HoverColor = clBlack
+      States.InProcess.HoverBlendVal = 0
+      States.InProcess.Visible = False
+      States.InProcess.Left = 0
+      States.InProcess.Top = 0
+      States.InProcess.Tag = 0
+      States.InProcess.ShowNumber = False
+      States.InProcess.BorderWidth = 0
+      States.InProcess.Style = mesRect
+      States.InProcess.RndRctRadius = 0
+      States.InProcess.ImageIndex = 0
+      States.Done.ColorGradient = gcHorizontal
+      States.Done.ColorStart = clBlack
+      States.Done.ColorEnd = clBlack
+      States.Done.Size = 0
+      States.Done.Enabled = False
+      States.Done.DisabledColor = clBlack
+      States.Done.DisabledBlendVal = 0
+      States.Done.HoverColor = clBlack
+      States.Done.HoverBlendVal = 0
+      States.Done.Visible = False
+      States.Done.Left = 0
+      States.Done.Top = 0
+      States.Done.Tag = 0
+      States.Done.ShowNumber = False
+      States.Done.BorderWidth = 0
+      States.Done.Style = mesRect
+      States.Done.RndRctRadius = 0
+      States.Done.ImageIndex = 0
       Color = clNone
       Anchors = [akTop, akLeft, akRight, akBottom]
       BorderSpacing.Top = 5

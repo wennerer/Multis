@@ -5,10 +5,14 @@ unit Unit1;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs;
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, MultiEventLine;
 
 type
+
+  { TForm1 }
+
   TForm1 = class(TForm)
+    MultiEventLine1 : TMultiEventLine;
   private
 
   public

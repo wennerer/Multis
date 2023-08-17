@@ -29,6 +29,7 @@ begin
  FFont                := TFont.Create;
  //FFont.OnChange       := @CheckBoxFontChanged;
  FInfoBox := TInfoBox.create(self);
+ FPredefinedStates    := pfsCustom;
 end;
 
 destructor TMultiEvent.Destroy;
@@ -100,6 +101,12 @@ begin
   if FImageList=AValue then Exit;
   FImageList:=AValue;
   (FEvents as TMultiEventCollection).FDrawEvent.Invalidate;
+end;
+
+procedure TMultiEvent.SetPredefinedStates(AValue : TPredefinedStates);
+begin
+  if FPredefinedStates = AValue then Exit;
+  FPredefinedStates := AValue;
 end;
 
 procedure TMultiEvent.SetRRRadius(AValue: integer);

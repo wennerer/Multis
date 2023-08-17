@@ -66,11 +66,15 @@ type
  TInfoBoxStyle = (ibsRectangle,ibsRoundRect,ibsEllipse);
 
 type
+ TPredefinedStates = (pfsCustom,pfsInProcess,pfsDone,pfsInActive,pfsWhatEver);
+
+type
   TMultiEventLine      = class; //TCustomControl , die eigentliche Komponente
   TMultiEvent          = class; //TCollectionItem, der einzelne Kreis
 
+
 type
-    InfoBox = record
+    InfoBox = record    //wird benötigt zum zuweisen der Werte beim Start des Propertieeditors!
      FBorderColor           : TColor;
      FBorderWidth           : integer;
      FTextStyle_Alignment   : TAlignment;
@@ -176,8 +180,6 @@ type
      FHeight             : integer;
      FHorizCorrection    : integer;
      FInfoBoxPosition    : TInfoBoxPosition;
-     FDownUp             : boolean;
-     FUpDown             : boolean;
      FPositionCanged     : boolean;
      FOwner              : TMultiEvent;
      FCaption            : TCaption;
@@ -317,8 +319,113 @@ type
     property VertMargin : integer read FVertMargin write SetVertMargin;
 
  end;
+type
 
+  { TStateProperties }
 
+  TStateProperties  = class (TPersistent)
+   private
+     FBlendValue : integer;
+     FBorderColor : TColor;
+     FBorderWidth : integer;
+     FColorEnd : TColor;
+     FColorStart : TColor;
+     FDisabledColor : TColor;
+     FEnabled : boolean;
+     FFont : TFont;
+     FGradient : TGradientCourse;
+     FHover : boolean;
+     FHoverBlendValue : integer;
+     FHoverColor : TColor;
+     FImageIndex : TImageIndex;
+     FImageList : TCustomImageList;
+     FInfoBox : TInfoBox;
+     FLeft : integer;
+     FNumbers : boolean;
+     FRRRadius : integer;
+     FSize : integer;
+     FStyle : TMEventStyle;
+     FTag : PtrInt;
+     FTop : integer;
+     FVisible : Boolean;
+     procedure SetColorEnd(AValue : TColor);
+     procedure SetColorStart(AValue : TColor);
+     procedure SetEnabled(AValue : boolean);
+     procedure SetFont(AValue : TFont);
+     procedure SetGradient(AValue : TGradientCourse);
+     procedure SetImageIndex(AValue : TImageIndex);
+     procedure SetImageList(AValue : TCustomImageList);
+     procedure SetRRRadius(AValue : integer);
+     procedure SetSize(AValue : integer);
+     procedure SetVisible(AValue : Boolean);
+
+   protected
+
+   public
+    constructor Create(aOwner:TCustomControl);
+    //destructor Destroy; override;
+   published
+     //The direction of the gradient
+    //Die Richtung des Farbverlaufs
+    property ColorGradient : TGradientCourse read FGradient write SetGradient default gcSpread;
+    //The start color of the line ( for color gradient)
+    //Die Startfarbe der Linie (für Farbverlauf)
+    property ColorStart : TColor  read FColorStart      write SetColorStart default clWhite;
+    //The end color of the line ( for color gradient)
+    //Die Endfarbe der Linie (für Farbverlauf)
+    property ColorEnd : TColor  read FColorEnd      write SetColorEnd default clCream;
+    property Size             : integer read FSize write SetSize;
+    property Enabled          : boolean read FEnabled write SetEnabled default true;
+    property DisabledColor    : TColor read FDisabledColor write FDisabledColor default $D2D2D2;
+    property DisabledBlendVal : integer read FBlendValue write FBlendValue default 180;
+    property Hover            : boolean read FHover write FHover default false;
+    property HoverColor       : TColor read FHoverColor write FHoverColor default clOlive;
+    property HoverBlendVal    : integer read FHoverBlendValue write FHoverBlendValue default 120;
+    property Visible          : Boolean read FVisible write SetVisible default true;
+    property Left             : integer read FLeft write FLeft;
+    property Top              : integer read FTop write FTop;
+    property Tag              : PtrInt read FTag write FTag;
+    property ShowNumber       : boolean read FNumbers write FNumbers default true;
+    property BorderColor      : TColor read FBorderColor write FBorderColor default clBlack;
+    property BorderWidth      : integer read FBorderWidth write FBorderWidth default 1;
+    property Style            : TMEventStyle read FStyle write FStyle default mesCircle;
+    //Corner diameter if the geometric shape is RoundRect
+    //Eckendurchmesser wenn geometrische Form ist RoundRect
+    property RndRctRadius     : integer    read FRRRadius   write SetRRRadius default 5;
+    //A list for including images
+    //Eine Liste zum Einfügen von Bildern
+    property Images  :  TCustomImageList  read FImageList write SetImageList default nil;
+    //The Index of a Image in a ImageList
+    //Der Index eines Bildes in einer ImageList
+    property ImageIndex : TImageIndex read FImageIndex write SetImageIndex default -1;
+    //The font to be used for text display the caption.
+    //Die Schrift die für die Textanzeige der Caption verwendet werden soll.
+    property Font: TFont read FFont write SetFont;
+    //
+    //
+    property InfoBox : TInfoBox read FInfoBox write FInfoBox;
+   end;
+
+type
+  { TStates }
+  TStates = class (TPersistent)
+   private
+    FInProcess : TStateProperties;
+    FOwner : TCustomControl;
+    FDone : TStateProperties;
+   protected
+
+   public
+    constructor Create(aOwner:TCustomControl);
+    destructor Destroy; override;
+   published
+    //
+    //
+    property InProcess : TStateProperties read FInProcess write FInProcess;
+    //
+    //
+    property Done : TStateProperties read FDone write FDone;
+   end;
 
 
 
@@ -371,6 +478,7 @@ type
     FImageIndex         : TImageIndex;
     FImageList          : TCustomImageList;
     FNumbers            : boolean;
+    FPredefinedStates   : TPredefinedStates;
     FRRRadius           : integer;
     FSize               : integer;
     FTag                : PtrInt;
@@ -389,6 +497,7 @@ type
     procedure SetGradient(AValue: TGradientCourse);
     procedure SetImageIndex(AValue: TImageIndex);
     procedure SetImageList(AValue: TCustomImageList);
+    procedure SetPredefinedStates(AValue : TPredefinedStates);
     procedure SetRRRadius(AValue: integer);
     procedure SetSize(AValue: integer);
     procedure SetVisible(AValue: Boolean);
@@ -441,6 +550,9 @@ type
     //
     //
     property InfoBox : TInfoBox read FInfoBox write FInfoBox;
+    //
+    //
+    property PredefinedStates : TPredefinedStates read FPredefinedStates write SetPredefinedStates default pfsCustom;
   end;
 
 
@@ -459,6 +571,7 @@ type
    FGradient            : TGradientCourse;
    FLine                : TLine;
    FSetAll              : TSetAll;
+   FStates              : TStates;
 
    procedure CalculateHeight;
    procedure CalculateTheLine;
@@ -515,6 +628,9 @@ type
    //
    //
    property SetAll : TSetAll read FSetAll write SetSetAll;
+   //
+   //
+   property States : TStates read FStates write FStates;
 
    property Color;
    property Align;
@@ -527,6 +643,7 @@ type
 procedure Register;
 
 implementation
+
 
 constructor TSetAll.create(aOwner: TCustomControl);
 begin
@@ -751,11 +868,13 @@ begin
   FEventCollection.Add;
 
   FSetAll := TSetAll.Create(self);
+  FStates := TStates.Create(self);
 
 end;
 
 destructor TMultiEventLine.Destroy;
 begin
+ FStates.Free;
  FSetAll.Free;
  FLine.Free;
  FEventCollection.Free;
@@ -1543,4 +1662,5 @@ end;
 {$Include ml_line.inc}
 {$Include ml_infobox.inc}
 {$Include ml_SetAllEvents.inc}
+{$Include ml_state.inc}
 end.
