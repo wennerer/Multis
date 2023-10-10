@@ -20,6 +20,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
+        <IsVisibleTab Value="True"/>
         <UsageCount Value="349"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -28,19 +29,17 @@
         <Filename Value="../../../multieventline.pas"/>
         <UnitName Value="MultiEventLine"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="403"/>
-        <CursorPos X="8" Y="409"/>
+        <TopLine Value="323"/>
+        <CursorPos X="30" Y="351"/>
         <UsageCount Value="174"/>
         <Bookmarks Count="1">
-          <Item0 X="8" Y="409"/>
+          <Item0 X="8" Y="410"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="../../../eventitem.inc"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="5"/>
-        <TopLine Value="104"/>
+        <EditorIndex Value="6"/>
         <CursorPos X="31" Y="109"/>
         <UsageCount Value="174"/>
         <Bookmarks Count="1">
@@ -50,40 +49,36 @@
       </Unit>
       <Unit>
         <Filename Value="../../../ml_infobox.inc"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="5"/>
         <UsageCount Value="174"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="../../../multibutton.pas"/>
         <UnitName Value="MultiButton"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="151"/>
-        <CursorPos X="14" Y="171"/>
-        <UsageCount Value="174"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="768"/>
+        <CursorPos X="46" Y="783"/>
+        <UsageCount Value="169"/>
+        <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="../../../ml_SetAllEvents.inc"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="4"/>
         <TopLine Value="22"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="272"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="../../../ml_state.inc"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="8"/>
-        <UsageCount Value="10"/>
+        <TopLine Value="66"/>
+        <CursorPos X="28" Y="76"/>
+        <UsageCount Value="272"/>
         <Loaded Value="True"/>
       </Unit>
     </Units>
-    <JumpHistory HistoryIndex="27">
-      <Position>
-        <Filename Value="unit1.pas"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../multieventline.pas"/>
-      </Position>
+    <JumpHistory HistoryIndex="29">
       <Position>
         <Filename Value="../../../multieventline.pas"/>
         <Caret Line="152" Column="18" TopLine="137"/>
@@ -187,6 +182,22 @@
       <Position>
         <Filename Value="../../../multieventline.pas"/>
         <Caret Line="693" Column="26" TopLine="676"/>
+      </Position>
+      <Position>
+        <Filename Value="../../../ml_state.inc"/>
+        <Caret Line="27" Column="3" TopLine="10"/>
+      </Position>
+      <Position>
+        <Filename Value="../../../multieventline.pas"/>
+        <Caret Line="365" Column="21" TopLine="350"/>
+      </Position>
+      <Position>
+        <Filename Value="../../../ml_state.inc"/>
+        <Caret Line="84" Column="20" TopLine="63"/>
+      </Position>
+      <Position>
+        <Filename Value="../../../multibutton.pas"/>
+        <Caret Line="171" Column="14" TopLine="151"/>
       </Position>
     </JumpHistory>
     <RunParams>

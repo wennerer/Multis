@@ -20,6 +20,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
+        <IsVisibleTab Value="True"/>
         <TopLine Value="66"/>
         <CursorPos X="2" Y="92"/>
         <UsageCount Value="211"/>
@@ -74,7 +75,6 @@
       </Unit>
       <Unit>
         <Filename Value="../../../eventitem.inc"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="4"/>
         <TopLine Value="101"/>
         <CursorPos X="47" Y="109"/>

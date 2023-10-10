@@ -348,6 +348,7 @@ type
      FTag : PtrInt;
      FTop : integer;
      FVisible : Boolean;
+     FOwner : TCustomControl;
      procedure SetColorEnd(AValue : TColor);
      procedure SetColorStart(AValue : TColor);
      procedure SetEnabled(AValue : boolean);
