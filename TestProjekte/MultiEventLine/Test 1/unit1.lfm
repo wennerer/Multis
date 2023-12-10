@@ -76,6 +76,113 @@ object MainForm: TMainForm
       BorderSpacing.Around = 5
       TabOrder = 0
     end
+    object MultiEventLine1: TMultiEventLine
+      AnchorSideLeft.Control = MultiPanel1
+      AnchorSideTop.Control = MultiButton1
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = MultiPanel1
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = MultiSeperator1
+      Left = 1
+      Height = 57
+      Top = 120
+      Width = 998
+      Events = <      
+        item
+          Size = 15
+          Left = 13
+          Top = 8
+          Tag = 0
+          InfoBox.Caption = '1'
+          InfoBox.Position = ibBottom
+          InfoBox.Width = 150
+        end      
+        item
+          Size = 15
+          Left = 332
+          Top = 8
+          Tag = 1
+          InfoBox.Caption = '2'
+          InfoBox.Position = ibBottom
+          InfoBox.Width = 150
+        end      
+        item
+          Size = 15
+          Left = 651
+          Top = 8
+          Tag = 2
+          InfoBox.Caption = '3'
+          InfoBox.Position = ibBottom
+          InfoBox.Width = 180
+        end      
+        item
+          Size = 15
+          Left = 970
+          Top = 8
+          Tag = 3
+          InfoBox.Caption = '4'
+          InfoBox.Position = ibBottom
+          InfoBox.Width = 150
+        end>
+      LineSettings.Width = 958
+      LineSettings.Height = 3
+      LineSettings.HorizMargin = 20
+      LineSettings.VertMargin = 14
+      BorderColor = clNone
+      BorderWidth = 0
+      Color = clNone
+      Anchors = [akTop, akLeft, akRight, akBottom]
+      BorderSpacing.Top = 5
+      BorderSpacing.Bottom = 2
+      Constraints.MinHeight = 55
+      FSetAll = (
+        0
+        1
+        15793151
+        2
+        16777215
+        180
+        13816530
+        True
+        0
+        'default'
+        False
+        False
+        False
+        False
+        536870912
+        False
+        -1
+        'nil'
+        5
+        True
+        15
+        2
+        True
+        536870911
+        1
+        0
+        2
+        1
+        0
+        False
+        16777215
+        0
+        'default'
+        False
+        False
+        False
+        False
+        536870912
+        20
+        0
+        1
+        5
+        0
+        5
+        150
+      )
+    end
     object MultiButton2: TMultiButton
       AnchorSideLeft.Control = MultiButton1
       AnchorSideLeft.Side = asrBottom
@@ -118,7 +225,7 @@ object MainForm: TMainForm
       OnClick = MultiButtonClick
       BorderSpacing.Left = 10
       BorderSpacing.Around = 5
-      TabOrder = 1
+      TabOrder = 2
     end
     object MultiButton3: TMultiButton
       AnchorSideLeft.Control = MultiButton2
@@ -162,7 +269,7 @@ object MainForm: TMainForm
       OnClick = MultiButtonClick
       BorderSpacing.Left = 10
       BorderSpacing.Around = 5
-      TabOrder = 2
+      TabOrder = 3
     end
     object MultiPanel2: TMultiPanel
       AnchorSideLeft.Control = MultiButton3
@@ -297,7 +404,7 @@ object MainForm: TMainForm
       BorderMargin = 7
       CaptionLeft = 15
       BorderSpacing.Left = 10
-      TabOrder = 5
+      TabOrder = 6
     end
     object MultiPanel4: TMultiPanel
       AnchorSideLeft.Control = MultiPanel2

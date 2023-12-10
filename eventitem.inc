@@ -27,10 +27,8 @@ begin
  FHoverBlendValue     := 120;
  FImageIndex          := -1;
  FFont                := TFont.Create;
- FTag                 := 0;
  //FFont.OnChange       := @CheckBoxFontChanged;
  FInfoBox := TInfoBox.create(self);
- FPhase               := phToDo  ;
 end;
 
 destructor TMultiEvent.Destroy;
@@ -102,13 +100,6 @@ begin
   if FImageList=AValue then Exit;
   FImageList:=AValue;
   (FEvents as TMultiEventCollection).FDrawEvent.Invalidate;
-end;
-
-procedure TMultiEvent.SetPhase(AValue: TPhase);
-begin
-  if FPhase=AValue then Exit;
-  FPhase:=AValue;
-  (FEvents as TMultiEventCollection).FDrawEvent.PhaseChanged(aValue,FTag);
 end;
 
 procedure TMultiEvent.SetRRRadius(AValue: integer);
