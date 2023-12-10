@@ -20,7 +20,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
-        <TopLine Value="73"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="69"/>
         <CursorPos X="2" Y="92"/>
         <UsageCount Value="211"/>
         <Loaded Value="True"/>
@@ -37,7 +38,6 @@
       <Unit>
         <Filename Value="../../../multieventline.pas"/>
         <UnitName Value="MultiEventLine"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <CursorPos X="17" Y="6"/>
         <UsageCount Value="59"/>
@@ -50,7 +50,7 @@
       <Unit>
         <Filename Value="../../../ml_infobox.inc"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="148"/>
+        <TopLine Value="144"/>
         <CursorPos X="30" Y="174"/>
         <UsageCount Value="49"/>
         <Loaded Value="True"/>
