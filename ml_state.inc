@@ -11,6 +11,7 @@ begin
 
 
  FDone := TStateProperties.Create(FOwner);
+ FDone.FColorStart := clYellow;
 end;
 
 destructor TStates.Destroy;

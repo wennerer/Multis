@@ -6,39 +6,65 @@ object Form1: TForm1
   Caption = 'Form1'
   ClientHeight = 426
   ClientWidth = 1018
-  LCLVersion = '2.2.0.4'
   object MultiEventLine1: TMultiEventLine
-    Left = 87
+    Left = 86
     Height = 30
-    Top = 35
+    Top = 57
     Width = 300
     Events = <    
       item
         Size = 15
-        Hover = True
         Left = 3
         Top = 8
         Tag = 0
       end    
       item
         Size = 15
-        Hover = True
-        Left = 143
-        Top = 8
-        Tag = 1
-      end    
-      item
-        Size = 15
-        Hover = True
         Left = 283
         Top = 8
-        Tag = 2
+        Tag = 0
       end>
     LineSettings.Width = 280
     LineSettings.Height = 3
     LineSettings.HorizMargin = 10
     LineSettings.VertMargin = 14
     BorderWidth = 0
+    States.InProcess.ColorGradient = gcHorizontal
+    States.InProcess.ColorStart = clLime
+    States.InProcess.ColorEnd = clRed
+    States.InProcess.Size = 0
+    States.InProcess.Enabled = False
+    States.InProcess.DisabledColor = clBlack
+    States.InProcess.DisabledBlendVal = 0
+    States.InProcess.HoverColor = clBlack
+    States.InProcess.HoverBlendVal = 0
+    States.InProcess.Visible = False
+    States.InProcess.Left = 0
+    States.InProcess.Top = 0
+    States.InProcess.Tag = 0
+    States.InProcess.ShowNumber = False
+    States.InProcess.BorderWidth = 0
+    States.InProcess.Style = mesRect
+    States.InProcess.RndRctRadius = 0
+    States.InProcess.ImageIndex = 0
+    States.Done.ColorGradient = gcHorizontal
+    States.Done.ColorStart = clYellow
+    States.Done.ColorEnd = clBlack
+    States.Done.Size = 0
+    States.Done.Enabled = False
+    States.Done.DisabledColor = clBlack
+    States.Done.DisabledBlendVal = 0
+    States.Done.HoverColor = clBlack
+    States.Done.HoverBlendVal = 0
+    States.Done.Visible = False
+    States.Done.Left = 0
+    States.Done.Top = 0
+    States.Done.Tag = 0
+    States.Done.ShowNumber = False
+    States.Done.BorderWidth = 0
+    States.Done.Style = mesRect
+    States.Done.RndRctRadius = 0
+    States.Done.ImageIndex = 0
     Color = clForm
     FSetAll = (
       0
@@ -56,7 +82,7 @@ object Form1: TForm1
       False
       False
       536870912
-      True
+      False
       -1
       'nil'
       5
