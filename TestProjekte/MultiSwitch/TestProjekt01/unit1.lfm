@@ -1,0 +1,50 @@
+object Form1: TForm1
+  Left = 441
+  Height = 317
+  Top = 250
+  Width = 563
+  Caption = 'Form1'
+  ClientHeight = 317
+  ClientWidth = 563
+  OnCreate = FormCreate
+  object MultiButton1: TMultiButton
+    Left = 432
+    Height = 50
+    Top = 8
+    Width = 110
+    MessageButton.ImageLeft = 0
+    MessageButton.ImageTop = 0
+    Caption = 'MultiButton1'
+    OnClick = MultiButton1Click
+    TabOrder = 0
+  end
+  object FlexiSwitch1: TFlexiSwitch
+    Left = 104
+    Height = 76
+    Top = 200
+    Width = 175
+    LeftCaption = 'OFF'
+    RightCaption = 'ON'
+    Font.Color = clWhite
+    Font.Height = 42
+    Font.Style = [fsBold]
+    SwitchMode = fsSlide
+    TabOrder = 1
+  end
+  object MultiSwitch1: TMultiSwitch
+    Left = 104
+    Height = 76
+    Top = 104
+    Width = 175
+    ForegroundFocusOn = True
+    Direction = fsRight
+    Speed = 800
+    LeftCaption = 'OFF'
+    RightCaption = 'ON'
+    Font.Color = clWhite
+    Font.Height = 39
+    Font.Style = [fsBold]
+    SwitchMode = fsSlide
+    TabOrder = 2
+  end
+end

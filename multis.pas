@@ -11,7 +11,7 @@ uses
   MultiButtonStyleManager, MultiButton, ptin, rs_mbstylemanager, 
   MultiplexSlider, infmultis, MultiSeperator, CustomPen, MultiPanel, helpmenu, 
   PathTo, MultiLayer, MultiRadioGroup, MultiCheckGroup, MultiEventLine, 
-  LazarusPackageIntf;
+  MultiSwitch, LazarusPackageIntf;
 
 implementation
 
@@ -27,6 +27,7 @@ begin
   RegisterUnit('MultiRadioGroup', @MultiRadioGroup.Register);
   RegisterUnit('MultiCheckGroup', @MultiCheckGroup.Register);
   RegisterUnit('MultiEventLine', @MultiEventLine.Register);
+  RegisterUnit('MultiSwitch', @MultiSwitch.Register);
 end;
 
 initialization
