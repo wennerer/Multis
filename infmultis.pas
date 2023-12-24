@@ -53,7 +53,6 @@ procedure ChangeColor(Img: TLazIntfImage;aColor : TColor);
 procedure ChangeBorderColor(Img: TLazIntfImage;aColor : TColor);
 Procedure StretchDrawImgToImg(SourceImg, DestImg: TLazIntfImage; DestWidth, DestHeight: integer);
 function System_ToRGB(clSys:TColor):TColor;
-function PointInaCircle(aRect:TRect;x,y:integer) : boolean;
 
 implementation
 
@@ -682,15 +681,6 @@ function System_ToRGB(clSys:TColor):TColor;
    result :=FPColorToTColor(FPCol);
   end;
 
-function PointInaCircle(aRect:TRect;x,y:integer) : boolean;
-var radius     : integer;
-    a,b        : integer;
-begin
- radius := (aRect.Right - aRect.Left) div 2;
- a := aRect.CenterPoint.X - x;
- b := aRect.CenterPoint.Y - y;
- result := (Round(HyPot(a,b)) <= radius);
-end;
 
 end.
 

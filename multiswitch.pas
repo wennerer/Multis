@@ -41,7 +41,7 @@ interface
 uses
   Classes, SysUtils, Math, LResources, Forms, Controls, Graphics, Dialogs,
   IntfGraphics, LCLIntf, GraphType, PropEdits, infmultis, ExtCtrls, LMessages,
-  LCLType, StdCtrls, LCLVersion, multipanel, multilayer, LCLProc;
+  LCLType, StdCtrls, LCLVersion, multipanel, multilayer, PtIn, LCLProc;
 
 type
   TSwDirection = (msRight,msLeft);
@@ -614,7 +614,7 @@ begin
 
  if FSwitchMode = msSlide then
   begin
-   if PointInaCircle(FHotSpot,x,y) then
+   if PointInCircle(FHotSpot,x,y) then
     begin
      Cursor:=crHandPoint;
      if ssLeft in Shift then
@@ -631,6 +631,7 @@ begin
          delta := x-FSlideStartX;
          FFirstRight := false;
         end;
+
        SlideTheButton(delta);
       end;
     end;
@@ -658,7 +659,8 @@ begin
  inherited MouseUp(Button, Shift, X, Y);
  if Assigned(OnMouseUp) then OnMouseUp(self,Button,Shift,x,y);
  if Assigned(OnClick) then OnClick(self);
-
+ FSlideFirst := true;
+ FFirstRight := true;
  if FSwitchMode = msSlide then
   if not FSlideEndPos and (FTimer.Enabled = false) then
    begin
@@ -959,7 +961,8 @@ begin
  //l        := width - Height;
  l := width - (2*FFocusFrameWidth) - (2*FMargin) - FButtonSize;
 
- if (aX > (l-round(l*0.1))) and (FDirection=msLeft) then
+ if not FSlideFirst then
+ if (aX > (l-round(l*0.05))) and (FDirection=msLeft) then
   begin
    FDirection := msRight;
    FPortion   := 1;
@@ -975,7 +978,8 @@ begin
    exit;
   end;
 
- if (aX < (round(l*0.1))) and (FDirection=msRight) then
+ if not FSlideFirst then
+ if (aX < (round(l*0.05))) and (FDirection=msRight) then
   begin
    FDirection := msLeft;
    FPortion   := 0;
@@ -991,8 +995,8 @@ begin
    exit;
   end;
 
- if aX >= (l-round(l*0.1)) then exit;
- if aX <= (round(l*0.1)) then exit;
+ if aX >= (l-round(l*0.05)) then exit;
+ if aX <= (round(l*0.05)) then exit;
  FCaption := '';
  FSlideEndPos := false;
  f         := (aX * 100) / l;
