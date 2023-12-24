@@ -1,2 +1,2 @@
 #!/bin/bash
-lazres images.res images/m_backround.png images/m_backroundborder.png images/m_puk001.png images/m_puk002.png images/m_puk003.png images/m_puk004.png images/m_puk005.png images/m_puk006.png images/m_puk007.png images/m_puk008.png images/m_puk009.png images/m_puk010.png
+lazres images.res images/m_backround.png images/m_backroundborder.png images/m_puk001.png images/m_puk002.png images/m_puk003.png images/m_puk004.png images/m_puk005.png images/m_puk006.png images/m_puk007.png images/m_puk008.png images/m_puk009.png images/m_puk010.png images/m_puk011.png images/m_puk012.png images/m_puk013.png images/m_puk014.png images/m_puk015.png images/m_puk016.png

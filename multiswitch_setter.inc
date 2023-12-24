@@ -13,7 +13,7 @@ begin
  if aValue = '' then aValue:=' ';
  if FRightCaption=AValue then Exit;
  FRightCaption:=AValue;
- if FDirection = fsRight then FCaption := aValue;
+ if FDirection = msRight then FCaption := aValue;
  Invalidate;
 end;
 
@@ -60,11 +60,11 @@ begin
   FCapTop:=AValue;
 end;
 
-procedure TMultiSwitch.SetDirection(AValue: TDirection);
+procedure TMultiSwitch.SeTSwDirection(AValue: TSwDirection);
 begin
  if FDirection=AValue then Exit;
   FDirection:=AValue;
-  if AValue = fsLeft then
+  if AValue = msLeft then
    begin
     FPortion := 0;
     FAngel   := 0;
@@ -106,7 +106,14 @@ end;
 procedure TMultiSwitch.SetImgSizeFactor(AValue: double);
 begin
   if FImgSizeFactor=AValue then Exit;
+  if aValue <= 0 then exit;
   FImgSizeFactor:=AValue;
+  if (FDirection = msRight) then
+   begin
+    CalculateBounds;
+    CalculateButton;
+    FRollPos   := width - (FButtonSize + (2*FMargin)+(2*FFocusFrameWidth));
+   end;
   Invalidate;
 end;
 
@@ -115,23 +122,23 @@ begin
   if FLoadFromFile then
    begin
     FLoadFromFile := false;
-    if assigned(FImgLeftImage) then FreeAndNil(FImgLeftImage);
+    if assigned(FLeftImage) then FreeAndNil(FLeftImage);
     if assigned(FRightImage) then FreeAndNil(FRightImage);
     FRightImage := TPortableNetworkGraphic.Create;
     FRightImage.Assign(FImages[1]);
-    FImgLeftImage := TPortableNetworkGraphic.Create;
-    FImgLeftImage.Assign(FImages[0]);
+    FLeftImage := TPortableNetworkGraphic.Create;
+    FLeftImage.Assign(FImages[0]);
     FImgSizeFactor := 1;
     FImgLeft          := 0;
     FImgTop           := 0;
    end;
-  if FImgLeftImageIndex=AValue then Exit;
+  if FLeftImageIndex=AValue then Exit;
   if aValue < 0 then aValue := 0;
   if aValue > High(FImages) then aValue := High(FImages);
-  FImgLeftImageIndex:=AValue;
-  if assigned(FImgLeftImage) then FreeAndNil(FImgLeftImage);
-  FImgLeftImage := TPortableNetworkGraphic.Create;
-  FImgLeftImage.Assign(FImages[FImgLeftImageIndex]);
+  FLeftImageIndex:=AValue;
+  if assigned(FLeftImage) then FreeAndNil(FLeftImage);
+  FLeftImage := TPortableNetworkGraphic.Create;
+  FLeftImage.Assign(FImages[FLeftImageIndex]);
   Invalidate;
 end;
 
@@ -157,7 +164,7 @@ begin
  if aValue = '' then aValue:=' ';
  if FLeftCaption=AValue then Exit;
  FLeftCaption:=AValue;
- if FDirection = fsLeft then FCaption := aValue;
+ if FDirection = msLeft then FCaption := aValue;
  Invalidate;
 end;
 
@@ -174,12 +181,12 @@ begin
   if FLoadFromFile then
    begin
     FLoadFromFile := false;
-    if assigned(FImgLeftImage) then FreeAndNil(FImgLeftImage);
+    if assigned(FLeftImage) then FreeAndNil(FLeftImage);
     if assigned(FRightImage) then FreeAndNil(FRightImage);
     FRightImage := TPortableNetworkGraphic.Create;
     FRightImage.Assign(FImages[1]);
-    FImgLeftImage := TPortableNetworkGraphic.Create;
-    FImgLeftImage.Assign(FImages[0]);
+    FLeftImage := TPortableNetworkGraphic.Create;
+    FLeftImage.Assign(FImages[0]);
     FImgSizeFactor := 1;
     FImgLeft          := 0;
     FImgTop           := 0;
@@ -199,18 +206,18 @@ begin
  if not assigned(FRollImage) then FRollImage  := TRollImage.Create;
  if aValue.ImageIndex = -1 then
   begin
-   Direction := TDirection((ord(FDirection) + 1) mod 2);
+   Direction := TSwDirection((ord(FDirection) + 1) mod 2);
    exit;
   end;
 
- if aValue.aDirection = fsLeft then
+ if aValue.aDirection = msLeft then
   begin
-   if assigned(FImgLeftImage) then FreeAndNil(FImgLeftImage);
-   FImgLeftImage := TPortableNetworkGraphic.Create;
-   FImgLeftImage.Assign(FImages[aValue.ImageIndex]);
-   FImgLeftImageIndex := aValue.ImageIndex;
+   if assigned(FLeftImage) then FreeAndNil(FLeftImage);
+   FLeftImage := TPortableNetworkGraphic.Create;
+   FLeftImage.Assign(FImages[aValue.ImageIndex]);
+   FLeftImageIndex := aValue.ImageIndex;
   end;
- if aValue.aDirection = fsRight then
+ if aValue.aDirection = msRight then
   begin
    if assigned(FRightImage) then FreeAndNil(FRightImage);
    FRightImage := TPortableNetworkGraphic.Create;
@@ -242,13 +249,12 @@ end;
 procedure TMultiSwitch.BoundsChanged;
 begin
   inherited BoundsChanged;
-   if (FDirection = fsRight) then
-  begin
-   CalculateBounds;
-   CalculateButton;
-   //FRollPos := width - (FButtonSize + (2*FMargin));
-   FRollPos   := width - (FButtonSize + (2*FMargin)+(2*FFocusFrameWidth));
-  end;
+  if (FDirection = msRight) then
+   begin
+    CalculateBounds;
+    CalculateButton;
+    FRollPos   := width - (FButtonSize + (2*FMargin)+(2*FFocusFrameWidth));
+   end;
   Invalidate;
 end;
 
@@ -281,7 +287,7 @@ begin
   if FFocusFrameWidth=AValue then Exit;
   FFocusFrameWidth:=AValue;
 
-  if (FDirection = fsRight) then
+  if (FDirection = msRight) then
   begin
    CalculateBounds;
    CalculateButton;

@@ -41,10 +41,10 @@ interface
 uses
   Classes, SysUtils, Math, LResources, Forms, Controls, Graphics, Dialogs,
   IntfGraphics, LCLIntf, GraphType, PropEdits, infmultis, ExtCtrls, LMessages,
-  LCLType, StdCtrls, LCLVersion, LCLProc;
+  LCLType, StdCtrls, LCLVersion, multipanel, multilayer, LCLProc;
 
 type
-  TDirection = (fsRight,fsLeft);
+  TSwDirection = (msRight,msLeft);
 
 type
   TClickEvent      = procedure(Sender: TObject) of object;
@@ -63,17 +63,17 @@ type
 type
   TChangeEvent     = procedure(Sender: TObject) of object;
 type
-  TDirectionEvent  = procedure(Sender: TObject;aDirection : TDirection) of object;
+  TSwDirectionEvent  = procedure(Sender: TObject;aDirection : TSwDirection) of object;
 
 
 
 type
-  TSwitchMode = (fsClick,fsSlide);
+  TSwitchMode = (msClick,msSlide);
 
 type
   TRollImage = class (TPersistent)
    private
-     aDirection : TDirection;
+     aDirection : TSwDirection;
      ImageIndex : integer;
   end;
 
@@ -138,16 +138,16 @@ type
    FFocusedOn          : boolean;
    FFocusFrameWidth    : integer;
    FFocusFrameHeight   : integer;
-   FForegroundFocusOn: boolean;
+   FForegroundFocusOn  : boolean;
    FImages             : Array[0..39] of TCustomBitmap;
    FImgSizeFactor      : double;
    FGRoupIndex         : integer;
-   FImgLeftImageIndex  : integer;
-   FOnDirection        : TDirectionEvent;
+   FLeftImageIndex     : integer;
+   FOnDirection        : TSwDirectionEvent;
    FOnLeft             : TChangeEvent;
    FOnRight            : TChangeEvent;
    FRightImage         : TCustomBitmap;
-   FImgLeftImage       : TCustomBitmap;
+   FLeftImage          : TCustomBitmap;
    FFocusColor         : TColor;
    FBestTextHeight     : boolean;
    FFocusedBlendFaktor : Double;
@@ -158,7 +158,7 @@ type
    FEnabled            : boolean;
    FFont               : TFont;
    FCaption            : TCaption;
-   FDirection          : TDirection;
+   FDirection          : TSwDirection;
    FAngel              : Double;
    FLeftCaption        : TCaption;
    FRightCaption       : TCaption;
@@ -236,7 +236,7 @@ type
    procedure SetButtonColor(AValue: TColor);
    procedure SetCapLeft(AValue: integer);
    procedure SetCapTop(AValue: integer);
-   procedure SetDirection(AValue: TDirection);
+   procedure SeTSwDirection(AValue: TSwDirection);
    procedure SetDisabledColor(AValue: TColor);
    procedure SetEnabledBlendFaktor(AValue: Double);
    procedure SetGroupIndex(AValue: integer);
@@ -310,10 +310,10 @@ type
   published
    //The Left background colour
    //Die linke Hintergrundfarbe
-   property LeftBgrdColor : TColor read FImgLeftBgrdColor write SetLeftBgrdColor default $000000C8;
+   property LeftBgrdColor : TColor read FImgLeftBgrdColor write SetLeftBgrdColor default clSilver;
    //The Right background colour
    //Die rechte Hintergrundfarbe
-   property RightBgrdColor : TColor read FRightBgrdColor write SetRightBgrdColor default $0000C800;
+   property RightBgrdColor : TColor read FRightBgrdColor write SetRightBgrdColor default clMoneyGreen;
    //The color of the button, Rollimage only visible when ButtonColor = clNone
    //Die Farbe des Buttons, Rollimages sind nur sichtbar wenn ButtonColor = clNone
    property ButtonColor : TColor read FButtonColor write SetButtonColor default clNone;
@@ -328,7 +328,7 @@ type
    property FocusFrameOn : boolean read FFocusedOn write SetFocusedOn default true;
    //The color when the Control has the focus (clNone = no focus is shown)
    //Die Farbe wenn das Control den Fokus hat (clNone = keine Fokus-Anzeige)
-   property FocusColor : TColor read FFocusColor write SetFocusColor default clRed;
+   property FocusColor : TColor read FFocusColor write SetFocusColor default clOlive;
    //How translucent the focusframe is (0=transparent, 255=opaque).
    //Wie transparent der Fokusrahmen ist (0=transparent, 255=undurchsichtig).
    property FocusAlphaBValue : byte read FFocusAlBlVal write SetFocusAlBlVal default 125;
@@ -343,7 +343,7 @@ type
    property Roll : boolean read FRoll write FRoll default true;
    //Specifies whether the button is on the right or left at the start
    //Gibt an ob der Button beim Start rechts oder links ist
-   property Direction        : TDirection read FDirection write SetDirection default fsLeft;
+   property Direction        : TSwDirection read FDirection write SeTSwDirection default msLeft;
    //The speed at which the button moves
    //Die Geschwindigkeit mit der sich der Button bewegt
    property Speed            : integer read FSpeed write SetSpeed default 10;
@@ -379,15 +379,15 @@ type
    property NewRollImage : TRollImage read FRollImage write SetRollImage;
    //The Index of the loaded left image
    //Der Index des linken geladenen Bildes
-   property LeftImageIndex : integer read FImgLeftImageIndex write SetLeftImageIndex default 0;
+   property LeftImageIndex : integer read FLeftImageIndex write SetLeftImageIndex default 9;
    //The Index of the loaded right image
    //Der Index des rechten geladenen Bildes
-   property RightImageIndex : integer read FRightImageIndex write SetRightImageIndex default 1;
+   property RightImageIndex : integer read FRightImageIndex write SetRightImageIndex default 10;
    //The mode with which the switch is operated, click or slide
    //Der Modus mit dem der Schalter betätigt wird, klicken oder schieben
-   property SwitchMode : TSwitchMode read FSwitchMode write FSwitchMode default fsClick;
-   //The Index within the group of MultiSwitches, odd index allows only 1x fsRight, even 1x fsLeft
-   //Der Index der Gruppe zu der der MultiSwitch gehört, ungerader Index erlaubt nur 1x fsRight, gerade 1x fsLeft
+   property SwitchMode : TSwitchMode read FSwitchMode write FSwitchMode default msClick;
+   //The Index within the group of MultiSwitches, odd index allows only 1x msRight, even 1x msLeft
+   //Der Index der Gruppe zu der der MultiSwitch gehört, ungerader Index erlaubt nur 1x msRight, gerade 1x msLeft
    property GroupIndex : integer read FGroupIndex write SetGroupIndex default 0;
 
 
@@ -420,7 +420,7 @@ type
    property OnChange     : TChangeEvent read FOnChange write FOnChange;
    property OnRight      : TChangeEvent read FOnRight write FOnRight;
    property OnLeft       : TChangeEvent read FOnLeft write FOnLeft;
-   property OnDirection  : TDirectionEvent read FOnDirection write FOnDirection;
+   property OnDirection  : TSwDirectionEvent read FOnDirection write FOnDirection;
    property OnDragDrop;
    property OnDragOver;
    property OnEndDrag;
@@ -459,24 +459,24 @@ begin
   FRoll                := true;
   FAngel               :=  0;
   FRotation            := 30;
-  FDirection           := fsLeft;
+  FDirection           := msLeft;
   FEnabled             := true;
-  FImgLeftBgrdColor    := rgb(200,0,0);
-  FRightBgrdColor      := rgb(0,200,0);
+  FImgLeftBgrdColor    := clSilver;
+  FRightBgrdColor      := clMoneyGreen;
   FButtonColor         := clNone;
   FBorderColor         := clNone;
   FHoverColor          := clNone;
   FEnabledBlendFaktor  := 0.7;
   FFocusedBlendFaktor  := 0.1;
   FDisabledColor       := clWhite;
-  FFocusColor          := clRed;
+  FFocusColor          := clOlive;
   FBestTextHeight      := true;
   TabStop              := true;
   FLoadFromFile        := false;
   FImgSizeFactor       :=   1;
   FImgLeft             :=   0;
   FImgTop              :=   0;
-  FSwitchMode          := fsClick;
+  FSwitchMode          := msClick;
   FSlideFirst          := true;
   FSlideEndPos         := true;
   FFirst               := true;
@@ -517,8 +517,8 @@ begin
   FBorderImage := TPortableNetworkGraphic.Create;
   FBorderImage.LoadFromResourceName(HInstance,'m_backroundborder');
 
-  FImgLeftImageIndex  := 0;
-  FRightImageIndex := 1;
+  FLeftImageIndex  := 9;
+  FRightImageIndex := 10;
   for lv := 0 to High(FImages) do
     FImages[lv] := TPortableNetworkGraphic.Create;
   FImages[0].LoadFromResourceName(HInstance, 'm_puk009');
@@ -529,13 +529,20 @@ begin
   FImages[5].LoadFromResourceName(HInstance, 'm_puk005');
   FImages[6].LoadFromResourceName(HInstance, 'm_puk003');
   FImages[7].LoadFromResourceName(HInstance, 'm_puk004');
-  //load more images, maximal 40   Images must have 64x64pixel!
   FImages[8].LoadFromResourceName(HInstance, 'm_puk002');
-  for lv := 9 to 39 do //load the rest with dummy
+  FImages[9].LoadFromResourceName(HInstance, 'm_puk011');
+  FImages[10].LoadFromResourceName(HInstance, 'm_puk012');
+  FImages[11].LoadFromResourceName(HInstance, 'm_puk013');
+  FImages[12].LoadFromResourceName(HInstance, 'm_puk014');
+  FImages[13].LoadFromResourceName(HInstance, 'm_puk015');
+  FImages[14].LoadFromResourceName(HInstance, 'm_puk016');
+
+  //load more images, maximal 40   Images must have 64x64pixel!
+  for lv := 15 to 39 do //load the rest with dummy
     FImages[lv].Assign(FImages[8]);
 
-  FImgLeftImage := TPortableNetworkGraphic.Create;
-  FImgLeftImage.Assign(FImages[FImgLeftImageIndex]);
+  FLeftImage := TPortableNetworkGraphic.Create;
+  FLeftImage.Assign(FImages[FLeftImageIndex]);
   FRightImage := TPortableNetworkGraphic.Create;
   FRightImage.Assign(FImages[FRightImageIndex]);
 
@@ -551,7 +558,7 @@ begin
  FBackgroundImage.Free;
  FButtonImage.Free;
  FBorderImage.Free;
- FImgLeftImage.Free;
+ FLeftImage.Free;
  FRightImage.Free;
  for lv := 0 to High(FImages) do FImages[lv].Free;
  FTimer.Free;
@@ -567,7 +574,7 @@ begin
    FFocusFrameHeight    := round(FFocusFrameWidth/(Width/Height))
   else
    FFocusFrameHeight    := 0;
- if (FDirection = fsRight) then
+ if (FDirection = msRight) then
   begin
    CalculateBounds;
    CalculateButton;
@@ -605,7 +612,7 @@ begin
  if Assigned(OnMouseMove) then OnMouseMove(self,Shift,x,y);
  Cursor := FMultiCursor;
 
- if FSwitchMode = fsSlide then
+ if FSwitchMode = msSlide then
   begin
    if PointInaCircle(FHotSpot,x,y) then
     begin
@@ -652,7 +659,7 @@ begin
  if Assigned(OnMouseUp) then OnMouseUp(self,Button,Shift,x,y);
  if Assigned(OnClick) then OnClick(self);
 
- if FSwitchMode = fsSlide then
+ if FSwitchMode = msSlide then
   if not FSlideEndPos and (FTimer.Enabled = false) then
    begin
     FAbortSlide := true;
@@ -661,13 +668,13 @@ begin
 
 
 
- if FSwitchMode = fsClick then
+ if FSwitchMode = msClick then
   if not FTimer.Enabled then
    begin
     if GroupIndex <> 0 then
      if TheOnlyOne then exit;
 
-    FDirection := TDirection((ord(FDirection) + 1) mod 2);
+    FDirection := TSwDirection((ord(FDirection) + 1) mod 2);
     FTimer.Enabled:= true;
     if Assigned(OnChange) then OnChange(self);
    end;
@@ -679,33 +686,33 @@ begin
  oldiniimg   :=TPortableNetworkGraphic.Create;
  oldRightimg :=TPortableNetworkGraphic.Create;
  try
-  if assigned(FImgLeftImage) then
+  if assigned(FLeftImage) then
    begin
-    oldiniimg.Assign(FImgLeftImage);
-    FreeAndNil(FImgLeftImage);
+    oldiniimg.Assign(FLeftImage);
+    FreeAndNil(FLeftImage);
    end;
   if assigned(FRightImage)   then
    begin
     oldRightimg.Assign(FRightImage);
     FreeAndNil(FRightImage);
    end;
- FImgLeftImage := TPortableNetworkGraphic.Create;
+ FLeftImage := TPortableNetworkGraphic.Create;
  FRightImage   := TPortableNetworkGraphic.Create;
   try
    if fileexists(LeftFilename) and fileexists(RightFilename) then
     begin
-     FImgLeftImage.LoadFromFile(LeftFilename);
+     FLeftImage.LoadFromFile(LeftFilename);
      FRightImage.LoadFromFile(RightFilename);
-     if (FImgLeftImage.Width <> FRightImage.Width) or (FImgLeftImage.Height <> FRightImage.Height) then
+     if (FLeftImage.Width <> FRightImage.Width) or (FLeftImage.Height <> FRightImage.Height) then
       begin
-       FImgLeftImage.Assign(oldiniimg);
+       FLeftImage.Assign(oldiniimg);
        FRightImage.Assign(oldRightimg);
        showmessage('The size of the images must be the same!');
       end else FLoadFromFile := true;
     end
    else
     begin
-     FImgLeftImage.Assign(oldiniimg);
+     FLeftImage.Assign(oldiniimg);
      FRightImage.Assign(oldRightimg);
      showmessage('Incorrect path');
     end;
@@ -729,7 +736,7 @@ var comp        : TComponent;
     exitflag    : boolean;
     allthesame  : boolean;
     first       : boolean;
-    aDirection  : TDirection;
+    aDirection  : TSwDirection;
     count       : integer;
 begin
  lv:=0; exitflag := false;
@@ -823,7 +830,7 @@ begin
         begin
          if CurSwitch.Direction = FDirection then
           begin
-           CurSwitch.Direction := TDirection((ord(CurSwitch.Direction) + 1) mod 2);
+           CurSwitch.Direction := TSwDirection((ord(CurSwitch.Direction) + 1) mod 2);
            CurSwitch.invalidate;
           end;
         end;
@@ -834,17 +841,19 @@ end;
 procedure TMultiSwitch.CalculateBounds;
 var Factor : double;
 begin
- if Width < 20  then
+ if (Width < 42) then
   begin
-   Width  :=  10;
-   Height :=   9;
+   Width  :=  42;
+   Height :=  18;
+   exit;
   end;
+
  if (width > 175) or (Height > 76) then
   begin
    Width  := 175;
    Height :=  76;
+   exit;
   end;
-
 
  if width <> FOldWidth then
    begin
@@ -858,6 +867,7 @@ begin
     Width := round(Factor * 60);
     FOldHeight := Height;
    end;
+
   if FFocusFrameWidth <> 0 then
    FFocusFrameHeight    := round(FFocusFrameWidth/(Width/Height))
   else
@@ -873,13 +883,16 @@ begin
  FMargin      := round((Height / 100) * Factor);
 
  FButtonSize := round(((Height-(FFocusFrameHeight*2) )- (2 * FMargin)) * FImgSizeFactor);
+ FImgLeft          := 0;
+ FImgTop           := 0;
 
- if FLoadFromFile then
+ //if FLoadFromFile then
+ if FImgSizeFactor <> 0 then
   begin
    i := (Height - FButtonSize) div 2;
-   FImgLeft          :=   i-FMargin;
-   FImgTop           :=   i-FMargin;
+   FImgTop   :=   i-FMargin -FFocusFrameHeight;
   end;
+
 end;
 
 procedure TMultiSwitch.KeyPress(var Key: char);
@@ -911,7 +924,7 @@ begin
                         begin
                          if GroupIndex <> 0 then
                           if TheOnlyOne then exit;
-                         FDirection := TDirection((ord(FDirection) + 1) mod 2);
+                         FDirection := TSwDirection((ord(FDirection) + 1) mod 2);
                          FTimer.Enabled:= true;
                          if Assigned(OnChange) then OnChange(self);
                         end;
@@ -946,9 +959,9 @@ begin
  //l        := width - Height;
  l := width - (2*FFocusFrameWidth) - (2*FMargin) - FButtonSize;
 
- if (aX > (l-round(l*0.1))) and (FDirection=fsLeft) then
+ if (aX > (l-round(l*0.1))) and (FDirection=msLeft) then
   begin
-   FDirection := fsRight;
+   FDirection := msRight;
    FPortion   := 1;
    FRollPos   := width - (FButtonSize + (2*FMargin)+(2*FFocusFrameWidth));
    FCaption   := FRightCaption;
@@ -958,13 +971,13 @@ begin
    CheckTheGroup;
    if Assigned(OnChange) then OnChange(self);
    if Assigned(OnRight) then OnRight(self);
-   if Assigned(FOnDirection) then OnDirection(self,fsRight);
+   if Assigned(FOnDirection) then OnDirection(self,msRight);
    exit;
   end;
 
- if (aX < (round(l*0.1))) and (FDirection=fsRight) then
+ if (aX < (round(l*0.1))) and (FDirection=msRight) then
   begin
-   FDirection := fsLeft;
+   FDirection := msLeft;
    FPortion   := 0;
    FRollPos   := 0;
    FCaption   := FLeftCaption;
@@ -974,7 +987,7 @@ begin
    CheckTheGroup;
    if Assigned(OnChange) then OnChange(self);
    if Assigned(OnLeft) then OnLeft(self);
-   if Assigned(FOnDirection) then OnDirection(self,fsLeft);
+   if Assigned(FOnDirection) then OnDirection(self,msLeft);
    exit;
   end;
 
@@ -997,7 +1010,7 @@ begin
   l := width - (2*FFocusFrameWidth) - (2*FMargin) - FButtonSize;
   l1 := round(l / (360/FRotation));
   f  := 1 / (360/FRotation);
-  if FDirection = fsRight then
+  if FDirection = msRight then
    begin
     FPortion := FPortion + f;
     FRollPos := FRollPos + l1;
@@ -1014,10 +1027,10 @@ begin
        CheckTheGroup;
       FAbortSlide := false;
       if Assigned(OnRight) then OnRight(self);
-      if Assigned(FOnDirection) then OnDirection(self,fsRight);
+      if Assigned(FOnDirection) then OnDirection(self,msRight);
      end;
    end;
-   if FDirection = fsLeft then
+   if FDirection = msLeft then
    begin
     FPortion := FPortion - f;
     FRollPos := FRollPos - l1;
@@ -1035,7 +1048,7 @@ begin
        CheckTheGroup;
       FAbortSlide := false;
       if Assigned(OnLeft) then OnLeft(self);
-      if Assigned(FOnDirection) then OnDirection(self,fsLeft);
+      if Assigned(FOnDirection) then OnDirection(self,msLeft);
      end;
    end;
    Invalidate;
@@ -1058,7 +1071,7 @@ end;
 
 function TMultiSwitch.CalculateTextRect: TRect;
 begin
-  if FDirection = fsLeft then
+  if FDirection = msLeft then
   begin
    Result.Left   := FFocusFrameWidth+FMargin + FButtonSize;
    Result.Top    := FFocusFrameHeight+FMargin;
@@ -1207,9 +1220,9 @@ var TmpBmp                     : TBitmap;
     TempImg1,TempImg2,TempImg3 : TLazIntfImage;
 begin
  if FButtonColor = clNone then
- if assigned(FImgLeftImage) and assigned(FRightImage) then
+ if assigned(FLeftImage) and assigned(FRightImage) then
   begin
-   TempImg1 := FImgLeftImage.CreateIntfImage;
+   TempImg1 := FLeftImage.CreateIntfImage;
    TempImg2 := FRightImage.CreateIntfImage;
    TempImg3 := TLazIntfImage.Create(0,0, [riqfRGB, riqfAlpha]);
    TmpBmp   := TBitmap.Create;
@@ -1222,8 +1235,9 @@ begin
     StretchDrawImgToImg(TempImg1,TempImg3,FButtonSize,FButtonSize);
     TmpBmp.Assign(TempImg3);
 
-    if FLoadFromFile and (FDirection = fsRight) and not FTimer.Enabled then
-     FImgLeft := FImgLeft * -1 else FImgLeft := FImgTop;
+    //if FLoadFromFile and (FDirection = msRight) and not FTimer.Enabled then
+    //if (FImgSizeFactor <> 0) and (FDirection = msRight) and not FTimer.Enabled then
+     //FImgLeft := FImgLeft * -1 else FImgLeft := FImgTop;
     Canvas.Draw(FFocusFrameWidth+FImgLeft+FMargin+FRollPos,FFocusFrameHeight+FImgTop+FMargin,TmpBmp);
     FHotspot := rect(FFocusFrameWidth+FImgLeft+FMargin+FRollPos,FFocusFrameHeight+FImgTop+FMargin,
                      FFocusFrameWidth+FImgLeft+FMargin+FRollPos+FButtonSize,FFocusFrameHeight+FImgTop+FMargin+FButtonSize);
@@ -1306,6 +1320,16 @@ end;
 
 procedure TMultiSwitch.Paint;
 begin
+ if Parent is TMultiPanel then
+  begin
+   if assigned((Parent as TMultiPanel).FMultiBkgrdBmp) then
+    canvas.CopyRect(rect(0,0,width,height),(Parent as TMultiPanel).FMultiBkgrdBmp.Canvas,rect(left,top,left+width,top+height));
+  end;
+ if Parent is TMultiLayer then
+  begin
+   if (Parent as TMultiLayer).ParentIsMultiPanel then
+    canvas.CopyRect(rect(0,0,width,height),(Parent as TMultiLayer).FMultiBkgrdBmp.Canvas,rect(left,top,left+width,top+height));
+  end;
 
  DrawTheFocusframe;
 

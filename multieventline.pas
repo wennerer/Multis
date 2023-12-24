@@ -563,6 +563,8 @@ begin
  FInfoBox.FStyle               := ibsRectangle;
  FInfoBox.FVertCorrection      := 5;
  FInfoBox.FWidth               := 80;
+
+
 end;
 
 destructor TSetAll.Destroy;
@@ -752,6 +754,7 @@ begin
 
   FSetAll := TSetAll.Create(self);
 
+  {$message 'TMultiEventLine is still a Beta-Version!!!'}
 end;
 
 destructor TMultiEventLine.Destroy;

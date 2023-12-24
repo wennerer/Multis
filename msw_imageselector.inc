@@ -29,9 +29,15 @@ begin
   FImages[5].LoadFromResourceName(HInstance, 'm_puk005');
   FImages[6].LoadFromResourceName(HInstance, 'm_puk003');
   FImages[7].LoadFromResourceName(HInstance, 'm_puk004');
-  //load more images, maximal 40   Images must have 64x64pixel!
   FImages[8].LoadFromResourceName(HInstance, 'm_puk002');
-  for lv := 9 to 39 do //load the rest with dummy
+  FImages[9].LoadFromResourceName(HInstance, 'm_puk011');
+  FImages[10].LoadFromResourceName(HInstance, 'm_puk012');
+  FImages[11].LoadFromResourceName(HInstance, 'm_puk013');
+  FImages[12].LoadFromResourceName(HInstance, 'm_puk014');
+  FImages[13].LoadFromResourceName(HInstance, 'm_puk015');
+  FImages[14].LoadFromResourceName(HInstance, 'm_puk016');
+  //load more images, maximal 40   Images must have 64x64pixel!
+  for lv := 15 to 39 do //load the rest with dummy
     FImages[lv].Assign(FImages[8]);
 
   FRollImage            := TRollImage.Create;
@@ -65,7 +71,7 @@ begin
    end;
   FRadioButton[0].Caption := 'LeftRollImage [Left]';
   FRadioButton[1].Caption := 'RightRollImage [Right]';
-  if FRollImage.aDirection = fsLeft then FRadioButton[0].Checked := true
+  if FRollImage.aDirection = msLeft then FRadioButton[0].Checked := true
   else FRadioButton[1].Checked := true;
 
 
@@ -125,8 +131,8 @@ begin
   end;
  i := FRollImage.ImageIndex;
  FRollImage.ImageIndex:= -1;
- if FRadioButton[0].Checked then FRollImage.aDirection:= fsLeft;
- if FRadioButton[1].Checked then FRollImage.aDirection:= fsRight;
+ if FRadioButton[0].Checked then FRollImage.aDirection:= msLeft;
+ if FRadioButton[1].Checked then FRollImage.aDirection:= msRight;
  SetPtrValue(FRollImage);
  FRollImage.ImageIndex := i;
 end;

@@ -1,6 +1,6 @@
 { <A slider with an integrated textlabel>
-  <Version 1.0.4.6>
-  Copyright (C) <22.04.2023> <Bernd Hübner>
+  <Version 1.0.4.7>
+  Copyright (C) <22.12.2023> <Bernd Hübner>
   Many thanks to the members of the German Lazarus Forum!
   Special thanks to Siro, he taught me the basics!
   For some improvements see https://www.lazarusforum.de/viewtopic.php?f=29&t=12851
@@ -1559,7 +1559,8 @@ end;
 procedure TMultiplexSlider.SetMax(AValue: integer);
 begin
   if FMax=AValue then Exit;
-  if aValue < FMin then showmessage('Max < Min');
+  if not (csLoading in Componentstate) then
+   if aValue < FMin then showmessage('Max < Min');
   FMax:=AValue;
   KnobInRange;
   Calculate;
@@ -1569,7 +1570,8 @@ end;
 procedure TMultiplexSlider.SetMin(AValue: integer);
 begin
   if FMin=AValue then Exit;
-  if aValue > FMax then showmessage('Min > Max');
+  if not (csLoading in Componentstate) then
+   if aValue > FMax then showmessage('Min > Max');
   FMin:=AValue;
   KnobInRange;
   Calculate;
