@@ -64,7 +64,8 @@ type
   TChangeEvent     = procedure(Sender: TObject) of object;
 type
   TSwDirectionEvent  = procedure(Sender: TObject;aDirection : TSwDirection) of object;
-
+type
+  TSideEvent = procedure(Sender: TObject;aSide : boolean) of object;
 
 
 type
@@ -144,8 +145,8 @@ type
    FGRoupIndex         : integer;
    FLeftImageIndex     : integer;
    FOnDirection        : TSwDirectionEvent;
-   FOnLeft             : TChangeEvent;
-   FOnRight            : TChangeEvent;
+   FOnLeft             : TSideEvent;
+   FOnRight            : TSideEvent;
    FRightImage         : TCustomBitmap;
    FLeftImage          : TCustomBitmap;
    FFocusColor         : TColor;
@@ -418,8 +419,8 @@ type
    property OnKeyDown    : TKeyEvent read FOnKeyDown write FOnKeyDown;
    property OnKeyUp      : TKeyEvent read FOnKeyUp write FOnKeyUp;
    property OnChange     : TChangeEvent read FOnChange write FOnChange;
-   property OnRight      : TChangeEvent read FOnRight write FOnRight;
-   property OnLeft       : TChangeEvent read FOnLeft write FOnLeft;
+   property OnRight      : TSideEvent read FOnRight write FOnRight;
+   property OnLeft       : TSideEvent read FOnLeft write FOnLeft;
    property OnDirection  : TSwDirectionEvent read FOnDirection write FOnDirection;
    property OnDragDrop;
    property OnDragOver;
@@ -973,7 +974,7 @@ begin
    Invalidate;
    CheckTheGroup;
    if Assigned(OnChange) then OnChange(self);
-   if Assigned(OnRight) then OnRight(self);
+   if Assigned(OnRight) then OnRight(self,true);
    if Assigned(FOnDirection) then OnDirection(self,msRight);
    exit;
   end;
@@ -990,7 +991,7 @@ begin
    Invalidate;
    CheckTheGroup;
    if Assigned(OnChange) then OnChange(self);
-   if Assigned(OnLeft) then OnLeft(self);
+   if Assigned(OnLeft) then OnLeft(self,true);
    if Assigned(FOnDirection) then OnDirection(self,msLeft);
    exit;
   end;
@@ -1030,7 +1031,7 @@ begin
       if not FAbortSlide then
        CheckTheGroup;
       FAbortSlide := false;
-      if Assigned(OnRight) then OnRight(self);
+      if Assigned(OnRight) then OnRight(self,true);
       if Assigned(FOnDirection) then OnDirection(self,msRight);
      end;
    end;
@@ -1051,7 +1052,7 @@ begin
       if not FAbortSlide then
        CheckTheGroup;
       FAbortSlide := false;
-      if Assigned(OnLeft) then OnLeft(self);
+      if Assigned(OnLeft) then OnLeft(self,true);
       if Assigned(FOnDirection) then OnDirection(self,msLeft);
      end;
    end;
