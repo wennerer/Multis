@@ -1,12 +1,11 @@
 object Form1: TForm1
   Left = 441
   Height = 800
-  Top = 250
+  Top = 100
   Width = 888
   Caption = 'Test the multiswitch'
   ClientHeight = 800
   ClientWidth = 888
-  OnCreate = FormCreate
   object MultiPanel1: TMultiPanel
     Left = 0
     Height = 96
@@ -401,7 +400,7 @@ object Form1: TForm1
     MaxValue = 39
     OnChange = SpinEdit1Change
     TabOrder = 20
-    Value = 9
+    Value = 34
   end
   object StaticText9: TStaticText
     Left = 328
@@ -734,6 +733,79 @@ object Form1: TForm1
     OnChange = SpinEdit4Change
     TabOrder = 46
     Value = 125
+  end
+  object StaticText25: TStaticText
+    Left = 290
+    Height = 21
+    Top = 672
+    Width = 150
+    AutoSize = True
+    Caption = 'ForegroundFocusOn:'
+    Font.Height = 16
+    ParentFont = False
+    TabOrder = 47
+  end
+  object MultiSwitch7: TMultiSwitch
+    Left = 440
+    Height = 39
+    Top = 664
+    Width = 90
+    LeftCaption = 'OFF'
+    RightCaption = 'ON'
+    Font.Color = clWhite
+    Font.Height = 19
+    Font.Style = [fsBold]
+    TabOrder = 48
+    OnDirection = MultiSwitch7Direction
+  end
+  object StaticText26: TStaticText
+    Left = 648
+    Height = 21
+    Top = 672
+    Width = 47
+    AutoSize = True
+    Caption = 'Blend:'
+    Font.Height = 16
+    ParentFont = False
+    TabOrder = 49
+  end
+  object FloatSpinEdit4: TFloatSpinEdit
+    Left = 768
+    Height = 27
+    Top = 666
+    Width = 100
+    Increment = 0.05
+    MaxValue = 1
+    OnChange = FloatSpinEdit4Change
+    TabOrder = 50
+    Value = 0.1
+  end
+  object Memo1: TMemo
+    Left = 16
+    Height = 40
+    Top = 720
+    Width = 852
+    Lines.Strings = (
+      'At design time, images can be selected using the PropertyEditor. To do this, simply click on NewRollImages in the OI. The images I used are from Roland Hahn (aka "Ally"). Thank you very much! '
+    )
+    TabOrder = 51
+  end
+  object MultiButton2: TMultiButton
+    Left = 16
+    Height = 25
+    Top = 768
+    Width = 852
+    Style = mbsRect
+    ColorStart = clWhite
+    ColorEnd = clWhite
+    MessageButton.ImageLeft = 0
+    MessageButton.ImageTop = 0
+    Caption = 'See: https://www.lazarusforum.de/viewtopic.php?p=128092#p128092'
+    Font.Color = clBlue
+    FocusFrameWidth = 0
+    FocusFrameOn = False
+    OnClick = MultiButton2Click
+    TabOrder = 52
   end
   object OpenDialog1: TOpenDialog
     Left = 752

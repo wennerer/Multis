@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, Spin,
-  ColorBox, MultiSwitch, MultiPanel, MultiplexSlider, MultiSeperator,
+  ColorBox, LCLIntf, MultiSwitch, MultiPanel, MultiplexSlider, MultiSeperator,
   MultiButton, FlexiSwitch;
 
 
@@ -27,7 +27,10 @@ type
     FloatSpinEdit1: TFloatSpinEdit;
     FloatSpinEdit2: TFloatSpinEdit;
     FloatSpinEdit3: TFloatSpinEdit;
+    FloatSpinEdit4: TFloatSpinEdit;
+    Memo1: TMemo;
     MultiButton1: TMultiButton;
+    MultiButton2: TMultiButton;
     MultiPanel1: TMultiPanel;
     aMultiSwitch: TMultiSwitch;
     MultiplexSlider1: TMultiplexSlider;
@@ -40,6 +43,7 @@ type
     MultiSwitch4: TMultiSwitch;
     MultiSwitch5: TMultiSwitch;
     MultiSwitch6: TMultiSwitch;
+    MultiSwitch7: TMultiSwitch;
     OpenDialog1: TOpenDialog;
     SpinEdit1: TSpinEdit;
     SpinEdit2: TSpinEdit;
@@ -62,6 +66,8 @@ type
     StaticText22: TStaticText;
     StaticText23: TStaticText;
     StaticText24: TStaticText;
+    StaticText25: TStaticText;
+    StaticText26: TStaticText;
     StaticText3: TStaticText;
     StaticText4: TStaticText;
     StaticText5: TStaticText;
@@ -81,19 +87,22 @@ type
     procedure FloatSpinEdit1Change(Sender: TObject);
     procedure FloatSpinEdit2Change(Sender: TObject);
     procedure FloatSpinEdit3Change(Sender: TObject);
-    procedure FormCreate({%H-}Sender: TObject);
+    procedure FloatSpinEdit4Change(Sender: TObject);
     procedure MultiButton1Click(Sender: TObject);
+    procedure MultiButton2Click(Sender: TObject);
     procedure MultiplexSlider1Change(const aValue: integer);
     procedure MultiplexSlider2Change(const aValue: integer);
     procedure MultiplexSlider3Change(const aValue: integer);
     procedure MultiSwitch1Change({%H-}Sender: TObject);
-    procedure MultiSwitch2Direction({%H-}Sender: TObject; aDirection: TSwDirection);
+    procedure MultiSwitch2Direction({%H-}Sender: TObject; aDirection: TSwDirection;aLeft,aRight:boolean);
     procedure MultiSwitch3Left({%H-}Sender: TObject);
     procedure MultiSwitch3Right({%H-}Sender: TObject);
-    procedure MultiSwitch4Direction(Sender: TObject; aDirection: TSwDirection);
-    procedure MultiSwitch5Direction(Sender: TObject; aDirection: TSwDirection);
+    procedure MultiSwitch4Direction(Sender: TObject; aDirection: TSwDirection;aLeft,aRight:boolean);
+    procedure MultiSwitch5Direction(Sender: TObject; aDirection: TSwDirection;aLeft,aRight:boolean);
     procedure MultiSwitch6Left(Sender: TObject; aSide: boolean);
     procedure MultiSwitch6Right(Sender: TObject; aSide: boolean);
+    procedure MultiSwitch7Direction(Sender: TObject; aDirection: TSwDirection;
+      aLeft, aRight: boolean);
     procedure SpinEdit1Change(Sender: TObject);
     procedure SpinEdit2Change(Sender: TObject);
     procedure SpinEdit3Change(Sender: TObject);
@@ -121,11 +130,6 @@ begin
  aMultiSwitch.Width:=aValue;
 end;
 
-procedure TForm1.FormCreate(Sender: TObject);
-begin
-
-end;
-
 procedure TForm1.FloatSpinEdit1Change(Sender: TObject);
 begin
  aMultiSwitch.ImgSizeFactor:=FloatSpinEdit1.Value;
@@ -139,6 +143,11 @@ end;
 procedure TForm1.FloatSpinEdit3Change(Sender: TObject);
 begin
  aMultiSwitch.HoverBlendFaktor:=FloatSpinEdit3.Value;
+end;
+
+procedure TForm1.FloatSpinEdit4Change(Sender: TObject);
+begin
+ aMultiSwitch.FocusedBlendFaktor:=FloatSpinEdit4.Value;
 end;
 
 procedure TForm1.Edit1Change(Sender: TObject);
@@ -206,6 +215,11 @@ begin
  end;
 end;
 
+procedure TForm1.MultiButton2Click(Sender: TObject);
+begin
+ OpenURL('https://www.lazarusforum.de/viewtopic.php?p=128092#p128092');
+end;
+
 procedure TForm1.MultiplexSlider2Change(const aValue: integer);
 begin
  aMultiSwitch.FocusFrameWidth:=aValue;
@@ -222,7 +236,7 @@ begin
  else aMultiSwitch.Roll := true;
 end;
 
-procedure TForm1.MultiSwitch2Direction(Sender: TObject; aDirection: TSwDirection);
+procedure TForm1.MultiSwitch2Direction(Sender: TObject; aDirection: TSwDirection;aLeft,aRight:boolean);
 begin
  aMultiSwitch.Direction:= aDirection;
 end;
@@ -237,16 +251,14 @@ begin
  aMultiSwitch.SwitchMode:= msSlide;
 end;
 
-procedure TForm1.MultiSwitch4Direction(Sender: TObject; aDirection: TSwDirection);
+procedure TForm1.MultiSwitch4Direction(Sender: TObject; aDirection: TSwDirection;aLeft,aRight:boolean);
 begin
- if aDirection = msRight then
- aMultiSwitch.BestTextHeight:= true else aMultiSwitch.BestTextHeight:= false;
+ aMultiSwitch.BestTextHeight:=aRight;
 end;
 
-procedure TForm1.MultiSwitch5Direction(Sender: TObject; aDirection: TSwDirection);
+procedure TForm1.MultiSwitch5Direction(Sender: TObject; aDirection: TSwDirection;aLeft,aRight:boolean);
 begin
- if aDirection = msRight then
-  aMultiSwitch.Enabled:= true else aMultiSwitch.Enabled:= false;
+ aMultiSwitch.Enabled:=aRight;
 end;
 
 procedure TForm1.MultiSwitch6Left(Sender: TObject; aSide: boolean);
@@ -259,9 +271,11 @@ begin
  aMultiSwitch.FocusFrameOn:=aSide;
 end;
 
-
-
-
+procedure TForm1.MultiSwitch7Direction(Sender: TObject;
+  aDirection: TSwDirection; aLeft, aRight: boolean);
+begin
+ aMultiSwitch.ForegroundFocusOn:= not aLeft;
+end;
 
 procedure TForm1.SpinEdit1Change(Sender: TObject);
 begin

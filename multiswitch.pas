@@ -63,7 +63,7 @@ type
 type
   TChangeEvent     = procedure(Sender: TObject) of object;
 type
-  TSwDirectionEvent  = procedure(Sender: TObject;aDirection : TSwDirection) of object;
+  TSwDirectionEvent  = procedure(Sender: TObject;aDirection : TSwDirection;aLeft,aRight : boolean) of object;
 type
   TSideEvent = procedure(Sender: TObject;aSide : boolean) of object;
 
@@ -975,7 +975,7 @@ begin
    CheckTheGroup;
    if Assigned(OnChange) then OnChange(self);
    if Assigned(OnRight) then OnRight(self,true);
-   if Assigned(FOnDirection) then OnDirection(self,msRight);
+   if Assigned(FOnDirection) then OnDirection(self,msRight,false,true);
    exit;
   end;
 
@@ -992,7 +992,7 @@ begin
    CheckTheGroup;
    if Assigned(OnChange) then OnChange(self);
    if Assigned(OnLeft) then OnLeft(self,true);
-   if Assigned(FOnDirection) then OnDirection(self,msLeft);
+   if Assigned(FOnDirection) then OnDirection(self,msLeft,true,false);
    exit;
   end;
 
@@ -1032,7 +1032,7 @@ begin
        CheckTheGroup;
       FAbortSlide := false;
       if Assigned(OnRight) then OnRight(self,true);
-      if Assigned(FOnDirection) then OnDirection(self,msRight);
+      if Assigned(FOnDirection) then OnDirection(self,msRight,false,true);
      end;
    end;
    if FDirection = msLeft then
@@ -1053,7 +1053,7 @@ begin
        CheckTheGroup;
       FAbortSlide := false;
       if Assigned(OnLeft) then OnLeft(self,true);
-      if Assigned(FOnDirection) then OnDirection(self,msLeft);
+      if Assigned(FOnDirection) then OnDirection(self,msLeft,true,false);
      end;
    end;
    Invalidate;
