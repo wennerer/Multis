@@ -13,7 +13,7 @@ begin
   PEForm.Left           := (PEForm.Monitor.Width div 2) - (PEForm.Width div 2);
   PEForm.Top            := (PEForm.Monitor.Height div 2) -(PEForm.Height div 2);
   PEForm.BorderStyle    := bsSingle;
-  PEForm.Caption        := 'Select a image for a RollButton';
+  PEForm.Caption        := rs_titelimageselector;
 
   FFirst := true;
 
@@ -42,6 +42,7 @@ begin
 
   FRollImage            := TRollImage.Create;
   FRollImage.aDirection := TMultiSwitch(GetComponent(0)).FDirection;
+  FOldDirection         := TMultiSwitch(GetComponent(0)).FDirection;
 
   i := 0;j:=0;
   for lv := 0 to 39 do
@@ -69,8 +70,8 @@ begin
     FRadioButton[lv].Top    := 440 + (lv*30);
     FRadioButton[lv].OnClick:=@RadioButtons;
    end;
-  FRadioButton[0].Caption := 'LeftRollImage [Left]';
-  FRadioButton[1].Caption := 'RightRollImage [Right]';
+  FRadioButton[0].Caption := rs_showleft;
+  FRadioButton[1].Caption := rs_showright;
   if FRollImage.aDirection = msLeft then FRadioButton[0].Checked := true
   else FRadioButton[1].Checked := true;
 
@@ -85,8 +86,8 @@ begin
     FButton[lv].Height :=  25;
     FButton[lv].OnClick:=@ButtonsClick;
    end;
-  FButton[0].Caption := 'Apply';
-  FButton[1].Caption := 'Close';
+  FButton[0].Caption := rs_apply;
+  FButton[1].Caption := rs_close;
 
 
    PEForm.ShowModal;
@@ -112,6 +113,9 @@ procedure TPropertyImageSelector.ButtonsClick(Sender: TObject);
 begin
  if Sender = FButton[1] then  //Close
   begin
+   if FOldDirection = msRight then FRadioButton[0].Checked:= true
+   else FRadioButton[1].Checked := true;
+   RadioButtons(Sender);
    PEForm.Close;
    exit;
   end;

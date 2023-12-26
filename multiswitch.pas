@@ -41,7 +41,8 @@ interface
 uses
   Classes, SysUtils, Math, LResources, Forms, Controls, Graphics, Dialogs,
   IntfGraphics, LCLIntf, GraphType, PropEdits, infmultis, ExtCtrls, LMessages,
-  LCLType, StdCtrls, LCLVersion, multipanel, multilayer, PtIn, LCLProc;
+  LCLType, StdCtrls, LCLVersion, multipanel, multilayer, PtIn, rs_mbstylemanager,
+  LCLProc;
 
 type
   TSwDirection = (msRight,msLeft);
@@ -110,12 +111,13 @@ type
 
     TPropertyImageSelector = class (TPropertyEditor)
     private
-     PEForm       : TCustomForm;
-     FThumbnail   : array [0..39] of TThumbnail;
-     FRadioButton : array [0..1] of TRadioButton;
-     FButton      : array [0..1] of TButton;
-     FRollImage   : TRollImage;
-     FFirst       : boolean;
+     PEForm        : TCustomForm;
+     FThumbnail    : array [0..39] of TThumbnail;
+     FRadioButton  : array [0..1] of TRadioButton;
+     FButton       : array [0..1] of TButton;
+     FRollImage    : TRollImage;
+     FFirst        : boolean;
+     FOldDirection : TSwDirection;
      procedure ButtonsClick(Sender: TObject);
      procedure RadioButtons({%H-}Sender: TObject);
      procedure SelectedImage(Sender: TObject);
@@ -237,7 +239,7 @@ type
    procedure SetButtonColor(AValue: TColor);
    procedure SetCapLeft(AValue: integer);
    procedure SetCapTop(AValue: integer);
-   procedure SeTSwDirection(AValue: TSwDirection);
+   procedure SetDirection(AValue: TSwDirection);
    procedure SetDisabledColor(AValue: TColor);
    procedure SetEnabledBlendFaktor(AValue: Double);
    procedure SetGroupIndex(AValue: integer);
@@ -344,7 +346,7 @@ type
    property Roll : boolean read FRoll write FRoll default true;
    //Specifies whether the button is on the right or left at the start
    //Gibt an ob der Button beim Start rechts oder links ist
-   property Direction        : TSwDirection read FDirection write SeTSwDirection default msLeft;
+   property Direction        : TSwDirection read FDirection write SetDirection default msLeft;
    //The speed at which the button moves
    //Die Geschwindigkeit mit der sich der Button bewegt
    property Speed            : integer read FSpeed write SetSpeed default 10;

@@ -60,7 +60,7 @@ begin
   FCapTop:=AValue;
 end;
 
-procedure TMultiSwitch.SeTSwDirection(AValue: TSwDirection);
+procedure TMultiSwitch.SetDirection(AValue: TSwDirection);
 begin
  if FDirection=AValue then Exit;
   FDirection:=AValue;

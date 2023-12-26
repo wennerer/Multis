@@ -62,6 +62,10 @@ msgstr ""
 msgid "Notice! BackgrdColorStart owns the value clNone. Background is unvisibel."
 msgstr ""
 
+#: rs_mbstylemanager.rs_close
+msgid "Close"
+msgstr ""
+
 #: rs_mbstylemanager.rs_colorend
 msgid "The end color of the button (for color gradient)"
 msgstr ""
@@ -297,8 +301,16 @@ msgstr ""
 msgid "Allows to show or hide a border"
 msgstr ""
 
+#: rs_mbstylemanager.rs_showleft
+msgid "Show LeftRollImage"
+msgstr ""
+
 #: rs_mbstylemanager.rs_showpressed
 msgid "Allows to show or hide the pressedoption "
+msgstr ""
+
+#: rs_mbstylemanager.rs_showright
+msgid "Show RightRollImage"
 msgstr ""
 
 #: rs_mbstylemanager.rs_style
@@ -311,6 +323,10 @@ msgstr ""
 
 #: rs_mbstylemanager.rs_takewidth
 msgid "Take over the width"
+msgstr ""
+
+#: rs_mbstylemanager.rs_titelimageselector
+msgid "Select a image for a RollButton"
 msgstr ""
 
 #: rs_mbstylemanager.rs_top
