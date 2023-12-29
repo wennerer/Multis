@@ -33,8 +33,110 @@ object Form1: TForm1
       Font.Color = clWhite
       Font.Height = 19
       Font.Style = [fsBold]
-      RightImageIndex = 9
       TabOrder = 0
+    end
+    object MultiSwitch8: TMultiSwitch
+      Left = 224
+      Height = 26
+      Top = 10
+      Width = 60
+      BorderColor = clMaroon
+      LeftCaption = 'OFF'
+      RightCaption = 'ON'
+      Font.Color = clWhite
+      Font.Height = 10
+      Font.Style = [fsBold]
+      LeftImageIndex = 3
+      RightImageIndex = 2
+      TabOrder = 1
+    end
+    object MultiSwitch9: TMultiSwitch
+      Left = 320
+      Height = 26
+      Top = 10
+      Width = 60
+      LeftBgrdColor = 10545915
+      RightBgrdColor = clYellow
+      FocusColor = clYellow
+      LeftCaption = 'Aus'
+      RightCaption = 'Ein'
+      Font.Color = clMaroon
+      Font.Height = 12
+      Font.Style = [fsBold]
+      LeftImageIndex = 16
+      RightImageIndex = 17
+      TabOrder = 2
+    end
+    object MultiSwitch10: TMultiSwitch
+      Left = 416
+      Height = 26
+      Top = 10
+      Width = 60
+      LeftBgrdColor = clWhite
+      RightBgrdColor = clWhite
+      BorderColor = 16756224
+      Direction = msRight
+      LeftCaption = ' '
+      RightCaption = ' '
+      Font.Color = clWhite
+      Font.Height = 10
+      Font.Style = [fsBold]
+      LeftImageIndex = 13
+      RightImageIndex = 13
+      TabOrder = 3
+    end
+    object MultiSwitch11: TMultiSwitch
+      Left = 517
+      Height = 26
+      Top = 10
+      Width = 60
+      LeftBgrdColor = clBlack
+      RightBgrdColor = clBlack
+      FocusFrameOn = False
+      FocusFrameWidth = 0
+      ForegroundFocusOn = True
+      LeftCaption = 'OFF'
+      RightCaption = 'ON'
+      Font.Color = clWhite
+      Font.Height = 14
+      Font.Style = [fsBold]
+      LeftImageIndex = 6
+      RightImageIndex = 6
+      SwitchMode = msSlide
+      TabOrder = 4
+    end
+    object MultiSwitch12: TMultiSwitch
+      Left = 632
+      Height = 26
+      Top = 10
+      Width = 60
+      LeftBgrdColor = clRed
+      RightBgrdColor = clLime
+      LeftCaption = 'Nein'
+      RightCaption = 'Ja'
+      Font.Color = clWhite
+      Font.Height = 11
+      Font.Style = [fsBold]
+      BestTextHeight = False
+      LeftImageIndex = 5
+      RightImageIndex = 4
+      TabOrder = 5
+    end
+    object MultiSwitch13: TMultiSwitch
+      Left = 752
+      Height = 26
+      Top = 10
+      Width = 60
+      LeftBgrdColor = clMaroon
+      RightBgrdColor = clNavy
+      ButtonColor = clYellow
+      Direction = msRight
+      LeftCaption = 'OFF'
+      RightCaption = 'ON'
+      Font.Color = clWhite
+      Font.Height = 12
+      Font.Style = [fsBold]
+      TabOrder = 6
     end
   end
   object MultiplexSlider1: TMultiplexSlider
@@ -401,7 +503,7 @@ object Form1: TForm1
     MaxValue = 39
     OnChange = SpinEdit1Change
     TabOrder = 20
-    Value = 34
+    Value = 9
   end
   object StaticText9: TStaticText
     Left = 328

@@ -1,6 +1,6 @@
 { <TMultiSwitch is a toggle component>
-  <Version 0.0.0.1>
-  Copyright (C) <10.12.2023> <Bernd Hübner>
+  <Version 1.0.0.1>
+  Copyright (C) <29.12.2023> <Bernd Hübner>
   Many thanks to the members of the German Lazarus Forum!
   For some improvements see https://www.lazarusforum.de/viewtopic.php?p=137567#p137567
   The images in the resource are from Roland Hahn. Vielen Dank!
@@ -42,7 +42,7 @@ uses
   Classes, SysUtils, Math, LResources, Forms, Controls, Graphics, Dialogs,
   IntfGraphics, LCLIntf, GraphType, PropEdits, infmultis, ExtCtrls, LMessages,
   LCLType, StdCtrls, LCLVersion, multipanel, multilayer, PtIn, rs_mbstylemanager,
-  LCLProc;
+  multibutton;//, LCLProc;
 
 type
   TSwDirection = (msRight,msLeft);
@@ -115,9 +115,12 @@ type
      FThumbnail    : array [0..39] of TThumbnail;
      FRadioButton  : array [0..1] of TRadioButton;
      FButton       : array [0..1] of TButton;
+     aMultiButton  : TMultiButton;
+     aStaticText   : TStaticText;
      FRollImage    : TRollImage;
      FFirst        : boolean;
      FOldDirection : TSwDirection;
+     procedure aLink(Sender: TObject);
      procedure ButtonsClick(Sender: TObject);
      procedure RadioButtons({%H-}Sender: TObject);
      procedure SelectedImage(Sender: TObject);
@@ -292,9 +295,6 @@ type
    //How translucent is the focusColor (1=opaque,0=transparent)
    //Wie transparent die Fokusfarbe ist (1=undurchsichtig,0=durchsichtig)
    property FocusedBlendFaktor : Double read FFocusedBlendFaktor write FFocusedBlendFaktor;
-   //The Startangle of the RollImage
-   //Der Startwinkel des RollImages
-   property Angel : Double read FAngel write FAngel;
    //The steps by rotation
    //Die Schritte beim Drehen
    property Rotation : Double read FRotation write FRotation;
@@ -306,8 +306,8 @@ type
    //How translucent is the DisabledColor (1=opaque,0=transparent)
    //Wie transparent die DisabledColor ist (1=undurchsichtig,0=durchsichtig)
    property EnabledBlendFaktor : Double read FEnabledBlendFaktor write SetEnabledBlendFaktor;
-   //To compensate if images with <>72px are loaded with LoadfromFile
-   //Zum Ausgleich wenn mit LoadfromFile Images mit <>72px geladen werden
+   //To compensate if images with <>64px are loaded with LoadfromFile
+   //Zum Ausgleich wenn mit LoadfromFile Images mit <>64px geladen werden
    property ImgSizeFactor : double read FImgSizeFactor write SetImgSizeFactor;
 
   published
@@ -421,8 +421,14 @@ type
    property OnKeyDown    : TKeyEvent read FOnKeyDown write FOnKeyDown;
    property OnKeyUp      : TKeyEvent read FOnKeyUp write FOnKeyUp;
    property OnChange     : TChangeEvent read FOnChange write FOnChange;
+   //Returns a true value if the button arrives on the right-hand side.
+   //Liefert einen true Wert wenn der Button auf der rechten Seite ankommt.
    property OnRight      : TSideEvent read FOnRight write FOnRight;
+   //Returns a true value if the button arrives on the left-hand side.
+   //Liefert einen true Wert wenn der Button auf der linken Seite ankommt.
    property OnLeft       : TSideEvent read FOnLeft write FOnLeft;
+   //Returns the direction of the switch, aLeft and aRight return true or false.
+   //Liefert die Richtung des Schalters, aLeft und aRight geben true oder false zurück.
    property OnDirection  : TSwDirectionEvent read FOnDirection write FOnDirection;
    property OnDragDrop;
    property OnDragOver;
@@ -539,9 +545,19 @@ begin
   FImages[12].LoadFromResourceName(HInstance, 'm_puk014');
   FImages[13].LoadFromResourceName(HInstance, 'm_puk015');
   FImages[14].LoadFromResourceName(HInstance, 'm_puk016');
+  FImages[15].LoadFromResourceName(HInstance, 'm_puk017');
+  FImages[16].LoadFromResourceName(HInstance, 'm_puk018');
+  FImages[17].LoadFromResourceName(HInstance, 'm_puk019');
+  FImages[18].LoadFromResourceName(HInstance, 'm_puk020');
+  FImages[19].LoadFromResourceName(HInstance, 'm_puk021');
+  FImages[20].LoadFromResourceName(HInstance, 'm_puk022');
+  FImages[21].LoadFromResourceName(HInstance, 'm_puk023');
+  FImages[22].LoadFromResourceName(HInstance, 'm_puk024');
+  FImages[23].LoadFromResourceName(HInstance, 'm_puk025');
+  FImages[24].LoadFromResourceName(HInstance, 'm_puk026');
 
-  //load more images, maximal 40   Images must have 64x64pixel!
-  for lv := 15 to 39 do //load the rest with dummy
+  //load more images, maximal 40   Images must have 64x64pixel! See also msw_imageselector.inc!!!!
+  for lv := 25 to 39 do //load the rest with dummy
     FImages[lv].Assign(FImages[8]);
 
   FLeftImage := TPortableNetworkGraphic.Create;

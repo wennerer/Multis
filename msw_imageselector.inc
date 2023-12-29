@@ -9,7 +9,7 @@ begin
  PEForm                := TForm.Create(Application);
  try
   PEForm.Width          := 670;
-  PEForm.Height         := 520;
+  PEForm.Height         := 570;
   PEForm.Left           := (PEForm.Monitor.Width div 2) - (PEForm.Width div 2);
   PEForm.Top            := (PEForm.Monitor.Height div 2) -(PEForm.Height div 2);
   PEForm.BorderStyle    := bsSingle;
@@ -36,8 +36,19 @@ begin
   FImages[12].LoadFromResourceName(HInstance, 'm_puk014');
   FImages[13].LoadFromResourceName(HInstance, 'm_puk015');
   FImages[14].LoadFromResourceName(HInstance, 'm_puk016');
+  FImages[15].LoadFromResourceName(HInstance, 'm_puk017');
+  FImages[16].LoadFromResourceName(HInstance, 'm_puk018');
+  FImages[17].LoadFromResourceName(HInstance, 'm_puk019');
+  FImages[18].LoadFromResourceName(HInstance, 'm_puk020');
+  FImages[19].LoadFromResourceName(HInstance, 'm_puk021');
+  FImages[20].LoadFromResourceName(HInstance, 'm_puk022');
+  FImages[21].LoadFromResourceName(HInstance, 'm_puk023');
+  FImages[22].LoadFromResourceName(HInstance, 'm_puk024');
+  FImages[23].LoadFromResourceName(HInstance, 'm_puk025');
+  FImages[24].LoadFromResourceName(HInstance, 'm_puk026');
+
   //load more images, maximal 40   Images must have 64x64pixel!
-  for lv := 15 to 39 do //load the rest with dummy
+  for lv := 25 to 39 do //load the rest with dummy
     FImages[lv].Assign(FImages[8]);
 
   FRollImage            := TRollImage.Create;
@@ -89,8 +100,29 @@ begin
   FButton[0].Caption := rs_apply;
   FButton[1].Caption := rs_close;
 
+  aStaticText          := TStaticText.Create(PEForm);
+  aStaticText.Parent   := PEForm;
+  aStaticText.Left     := 20;
+  aStaticText.Top      := 510;
+  aStaticText.AutoSize := true;
+  aStaticText.Caption  := rs_ally;
 
-   PEForm.ShowModal;
+  aMultiButton                 := TMultiButton.Create(PEForm);
+  aMultiButton.Parent          := PEForm;
+  aMultiButton.Left            := 20;
+  aMultiButton.Width           := 630;
+  aMultiButton.Top             := 540;
+  aMultiButton.Height          := 25;
+  aMultiButton.Style           := mbsRect;
+  aMultiButton.FocusFrameOn    := false;
+  aMultiButton.FocusFrameWidth := 0;
+  aMultiButton.ColorStart      := clWhite;
+  aMultiButton.ColorEnd        := clWhite;
+  aMultiButton.Font.Color      := clBlue;
+  aMultiButton.Caption         := 'https://www.lazarusforum.de/viewtopic.php?p=128092#p128092';
+  aMultiButton.OnClick         :=@aLink;
+
+  PEForm.ShowModal;
 
  Finally
    FRollImage.Free;
@@ -123,6 +155,11 @@ begin
   begin
    SetPtrValue(FRollImage);
   end;
+end;
+
+procedure TPropertyImageSelector.aLink(Sender: TObject);
+begin
+ OpenURL('https://www.lazarusforum.de/viewtopic.php?p=128092#p128092');
 end;
 
 procedure TPropertyImageSelector.RadioButtons(Sender: TObject);

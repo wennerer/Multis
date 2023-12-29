@@ -5,6 +5,10 @@ msgstr "Content-Type: text/plain; charset=UTF-8"
 msgid "Discards the current properties and closes the editor"
 msgstr ""
 
+#: rs_mbstylemanager.rs_ally
+msgid "The images are by Roland Hahn. Thank you very much! For more info click the link."
+msgstr ""
+
 #: rs_mbstylemanager.rs_apply
 msgid "Apply"
 msgstr ""

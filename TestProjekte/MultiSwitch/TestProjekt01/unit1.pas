@@ -38,12 +38,18 @@ type
     MultiplexSlider3: TMultiplexSlider;
     MultiSeperator1: TMultiSeperator;
     MultiSwitch1: TMultiSwitch;
+    MultiSwitch10: TMultiSwitch;
+    MultiSwitch11: TMultiSwitch;
+    MultiSwitch12: TMultiSwitch;
+    MultiSwitch13: TMultiSwitch;
     MultiSwitch2: TMultiSwitch;
     MultiSwitch3: TMultiSwitch;
     MultiSwitch4: TMultiSwitch;
     MultiSwitch5: TMultiSwitch;
     MultiSwitch6: TMultiSwitch;
     MultiSwitch7: TMultiSwitch;
+    MultiSwitch8: TMultiSwitch;
+    MultiSwitch9: TMultiSwitch;
     OpenDialog1: TOpenDialog;
     SpinEdit1: TSpinEdit;
     SpinEdit2: TSpinEdit;

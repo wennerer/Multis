@@ -16,6 +16,10 @@ msgstr ""
 msgid "Discards the current properties and closes the editor"
 msgstr "Verwirft die aktuellen Eigenschaften und schließt den Editor"
 
+#: rs_mbstylemanager.rs_ally
+msgid "The images are by Roland Hahn. Thank you very much! For more info click the link."
+msgstr "Die Images sind von Roland Hahn. Vielen Dank!! Für mehr Info klicke den Link."
+
 #: rs_mbstylemanager.rs_apply
 msgid "Apply"
 msgstr "Verwenden"

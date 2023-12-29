@@ -111,6 +111,7 @@ resourcestring
      rs_showleft            = 'Show LeftRollImage';
      rs_showright           = 'Show RightRollImage';
      rs_close               = 'Close';
+     rs_ally                = 'The images are by Roland Hahn. Thank you very much! For more info click the link.';
 
 implementation
 
