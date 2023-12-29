@@ -8,7 +8,7 @@ The package currently contains:
 -TMultiLayer, this component provides a page that can also be made invisible at design time.      
 -TMultiRadioGroup, you can set many colours and you can link several MultiRadioGroups with each other.    
 -TMultiCheckGroup, you can set many colours and you can link several MultiCheckGroups with each other.
--TMultiSwitch, a toogle Switch with a lot of images.
+-TMultiSwitch, a toogle Switch with a lot of images.    
 The components are characterized by the fact that they have many user-defined properties and their appearance is almost the same on different OS.     
 I developed and tested it under Linux Mint 64bit. I compiled it under Windows 64 and 32 bit, Linux 32 bit, Linux with qt and FreeBSD.   
 For more Information see: https://www.lazarusforum.de/viewtopic.php?p=125633#p125633  
