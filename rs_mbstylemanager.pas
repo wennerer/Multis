@@ -106,7 +106,12 @@ resourcestring
      rs_yes1                = 'Yes, please';
      rs_no1                 = 'No thank you';
 
-
+    //multiswitch
+     rs_titelimageselector  = 'Select a image for a RollButton';
+     rs_showleft            = 'Show LeftRollImage';
+     rs_showright           = 'Show RightRollImage';
+     rs_close               = 'Close';
+     rs_ally                = 'The images are by Roland Hahn. Thank you very much! For more info click the link.';
 
 implementation
 

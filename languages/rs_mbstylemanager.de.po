@@ -16,6 +16,10 @@ msgstr ""
 msgid "Discards the current properties and closes the editor"
 msgstr "Verwirft die aktuellen Eigenschaften und schließt den Editor"
 
+#: rs_mbstylemanager.rs_ally
+msgid "The images are by Roland Hahn. Thank you very much! For more info click the link."
+msgstr "Die Images sind von Roland Hahn. Vielen Dank!! Für mehr Info klicke den Link."
+
 #: rs_mbstylemanager.rs_apply
 msgid "Apply"
 msgstr "Verwenden"
@@ -72,6 +76,10 @@ msgstr "Hinweis! BackgrdColorEnd besitzt den Wert clNone. Hintergrund ist unsich
 #: rs_mbstylemanager.rs_clnonecolorstart
 msgid "Notice! BackgrdColorStart owns the value clNone. Background is unvisibel."
 msgstr "Hinweis! BackgrdColorstart besitzt den Wert clNone. Hintergrund ist unsichtbar."
+
+#: rs_mbstylemanager.rs_close
+msgid "Close"
+msgstr "Schließen"
 
 #: rs_mbstylemanager.rs_colorend
 msgid "The end color of the button (for color gradient)"
@@ -308,9 +316,17 @@ msgstr "Speichert die aktuellen Eigenschaften in einer Datei"
 msgid "Allows to show or hide a border"
 msgstr "Ermöglicht das Ein- oder Ausblenden eines Rahmens"
 
+#: rs_mbstylemanager.rs_showleft
+msgid "Show LeftRollImage"
+msgstr "Zeige LeftRollimage"
+
 #: rs_mbstylemanager.rs_showpressed
 msgid "Allows to show or hide the pressedoption "
 msgstr "Ermöglicht das Ein- oder Ausblenden der Gedrücktoption "
+
+#: rs_mbstylemanager.rs_showright
+msgid "Show RightRollImage"
+msgstr "Zeige RightRollimage"
 
 #: rs_mbstylemanager.rs_style
 msgid "The geometric shape of the button"
@@ -323,6 +339,10 @@ msgstr "Höhe übernehmen"
 #: rs_mbstylemanager.rs_takewidth
 msgid "Take over the width"
 msgstr "Breite übernehmen"
+
+#: rs_mbstylemanager.rs_titelimageselector
+msgid "Select a image for a RollButton"
+msgstr "Wähle ein Bild für den Rollbutton"
 
 #: rs_mbstylemanager.rs_top
 msgid "Top:"
@@ -347,4 +367,3 @@ msgstr "Ermöglicht einen Zeilenumbruch in der Caption"
 #: rs_mbstylemanager.rs_yes1
 msgid "Yes, please"
 msgstr "Ja, bitte"
-

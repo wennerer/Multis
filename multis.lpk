@@ -20,14 +20,15 @@
 -TMultiLayer, a component provides a page that can also be made invisible at design time
 -TMultiRadioGroup, you can set the colours and show images
 -TMultiCheckGroup, you can set the colours and show images
--TMultiEventLine, a line on which events (steps) are displayed
+-TMultiSwitch, a toogle switch, you can click or slide
+-TMultiEventLine, a line on which events (steps) are displayed (beta)
 - the unit PointIn
 -the unit custompen
 
 The help for the package can be called up via the menu item Help , Multis-Help."/>
     <License Value="modified LGPL-2"/>
-    <Version Major="1" Release="7" Build="2"/>
-    <Files Count="33">
+    <Version Major="1" Release="8" Build="1"/>
+    <Files Count="35">
       <Item1>
         <Filename Value="multibuttonstylemanager.pas"/>
         <HasRegisterProc Value="True"/>
@@ -167,9 +168,18 @@ The help for the package can be called up via the menu item Help , Multis-Help."
         <Type Value="Include"/>
       </Item32>
       <Item33>
-        <Filename Value="ml_state.inc"/>
-        <Type Value="Include"/>
+        <Filename Value="multiswitch.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="MultiSwitch"/>
       </Item33>
+      <Item34>
+        <Filename Value="multiswitch_setter.inc"/>
+        <Type Value="Include"/>
+      </Item34>
+      <Item35>
+        <Filename Value="msw_imageselector.inc"/>
+        <Type Value="Include"/>
+      </Item35>
     </Files>
     <CompatibilityMode Value="True"/>
     <i18n>

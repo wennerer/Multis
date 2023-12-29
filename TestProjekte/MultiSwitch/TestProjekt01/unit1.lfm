@@ -1,0 +1,917 @@
+object Form1: TForm1
+  Left = 441
+  Height = 800
+  Top = 100
+  Width = 888
+  Caption = 'Test the multiswitch'
+  ClientHeight = 800
+  ClientWidth = 888
+  object MultiPanel1: TMultiPanel
+    Left = 0
+    Height = 96
+    Top = 0
+    Width = 888
+    ColorGradient = gcHorizontal
+    Align = alTop
+    StrPolygon = (
+      '50'
+      '2'
+      '98'
+      '98'
+      '2'
+      '98'
+      '50'
+      '2'
+    )
+    object aMultiSwitch: TMultiSwitch
+      Left = 10
+      Height = 39
+      Top = 10
+      Width = 90
+      LeftCaption = 'OFF'
+      RightCaption = 'ON'
+      Font.Color = clWhite
+      Font.Height = 19
+      Font.Style = [fsBold]
+      TabOrder = 0
+    end
+    object MultiSwitch8: TMultiSwitch
+      Left = 224
+      Height = 26
+      Top = 10
+      Width = 60
+      BorderColor = clMaroon
+      LeftCaption = 'OFF'
+      RightCaption = 'ON'
+      Font.Color = clWhite
+      Font.Height = 10
+      Font.Style = [fsBold]
+      LeftImageIndex = 3
+      RightImageIndex = 2
+      TabOrder = 1
+    end
+    object MultiSwitch9: TMultiSwitch
+      Left = 320
+      Height = 26
+      Top = 10
+      Width = 60
+      LeftBgrdColor = 10545915
+      RightBgrdColor = clYellow
+      FocusColor = clYellow
+      LeftCaption = 'Aus'
+      RightCaption = 'Ein'
+      Font.Color = clMaroon
+      Font.Height = 12
+      Font.Style = [fsBold]
+      LeftImageIndex = 16
+      RightImageIndex = 17
+      TabOrder = 2
+    end
+    object MultiSwitch10: TMultiSwitch
+      Left = 416
+      Height = 26
+      Top = 10
+      Width = 60
+      LeftBgrdColor = clWhite
+      RightBgrdColor = clWhite
+      BorderColor = 16756224
+      Direction = msRight
+      LeftCaption = ' '
+      RightCaption = ' '
+      Font.Color = clWhite
+      Font.Height = 10
+      Font.Style = [fsBold]
+      LeftImageIndex = 13
+      RightImageIndex = 13
+      TabOrder = 3
+    end
+    object MultiSwitch11: TMultiSwitch
+      Left = 517
+      Height = 26
+      Top = 10
+      Width = 60
+      LeftBgrdColor = clBlack
+      RightBgrdColor = clBlack
+      FocusFrameOn = False
+      FocusFrameWidth = 0
+      ForegroundFocusOn = True
+      LeftCaption = 'OFF'
+      RightCaption = 'ON'
+      Font.Color = clWhite
+      Font.Height = 14
+      Font.Style = [fsBold]
+      LeftImageIndex = 6
+      RightImageIndex = 6
+      SwitchMode = msSlide
+      TabOrder = 4
+    end
+    object MultiSwitch12: TMultiSwitch
+      Left = 632
+      Height = 26
+      Top = 10
+      Width = 60
+      LeftBgrdColor = clRed
+      RightBgrdColor = clLime
+      LeftCaption = 'Nein'
+      RightCaption = 'Ja'
+      Font.Color = clWhite
+      Font.Height = 11
+      Font.Style = [fsBold]
+      BestTextHeight = False
+      LeftImageIndex = 5
+      RightImageIndex = 4
+      TabOrder = 5
+    end
+    object MultiSwitch13: TMultiSwitch
+      Left = 752
+      Height = 26
+      Top = 10
+      Width = 60
+      LeftBgrdColor = clMaroon
+      RightBgrdColor = clNavy
+      ButtonColor = clYellow
+      Direction = msRight
+      LeftCaption = 'OFF'
+      RightCaption = 'ON'
+      Font.Color = clWhite
+      Font.Height = 12
+      Font.Style = [fsBold]
+      TabOrder = 6
+    end
+  end
+  object MultiplexSlider1: TMultiplexSlider
+    Left = 16
+    Height = 56
+    Top = 112
+    Width = 210
+    Style = mssRect
+    Min = 42
+    Max = 175
+    Knob1Settings.KnobPosition = 60
+    Knob1Settings.Visible = True
+    Knob1Settings.KnobStyle = ksCircle
+    Knob1Settings.ColorGradient = gcRadiant
+    Knob1Settings.KnobColorStart = clWhite
+    Knob1Settings.KnobColorEnd = 14082019
+    Knob1Settings.HoverOn = True
+    Knob1Settings.HoverEndColor = 11121077
+    Knob1Settings.HoverStartColor = clSilver
+    Knob1Settings.Design = kdDefault
+    Knob1Settings.DesignColor = clSilver
+    Knob2Settings.KnobPosition = 5
+    Knob2Settings.Visible = False
+    Knob2Settings.KnobStyle = ksCircle
+    Knob2Settings.ColorGradient = gcAlternate
+    Knob2Settings.KnobColorStart = clWhite
+    Knob2Settings.KnobColorEnd = clLime
+    Knob2Settings.HoverOn = True
+    Knob2Settings.HoverEndColor = 753419
+    Knob2Settings.HoverStartColor = clGreen
+    Knob2Settings.Design = kdDefault
+    Knob2Settings.DesignColor = clSilver
+    Knob3Settings.KnobPosition = 10
+    Knob3Settings.Visible = False
+    Knob3Settings.KnobStyle = ksCircle
+    Knob3Settings.ColorGradient = gcAlternate
+    Knob3Settings.KnobColorStart = clWhite
+    Knob3Settings.KnobColorEnd = clSkyBlue
+    Knob3Settings.HoverOn = True
+    Knob3Settings.HoverEndColor = 16038531
+    Knob3Settings.HoverStartColor = clSkyBlue
+    Knob3Settings.Design = kdDefault
+    Knob3Settings.DesignColor = clSilver
+    TextSettings.Position = poTop
+    TextSettings.AutoAd = True
+    TextSettings.PreCaption = 'Width: '
+    TextSettings.BorderColor = clBlack
+    TextSettings.Style = mssRoundRect
+    ValueDisplaySettings.Style = vdsRectangle
+    ValueDisplaySettings.X = 0
+    ValueDisplaySettings.Y = 0
+    TabOrder = 1
+    OnChange = MultiplexSlider1Change
+  end
+  object MultiplexSlider2: TMultiplexSlider
+    Left = 328
+    Height = 56
+    Top = 112
+    Width = 210
+    Style = mssRect
+    Max = 15
+    Knob1Settings.KnobPosition = 5
+    Knob1Settings.Visible = True
+    Knob1Settings.KnobStyle = ksCircle
+    Knob1Settings.ColorGradient = gcRadiant
+    Knob1Settings.KnobColorStart = clWhite
+    Knob1Settings.KnobColorEnd = 14082019
+    Knob1Settings.HoverOn = True
+    Knob1Settings.HoverEndColor = 11121077
+    Knob1Settings.HoverStartColor = clSilver
+    Knob1Settings.Design = kdDefault
+    Knob1Settings.DesignColor = clSilver
+    Knob2Settings.KnobPosition = 5
+    Knob2Settings.Visible = False
+    Knob2Settings.KnobStyle = ksCircle
+    Knob2Settings.ColorGradient = gcAlternate
+    Knob2Settings.KnobColorStart = clWhite
+    Knob2Settings.KnobColorEnd = clLime
+    Knob2Settings.HoverOn = True
+    Knob2Settings.HoverEndColor = 753419
+    Knob2Settings.HoverStartColor = clGreen
+    Knob2Settings.Design = kdDefault
+    Knob2Settings.DesignColor = clSilver
+    Knob3Settings.KnobPosition = 10
+    Knob3Settings.Visible = False
+    Knob3Settings.KnobStyle = ksCircle
+    Knob3Settings.ColorGradient = gcAlternate
+    Knob3Settings.KnobColorStart = clWhite
+    Knob3Settings.KnobColorEnd = clSkyBlue
+    Knob3Settings.HoverOn = True
+    Knob3Settings.HoverEndColor = 16038531
+    Knob3Settings.HoverStartColor = clSkyBlue
+    Knob3Settings.Design = kdDefault
+    Knob3Settings.DesignColor = clSilver
+    TextSettings.Position = poTop
+    TextSettings.AutoAd = True
+    TextSettings.PreCaption = 'FocusFrameWidth:'
+    TextSettings.BorderColor = clBlack
+    TextSettings.Style = mssRoundRect
+    ValueDisplaySettings.Style = vdsRectangle
+    ValueDisplaySettings.X = 0
+    ValueDisplaySettings.Y = 0
+    TabOrder = 2
+    OnChange = MultiplexSlider2Change
+  end
+  object MultiSeperator1: TMultiSeperator
+    Left = 0
+    Height = 5
+    Top = 96
+    Width = 888
+    Orientation = mspHorizontal
+    ColorStart = clMoneyGreen
+    ColorEnd = 9028233
+    Align = alTop
+  end
+  object MultiSwitch1: TMultiSwitch
+    Left = 136
+    Height = 39
+    Top = 184
+    Width = 90
+    LeftCaption = 'OFF'
+    RightCaption = 'ON'
+    Font.Color = clWhite
+    Font.Height = 19
+    Font.Style = [fsBold]
+    TabOrder = 3
+    OnChange = MultiSwitch1Change
+  end
+  object StaticText1: TStaticText
+    Left = 16
+    Height = 21
+    Top = 194
+    Width = 82
+    AutoSize = True
+    Caption = 'Roll on/off:'
+    Font.Height = 16
+    ParentFont = False
+    TabOrder = 4
+  end
+  object MultiplexSlider3: TMultiplexSlider
+    Left = 648
+    Height = 56
+    Top = 112
+    Width = 210
+    Style = mssRect
+    Min = 10
+    Max = 500
+    Knob1Settings.KnobPosition = 10
+    Knob1Settings.Visible = True
+    Knob1Settings.KnobStyle = ksCircle
+    Knob1Settings.ColorGradient = gcRadiant
+    Knob1Settings.KnobColorStart = clWhite
+    Knob1Settings.KnobColorEnd = 14082019
+    Knob1Settings.HoverOn = True
+    Knob1Settings.HoverEndColor = 11121077
+    Knob1Settings.HoverStartColor = clSilver
+    Knob1Settings.Design = kdDefault
+    Knob1Settings.DesignColor = clSilver
+    Knob2Settings.KnobPosition = 5
+    Knob2Settings.Visible = False
+    Knob2Settings.KnobStyle = ksCircle
+    Knob2Settings.ColorGradient = gcAlternate
+    Knob2Settings.KnobColorStart = clWhite
+    Knob2Settings.KnobColorEnd = clLime
+    Knob2Settings.HoverOn = True
+    Knob2Settings.HoverEndColor = 753419
+    Knob2Settings.HoverStartColor = clGreen
+    Knob2Settings.Design = kdDefault
+    Knob2Settings.DesignColor = clSilver
+    Knob3Settings.KnobPosition = 10
+    Knob3Settings.Visible = False
+    Knob3Settings.KnobStyle = ksCircle
+    Knob3Settings.ColorGradient = gcAlternate
+    Knob3Settings.KnobColorStart = clWhite
+    Knob3Settings.KnobColorEnd = clSkyBlue
+    Knob3Settings.HoverOn = True
+    Knob3Settings.HoverEndColor = 16038531
+    Knob3Settings.HoverStartColor = clSkyBlue
+    Knob3Settings.Design = kdDefault
+    Knob3Settings.DesignColor = clSilver
+    TextSettings.Position = poTop
+    TextSettings.AutoAd = True
+    TextSettings.PreCaption = 'Speed: '
+    TextSettings.BorderColor = clBlack
+    TextSettings.Style = mssRoundRect
+    ValueDisplaySettings.Style = vdsRectangle
+    ValueDisplaySettings.X = 0
+    ValueDisplaySettings.Y = 0
+    TabOrder = 5
+    OnChange = MultiplexSlider3Change
+  end
+  object StaticText2: TStaticText
+    Left = 328
+    Height = 21
+    Top = 194
+    Width = 71
+    AutoSize = True
+    Caption = 'Direction:'
+    Font.Height = 16
+    ParentFont = False
+    TabOrder = 6
+  end
+  object MultiSwitch2: TMultiSwitch
+    Left = 448
+    Height = 39
+    Top = 184
+    Width = 90
+    LeftBgrdColor = clMoneyGreen
+    LeftCaption = 'Left'
+    RightCaption = 'Right'
+    Font.Color = clWhite
+    Font.Height = 16
+    Font.Style = [fsBold]
+    BestTextHeight = False
+    LeftImageIndex = 11
+    RightImageIndex = 12
+    TabOrder = 7
+    OnDirection = MultiSwitch2Direction
+  end
+  object StaticText3: TStaticText
+    Left = 648
+    Height = 21
+    Top = 194
+    Width = 98
+    AutoSize = True
+    Caption = 'Switch Mode:'
+    Font.Height = 16
+    ParentFont = False
+    TabOrder = 8
+  end
+  object MultiSwitch3: TMultiSwitch
+    Left = 768
+    Height = 39
+    Top = 184
+    Width = 90
+    LeftBgrdColor = clMoneyGreen
+    LeftCaption = 'Click'
+    RightCaption = 'Slide'
+    Font.Color = clWhite
+    Font.Height = 17
+    Font.Style = [fsBold]
+    BestTextHeight = False
+    LeftImageIndex = 13
+    RightImageIndex = 14
+    TabOrder = 9
+    OnRight = MultiSwitch3Right
+    OnLeft = MultiSwitch3Left
+  end
+  object MultiButton1: TMultiButton
+    Left = 16
+    Height = 50
+    Top = 240
+    Width = 210
+    Style = mbsRect
+    MessageButton.ImageLeft = 0
+    MessageButton.ImageTop = 0
+    Caption = 'Load images from file'
+    OnClick = MultiButton1Click
+    TabOrder = 10
+  end
+  object StaticText4: TStaticText
+    Left = 328
+    Height = 21
+    Top = 253
+    Width = 90
+    AutoSize = True
+    Caption = 'ImgSizeFak.:'
+    Font.Height = 16
+    ParentFont = False
+    TabOrder = 11
+  end
+  object FloatSpinEdit1: TFloatSpinEdit
+    Left = 440
+    Height = 27
+    Top = 248
+    Width = 98
+    Increment = 0.1
+    MaxValue = 2
+    OnChange = FloatSpinEdit1Change
+    TabOrder = 12
+    Value = 1
+  end
+  object StaticText5: TStaticText
+    Left = 16
+    Height = 21
+    Top = 418
+    Width = 90
+    AutoSize = True
+    Caption = 'CaptionLeft:'
+    Font.Height = 16
+    ParentFont = False
+    TabOrder = 13
+  end
+  object Edit1: TEdit
+    Left = 128
+    Height = 27
+    Top = 412
+    Width = 98
+    OnChange = Edit1Change
+    TabOrder = 14
+    Text = 'OFF'
+  end
+  object StaticText6: TStaticText
+    Left = 328
+    Height = 21
+    Top = 418
+    Width = 99
+    AutoSize = True
+    Caption = 'CaptionRigth:'
+    Font.Height = 16
+    ParentFont = False
+    TabOrder = 15
+  end
+  object Edit2: TEdit
+    Left = 438
+    Height = 27
+    Top = 416
+    Width = 100
+    OnChange = Edit2Change
+    TabOrder = 16
+    Text = 'ON'
+  end
+  object StaticText7: TStaticText
+    Left = 648
+    Height = 21
+    Top = 418
+    Width = 108
+    AutoSize = True
+    Caption = 'BestTextHight:'
+    Font.Height = 16
+    ParentFont = False
+    TabOrder = 17
+  end
+  object MultiSwitch4: TMultiSwitch
+    Left = 768
+    Height = 39
+    Top = 400
+    Width = 90
+    Direction = msRight
+    LeftCaption = 'OFF'
+    RightCaption = 'ON'
+    Font.Color = clWhite
+    Font.Height = 19
+    Font.Style = [fsBold]
+    TabOrder = 18
+    OnDirection = MultiSwitch4Direction
+  end
+  object StaticText8: TStaticText
+    Left = 16
+    Height = 21
+    Top = 318
+    Width = 92
+    AutoSize = True
+    Caption = 'LeftImgIndx:'
+    Font.Height = 16
+    ParentFont = False
+    TabOrder = 19
+  end
+  object SpinEdit1: TSpinEdit
+    Left = 128
+    Height = 27
+    Top = 312
+    Width = 98
+    MaxValue = 39
+    OnChange = SpinEdit1Change
+    TabOrder = 20
+    Value = 9
+  end
+  object StaticText9: TStaticText
+    Left = 328
+    Height = 21
+    Top = 318
+    Width = 101
+    AutoSize = True
+    Caption = 'RightImgIndx:'
+    Font.Height = 16
+    ParentFont = False
+    TabOrder = 21
+  end
+  object SpinEdit2: TSpinEdit
+    Left = 440
+    Height = 27
+    Top = 312
+    Width = 98
+    MaxValue = 39
+    OnChange = SpinEdit2Change
+    TabOrder = 22
+    Value = 10
+  end
+  object StaticText10: TStaticText
+    Left = 548
+    Height = 21
+    Top = 318
+    Width = 310
+    AutoSize = True
+    Caption = 'only effective when ButtonColor <> clNone'
+    Font.Height = 16
+    ParentFont = False
+    TabOrder = 23
+  end
+  object StaticText11: TStaticText
+    Left = 16
+    Height = 21
+    Top = 368
+    Width = 63
+    AutoSize = True
+    Caption = 'Enabled:'
+    Font.Height = 16
+    ParentFont = False
+    TabOrder = 24
+  end
+  object MultiSwitch5: TMultiSwitch
+    Left = 134
+    Height = 39
+    Top = 360
+    Width = 90
+    Direction = msRight
+    LeftCaption = 'false'
+    RightCaption = 'true'
+    Font.Color = clWhite
+    Font.Height = 16
+    Font.Style = [fsBold]
+    BestTextHeight = False
+    TabOrder = 25
+    OnDirection = MultiSwitch5Direction
+  end
+  object StaticText12: TStaticText
+    Left = 326
+    Height = 21
+    Top = 368
+    Width = 47
+    AutoSize = True
+    Caption = 'Blend:'
+    Font.Height = 16
+    ParentFont = False
+    TabOrder = 26
+  end
+  object FloatSpinEdit2: TFloatSpinEdit
+    Left = 438
+    Height = 27
+    Top = 360
+    Width = 100
+    Increment = 0.05
+    MaxValue = 1
+    OnChange = FloatSpinEdit2Change
+    TabOrder = 27
+    Value = 0.7
+  end
+  object StaticText13: TStaticText
+    Left = 16
+    Height = 21
+    Top = 508
+    Width = 91
+    AutoSize = True
+    Caption = 'LeftBkColor:'
+    Font.Height = 16
+    ParentFont = False
+    TabOrder = 28
+  end
+  object ColorButton1: TColorButton
+    Left = 128
+    Height = 25
+    Top = 504
+    Width = 98
+    BorderWidth = 2
+    ButtonColorSize = 16
+    ButtonColor = clSilver
+    OnColorChanged = ColorButton1ColorChanged
+  end
+  object StaticText14: TStaticText
+    Left = 328
+    Height = 21
+    Top = 508
+    Width = 100
+    AutoSize = True
+    Caption = 'RightBkColor:'
+    Font.Height = 16
+    ParentFont = False
+    TabOrder = 29
+  end
+  object ColorButton2: TColorButton
+    Left = 440
+    Height = 25
+    Top = 504
+    Width = 98
+    BorderWidth = 2
+    ButtonColorSize = 16
+    ButtonColor = clMoneyGreen
+    OnColorChanged = ColorButton2ColorChanged
+  end
+  object StaticText15: TStaticText
+    Left = 648
+    Height = 21
+    Top = 508
+    Width = 93
+    AutoSize = True
+    Caption = 'BorderColor:'
+    Font.Height = 16
+    ParentFont = False
+    TabOrder = 30
+  end
+  object ColorBox1: TColorBox
+    Left = 768
+    Height = 25
+    Top = 504
+    Width = 90
+    Selected = clNone
+    Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbIncludeNone, cbIncludeDefault]
+    ItemHeight = 0
+    OnChange = ColorBox1Change
+    TabOrder = 31
+  end
+  object StaticText16: TStaticText
+    Left = 16
+    Height = 21
+    Top = 464
+    Width = 76
+    AutoSize = True
+    Caption = 'FontColor:'
+    Font.Height = 16
+    ParentFont = False
+    TabOrder = 32
+  end
+  object ColorButton3: TColorButton
+    Left = 128
+    Height = 25
+    Top = 460
+    Width = 98
+    BorderWidth = 2
+    ButtonColorSize = 16
+    ButtonColor = clWhite
+    OnColorChanged = ColorButton3ColorChanged
+  end
+  object StaticText17: TStaticText
+    Left = 328
+    Height = 21
+    Top = 464
+    Width = 86
+    AutoSize = True
+    Caption = 'FontHeight:'
+    Font.Height = 16
+    ParentFont = False
+    TabOrder = 33
+  end
+  object SpinEdit3: TSpinEdit
+    Left = 440
+    Height = 27
+    Top = 460
+    Width = 98
+    MaxValue = 50
+    MinValue = 4
+    OnChange = SpinEdit3Change
+    TabOrder = 34
+    Value = 18
+  end
+  object StaticText18: TStaticText
+    Left = 548
+    Height = 21
+    Top = 464
+    Width = 323
+    AutoSize = True
+    Caption = 'only effective when BestTextHight is inactive'
+    Font.Height = 16
+    ParentFont = False
+    TabOrder = 35
+  end
+  object StaticText19: TStaticText
+    Left = 16
+    Height = 21
+    Top = 560
+    Width = 93
+    AutoSize = True
+    Caption = 'ButtonColor:'
+    Font.Height = 16
+    ParentFont = False
+    TabOrder = 36
+  end
+  object ColorBox2: TColorBox
+    Left = 128
+    Height = 25
+    Top = 556
+    Width = 98
+    Selected = clNone
+    Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbIncludeNone, cbIncludeDefault]
+    ItemHeight = 0
+    OnChange = ColorBox2Change
+    TabOrder = 37
+  end
+  object StaticText20: TStaticText
+    Left = 326
+    Height = 21
+    Top = 560
+    Width = 87
+    AutoSize = True
+    Caption = 'HoverColor:'
+    Font.Height = 16
+    ParentFont = False
+    TabOrder = 38
+  end
+  object ColorBox3: TColorBox
+    Left = 440
+    Height = 25
+    Top = 556
+    Width = 98
+    Selected = clNone
+    Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbIncludeNone, cbIncludeDefault]
+    ItemHeight = 0
+    OnChange = ColorBox3Change
+    TabOrder = 39
+  end
+  object StaticText21: TStaticText
+    Left = 648
+    Height = 21
+    Top = 560
+    Width = 47
+    AutoSize = True
+    Caption = 'Blend:'
+    Font.Height = 16
+    ParentFont = False
+    TabOrder = 40
+  end
+  object FloatSpinEdit3: TFloatSpinEdit
+    Left = 768
+    Height = 27
+    Top = 556
+    Width = 100
+    Increment = 0.05
+    MaxValue = 1
+    OnChange = FloatSpinEdit3Change
+    TabOrder = 41
+    Value = 0.2
+  end
+  object StaticText22: TStaticText
+    Left = 16
+    Height = 21
+    Top = 616
+    Width = 84
+    AutoSize = True
+    Caption = 'FocusColor:'
+    Font.Height = 16
+    ParentFont = False
+    TabOrder = 42
+  end
+  object ColorButton4: TColorButton
+    Left = 128
+    Height = 25
+    Top = 612
+    Width = 96
+    BorderWidth = 2
+    ButtonColorSize = 16
+    ButtonColor = clOlive
+    OnColorChanged = ColorButton4ColorChanged
+  end
+  object StaticText23: TStaticText
+    Left = 328
+    Height = 21
+    Top = 616
+    Width = 112
+    AutoSize = True
+    Caption = 'FocusFrameOn:'
+    Font.Height = 16
+    ParentFont = False
+    TabOrder = 43
+  end
+  object MultiSwitch6: TMultiSwitch
+    Left = 440
+    Height = 39
+    Top = 608
+    Width = 90
+    Direction = msRight
+    LeftCaption = 'OFF'
+    RightCaption = 'ON'
+    Font.Color = clWhite
+    Font.Height = 19
+    Font.Style = [fsBold]
+    TabOrder = 44
+    OnRight = MultiSwitch6Right
+    OnLeft = MultiSwitch6Left
+  end
+  object StaticText24: TStaticText
+    Left = 648
+    Height = 21
+    Top = 616
+    Width = 87
+    AutoSize = True
+    Caption = 'Alphablend:'
+    Font.Height = 16
+    ParentFont = False
+    TabOrder = 45
+  end
+  object SpinEdit4: TSpinEdit
+    Left = 768
+    Height = 27
+    Top = 612
+    Width = 100
+    MaxValue = 255
+    OnChange = SpinEdit4Change
+    TabOrder = 46
+    Value = 125
+  end
+  object StaticText25: TStaticText
+    Left = 290
+    Height = 21
+    Top = 672
+    Width = 150
+    AutoSize = True
+    Caption = 'ForegroundFocusOn:'
+    Font.Height = 16
+    ParentFont = False
+    TabOrder = 47
+  end
+  object MultiSwitch7: TMultiSwitch
+    Left = 440
+    Height = 39
+    Top = 664
+    Width = 90
+    LeftCaption = 'OFF'
+    RightCaption = 'ON'
+    Font.Color = clWhite
+    Font.Height = 19
+    Font.Style = [fsBold]
+    TabOrder = 48
+    OnDirection = MultiSwitch7Direction
+  end
+  object StaticText26: TStaticText
+    Left = 648
+    Height = 21
+    Top = 672
+    Width = 47
+    AutoSize = True
+    Caption = 'Blend:'
+    Font.Height = 16
+    ParentFont = False
+    TabOrder = 49
+  end
+  object FloatSpinEdit4: TFloatSpinEdit
+    Left = 768
+    Height = 27
+    Top = 666
+    Width = 100
+    Increment = 0.05
+    MaxValue = 1
+    OnChange = FloatSpinEdit4Change
+    TabOrder = 50
+    Value = 0.1
+  end
+  object Memo1: TMemo
+    Left = 16
+    Height = 40
+    Top = 720
+    Width = 852
+    Lines.Strings = (
+      'At design time, images can be selected using the PropertyEditor. To do this, simply click on NewRollImages in the OI. The images I used are from Roland Hahn (aka "Ally"). Thank you very much! '
+    )
+    TabOrder = 51
+  end
+  object MultiButton2: TMultiButton
+    Left = 16
+    Height = 25
+    Top = 768
+    Width = 852
+    Style = mbsRect
+    ColorStart = clWhite
+    ColorEnd = clWhite
+    MessageButton.ImageLeft = 0
+    MessageButton.ImageTop = 0
+    Caption = 'See: https://www.lazarusforum.de/viewtopic.php?p=128092#p128092'
+    Font.Color = clBlue
+    FocusFrameWidth = 0
+    FocusFrameOn = False
+    OnClick = MultiButton2Click
+    TabOrder = 52
+  end
+  object OpenDialog1: TOpenDialog
+    Left = 752
+    Top = 256
+  end
+end
