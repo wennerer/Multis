@@ -105,6 +105,7 @@ resourcestring
      rs_installmenu         = 'Would you like to create a menu item for the Multis Help?';
      rs_yes1                = 'Yes, please';
      rs_no1                 = 'No thank you';
+     rs_SOS_Titel           = 'Help File not found! Please select the multis/help directory manually!!!';
 
     //multiswitch
      rs_titelimageselector  = 'Select a image for a RollButton';

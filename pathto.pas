@@ -32,191 +32,15 @@ uses
   Classes, SysUtils, Forms, Controls, Dialogs, DOM, XMLWrite, XMLRead, XPath, rs_mbstylemanager;
 
 
-//function PathToPrimaryConfig :string;
-//function PathToSecondaryConfig : string;
-//function PathToConfig :string;
-//function PathToConfigFile(aFilename : string) : string;
-//function PathViaDialog : string;
 function MenuDialog : boolean;
-
 function ReadPathToMultis(aFilename :string) : string;
-
 procedure WriteMultisXMl(New,Help,Filename:string);
 function ReadNew(Filename:string):string;
 function ReadHelp(Filename:string) : string;
+procedure WriteSOSPath(Filename:string);
+function ReadSOSPath : string;
 
 implementation
-(*
-function PathToPrimaryConfig: string;
-var  f : TextFile;
-     s : string;
-     i : integer;
-begin
- //means Error
- result := ('-1');
-
- //custom config
- if FileExists(Application.Location + 'lazarus.cfg') then
-  begin
-   AssignFile(f,Application.Location + 'lazarus.cfg');
-   Reset(f);
-   Readln(f,s);
-   CloseFile(f);
-   i := Pos('=',s);
-   delete(s,1,i);
-   s:=trim(s);
-   result := s+PathDelim;
-   exit;
-  end;
-
- {$IFDEF Unix}
-  s:=getenvironmentvariable('HOME')+PathDelim+'.lazarus';
-  if DirectoryExists(s) then
-   begin
-    result:=s+PathDelim;
-    exit;
-   end;
- {$ENDIF}
-
- {$IFDEF WINDOWS}
- //Primary config
-  if getenvironmentvariable('LocalAppdata') <> '' then
-   s:=getenvironmentvariable('LocalAppdata')+PathDelim+ 'lazarus';
-   if DirectoryExists(s) then
-   begin
-    result:=s+PathDelim;
-    exit;
-   end;
-
- //XP German Primary config
-  s:=getenvironmentvariable('SystemDrive')+getenvironmentvariable('HomePath')
-     +PathDelim+'Lokale Einstellungen'+PathDelim+ 'Anwendungsdaten'
-     +PathDelim+ 'lazarus';
-  if DirectoryExists(s) then
-   begin
-    result:=s+PathDelim;
-    exit;
-   end;
- //XP English Primary config
-  s:=getenvironmentvariable('SystemDrive')+getenvironmentvariable('HomePath')
-     +PathDelim+'Local Settings'+PathDelim+ 'Application'
-     +PathDelim+ 'lazarus';
-  if DirectoryExists(s) then
-   begin
-    result:=s+PathDelim;
-    exit;
-   end;
-
- {$ENDIF}
-
-
-end;   *)
-
-(*
-function PathToSecondaryConfig: string;
-var s : string;
-begin
-
- {$IFDEF Unix}
-  s:= PathDelim+'etc'+PathDelim+'lazarus';
-  if DirectoryExists(s) then
-   begin
-    result := s+PathDelim;
-    exit;
-   end;
- {$ENDIF}
-
-
- {$IFDEF Windows}
-  s:=getenvironmentvariable('SystemDrive')+PathDelim+'lazarus';
-  if DirectoryExists(s) then
-   begin
-    result:=s+PathDelim;
-    exit;
-   end;
- {$ENDIF}
-
- result:= Application.Location;
-
-end;  *)
-
-(*
-function PathToConfig: string;
-var PathToConfigDir : string;
-begin
-  PathToConfigDir := PathToPrimaryConfig;
-  if PathToConfigDir = '-1' then PathToConfigDir := PathToSecondaryConfig;
-  Result := PathToConfigDir;
-end; *)
-
-(*
-function PathToConfigFile(aFilename: string): string;
-var s : string;
-begin
- //means Error
- result := ('-1');
-
- s:= PathToPrimaryConfig+aFilename;
- if FileExists(s) then
-  begin
-   Result:= s;
-   Exit;
-  end;
-
- s:= PathToSEcondaryConfig+aFilename;
- if FileExists(s) then
-  begin
-   Result:= s;
-   Exit;
-  end;
-
-end;  *)
-
-
-function PathViaDialog: string;
-var TaskDialog1 : TTaskDialog;
-    DirDialog   : TSelectDirectoryDialog;
-begin
- TaskDialog1   := TTaskDialog.Create(nil);
-
- try
-  TaskDialog1.Caption      := 'The Multis Package';
-  TaskDialog1.Title        := 'Multis Help';
-  TaskDialog1.Text         := 'The path to the multis package could not be found. Please enter the path to multis/help!';
-  TaskDialog1.MainIcon     := tdiWarning;
-  TaskDialog1.CommonButtons:= [tcbCancel];
-  TaskDialog1.Flags        := [tfUseCommandLinks];
-
-  with TTaskDialogButtonItem(TaskDialog1.Buttons.Add) do
-    begin
-      Caption     := 'Select a Directory';
-      ModalResult := mrOk;
-    end;
-
-
-  //From here it is executed when a button is pressed
-   if TaskDialog1.Execute then
-    begin
-     Result := '-1';
-     if TaskDialog1.ModalResult = mrOk     then
-      begin
-       DirDialog   := TSelectDirectoryDialog.Create(nil);
-       try
-        if DirDialog.Execute then
-         Result := DirDialog.FileName;
-
-       finally
-        DirDialog.Free;
-       end;
-      end;//mrOk
-
-    end;//TaskDialog1.Execute
-
- finally
-  TaskDialog1.Free;
- end;
-end;
-
 
 function MenuDialog : boolean;
 var TaskDialog1: TTaskDialog;
@@ -337,6 +161,48 @@ var
 begin
   ReadXMLFile(Xml,Filename);
   XPathResult := EvaluateXPathExpression('/package/multis/help', Xml.DocumentElement);
+  Result:=String(XPathResult.AsText);
+  XPathResult.Free;
+  Xml.Free;
+end;
+
+procedure WriteSOSPath(Filename: string);
+var
+  Doc: TXMLDocument;                                         // Variable für das Dokument
+  RootNode, parentNode, nofilho: TDOMNode;                   // Variable für die Elemente (Knoten)
+begin
+ try
+    // Erzeuge ein Dokument
+    Doc := TXMLDocument.Create;
+
+    // Erzeuge einen Wurzelknoten
+    RootNode := Doc.CreateElement('SOS_Directory');
+    Doc.Appendchild(RootNode);
+    // Create a parent node
+    RootNode:= Doc.DocumentElement;
+    parentNode := Doc.CreateElement('help');
+    TDOMElement(parentNode).SetAttribute('id', '001');
+    RootNode.Appendchild(parentNode);
+
+    parentNode := Doc.CreateElement('filename');             // erzeuge einen Kindelement
+    nofilho := Doc.CreateTextNode(Filename);                 // füge einen Wert für den Knoten ein
+    parentNode.Appendchild(nofilho);                         // sichere den Knoten
+    RootNode.ChildNodes.Item[0].AppendChild(parentNode);     // füge das Kindelement in das Elternelement ein
+
+
+    writeXMLFile(Doc,Application.Location+'SOS.xml');
+ finally
+    Doc.Free;
+ end;
+end;
+
+function ReadSOSPath: string;
+var
+  Xml: TXMLDocument;
+  XPathResult: TXPathVariable;
+begin
+  ReadXMLFile(Xml,Application.Location+'SOS.xml');
+  XPathResult := EvaluateXPathExpression('/SOS_Directory/help/filename', Xml.DocumentElement);
   Result:=String(XPathResult.AsText);
   XPathResult.Free;
   Xml.Free;

@@ -48,6 +48,8 @@ implementation
 procedure StartHelp({%H-}Sender : TObject);
 var PathToConfigDir : string;
     PathToMultis    : string;
+    HelpDirectory   : string;
+    aDirectoryDialog: TSelectDirectoryDialog;
 begin
   //search for ConfigDirectory
     PathToConfigDir := IncludeTrailingPathDelimiter(LazarusIDE.GetPrimaryConfigPath);
@@ -57,7 +59,24 @@ begin
    PathToMultis     := ReadPathToMultis(PathToConfigDir+'packagefiles.xml');
 
  if not OpenDocument(PathToMultis+'help'+PathDelim+'DescriptionMultis_'+rs_lang +'.pdf')
-  then showmessage(rs_muhelperror);
+  then
+   begin
+    if not FileExists(Application.Location+'SOS.xml') then
+     begin
+      aDirectoryDialog  := TSelectDirectoryDialog.Create(nil);
+      try
+       aDirectoryDialog.Title:= rs_SOS_Titel;
+       if aDirectoryDialog.Execute then
+        HelpDirectory := aDirectoryDialog.FileName;
+       WriteSOSPath(HelpDirectory);//+PathDelim);
+      finally
+       aDirectoryDialog.Free;
+      end;
+     end
+    else HelpDirectory := ReadSOSPath;
+     if not OpenDocument(HelpDirectory+PathDelim+'DescriptionMultis_'+rs_lang +'.pdf')
+     then showmessage(rs_muhelperror);
+   end;
 end;
 
 

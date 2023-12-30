@@ -317,6 +317,10 @@ msgstr ""
 msgid "Show RightRollImage"
 msgstr ""
 
+#: rs_mbstylemanager.rs_sos_titel
+msgid "Help File not found! Please select the multis/help directory manually!!!"
+msgstr ""
+
 #: rs_mbstylemanager.rs_style
 msgid "The geometric shape of the button"
 msgstr ""
