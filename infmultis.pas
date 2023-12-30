@@ -553,7 +553,14 @@ begin
   valGNew:=getGvalue(aColor);
   valBNew:=getBvalue(aColor);
  {$ENDIF}
- {$IFDEF LINUX}
+ {$IFDEF FreeBSD}
+  valRNew:=GetBValue(aColor);
+  valGNew:=getGvalue(aColor);
+  valBNew:=getRvalue(aColor);
+  valtemp1:=200;
+  valtemp2:=0;
+ {$ENDIF}
+ {$IFDEF Linux}
   valRNew:=GetBValue(aColor);
   valGNew:=getGvalue(aColor);
   valBNew:=getRvalue(aColor);
@@ -619,6 +626,13 @@ begin
   valRNew:=GetRValue(aColor);
   valGNew:=getGvalue(aColor);
   valBNew:=getBvalue(aColor);
+ {$ENDIF}
+ {$IFDEF FreeBSD}
+  valRNew:=GetBValue(aColor);
+  valGNew:=getGvalue(aColor);
+  valBNew:=getRvalue(aColor);
+  valtemp1:=200;
+  valtemp2:=0;
  {$ENDIF}
  {$IFDEF LINUX}
   valRNew:=GetBValue(aColor);
