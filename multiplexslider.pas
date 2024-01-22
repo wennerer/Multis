@@ -69,6 +69,8 @@ type
   T3xPlusChangeEvent = procedure(const aKnobIndex : byte;const Val1, Val2, Val3: integer) of object;
 type
   T3xStrChangeEvent = procedure(const StrVal1,StrVal2,StrVal3: string) of object;
+type
+  T3xPlusMouseEvent = procedure(const aKnobIndex : byte;const Val1, Val2, Val3: integer) of object;
 
 
 type
@@ -470,6 +472,7 @@ type
     FGradient          : TGradientCourse;
     FJumpToPosition    : boolean;
     FOnChange3xPlus    : T3xPlusChangeEvent;
+    FOnMouseUp3xPlus   : T3xPlusMouseEvent;
     FSetPosition       : boolean;
 
     FMax               : integer;
@@ -781,6 +784,9 @@ type
    //Returns the values of Knob1,2,3 (as integer)+KnobIndex
    //Liefert die Werte von Knob1,2,3 (als integer)+KnobIndex
    property OnChange3xPlus   : T3xPlusChangeEvent read FOnChange3xPlus write FOnChange3xPlus;
+   //Returns the values of Knob1,2,3 (as integer)+KnobIndex at MouseUp
+   //Liefert die Werte von Knob1,2,3 (als integer)+KnobIndex bei MouseUp
+   property OnMouseUp3xPlus   : T3xPlusMouseEvent read FOnMouseUp3xPlus write FOnMouseUp3xPlus;
 
   end;
 
@@ -1429,6 +1435,7 @@ begin
   P1.X:=x;
   P1.Y:=y;
   if Assigned(OnMouseUp) then OnMouseUp(self,Button,Shift,x,y);
+  if Assigned(OnMouseUp3xPlus) then OnMouseUp3xPlus(FKnobIdx,FKnob[1].FPosition,FKnob[2].FPosition,FKnob[3].FPosition);
   if Assigned(OnClick) then OnClick(self);
   FSlide := false;
   for lv := 1 to 3 do FHover[lv] := false;
