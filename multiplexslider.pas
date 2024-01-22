@@ -1,6 +1,6 @@
 { <A slider with an integrated textlabel>
-  <Version 1.0.4.7>
-  Copyright (C) <22.12.2023> <Bernd Hübner>
+  <Version 1.0.4.8>
+  Copyright (C) <18.01.2024> <Bernd Hübner>
   Many thanks to the members of the German Lazarus Forum!
   Special thanks to Siro, he taught me the basics!
   For some improvements see https://www.lazarusforum.de/viewtopic.php?f=29&t=12851
@@ -65,6 +65,8 @@ type
   TStrChangeEvent = procedure(const aStrValue: string) of object;
 type
   T3xChangeEvent = procedure(const Val1, Val2, Val3: integer) of object;
+type
+  T3xPlusChangeEvent = procedure(const aKnobIndex : byte;const Val1, Val2, Val3: integer) of object;
 type
   T3xStrChangeEvent = procedure(const StrVal1,StrVal2,StrVal3: string) of object;
 
@@ -467,6 +469,7 @@ type
     FForegroundFocusOn : boolean;
     FGradient          : TGradientCourse;
     FJumpToPosition    : boolean;
+    FOnChange3xPlus    : T3xPlusChangeEvent;
     FSetPosition       : boolean;
 
     FMax               : integer;
@@ -775,6 +778,9 @@ type
    //Returns the values of Knob1,2,3 as a string
    //Liefert die Werte von Knob1,2,3 als String
    property OnChangeStr3x: T3xStrChangeEvent read FOnChangeStr3x write FOnChangeStr3x;
+   //Returns the values of Knob1,2,3 (as integer)+KnobIndex
+   //Liefert die Werte von Knob1,2,3 (als integer)+KnobIndex
+   property OnChange3xPlus   : T3xPlusChangeEvent read FOnChange3xPlus write FOnChange3xPlus;
 
   end;
 
@@ -1092,6 +1098,7 @@ begin
   if Assigned(OnChange) then OnChange(k1);
   if Assigned(OnChangeStr) then OnChangeStr(inttostr(k1));
   if Assigned(OnChange3x) then OnChange3x(k1,k2,k3);
+  if Assigned(OnChange3xPlus) then OnChange3xPlus(FKnobIdx,k1,k2,k3);
 
   sk1 := inttostr(k1); if not FKnob[1].FVisible then sk1 := '';
   sk2 := inttostr(k2); if not FKnob[2].FVisible then sk2 := '';
@@ -1865,9 +1872,9 @@ begin
  else
   Distance := round(FSliderBounds.Width * factor);
 
- FTrackBounds := rect(FSliderBounds.Left   + Distance,
+ FTrackBounds := rect(FSliderBounds.Left   + (Distance),//-10),
                       FSliderBounds.Top    + Distance,
-                      FSliderBounds.Right  - Distance,
+                      FSliderBounds.Right  - (Distance),//+10),
                       FSliderBounds.Bottom - Distance);
 end;
 
