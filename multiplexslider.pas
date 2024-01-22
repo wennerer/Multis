@@ -1,6 +1,6 @@
 { <A slider with an integrated textlabel>
   <Version 1.0.4.8>
-  Copyright (C) <18.01.2024> <Bernd Hübner>
+  Copyright (C) <22.01.2024> <Bernd Hübner>
   Many thanks to the members of the German Lazarus Forum!
   Special thanks to Siro, he taught me the basics!
   For some improvements see https://www.lazarusforum.de/viewtopic.php?f=29&t=12851
