@@ -1,6 +1,6 @@
 { <TMultiSwitch is a toggle component>
-  <Version 1.0.0.1>
-  Copyright (C) <29.12.2023> <Bernd Hübner>
+  <Version 1.0.0.2>
+  Copyright (C) <10.04.2024> <Bernd Hübner>
   Many thanks to the members of the German Lazarus Forum!
   For some improvements see https://www.lazarusforum.de/viewtopic.php?p=137567#p137567
   The images in the resource are from Roland Hahn. Vielen Dank!
