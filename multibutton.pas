@@ -318,7 +318,6 @@ type
     FImageWidth       : integer;
     FRRRadius         : integer;
     FCaption          : TCaption;
-    FVisible          : boolean;
     Hotspot           : TRect;
     Hover             : boolean;
     MessageHover      : boolean;
@@ -404,7 +403,6 @@ type
    procedure FontPropertyChanged({%H-}Sender:TObject);
    procedure MessageFontPropertyChanged({%H-}Sender:TObject);
    procedure SetCaption(AValue: TCaption);
-   procedure SetVisible(Value: boolean);override; //reintroduce;
    procedure SetEnabled(aValue: boolean);reintroduce;
 
 
@@ -513,9 +511,6 @@ type
    //The vertical distance of the text in the text rectangle (only effective with tlTop)
    //Der vertikale Abstand des Textes im Textrechteck (nur wirksam mit tlTop)
    property CaptionVerMargin : integer read FCapTop write SetCapTop default 0;
-   //Allows to show or hide the control, and all of its children
-   //Ermöglicht das Ein- oder Ausblenden des Steuerelements und aller seiner untergeordneten Elemente
-   property Visible : boolean read FVisible write SetVisible default true;
    //Allows to show or hide a border
    //Ermöglicht das Ein- oder Ausblenden eines Rahmens
    property ShowBorder : boolean read FShowBorder write SetShowBorder default false;
@@ -605,7 +600,8 @@ type
    property MultiButton_StyleManager: TMultiButtonStyleManager read GetStyleManager write SetStyleManager;
 
    property AutoSize : boolean read FAutoSize write SetAutoSize default false;
-
+   //Ermöglicht das Ein- oder Ausblenden des Steuerelements und aller seiner untergeordneten Elemente
+   property Visible;
 
 
 
@@ -1150,7 +1146,6 @@ begin
   FStyle          := mbsRoundRect;
   FCapLeft        := 0;
   FCapTop         := 0;
-  FVisible        := true;
   FShowBorder     := false;
   FBorderColor    := clBlack;
   FBorderWidth    := 1;
@@ -2024,14 +2019,6 @@ begin
   Invalidate;
 end;
 
-procedure TMultiButton.SetVisible(Value: boolean);
-begin
-  if FVisible=Value then Exit;
-  FVisible:=Value;
-  inherited SetVisible(Value);
-  Invalidate;
-end;
-
 procedure TMultiButton.SetEnabled(aValue: boolean);
 begin
   if FEnabled = aValue then Exit;
@@ -2663,14 +2650,6 @@ var tmpBmp     : TBitmap;
     ImgIdx     : TImageIndex;
     ImgIdxFlag : integer;
 begin
- (* if Parent is TMultiPanel and not FVisible then
-  begin
-   if assigned((parent as TMultiPanel).FMultiBkgrdBmp) then
-   canvas.CopyRect(rect(0,0,width,height),(parent as TMultiPanel).FMultiBkgrdBmp.Canvas,rect(left,top,left+width,top+height));
-  end;
- if FVisible = false then exit;
- if (csDesigning in ComponentState) and (FVisible = false) then left:= -100;  *)
-
  canvas.Font.Assign(FFont);
  if canvas.Font <> FFont then
  Canvas.Font.Color:= Font.Color;
