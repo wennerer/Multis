@@ -1,6 +1,6 @@
 { <A button with an integrated button>
-  <Version 1.2.7.8>
-  Copyright (C) <28.05.2023> <Bernd Hübner>
+  <Version 1.2.7.9>
+  Copyright (C) <16.02.2025> <Bernd Hübner>
   Many thanks to the members of the German Lazarus Forum!
   wp_xyz helped me jump over many hurdles!
   For some improvements see https://www.lazarusforum.de/viewtopic.php?f=29&t=13252
@@ -49,7 +49,7 @@ type
 
 type
   TMBAlignment  = (alNW,alN,alNE,alE,alSE,alS,alSW,alW,alRightIn,alLeftIn,
-                   alTopIn,alBottomIn,alRightOut,alLeftOut,alTopOut,alBottomOut);
+                   alTopIn,alBottomIn,alRightOut,alLeftOut,alTopOut,alBottomOut,alNWIn);
                  //Position MessageButton
 
 type
@@ -119,7 +119,7 @@ type
      FRRRadius    : integer;
      FShowBorder  : boolean;
      FShowPressed: boolean;
-     FShowTurnedOn: boolean;
+     //FShowTurnedOn: boolean;
      FStyle       : TMButtonStyle;
      FFont        : TFont;
      FMessageButtonFontColor : TColor;
@@ -254,8 +254,8 @@ type
      //Wird benötigt wenn der MessagButton erst zur Laufzeit sichtbar wird
      property CalculateAlthoughInvisible : boolean read FCalculateAlthoughInvisible
                                                    write SetCalculateAlthoughInvisible default false;
-     //Position factor, only active if alSE,alSW,alNW,alNE,alW,alE,alN,alS,alRightIn,alLeftIn,alTopIn,alBottomIn
-     //Positionsfaktor, nur aktive wenn alSE,alSW,alNW,alNE,alW,alE,alN,alS,alRightIn,alLeftIn,alTopIn,alBottomIn
+     //Position factor, only active if alSE,alSW,alNW,alNE,alW,alE,alN,alS,alRightIn,alLeftIn,alTopIn,alBottomIn,alNWIn
+     //Positionsfaktor, nur aktive wenn alSE,alSW,alNW,alNE,alW,alE,alN,alS,alRightIn,alLeftIn,alTopIn,alBottomIn,alNWIn
      property PositionFactor : integer read FPositionFactor write SetPositionFactor default 4;
 
 
@@ -2310,7 +2310,8 @@ begin
 
 
    if (FMessageButton.FAlignment= alRightIn) or (FMessageButton.FAlignment = alLeftIn) or
-      (FMessageButton.FAlignment = alTopIn) or(FMessageButton.FAlignment = alBottomIn) then
+      (FMessageButton.FAlignment = alTopIn) or(FMessageButton.FAlignment = alBottomIn) or
+      (FMessageButton.FAlignment = alNWIn) then
        begin
         FBWidth := width -(FFocusFrameWidth*2);
         FBHeight:= Height-(FFocusFrameWidth*2);
@@ -2574,7 +2575,11 @@ begin
                   (width div 2)+(FMessageButton.width div 2),height-FFocusFrameWidth);
 
 
-
+ if FMessageButton.FAlignment = alNWIn then
+  FMessageButton.Hotspot := rect(Width-FFocusFrameWidth-FMessageButton.width-FMessageButton.FPositionFactor,
+                                 FFocusFrameWidth+FMessageButton.FPositionFactor,
+                                 Width-FFocusFrameWidth-FMessageButton.FPositionFactor,
+                                 FFocusFrameWidth+FMessageButton.FPositionFactor+FMessageButton.Height);
 
 
 

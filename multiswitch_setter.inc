@@ -94,26 +94,9 @@ begin
     FCaption    := FRightCaption;
     FFirstRight := true;
    end;
-  FFirst := false;
+  if not (csLoading in Componentstate) then FFirst := false;
   Invalidate;
- (*if FDirection=AValue then Exit;
-  FDirection:=AValue;
-  if AValue = msLeft then
-   begin
-    FPortion := 0;
-    FAngel   := 0;
-    FRollPos := 0;
-    FCaption := FLeftCaption;
-   end
-   else
-   begin
-    FPortion    := 1;
-    FAngel      :=  360;
-    FRollPos    := width - (FButtonSize + (2*FMargin)+(2*FFocusFrameWidth));
-    FCaption    := FRightCaption;
-    FFirstRight := true;
-   end;
-  Invalidate; *)
+
 end;
 
 procedure TMultiSwitch.SetDisabledColor(AValue: TColor);
